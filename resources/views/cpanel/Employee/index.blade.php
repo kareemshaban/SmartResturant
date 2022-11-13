@@ -52,16 +52,16 @@
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('Layouts.cheader')
-        @include('Layouts.sidebar', ['slag' => 2])
+        @include('Layouts.sidebar', ['slag' => 3])
 
         <div class="page-wrapper">
             @include('Layouts.subheader', [
-                'pageTitle' => Config::get('app.locale') == 'ar' ? 'الأنواع' : 'Genders',
+                'pageTitle' => Config::get('app.locale') == 'ar' ? 'الموظفيين': 'Employees',
             ])
             <div class="container-fluid">
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
-                        <a href="{{ route('createGender') }}">
+                        <a href="{{ route('createEmployee') }}">
                             <button type="button" class="btn btn-primary ">{{ __('main.add_new') }}</button>
 
                         </a>
@@ -79,21 +79,25 @@
                                     <th class="text-center">{{ __('main.id') }}</th>
                                     <th class="text-center">{{ __('main.name_ar') }}</th>
                                     <th class="text-center">{{ __('main.name_en') }}</th>
+                                    <th class="text-center">{{ __('main.job') }}</th>
                                     <th class="text-center">{{ __('main.operations') }}</th>
+
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($genders as $gender)
+                                @foreach ($employees as $item)
                                     <tr>
                                         <td class="text-center">{{ $loop->index + 1 }}</td>
-                                        <td class="text-center">{{ $gender->id }}</td>
-                                        <td class="text-center">{{ $gender->name_ar }}</td>
-                                        <td class="text-center">{{ $gender->name_en }}</td>
+                                        <td class="text-center">{{ $item->id }}</td>
+                                        <td class="text-center">{{ $item->name_ar }}</td>
+                                        <td class="text-center">{{ $item->name_en }}</td>
+                                        <td class="text-center">  {{  ( Config::get('app.locale') == 'ar') ? $item->Job -> name_ar :  $item->Job -> name_en }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('editGender', $gender->id) }}"> <button type="button"
-                                                    class="btn btn-success"><i class="fas fa-edit"></i></button> </a>
+                                            <a href="{{ route('editEmployee', $item->id) }}"> <button
+                                                    type="button" class="btn btn-success"><i
+                                                        class="fas fa-edit"></i></button> </a>
                                             <a onclick="return confirm('Are you sure?')"
-                                                href="{{ route('destroyGender', $gender->id) }} "> <button
+                                                href="{{ route('destroyEmployee', $item->id) }} "> <button
                                                     type="button" class="btn btn-danger"><i
                                                         class="far fa-trash-alt"></i></button> </a>
                                         </td>

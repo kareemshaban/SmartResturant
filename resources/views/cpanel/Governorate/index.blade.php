@@ -56,12 +56,12 @@
 
         <div class="page-wrapper">
             @include('Layouts.subheader', [
-                'pageTitle' => Config::get('app.locale') == 'ar' ? 'الأنواع' : 'Genders',
+                'pageTitle' => Config::get('app.locale') == 'ar' ? 'المحافظات': 'Governorates',
             ])
             <div class="container-fluid">
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
-                        <a href="{{ route('createGender') }}">
+                        <a href="{{ route('createGovernorate') }}">
                             <button type="button" class="btn btn-primary ">{{ __('main.add_new') }}</button>
 
                         </a>
@@ -79,21 +79,25 @@
                                     <th class="text-center">{{ __('main.id') }}</th>
                                     <th class="text-center">{{ __('main.name_ar') }}</th>
                                     <th class="text-center">{{ __('main.name_en') }}</th>
+                                    <th class="text-center">{{ __('main.country') }}</th>
                                     <th class="text-center">{{ __('main.operations') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($genders as $gender)
+                                @foreach ($governorates as $item)
                                     <tr>
                                         <td class="text-center">{{ $loop->index + 1 }}</td>
-                                        <td class="text-center">{{ $gender->id }}</td>
-                                        <td class="text-center">{{ $gender->name_ar }}</td>
-                                        <td class="text-center">{{ $gender->name_en }}</td>
+                                        <td class="text-center">{{ $item->id }}</td>
+                                        <td class="text-center">{{ $item->name_ar }}</td>
+                                        <td class="text-center">{{ $item->name_en }}</td>
+                                        <td class="text-center">{{ $item->country -> name_ar}} --- {{$item -> country -> name_en }}</td>
+                                        
                                         <td class="text-center">
-                                            <a href="{{ route('editGender', $gender->id) }}"> <button type="button"
-                                                    class="btn btn-success"><i class="fas fa-edit"></i></button> </a>
+                                            <a href="{{ route('editGovernorate', $item->id) }}"> <button
+                                                    type="button" class="btn btn-success"><i
+                                                        class="fas fa-edit"></i></button> </a>
                                             <a onclick="return confirm('Are you sure?')"
-                                                href="{{ route('destroyGender', $gender->id) }} "> <button
+                                                href="{{ route('destroyGovernorate', $item->id) }} "> <button
                                                     type="button" class="btn btn-danger"><i
                                                         class="far fa-trash-alt"></i></button> </a>
                                         </td>

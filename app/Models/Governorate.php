@@ -4,8 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\City;
+use App\Models\Country;
 
 class Governorate extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'id',
+        'name_ar',
+        'name_en',
+        'country_id'
+    ];
+
+    public function cities()
+    {
+        return $this->hasMany(City::class , 'governorate_id');
+    }
+    public function country()
+    {
+        return $this->belongsTo(Country::class , 'country_id');
+    }
 }

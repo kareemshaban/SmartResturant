@@ -8,6 +8,13 @@ use App\Models\Departments ;
 use App\Models\Gender ;
 use App\Models\Nationality ;
 use Illuminate\Validation\Rule;
+use App\Models\MaritalStatus ;
+use App\Models\Jobs ;
+use App\Models\Education ;
+use App\Models\Country ;
+use App\Models\City ;
+use App\Models\Governorate ;
+
 
 class DashboradController extends Controller
 {
@@ -186,7 +193,7 @@ class DashboradController extends Controller
     }
 
 
-         public function nationalties(){
+  public function nationalties(){
         $nationalties = Nationality::all();
         return view('cpanel.Nationalty.index' , [
             'nationalties' => $nationalties
@@ -241,4 +248,354 @@ class DashboradController extends Controller
         }
     }
     
+
+    public function maritalStatus(){
+        $status = MaritalStatus::all();
+        return view('cpanel.MartialStatus.index' , [
+            'status' => $status
+        ] );
+    }
+    public function createMaritalStatus(){
+        return view('cpanel.MartialStatus.create');
+    }
+
+    public function storeMaritalStatus(Request $request){
+        $validated = $request->validate([
+            'name_ar' => 'required|unique:religions',
+            'name_en' => 'required|unique:religions',
+        ]);
+     
+        MaritalStatus::Create([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en
+        ]);
+        return redirect()->route('maritalStatus')->with('success' , __('main.created'));
+
+    }
+    public function editMaritalStatus($id){
+        $maritalStatus = MaritalStatus::find($id);
+        if($maritalStatus){
+            return view('cpanel.MartialStatus.edit' ,  [
+                'maritalStatus' => $maritalStatus
+            ]);
+        }
+    }
+    public function updateMaritalStatus(Request $request , $id){
+        $maritalStatus = MaritalStatus::find($id);
+        if($maritalStatus){
+        $validated = $request->validate([
+            'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
+            'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
+        ]);
+     
+        $maritalStatus -> update([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en
+        ]);
+        return redirect()->route('maritalStatus')->with('success' , __('main.updated'));
+    }
+    }
+
+    public function destroyMaritalStatus($id){
+        $maritalStatus = MaritalStatus::find($id);
+                if($maritalStatus){
+            $maritalStatus -> delete();
+             redirect()->route('maritalStatus')->with('success' , __('main.deleted'));
+        }
+    }
+
+
+    public function jobs(){
+        $jobs = Jobs::all();
+        return view('cpanel.Jobs.index' , [
+            'jobs' => $jobs
+        ] );
+    }
+    public function createJob(){
+        return view('cpanel.Jobs.create');
+    }
+
+    public function storeJob(Request $request){
+        $validated = $request->validate([
+            'name_ar' => 'required|unique:religions',
+            'name_en' => 'required|unique:religions',
+        ]);
+     
+        Jobs::Create([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en
+        ]);
+        return redirect()->route('jobs')->with('success' , __('main.created'));
+
+    }
+    public function editJob($id){
+        $job = Jobs::find($id);
+        if($job){
+            return view('cpanel.Jobs.edit' ,  [
+                'job' => $job
+            ]);
+        }
+    }
+    public function updateJob(Request $request , $id){
+        $job = Jobs::find($id);
+        if($job){
+        $validated = $request->validate([
+            'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
+            'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
+        ]);
+     
+        $job -> update([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en
+        ]);
+        return redirect()->route('jobs')->with('success' , __('main.updated'));
+    }
+    }
+
+    public function destroyJob($id){
+        $job = Jobs::find($id);
+                if($job){
+            $job -> delete();
+             redirect()->route('jobs')->with('success' , __('main.deleted'));
+        }
+    }
+
+    
+    public function educations(){
+        $educations = Education::all();
+        return view('cpanel.Education.index' , [
+            'educations' => $educations
+        ] );
+    }
+    public function createEducation(){
+        return view('cpanel.Education.create');
+    }
+
+    public function storeEducation (Request $request){
+        $validated = $request->validate([
+            'name_ar' => 'required|unique:religions',
+            'name_en' => 'required|unique:religions',
+        ]);
+     
+        Education::Create([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en
+        ]);
+        return redirect()->route('educations')->with('success' , __('main.created'));
+
+    }
+    public function editEducation($id){
+        $education = Education::find($id);
+        if($education){
+            return view('cpanel.Education.edit' ,  [
+                'education' => $education
+            ]);
+        }
+    }
+    public function updateEducation(Request $request , $id){
+        $education = Education::find($id);
+        if($education){
+        $validated = $request->validate([
+            'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
+            'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
+        ]);
+     
+        $education -> update([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en
+        ]);
+        return redirect()->route('educations')->with('success' , __('main.updated'));
+    }
+    }
+
+    public function destroyEducation($id){
+        $education = Education::find($id);
+                if($education){
+            $education -> delete();
+             redirect()->route('educations')->with('success' , __('main.deleted'));
+        }
+    }
+    public function countries(){
+        $countries = Country::all();
+        return view('cpanel.Country.index' , [
+            'countries' => $countries
+        ] );
+    }
+    public function createCountry(){
+        return view('cpanel.Country.create');
+    }
+
+    public function storeCountry (Request $request){
+        $validated = $request->validate([
+            'name_ar' => 'required|unique:religions',
+            'name_en' => 'required|unique:religions',
+        ]);
+     
+        Country::Create([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en
+        ]);
+        return redirect()->route('countries')->with('success' , __('main.created'));
+
+    }
+    public function editCountry($id){
+        $country = Country::find($id);
+        if($country){
+            return view('cpanel.Country.edit' ,  [
+                'country' => $country
+            ]);
+        }
+    }
+    public function updateCountry(Request $request , $id){
+        $country = Country::find($id);
+        if($country){
+        $validated = $request->validate([
+            'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
+            'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
+        ]);
+     
+        $country -> update([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en
+        ]);
+        return redirect()->route('countries')->with('success' , __('main.updated'));
+    }
+    }
+
+    public function destroyCountry($id){
+        $country = Country::find($id);
+                if($country){
+            $country -> delete();
+             redirect()->route('countries')->with('success' , __('main.deleted'));
+        }
+    }
+
+    public function governorates(){
+        $governorates = Governorate::with('country' , 'cities') -> get();
+       
+        return view('cpanel.Governorate.index' , [
+            'governorates' => $governorates 
+        ] );
+    }
+    public function createGovernorate(){
+        $countries = Country::all();
+        return view('cpanel.Governorate.create' , ['countries' => $countries]);
+    }
+
+    public function storeGovernorate (Request $request){
+        $validated = $request->validate([
+            'name_ar' => 'required|unique:religions',
+            'name_en' => 'required|unique:religions',
+             'country_id' =>'required'
+        ]);
+     
+        Governorate::Create([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en,
+            'country_id' => $request -> country_id
+
+        ]);
+        return redirect()->route('governorates')->with('success' , __('main.created'));
+
+    }
+    public function editGovernorate($id){
+        $governorate = Governorate::find($id);
+        $countries = Country::all();
+        if($governorate){
+            return view('cpanel.Governorate.edit' ,  [
+                'governorate' => $governorate , 
+                'countries' => $countries
+            ]);
+        }
+    }
+    public function updateGovernorate(Request $request , $id){
+        $governorate = Governorate::find($id);
+        if($governorate){
+        $validated = $request->validate([
+            'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
+            'name_en' => ['required' , Rule::unique('religions')->ignore($id)],
+            'country_id' =>  ['required']
+        ]);
+     
+        $governorate -> update([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en,
+            'country_id' => $request ->country_id
+        ]);
+        return redirect()->route('governorates')->with('success' , __('main.updated'));
+    }
+    }
+
+    public function destroyGovernorate($id){
+        $governorate = Governorate::find($id);
+                if($governorate){
+            $governorate -> delete();
+             redirect()->route('governorates')->with('success' , __('main.deleted'));
+        }
+    }
+
+
+    public function cities(){
+        $cities = City::with('Governorate.country') -> get();
+        $governorate = Governorate::all();
+        return view('cpanel.City.index' , [
+            'cities' => $cities ,
+        ] );
+    }
+    public function createCity(){
+        $governorate = Governorate::all();
+        return view('cpanel.City.create' , ['governorate' => $governorate]);
+    }
+
+    public function storeCity (Request $request){
+        $validated = $request->validate([
+            'name_ar' => 'required|unique:religions',
+            'name_en' => 'required|unique:religions',
+             'governorate_id' =>'required'
+        ]);
+     
+        City::Create([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en,
+            'governorate_id' => $request -> governorate_id
+
+        ]);
+        return redirect()->route('cities')->with('success' , __('main.created'));
+
+    }
+    public function editCity($id){
+        $city = City::find($id);
+        $governorate = Governorate::all();
+        if($governorate){
+            return view('cpanel.City.edit' ,  [
+                'city' => $city , 
+                'governorate' => $governorate
+            ]);
+        }
+    }
+    public function updateCity(Request $request , $id){
+        $city = City::find($id);
+        if($city){
+        $validated = $request->validate([
+            'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
+            'name_en' => ['required' , Rule::unique('religions')->ignore($id)],
+            'governorate_id' =>  ['required']
+        ]);
+     
+        $city -> update([
+            'name_ar' => $request ->name_ar,
+            'name_en' => $request ->name_en,
+            'governorate_id' => $request ->governorate_id
+        ]);
+        return redirect()->route('cities')->with('success' , __('main.updated'));
+    }
+    }
+
+    public function destroyCity($id){
+        $city = City::find($id);
+                if($city){
+            $city -> delete();
+             redirect()->route('cities')->with('success' , __('main.deleted'));
+        }
+    }
 }

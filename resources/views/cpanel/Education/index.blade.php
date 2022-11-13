@@ -56,12 +56,12 @@
 
         <div class="page-wrapper">
             @include('Layouts.subheader', [
-                'pageTitle' => Config::get('app.locale') == 'ar' ? 'الأنواع' : 'Genders',
+                'pageTitle' => Config::get('app.locale') == 'ar' ? 'المؤهل الدراسي' : 'Educations',
             ])
             <div class="container-fluid">
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
-                        <a href="{{ route('createGender') }}">
+                        <a href="{{ route('createEducation') }}">
                             <button type="button" class="btn btn-primary ">{{ __('main.add_new') }}</button>
 
                         </a>
@@ -83,17 +83,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($genders as $gender)
+                                @foreach ($educations as $education)
                                     <tr>
                                         <td class="text-center">{{ $loop->index + 1 }}</td>
-                                        <td class="text-center">{{ $gender->id }}</td>
-                                        <td class="text-center">{{ $gender->name_ar }}</td>
-                                        <td class="text-center">{{ $gender->name_en }}</td>
+                                        <td class="text-center">{{ $education->id }}</td>
+                                        <td class="text-center">{{ $education->name_ar }}</td>
+                                        <td class="text-center">{{ $education->name_en }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('editGender', $gender->id) }}"> <button type="button"
-                                                    class="btn btn-success"><i class="fas fa-edit"></i></button> </a>
+                                            <a href="{{ route('editEducation', $education->id) }}"> <button
+                                                    type="button" class="btn btn-success"><i
+                                                        class="fas fa-edit"></i></button> </a>
                                             <a onclick="return confirm('Are you sure?')"
-                                                href="{{ route('destroyGender', $gender->id) }} "> <button
+                                                href="{{ route('destroyEducation', $education->id) }} "> <button
                                                     type="button" class="btn btn-danger"><i
                                                         class="far fa-trash-alt"></i></button> </a>
                                         </td>
