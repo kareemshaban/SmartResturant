@@ -58,4 +58,10 @@ return [
      'edit_btn' => 'Edit',
      'updated' => ' Item Updated Successfully',
       'deleted' => ' Item deleted Successfully',
+      'new_department' => 'Add New Department',
+      'edit_department' => 'Edit Department',
+      'new_gender' => 'Add New Gender',
+      'edit_gender' => 'Edit Gender Data',
+        'new_Nationalty' => 'Add new Nationalty',
+      'edit_Nationalty' => 'Edit Nationalty Data'
 ];

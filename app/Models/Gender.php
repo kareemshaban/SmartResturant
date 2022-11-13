@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Gender extends Model
 {
     use HasFactory;
+          protected $fillable = [
+        'id',
+        'name_ar',
+        'name_en',
+    ];
 }
