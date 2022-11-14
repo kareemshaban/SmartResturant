@@ -98,7 +98,22 @@ return [
       'mobile' =>'Mobile Number',
     'fax' =>'Fax',
     'postcode' => 'Postal Code',
-    'address' => 'Address'
+    'address' => 'Address',
+    'required_note' => 'Please enter the mandatory fields followed by',
+    'client_side' =>'Clients',
+    'new_client' => 'Add New Client',
+    'edit_client' => 'Edit Client Data',
+    'discount_type' => 'Discount Type',
+    'discount_type1' => 'without discount',
+    'discount_type2' => 'Percentage discount',
+    'discount_type3' => 'Fixed discount',
+    'discount_val' => 'Discount Value',
+    'oppening_balance' => 'Opening Balance',
+    'current_balance' => 'Current Balance',
+     'limit_money' => 'Credit Limit',
+     'limit_days' => 'Credit Term',
+     'money_data' => 'Financial Data'
+
       
       
 ];

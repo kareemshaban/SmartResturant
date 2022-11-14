@@ -10,6 +10,8 @@ use App\Models\Jobs;
 use App\Models\MaritalStatus;
 use App\Models\Nationality;
 use App\Models\Religions;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -60,7 +62,47 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name_ar' => 'required',
+            'name_en' => 'required',
+             'job_id' =>'required'
+        ]);
+
+        try{
+            Employee::create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en,
+                'department_id' => $request ->department_id,
+                'job_id' => $request ->job_id,
+                'religion_id' => $request ->religion_id,
+                'gender_id' => $request ->gender_id,
+                'nationalty_id' => $request ->nationalty_id,
+                'martialState_id' => $request ->martialState_id,
+                'ID_number' => $request ->ID_number,
+                'child_number' => $request ->child_number,
+                'birth_date' => $request ->birth_date ,
+                'education_id' => $request ->education_id,
+                'work_hours' => $request ->work_hours,
+                'week_off_days' => $request ->week_off_days,
+                'phone' => $request ->phone,
+                'mobile' => $request ->mobile,
+                'email' => $request ->email,
+                'postal_code' => $request ->postal_code,
+                'fax_number' => $request ->fax_number,
+                'address' => $request ->address,
+            ]);
+
+            return redirect()->route('employees')->with('success' , __('main.created'));
+        } catch(QueryException  $ex){
+            return redirect()->route('employees')->with('error' , $ex->getMessage());
+        }
+
+      
+
+    
+
+
+
     }
 
     /**
@@ -80,9 +122,29 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function edit(Employee $employee)
+    public function edit($id)
     {
-        //
+        $employee = Employee::find($id);
+        if($employee){
+        $religions = Religions::all();
+        $genders = Gender::all();
+        $nationalties = Nationality::all();
+        $martialStats = MaritalStatus::all();
+        $educations = Education::all();
+        $departments = Departments::all();
+        $jobs = Jobs::all();
+
+        return view('cpanel.Employee.edit' , [
+           'employee' => $employee , 
+          'religions' => $religions , 
+          'genders' => $genders , 
+          'nationalties' => $nationalties ,
+          'martialStats' => $martialStats ,
+          'educations' => $educations,
+          'departments' => $departments,
+          'jobs' => $jobs
+        ]);
+        }
     }
 
     /**
@@ -92,9 +154,45 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request,  $id)
     {
-        //
+        $employee = Employee::find($id);
+        if($employee){
+        $validated = $request->validate([
+            'name_ar' => 'required',
+            'name_en' => 'required',
+             'job_id' =>'required'
+        ]);
+
+        try{
+            $employee -> update([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en,
+                'department_id' => $request ->department_id,
+                'job_id' => $request ->job_id,
+                'religion_id' => $request ->religion_id,
+                'gender_id' => $request ->gender_id,
+                'nationalty_id' => $request ->nationalty_id,
+                'martialState_id' => $request ->martialState_id,
+                'ID_number' => $request ->ID_number,
+                'child_number' => $request ->child_number,
+                'birth_date' => $request ->birth_date ,
+                'education_id' => $request ->education_id,
+                'work_hours' => $request ->work_hours,
+                'week_off_days' => $request ->week_off_days,
+                'phone' => $request ->phone,
+                'mobile' => $request ->mobile,
+                'email' => $request ->email,
+                'postal_code' => $request ->postal_code,
+                'fax_number' => $request ->fax_number,
+                'address' => $request ->address,
+            ]);
+
+            return redirect()->route('employees')->with('success' , __('main.updated'));
+        } catch(QueryException  $ex){
+            return redirect()->route('employees')->with('error' , $ex->getMessage());
+        }
+    }
     }
 
     /**
@@ -103,8 +201,16 @@ class EmployeeController extends Controller
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function destroy( $id)
     {
-        //
+        $employee = Employee::find($id);
+        if($employee){
+            try{
+               $employee -> delete();
+               return redirect()->route('employees')->with('success' , __('main.deleted'));
+            }catch(QueryException  $ex){
+                return redirect()->route('employees')->with('error' , $ex->getMessage());
+            }
+        }
     }
 }

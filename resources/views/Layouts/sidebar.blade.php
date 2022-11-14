@@ -47,6 +47,15 @@
                         <span class="hide-menu">{{ __('main.side_employees') }}</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item">
+                    <a @if ($slag == 3) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif 
+                    href="{{ route('clients') }}" aria-expanded="false">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span class="hide-menu">{{ __('main.client_side') }}</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.html"
                         aria-expanded="false">

@@ -77,17 +77,17 @@ h2 span {
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('Layouts.cheader')
         @include('Layouts.subheader', [
-                'pageTitle' => Config::get('app.locale') == 'ar' ? 'الموظفيين': 'Employees',
+                'pageTitle' => Config::get('app.locale') == 'ar' ? 'العملاء': 'Clients',
         ])
         <div class="container-fluid">
-            <form class="center" method="POST" action="{{ route('storeEmployee') }}" enctype="multipart/form-data">
+            <form class="center" method="POST" action="{{ route('storeClient') }}" enctype="multipart/form-data">
 
                 <div class="row justify-content-center" style="padding-bottom: 50px;"> 
                     @csrf
                     <!-- {{ csrf_field() }} -->
                     <div class="col-md-9 col-xl-9 form" >
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
-                            <h4 class="float-left pt-2">{{ __('main.new_employee') }}
+                            <h4 class="float-left pt-2">{{ __('main.new_client') }}
                             <br> <span style="    font-size: 9pt;
                             color: gray;">{{  __('main.required_note') }}</span> <span style="color:red; font-size:20px; font-weight:bold;">*</span>
                             </h4>
@@ -135,40 +135,40 @@ h2 span {
                         <div class="row">
                             <div class="col-6">
                              <div class="form-group">
-                                <label>{{ __('main.religion') }}</label>
-                                <select class="custom-select mr-sm-2 @error('religion_id') is-invalid @enderror" id="inlineFormCustomSelect" 
-                                name="religion_id" id="religion_id">
-                                    <option selected value="0">Choose...</option>
-                                   @foreach ($religions as $item) 
-                                   <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
-                                   @endforeach
+                                <label>{{ __('main.discount_type') }}</label>
+                                <select class="custom-select mr-sm-2 @error('discount_type') is-invalid @enderror" id="discount_type" 
+                                name="discount_type"  onchange="discount_typeChange()">
+                                    <option selected value="0">{{ __('main.discount_type1') }}</option>
+                                    <option  value="1">{{ __('main.discount_type2') }}</option>
+                                    <option  value="2">{{ __('main.discount_type3') }}</option>
+                                  
                                   </select>
-                                @error('religion_id')
+                                @error('discount_type')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                              </div> 
                             </div>
-                            <div class="col-6">
+                            <div class="col-5">
                              <div class="form-group">
-                                <label>{{ __('main.gender') }}</label>
-                                <select class="custom-select mr-sm-2 @error('gender_id') is-invalid @enderror" id="inlineFormCustomSelect" 
-                                name="gender_id" id="gender_id">
-                                    <option selected value="0">Choose...</option>
-                                   @foreach ($genders as $item) 
-                                   <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
-                                   @endforeach
-                                  </select>
-                                @error('gender_id')
+                                <label>{{ __('main.discount_val') }}</label>
+                                <input type="number" name="discount_value" id="discount_value"
+                                class="form-control @error('discount_value') is-invalid @enderror"
+                                placeholder="{{ __('main.discount_val') }}" autofocus />
+
+                                @error('discount_value')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                              </div>
  
+                            </div>
+                            <div class="col-1" style="    display: flex;
+                            flex-direction: column;
+                            justify-content: center;"> 
+                                <label id="discount_label" style=" margin-top: 10px;font-size: 18px;"></label>
                             </div>
  
                          
@@ -176,188 +176,8 @@ h2 span {
                            
                         
                         </div>
-                        <div class="row">
-                            <div class="col-6">
-                             <div class="form-group">
-                                <label>{{ __('main.nationalty') }}</label>
-                                <select class="custom-select mr-sm-2 @error('nationalty_id') is-invalid @enderror" id="inlineFormCustomSelect" 
-                                name="nationalty_id" id="nationalty_id">
-                                    <option selected value="0">Choose...</option>
-                                   @foreach ($nationalties as $item) 
-                                   <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
-                                   @endforeach
-                                  </select>
-                                @error('nationalty_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                             </div> 
-                            </div>
-                            <div class="col-6">
-                             <div class="form-group">
-                                <label>{{ __('main.martial') }}</label>
-                                <select class="custom-select mr-sm-2 @error('martialState_id') is-invalid @enderror" id="inlineFormCustomSelect" 
-                                name="martialState_id" id="martialState_id">
-                                    <option selected value="0">Choose...</option>
-                                   @foreach ($martialStats as $item) 
-                                   <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
-                                   @endforeach
-                                  </select>
-                                @error('martialState_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                             </div>
- 
-                            </div>
- 
-                         
-                         </div>   
+                    
                            
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>{{ __('main.ID') }}</label>
-                                    <input type="text" name="ID_number" id="ID_number"
-                                        class="form-control @error('ID_number') is-invalid @enderror"
-                                        placeholder="{{ __('main.ID') }}" autofocus />
-                                    @error('ID_number')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div> 
-                               </div>
-                               <div class="col-6">
-                                <div class="form-group">
-                                    <label>{{ __('main.child_count') }}</label>
-                                    <input type="number" name="child_number" id="child_number"
-                                        class="form-control @error('child_number') is-invalid @enderror"
-                                        placeholder="{{ __('main.child_count') }}" autofocus />
-                                    @error('child_number')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-    
-                               </div>    
-                        </div> 
-
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label>{{ __('main.birth_date') }}</label>
-                                    <input type="date" name="birth_date" id="birth_date"
-                                        class="form-control @error('birth_date') is-invalid @enderror"
-                                        placeholder="{{ __('main.birth_date') }}" autofocus />
-                                    @error('birth_date')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div> 
-                               </div>
-                               <div class="col-6">
-                                <div class="form-group">
-                                    <label>{{ __('main.education') }}</label>
-                                    <select class="custom-select mr-sm-2 @error('education_id') is-invalid @enderror" id="inlineFormCustomSelect" 
-                                    name="education_id" id="education_id">
-                                        <option selected value="0">Choose...</option>
-                                       @foreach ($educations as $item) 
-                                       <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                           
-                                       @endforeach
-                                      </select>
-                                    @error('education_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-    
-                               </div>    
-                        </div>
-                    </div> 
-                        <h2 class="text-center"><span>{{ __('main.work_data') }}  </span></h2>
-                        <div class="row">
-                            <div class="col-6">
-                             <div class="form-group">
-                                <label>{{ __('main.department') }}</label>
-                                <select class="custom-select mr-sm-2 @error('department_id') is-invalid @enderror" id="inlineFormCustomSelect" 
-                                name="department_id" id="department_id">
-                                    <option selected value="0">Choose...</option>
-                                   @foreach ($departments as $item) 
-                                   <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
-                                   @endforeach
-                                  </select>
-                                @error('department_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                             </div> 
-                            </div>
-                            <div class="col-6">
-                             <div class="form-group">
-                                <label>{{ __('main.job') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span></label>
-                                <select class="custom-select mr-sm-2 @error('job_id') is-invalid @enderror" id="inlineFormCustomSelect" 
-                                name="job_id" id="job_id">
-                                    <option selected value="">Choose...</option>
-                                   @foreach ($jobs as $item) 
-                                   <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
-                                   @endforeach
-                                  </select>
-                                @error('job_id')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                             </div>
- 
-                            </div>
- 
-                         
-                         </div>
-                        <div class="row">
-                            <div class="col-6">
-                             <div class="form-group">
-                                 <label>{{ __('main.work_hour') }}</label>
-                                 <input type="number" name="work_hours" id="work_hours"
-                                     class="form-control @error('work_hours') is-invalid @enderror"
-                                     placeholder="{{ __('main.work_hour') }}" autofocus />
-                                 @error('work_hours')
-                                     <span class="invalid-feedback" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                     </span>
-                                 @enderror
-                             </div> 
-                            </div>
-                            <div class="col-6">
-                             <div class="form-group">
-                                 <label>{{ __('main.work_off') }}</label>
-                                 <input type="text" name="week_off_days" id="week_off_days"
-                                     class="form-control @error('week_off_days') is-invalid @enderror"
-                                     placeholder="{{ __('main.work_off') }}" autofocus />
-                                 @error('week_off_days')
-                                     <span class="invalid-feedback" role="alert">
-                                         <strong>{{ $message }}</strong>
-                                     </span>
-                                 @enderror
-                             </div>
- 
-                            </div>
- 
-                         
-                         </div> 
-
-
-                 
                          <h2 class="text-center"> <span> {{ __('main.contact_data') }} </span></h2>
 
                          <div class="row">
@@ -455,6 +275,75 @@ h2 span {
                             </div>    
                          </div> 
 
+                         <h2 class="text-center"> <span> {{ __('main.money_data') }} </span></h2>
+
+                         <div class="row">
+                            <div class="col-6">
+                             <div class="form-group">
+                                 <label>{{ __('main.oppening_balance') }}</label>
+                                 <input type="number" step="any" name="oppening_balance" id="oppening_balance"
+                                     class="form-control @error('oppening_balance') is-invalid @enderror"
+                                     placeholder="{{ __('main.oppening_balance') }}" autofocus />
+                                 @error('oppening_balance')
+                                     <span class="invalid-feedback" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                     </span>
+                                 @enderror
+                             </div> 
+                            </div>
+                            <div class="col-6">
+                             <div class="form-group">
+                                 <label>{{ __('main.current_balance') }}</label>
+                                 <input type="text" name="current_balance" id="current_balance"
+                                     class="form-control @error('current_balance') is-invalid @enderror"
+                                     placeholder="{{ __('main.current_balance') }}" autofocus disabled/>
+                                 @error('current_balance')
+                                     <span class="invalid-feedback" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                     </span>
+                                 @enderror
+                             </div>
+ 
+                            </div>
+ 
+                         
+                         </div> 
+
+                         <div class="row">
+                            <div class="col-6">
+                             <div class="form-group">
+                                 <label>{{ __('main.limit_money') }}</label>
+                                 <input type="number" step="any" name="limit_money" id="limit_money"
+                                     class="form-control @error('limit_money') is-invalid @enderror"
+                                     placeholder="{{ __('main.limit_money') }}" autofocus />
+                                 @error('limit_money')
+                                     <span class="invalid-feedback" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                     </span>
+                                 @enderror
+                             </div> 
+                            </div>
+                            <div class="col-6">
+                             <div class="form-group">
+                                 <label>{{ __('main.limit_days') }}</label>
+                                 <input type="number" name="limit_days" id="limit_days"
+                                     class="form-control @error('limit_days') is-invalid @enderror"
+                                     placeholder="{{ __('main.limit_days') }}" autofocus />
+                                 @error('limit_days')
+                                     <span class="invalid-feedback" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                     </span>
+                                 @enderror
+                             </div>
+ 
+                            </div>
+ 
+                         
+                         </div> 
+                         
+
+                         
+
 
 
 
@@ -482,7 +371,50 @@ h2 span {
 
     </div>
 
+    <script>
+        $(document).ready(function() {
+           var discount_inp = document.getElementById("discount_value");
+           var discount_label = document.getElementById("discount_label"); 
+           if(discount_inp){
+            discount_inp.disabled  = true ;
+           } 
+           if(discount_label){
+            discount_label.innerHTML = "" ;
+           }
+        });
 
+        function discount_typeChange(){
+            var discount_select = document.getElementById("discount_type");
+           
+            if(discount_select != null){
+                var discount_inp = document.getElementById("discount_value");
+                var discount_label = document.getElementById("discount_label"); 
+                if(discount_inp){
+                    if(discount_select.value == 1){
+                        discount_inp.disabled  = false ;
+                        if(discount_label){
+                          discount_label.innerHTML = "%" ;
+                            }
+                
+                    }else if(discount_select.value == 2){
+                        discount_inp.disabled  = false ;
+                        if(discount_label){
+                          discount_label.innerHTML = "L.E" ;
+                            }
+
+                    } else if(discount_select.value == 0){
+                        discount_inp.disabled  = true ;
+                        if(discount_label){
+                          discount_label.innerHTML = "" ;
+                            }
+
+                    }
+                }
+
+            }
+            
+        }
+      </script>
     <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../cpanel/js/app-style-switcher.js"></script>

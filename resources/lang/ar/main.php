@@ -99,7 +99,21 @@ return [
       'mobile' =>'رقم جوال',
     'fax' =>'الفاكس',
     'postcode' => 'رمز بريدي',
-    'address' => 'العنوان'
+    'address' => 'العنوان',
+    'required_note' => 'برجاء ادخال الحقول الإجبارية المتبوعة بعلامة ',
+    'client_side' =>'العملاء',
+    'new_client' => 'إضافة عميل جديد',
+    'edit_client' => 'تعديل بيانات عميل',
+    'discount_type' => 'نوع الخصم',
+    'discount_type1' => 'بدون خصم',
+    'discount_type2' => 'خصم نسبة',
+    'discount_type3' => 'خصم ثابت',
+    'discount_val' => 'قيمة الخصم',
+    'oppening_balance' => 'الرصيد الإفتتاحي',
+    'current_balance' => 'الرصيد الحالي',
+     'limit_money' => 'الحد الائتماني',
+     'limit_days' => 'مدة الائتمان',
+     'money_data' => 'البيانات المالية'
 
       
 ];
