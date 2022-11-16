@@ -109,7 +109,29 @@ function()
     Route::get('/editClient/{id}', [App\Http\Controllers\ClientController::class, 'edit'])->name('editClient');
     Route::post('/updateClient/{id}', [App\Http\Controllers\ClientController::class, 'update'])->name('updateClient');
     Route::get('/destroyClient/{id}', [App\Http\Controllers\ClientController::class, 'destroy'])->name('destroyClient');
+    //Categories routes
+    Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories');
+    Route::get('/createCategory', [App\Http\Controllers\CategoryController::class, 'create'])->name('createCategory');
+    Route::post('/storeCategory', [App\Http\Controllers\CategoryController::class, 'store'])->name('storeCategory');
+    Route::get('/editCategory/{id}', [App\Http\Controllers\CategoryController::class, 'edit'])->name('editCategory');
+    Route::post('/updateCategory/{id}', [App\Http\Controllers\CategoryController::class, 'update'])->name('updateCategory');
+    Route::get('/destroyCategory/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('destroyCategory');
 
+    //Sizes routes
+    Route::get('/sizes', [App\Http\Controllers\SizeController::class, 'index'])->name('sizes');
+    Route::get('/createSize', [App\Http\Controllers\SizeController::class, 'create'])->name('createSize');
+    Route::post('/storeSize', [App\Http\Controllers\SizeController::class, 'store'])->name('storeSize');
+    Route::get('/editSize/{id}', [App\Http\Controllers\SizeController::class, 'edit'])->name('editSize');
+    Route::post('/updateSize/{id}', [App\Http\Controllers\SizeController::class, 'update'])->name('updateSize');
+    Route::get('/destroySize/{id}', [App\Http\Controllers\SizeController::class, 'destroy'])->name('destroySize');
+
+    //Items routes
+    Route::get('/items', [App\Http\Controllers\ItemController::class, 'index'])->name('items');
+    Route::get('/createItem', [App\Http\Controllers\ItemController::class, 'create'])->name('createItem');
+    Route::post('/storeItem', [App\Http\Controllers\ItemController::class, 'store'])->name('storeItem');
+    Route::get('/editItem/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('editItem');
+    Route::post('/updateItem/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('updateItem');
+    Route::get('/destroyItem/{id}', [App\Http\Controllers\ItemController::class, 'destroy'])->name('destroyItem');
 
 
     

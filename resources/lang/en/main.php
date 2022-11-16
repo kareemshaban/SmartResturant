@@ -112,7 +112,34 @@ return [
     'current_balance' => 'Current Balance',
      'limit_money' => 'Credit Limit',
      'limit_days' => 'Credit Term',
-     'money_data' => 'Financial Data'
+     'money_data' => 'Financial Data',
+     'side_items' => 'Items',
+     'side_cats' => 'Categories',
+     'side_sizes' =>'Sizes',
+     'new_size' => 'Add New Size',
+     'edit_size' =>'Edit Size Data',
+     'img' => 'Image',
+     'printer' => 'Printer',
+     'new_cat' => 'Add New Category',
+     'edit_cat' => 'Edit Category Data',
+     'printer_hnt' => 'Choose Categoy Printer',
+     'img_choose' => 'Choose Category Image',
+     'img_big' => 'This Image is More than 2 MB Please choose smaller image',
+     'img_hint' => 'Choose an Images with maximum size of 2MB',
+     'menue_items' => 'Items & Extras',
+     'code' => 'Item Code',
+     'item_type' => 'Type',
+     'item_type1' => 'Menue Item',
+     'item_type2' => 'Extra',
+     'item_category' =>  'Category',
+     'new_item' => 'Add New Item',
+     'edit_new' => 'Edit Item Data',
+     'description_ar' => 'Item Arabic Description',
+     'description_en' => 'Item English Description',
+
+     'isAddValue' => 'Is Added Value ?',
+     'addValue' => 'Enter Added Value',
+     'item_sizes' => 'Item Sizes'
 
       
       

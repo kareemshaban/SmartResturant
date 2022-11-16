@@ -56,7 +56,22 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
+                <li class="nav-item sidebar-item  has-submenu">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#">
+                        <i class="fa fa-coffee" aria-hidden="true"></i>
+              
+                        <span class="hide-menu">{{ __('main.side_items') }}</span>
+                    </a>
+                    <ul class="submenu collapse">
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                href="{{ route('categories') }}">{{ __('main.side_cats') }}</a></li>
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                href="{{ route('sizes') }}">{{ __('main.side_sizes') }}</a></li>
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                href="{{ route('items') }}">{{ __('main.menue_items') }}</a></li>        
+                    </ul>
+                </li>
+                    <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.html"
                         aria-expanded="false">
                         <i class="fa fa-power-off" aria-hidden="true"></i>
