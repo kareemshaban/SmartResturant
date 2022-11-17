@@ -71,6 +71,16 @@
                                 href="{{ route('items') }}">{{ __('main.menue_items') }}</a></li>        
                     </ul>
                 </li>
+
+                
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('pos') }}"
+                        aria-expanded="false">
+                        <i class="fa fa-calculator" aria-hidden="true"></i>
+                        <span class="hide-menu">{{ __('main.side_bill') }}</span>
+                    </a>
+                </li>
                     <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.html"
                         aria-expanded="false">

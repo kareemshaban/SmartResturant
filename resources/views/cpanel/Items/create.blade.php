@@ -125,6 +125,7 @@ h2 span {
                                    
                                            <option value="0"> {{__('main.item_type1') }}</option> 
                                            <option value="1"> {{__('main.item_type2') }}</option> 
+                                           <option value="2"> {{__('main.item_type3') }}</option> 
                                        
                                           </select>
                                         @error('type')

@@ -131,6 +131,7 @@ return [
      'item_type' => 'Type',
      'item_type1' => 'Menue Item',
      'item_type2' => 'Extra',
+      'item_type3' => 'Material' ,
      'item_category' =>  'Category',
      'new_item' => 'Add New Item',
      'edit_new' => 'Edit Item Data',
@@ -139,7 +140,14 @@ return [
 
      'isAddValue' => 'Is Added Value ?',
      'addValue' => 'Enter Added Value',
-     'item_sizes' => 'Item Sizes'
+     'item_sizes' => 'Item Sizes',
+
+     'item' => 'Item',
+     'size' => 'Size',
+      'level' => 'Size Order',
+      'transform' => 'Transform Factor',
+      'price' => 'Price',
+      'side_bill' =>'POS'
 
       
       

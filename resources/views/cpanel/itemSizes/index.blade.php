@@ -12,7 +12,7 @@
     <meta name="robots" content="noindex,nofollow">
     <title>Smart Resturant</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
-    <link rel="icon" type="image/png" sizes="16x16" href="../cpanel/plugins/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../cpanel/plugins/images/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
@@ -25,7 +25,7 @@
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
     <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css" />
 
-    <link href="../cpanel/css/style.min.css" rel="stylesheet">
+    <link href="../../cpanel/css/style.min.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -56,12 +56,12 @@
 
         <div class="page-wrapper">
             @include('Layouts.subheader', [
-                'pageTitle' => Config::get('app.locale') == 'ar' ? 'الأصناف والإضافات': 'Items & Extras',
+                'pageTitle' => Config::get('app.locale') == 'ar' ? 'أحجام الصنف': 'Item Sizes',
             ])
             <div class="container-fluid">
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
-                        <a href="{{ route('createItem') }}">
+                        <a href="{{ route('createItemSize' , $item) }}">
                             <button type="button" class="btn btn-primary ">{{ __('main.add_new') }}</button>
 
                         </a>
@@ -76,43 +76,33 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th class="text-center">{{ __('main.id') }}</th>
-                                    <th class="text-center">{{ __('main.img') }}</th>
-                                    <th class="text-center">{{ __('main.item_category') }}</th>
-                                    <th class="text-center">{{ __('main.name_ar') }}</th>
-                                    <th class="text-center">{{ __('main.name_en') }}</th>
-                                    <th class="text-center">{{ __('main.item_type') }}</th>
+                                    <th class="text-center">{{ __('main.item') }}</th>
+                                    <th class="text-center">{{ __('main.size') }}</th>
+                                    <th class="text-center">{{ __('main.level') }}</th>
+                                    <th class="text-center">{{ __('main.transform') }}</th>
+                                    <th class="text-center">{{ __('main.price') }}</th>
                                     <th class="text-center">{{ __('main.operations') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($items as $item)
+                                @foreach ($sizes as $size)
                                     <tr>
                                         <td class="text-center">{{ $loop->index + 1 }}</td>
-                                        <td class="text-center">{{ $item->code }}</td>
+                                        <td class="text-center">{{( Config::get('app.locale') == 'ar') ?
+                                         $size-> item -> name_ar : $size-> item -> name_en }}</td>
+                                        <td class="text-center">{{( Config::get('app.locale') == 'ar') ?
+                                    $size-> size -> name_ar : $size-> size -> name_en }}</td>
+                                        <td class="text-center">{{ $size->level }}</td>
+                                        <td class="text-center">{{ $size->transformFactor }}</td>
+                                        <td class="text-center">{{ $size->price }}</td>
                                         <td class="text-center">
-                                            <img src="{{ asset('images/Item/' . $item->img) }}" height=50 width=50 alt="Item image">
-                                        </td>
-                                        <td class="text-center">{{ ( Config::get('app.locale') == 'ar') ? $item->cayegory -> name_ar : 
-                                        $item->cayegory -> name_en }}</td>
-                                        <td class="text-center">{{ $item->name_ar }}</td>
-                                        <td class="text-center">{{ $item->name_en }}</td>
-                                        <td class="text-center">@if ($item -> type == 0){{__('main.item_type1')}} @elseif ($item -> type == 1) {{  __('main.item_type2')   }} 
-                                            @else  {{ __('main.item_type3') }}  
-                                            @endif </td>
-                                        <td class="text-center">
-                                            <a href="{{ route('editItem', $item->id) }}"> <button
+                                            <a href="{{ route('editItemSize', $size->id) }}"> <button
                                                     type="button" class="btn btn-success"><i
                                                         class="fas fa-edit"></i></button> </a>
                                             <a onclick="return confirm('Are you sure?')"
-                                                href="{{ route('destroyItem', $item->id) }} "> <button
+                                                href="{{ route('destroyItemSize', $size->id) }} "> <button
                                                     type="button" class="btn btn-danger"><i
                                                         class="far fa-trash-alt"></i></button> </a>
-                                            <br>
-                                            <br>
-                                            <a href="{{ route('itemSizes', $item->id) }}"> <button
-                                                    type="button" class="btn btn-info">
-                                                   {{ __('main.item_sizes') }}</button> </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -132,16 +122,16 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 
 
-    <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../cpanel/js/app-style-switcher.js"></script>
-    <script src="../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <script src="../cpanel/js/waves.js"></script>
-    <script src="../cpanel/js/sidebarmenu.js"></script>
-    <script src="../cpanel/js/custom.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
+    <script src="../../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../cpanel/js/app-style-switcher.js"></script>
+    <script src="../../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="../../cpanel/js/waves.js"></script>
+    <script src="../../cpanel/js/sidebarmenu.js"></script>
+    <script src="../../cpanel/js/custom.js"></script>
+    <script src="../../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="../../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../../cpanel/js/pages/dashboards/dashboard1.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#table').DataTable();

@@ -36,10 +36,10 @@ class SizeController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:sizes',
-            'name_en' => 'required|unique:sizes'
-        ]);
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:sizes',
+                'name_en' => 'required|unique:sizes'
+            ]);
      
         Size::Create([
             'name_ar' => $request ->name_ar,

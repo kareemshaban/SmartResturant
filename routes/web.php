@@ -133,8 +133,17 @@ function()
     Route::post('/updateItem/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('updateItem');
     Route::get('/destroyItem/{id}', [App\Http\Controllers\ItemController::class, 'destroy'])->name('destroyItem');
 
-
+    //ItemSizes routes
+    Route::get('/itemSizes/{item}', [App\Http\Controllers\ItemSizesController::class, 'index'])->name('itemSizes');
+    Route::get('/createItemSize/{item}', [App\Http\Controllers\ItemSizesController::class, 'create'])->name('createItemSize');
+    Route::post('/storeItemSize', [App\Http\Controllers\ItemSizesController::class, 'store'])->name('storeItemSize');
+    Route::get('/editItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'edit'])->name('editItemSize');
+    Route::post('/updateItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'update'])->name('updateItemSize');
+    Route::get('/destroyItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'destroy'])->name('destroyItemSize');
     
+    //ItemSizes routes
+    Route::get('/pos', [App\Http\Controllers\PosController::class, 'index'])->name('pos');
+
 
 
        ////////////////////////////////////////////////////////////////////////////////////////////

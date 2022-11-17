@@ -101,6 +101,7 @@ class ItemController extends Controller
     public function edit( $id)
     {
         $item = Item::find($id);
+        
         if($item){
             $categories = Category::all();
             return view('cpanel.Items.edit' , ['item' => $item ,  'categories' => $categories]);
