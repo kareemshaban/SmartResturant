@@ -92,7 +92,7 @@
       </nav>
 
       <div class="viewed">
-        <div class="container page">
+        <div class="container page ">
             <div class="row"  >
                 <div class="col-9 menue">
                     <div class="bbb_viewed_title_container">
@@ -124,10 +124,13 @@
                         </div>
                     </div>
 
-                    <div class="bbb_viewed_title_container">
-                        <h3 class="bbb_viewed_title">{{ __('main.item_category') }}</h3>
+                    <div class="row">
+                        <div class="bbb_viewed_title_container">
+                            <h3 class="bbb_viewed_title">{{ }}</h3>
                        
+                        </div>
                     </div>
+
                 </div>
 
                 
