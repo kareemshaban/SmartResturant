@@ -20,7 +20,7 @@ function()
 {
     Route::get('/', [App\Http\Controllers\FrontController::class, 'index'])->name('index');
     Route::get('about', [App\Http\Controllers\FrontController::class, 'about'])->name('about');
-    
+
    ////////////////////////////////////////////////////////////////////////////////////////////
    /* REGION CPANEL ROUTES*/
    Route::get('/home', [App\Http\Controllers\DashboradController::class, 'index'])->name('home');
@@ -140,9 +140,14 @@ function()
     Route::get('/editItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'edit'])->name('editItemSize');
     Route::post('/updateItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'update'])->name('updateItemSize');
     Route::get('/destroyItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'destroy'])->name('destroyItemSize');
-    
-    //ItemSizes routes
+
+    //POS routes
     Route::get('/pos', [App\Http\Controllers\PosController::class, 'index'])->name('pos');
+
+    //shift routes
+    Route::get('/myShift', [App\Http\Controllers\ShiftController::class, 'index'])->name('myShift');
+    Route::post('/storeShift', [App\Http\Controllers\ShiftController::class, 'store'])->name('storeShift');
+    Route::post('/endShift/{id}', [App\Http\Controllers\ShiftController::class, 'update'])->name('endShift');
 
 
 

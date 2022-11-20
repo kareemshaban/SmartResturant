@@ -73,20 +73,39 @@
                             </div>
                         </div>
                         <div class="card-body px-0">
+
                             <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label>{{ __('main.item') }}</label>
+                                        <input type="text" class="form-control"
+                                               value="{{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item ->name_en}}" disabled/>
+                                    </div>
+                                    <div class="col-6">
+                                        <label>{{ __('main.isAddValue') }}</label>
+
+                                        <input type="text" class="form-control"
+                                               value="{{ $item -> addValue  }} %" disabled/>
+                                        <input type="text" class="form-control" id="addValue"
+                                               value="{{ $item -> addValue  }}" hidden/>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group" hidden>
                                 <label>{{ __('main.size') }}</label>
-                                <select class="custom-select mr-sm-2 @error('size_id') is-invalid @enderror" id="inlineFormCustomSelect" 
-                                name="size_id" id="size_id">
-                                   @foreach ($sizes as $item) 
+                                <select class="custom-select mr-sm-2 @error('size_id') is-invalid @enderror"
+                                name="size_id" id="size_id" onchange="getLevel()">
+                                   @foreach ($sizes as $item)
                                    <option value="{{$item -> id}}" @if ($itemSize -> size_id == $item -> id)
                                        selected
-                                   @endif 
-                                    
-                                    > {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
+                                   @endif
+
+                                    > {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
                                    @endforeach
                                   </select>
-                                  <input type="text" name="item_id" id="item_id" hidden  
+                                  <input type="text" name="item_id" id="item_id" hidden
                                   value="{{ $itemSize -> item_id }}"/>
                                   @error('size_id')
                                     <span class="invalid-feedback" role="alert">
@@ -101,8 +120,8 @@
                                     <label>{{ __('main.level') }}</label>
                                     <input type="number" name="level" id="level"
                                         class="form-control @error('level') is-invalid @enderror"
-                                        placeholder="{{ __('main.level') }}" autofocus 
-                                        value="{{ $itemSize -> level}}" />
+                                        placeholder="{{ __('main.level') }}" autofocus
+                                        value="{{ $itemSize -> level}}"  readonly/>
                                     @error('level')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -113,8 +132,8 @@
                                     <label>{{ __('main.transform') }}</label>
                                     <input type="number" step="any" name="transformFactor" id="transformFactor"
                                         class="form-control @error('transformFactor') is-invalid @enderror"
-                                        placeholder="{{ __('main.transform') }}" autofocus  
-                                        value="{{ $itemSize -> transformFactor}}" 
+                                        placeholder="{{ __('main.transform') }}" autofocus
+                                        value="{{ $itemSize -> transformFactor}}"
                                         />
                                     @error('transformFactor')
                                         <span class="invalid-feedback" role="alert">
@@ -122,10 +141,10 @@
                                         </span>
                                     @enderror
                                 </div>
-                                
+
                              </div>
 
-                          
+
                             </div>
                             <div class="form-group">
                                 <div class="row">
@@ -133,21 +152,36 @@
                                        <label>{{ __('main.price') }}</label>
                                        <input type="number" step="any" name="price" id="price"
                                            class="form-control @error('price') is-invalid @enderror"
-                                           placeholder="{{ __('main.price') }}" autofocus 
-                                           value="{{ $itemSize -> price}}"  />
+                                           placeholder="{{ __('main.price') }}" autofocus
+                                           value="{{ $itemSize -> price}}"
+                                              onkeyup="getPriceWithAddValue()"
+                                              onchange="getPriceWithAddValue()"/>
                                        @error('price')
                                            <span class="invalid-feedback" role="alert">
                                                <strong>{{ $message }}</strong>
                                            </span>
                                        @enderror
                                    </div>
-                            
-                                   
+
+                                    <div class="col-6">
+                                        <label>{{ __('main.priceWithAddValue') }}</label>
+                                        <input type="number" step="any" name="priceWithAddValue" id="priceWithAddValue"
+                                               class="form-control @error('priceWithAddValue') is-invalid @enderror"
+                                               placeholder="{{ __('main.priceWithAddValue') }}" autofocus  readonly
+                                               value="{{ $itemSize -> priceWithAddValue}}"/>
+                                        @error('priceWithAddValue')
+                                        <span class="invalid-feedback" role="alert">
+                                               <strong>{{ $message }}</strong>
+                                           </span>
+                                        @enderror
+                                    </div>
+
+
                                 </div>
-   
-                             
+
+
                                </div>
-                            
+
 
                         </div>
                     </div>
@@ -156,12 +190,39 @@
 
 
 
-
-        </div>
         </form>
 
     </div>
+    </div>
+    <script type="text/javascript">
 
+        function getPriceWithAddValue(){
+            let priceVal = 0 , priceWithAddValueVal = 0 , addValueVal = 0 ;
+            let price = document.getElementById("price");
+            let priceWithAddValue = document.getElementById("priceWithAddValue");
+            let addValue = document.getElementById("addValue");
+            if(price && priceWithAddValue && addValue){
+                priceVal = price.value ;
+                addValueVal = (addValue.value / 100 )* priceVal;
+                priceWithAddValueVal = Number(priceVal) + Number(addValueVal) ;
+                priceWithAddValue.value = priceWithAddValueVal ;
+                console.log(addValueVal);
+                console.log(priceVal);
+            }
+        }
+        function getLevel(){
+
+            let select = document.getElementById("size_id");
+            let level = document.getElementById("level");
+            console.log(select);
+            console.log(level);
+            if(select && level){
+
+                console.log(select.selectedIndex);
+                level.value = Number(select.selectedIndex) + 1 ;
+            }
+        }
+    </script>
 
     <script src="../../../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../../../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

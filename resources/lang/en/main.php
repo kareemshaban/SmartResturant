@@ -15,7 +15,7 @@ return [
     We are working here to provide systems that facilitate the workflow for users and we always strive to offer you today what technology has reached tomorrow through a team equipped and trained to help you and meet your requests',
     'read_more' => 'Read More',
 
-    'contact_title' => 'Contact Us', 
+    'contact_title' => 'Contact Us',
     'call_title' => 'Phone',
     'email_title' => 'Email',
     'site_title' => 'WebSite',
@@ -147,8 +147,22 @@ return [
       'level' => 'Size Order',
       'transform' => 'Transform Factor',
       'price' => 'Price',
-      'side_bill' =>'POS'
+      'side_bill' =>'POS',
+    'open_shift' => 'You have an open shift. You can control the shift through the shift icon',
+    'no_open_shift' => 'You do not have an open shift. Please open a shift. Otherwise, you will not be able to open the invoice',
+    'shifts' => 'Work Shifts',
+    'new_shift' => 'Start New Shift',
+    'start' => 'Start Now',
+    'user' => 'User',
+    'start_from' => 'Start Data',
+    'start_money' => 'Starting Money',
 
-      
-      
+    'end_shift' => 'End Shift',
+    'end' => 'End Now',
+    'end_money' => 'Ending Money',
+    'priceWithAddValue' => 'Price With Add Value',
+    'item_size_exsist' => 'You Created this size for this item before'
+
+
+
 ];

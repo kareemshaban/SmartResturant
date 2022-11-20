@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Item;
+use App\Models\Shift;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PosController extends Controller
 {
@@ -14,8 +17,16 @@ class PosController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('items.sizes') -> get();
-        return view('cpanel.pos.pos' , ['categories' => $categories]);
+        $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
+            -> where('state' , '=' , 0 )->get();
+        if(count($shift) > 0){
+            $categories = Category::with('items.sizes') -> get();
+            $items = Item::with('sizes' ,'cayegory' ) -> get();
+            return view('cpanel.pos.pos' , ['categories' => $categories , 'items' => $items]);
+        } else {
+            return redirect() -> route('home');
+        }
+
     }
 
     /**

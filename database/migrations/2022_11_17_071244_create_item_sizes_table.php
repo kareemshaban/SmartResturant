@@ -15,11 +15,13 @@ class CreateItemSizesTable extends Migration
     {
         Schema::create('item_sizes', function (Blueprint $table) {
             $table->id();
-            $table->integer('item_id')  ; 
+            $table->integer('item_id')  ;
             $table->integer('size_id') ;
             $table->integer('level');
             $table->decimal('transformFactor') ;
             $table->decimal('price') ;
+            $table->decimal('priceWithAddValue') ;
+
             $table->timestamps();
         });
     }

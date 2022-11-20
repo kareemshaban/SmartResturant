@@ -15,7 +15,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../cpanel/plugins/images/favicon.png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-  
+
 
 
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>
     <link rel="stylesheet" href="../../css/pos.css">
-    
+
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -54,6 +54,32 @@
         .cloned {
             display: none !important;
         }
+        .item-div{
+            display: none;
+        }
+        .show {
+            display: block;
+        }
+        .item-parent{
+            background: white;
+            height: 150px;
+            border-radius: 15px;
+        }
+        .item-img{
+            width:70px;
+            height: 70px;
+            border-radius: 50%;
+            margin: 10px auto;
+            display: block;
+        }
+        .item-name{
+            display: block;
+            margin: auto;
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+        }
+        }
     </style>
 </head>
 
@@ -76,14 +102,14 @@
                     Smart Restuarnt POS
                 </span>
               </a>
-                            					@if ( Config::get('app.locale') == 'ar') 
+                            					@if ( Config::get('app.locale') == 'ar')
 						<a rel="alternate" hreflang="en" href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}"  ><img src="../../images/english.png" style="    width: 50px;
                             margin-left: 30px; margin-right:30px;"></a>
-						@endif 
-						@if ( Config::get('app.locale') == 'en') 
+						@endif
+						@if ( Config::get('app.locale') == 'en')
 							<a rel="alternate" hreflang="ar" href="{{ LaravelLocalization::getLocalizedURL('ar', null, [], true) }}" ><img src="../../images/arabic.png" style="    width: 50px;
                                 margin-left: 30px; margin-right:30px;"></a>
-							@endif 
+							@endif
           <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-primary" type="submit">Search</button>
@@ -94,7 +120,7 @@
       <div class="viewed">
         <div class="container page ">
             <div class="row"  >
-                <div class="col-9 menue">
+                <div class="col-8 menue">
                     <div class="bbb_viewed_title_container">
                         <h3 class="bbb_viewed_title">{{ __('main.item_category') }}</h3>
                         <div class="bbb_viewed_nav_container">
@@ -104,14 +130,14 @@
                     </div>
 
                     <div class="bbb_viewed_slider_container" style="margin-bottom:20px;">
-                        
-                      
+
+
 
                         <div class="owl-carousel owl-theme bbb_viewed_slider">
                          @foreach ($categories as $category)
                             <div class="owl-item item" >
-                                <div class="bbb_viewed_item discount d-flex flex-column align-items-center justify-content-center text-center" 
-                                onclick="selecCategory(this)">
+                                <div class="bbb_viewed_item discount d-flex flex-column align-items-center justify-content-center text-center"
+                                onclick="selecCategory(this , {{$category -> id}} )" >
                                     <div class="bbb_viewed_image"><img src="{{ asset('images/Category/' . $category->img) }}" alt=""></div>
                                     <div class="bbb_viewed_content text-center">
                                         {{-- <div class="bbb_viewed_price">₹12225<span>₹13300</span></div> --}}
@@ -120,23 +146,39 @@
                                 </div>
                             </div>
                             @endforeach
-            
+
                         </div>
                     </div>
 
-                    <div class="row">
+
                         <div class="bbb_viewed_title_container">
-                            <h3 class="bbb_viewed_title">{{ }}</h3>
-                       
+                            <h3 class="bbb_viewed_title">{{__('main.menue_items')}}</h3>
+
                         </div>
+                    <div class="row portfolio-container" style="margin: 10px;" data-aos="fade-up" data-aos-delay="100">
+                     @foreach($items as $item)
+                        <div class="col-lg-3 col-md-6 portfolio-item  item-div .{{$item -> category_id}}">
+                            <div class="portfolio-wrap item-parent">
+                                <img src="{{ asset('images/Item/' . $item->img) }}" class="img-fluid item-img" alt="">
+                                <label class="item-name">{{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
+                                <div class="portfolio-links">
+
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
                     </div>
+
+
+
 
                 </div>
 
-                
+
             </div>
 
-            
+
         </div>
 
 
@@ -157,7 +199,7 @@
  $(document).ready(function()
 {
 
-   
+
         if($('.bbb_viewed_slider').length)
         {
             var viewedSlider = $('.bbb_viewed_slider');
@@ -176,7 +218,7 @@
                     575:{items:2},
                     768:{items:3},
                     991:{items:4},
-                    1199:{items:6}
+                    1199:{items:5}
                 }
             });
 
@@ -198,14 +240,14 @@
                 });
             }
         }
-    
-   
+
+
 
     });
 
-    function selecCategory(element){
-     
-         
+    function selecCategory(element , id){
+
+       console.log(id);
         const collection = document.getElementsByClassName("selected-cat");
         let add = 0 ;
         if(element.classList.contains("selected-cat")){
@@ -216,12 +258,47 @@
         if(collection){
         for (let item of collection) {
             item.classList.remove("selected-cat");
-        }       
-   
+        }
+
         }
         if(add == 1)
         element.classList.add("selected-cat");
+
+
+        var x, i;
+        id = '.' + id ;
+        x = document.getElementsByClassName("item-div");
+        for (i = 0; i < x.length; i++) {
+            w3RemoveClass(x[i], "show");
+            if (x[i].className.indexOf(id) > -1) w3AddClass(x[i], "show");
         }
+        }
+
+
+ function w3AddClass(element, name) {
+     var i, arr1, arr2;
+     arr1 = element.className.split(" ");
+     arr2 = name.split(" ");
+     for (i = 0; i < arr2.length; i++) {
+         if (arr1.indexOf(arr2[i]) == -1) {
+             element.className += " " + arr2[i];
+         }
+     }
+ }
+
+ // Hide elements that are not selected
+ function w3RemoveClass(element, name) {
+     var i, arr1, arr2;
+     arr1 = element.className.split(" ");
+     arr2 = name.split(" ");
+     for (i = 0; i < arr2.length; i++) {
+         while (arr1.indexOf(arr2[i]) > -1) {
+             arr1.splice(arr1.indexOf(arr2[i]), 1);
+         }
+     }
+     element.className = arr1.join(" ");
+ }
+
     </script>
 
 </body>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\ItemSizes;
 use App\Models\Size;
 use Illuminate\Database\QueryException;
@@ -17,9 +18,8 @@ class ItemSizesController extends Controller
     public function index($item)
     {
         $sizes = ItemSizes::with('item' , 'size') -> where('item_id' , '=' , $item) -> get();
-           
-        return view('cpanel.itemSizes.index' , ['sizes' => $sizes , 'item' => $item]) ; 
-        
+        return view('cpanel.itemSizes.index' , ['sizes' => $sizes , 'item' => $item]) ;
+
     }
 
     /**
@@ -30,7 +30,9 @@ class ItemSizesController extends Controller
     public function create($itemId)
     {
         $sizes = Size::all();
-        return view ('cpanel.itemSizes.create' , ['sizes' => $sizes , 'itemId' => $itemId]);
+        $item = Item::find($itemId);
+        return view ('cpanel.itemSizes.create' , ['sizes' => $sizes ,
+            'itemId' => $itemId , 'item' => $item]);
     }
 
     /**
@@ -46,24 +48,34 @@ class ItemSizesController extends Controller
             'size_id' => 'required',
             'level' => 'required',
             'transformFactor' => 'required',
-            'price' => 'required'
+            'price' => 'required',
+            'priceWithAddValue' => 'required'
         ]);
 
-        try{
-            ItemSizes::create([
-              'item_id' => $request -> item_id,
-              'size_id' => $request -> size_id,
-              'level' => $request -> level,
-              'transformFactor' => $request -> transformFactor,
-              'price' => $request -> price,
-            ]);
-            return redirect()->route('itemSizes' , $request ->  item_id)->with('success' , __('main.created'));
+        $size = ItemSizes::where('item_id' , '=' , $request -> item_id)
+        -> where('size_id' , '=' , $request -> size_id) -> get();
+        if(count($size) == 0) {
 
-        } catch(QueryException $e){
-            return redirect()->route('itemSizes' , $request ->  item_id)->with('error' ,  $e->getMessage());
 
+            try {
+                ItemSizes::create([
+                    'item_id' => $request->item_id,
+                    'size_id' => $request->size_id,
+                    'level' => $request->level,
+                    'transformFactor' => $request->transformFactor,
+                    'price' => $request->price,
+                    'priceWithAddValue' => $request -> priceWithAddValue
+                ]);
+                return redirect()->route('itemSizes', $request->item_id)->with('success', __('main.created'));
+
+            } catch (QueryException $e) {
+                return redirect()->route('itemSizes', $request->item_id)->with('error', $e->getMessage());
+
+            }
+        }  else {
+            return redirect() -> back()->with('error', __('main.item_size_exsist') );
         }
-    
+
     }
 
     /**
@@ -87,8 +99,11 @@ class ItemSizesController extends Controller
     {
         $itemSize = ItemSizes::find($id);
         $sizes = Size::all();
+
         if($itemSize){
-            return view ('cpanel.itemSizes.edit' , ['sizes' => $sizes , 'itemSize' => $itemSize]);
+            $item = Item::find($itemSize -> item_id);
+            return view ('cpanel.itemSizes.edit' , ['sizes' => $sizes , 'itemSize' => $itemSize ,
+                'item' => $item]);
         }
     }
 
@@ -108,7 +123,8 @@ class ItemSizesController extends Controller
             'size_id' => 'required',
             'level' => 'required',
             'transformFactor' => 'required',
-            'price' => 'required'
+            'price' => 'required',
+            'priceWithAddValue' => 'required'
         ]);
 
         try{
@@ -118,6 +134,7 @@ class ItemSizesController extends Controller
               'level' => $request -> level,
               'transformFactor' => $request -> transformFactor,
               'price' => $request -> price,
+                'priceWithAddValue' => $request -> priceWithAddValue
             ]);
             return redirect()->route('itemSizes' , $request ->  item_id)->with('success' , __('main.updated'));
 

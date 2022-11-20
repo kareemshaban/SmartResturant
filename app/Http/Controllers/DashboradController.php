@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Shift;
 use Illuminate\Http\Request;
 use App\Models\Religions ;
 use App\Models\Departments ;
 use App\Models\Gender ;
 use App\Models\Nationality ;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use App\Models\MaritalStatus ;
 use App\Models\Jobs ;
@@ -24,7 +26,12 @@ class DashboradController extends Controller
     }
 
     public function index(){
-        return view('home');
+        //check for shift state
+        $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
+            -> where('state' , '=' , 0 )->get();
+            return view('home' , ['shift' => $shift]);
+
+
     }
     public function religions(){
         $religions = Religions::all();
@@ -41,7 +48,7 @@ class DashboradController extends Controller
             'name_ar' => 'required|unique:religions',
             'name_en' => 'required|unique:religions',
         ]);
-     
+
         Religions::Create([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -64,7 +71,7 @@ class DashboradController extends Controller
             'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
             'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
         ]);
-     
+
         $religion -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -97,7 +104,7 @@ class DashboradController extends Controller
             'name_ar' => 'required|unique:religions',
             'name_en' => 'required|unique:religions',
         ]);
-     
+
         Departments::Create([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -120,7 +127,7 @@ class DashboradController extends Controller
             'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
             'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
         ]);
-     
+
         $department -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -152,7 +159,7 @@ class DashboradController extends Controller
             'name_ar' => 'required|unique:religions',
             'name_en' => 'required|unique:religions',
         ]);
-     
+
         Gender::Create([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -175,7 +182,7 @@ class DashboradController extends Controller
             'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
             'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
         ]);
-     
+
         $gender -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -208,7 +215,7 @@ class DashboradController extends Controller
             'name_ar' => 'required|unique:religions',
             'name_en' => 'required|unique:religions',
         ]);
-     
+
         Nationality::Create([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -231,7 +238,7 @@ class DashboradController extends Controller
             'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
             'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
         ]);
-     
+
         $nationaltie -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -247,7 +254,7 @@ class DashboradController extends Controller
              redirect()->route('genders')->with('success' , __('main.deleted'));
         }
     }
-    
+
 
     public function maritalStatus(){
         $status = MaritalStatus::all();
@@ -264,7 +271,7 @@ class DashboradController extends Controller
             'name_ar' => 'required|unique:religions',
             'name_en' => 'required|unique:religions',
         ]);
-     
+
         MaritalStatus::Create([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -287,7 +294,7 @@ class DashboradController extends Controller
             'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
             'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
         ]);
-     
+
         $maritalStatus -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -320,7 +327,7 @@ class DashboradController extends Controller
             'name_ar' => 'required|unique:religions',
             'name_en' => 'required|unique:religions',
         ]);
-     
+
         Jobs::Create([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -343,7 +350,7 @@ class DashboradController extends Controller
             'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
             'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
         ]);
-     
+
         $job -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -360,7 +367,7 @@ class DashboradController extends Controller
         }
     }
 
-    
+
     public function educations(){
         $educations = Education::all();
         return view('cpanel.Education.index' , [
@@ -376,7 +383,7 @@ class DashboradController extends Controller
             'name_ar' => 'required|unique:religions',
             'name_en' => 'required|unique:religions',
         ]);
-     
+
         Education::Create([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -399,7 +406,7 @@ class DashboradController extends Controller
             'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
             'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
         ]);
-     
+
         $education -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -430,7 +437,7 @@ class DashboradController extends Controller
             'name_ar' => 'required|unique:religions',
             'name_en' => 'required|unique:religions',
         ]);
-     
+
         Country::Create([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -453,7 +460,7 @@ class DashboradController extends Controller
             'name_ar' => ['required' , Rule::unique('religions')->ignore($id)],
             'name_en' => ['required' , Rule::unique('religions')->ignore($id)]
         ]);
-     
+
         $country -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en
@@ -472,9 +479,9 @@ class DashboradController extends Controller
 
     public function governorates(){
         $governorates = Governorate::with('country' , 'cities') -> get();
-       
+
         return view('cpanel.Governorate.index' , [
-            'governorates' => $governorates 
+            'governorates' => $governorates
         ] );
     }
     public function createGovernorate(){
@@ -488,7 +495,7 @@ class DashboradController extends Controller
             'name_en' => 'required|unique:religions',
              'country_id' =>'required'
         ]);
-     
+
         Governorate::Create([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en,
@@ -503,7 +510,7 @@ class DashboradController extends Controller
         $countries = Country::all();
         if($governorate){
             return view('cpanel.Governorate.edit' ,  [
-                'governorate' => $governorate , 
+                'governorate' => $governorate ,
                 'countries' => $countries
             ]);
         }
@@ -516,7 +523,7 @@ class DashboradController extends Controller
             'name_en' => ['required' , Rule::unique('religions')->ignore($id)],
             'country_id' =>  ['required']
         ]);
-     
+
         $governorate -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en,
@@ -553,7 +560,7 @@ class DashboradController extends Controller
             'name_en' => 'required|unique:religions',
              'governorate_id' =>'required'
         ]);
-     
+
         City::Create([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en,
@@ -568,7 +575,7 @@ class DashboradController extends Controller
         $governorate = Governorate::all();
         if($governorate){
             return view('cpanel.City.edit' ,  [
-                'city' => $city , 
+                'city' => $city ,
                 'governorate' => $governorate
             ]);
         }
@@ -581,7 +588,7 @@ class DashboradController extends Controller
             'name_en' => ['required' , Rule::unique('religions')->ignore($id)],
             'governorate_id' =>  ['required']
         ]);
-     
+
         $city -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en,

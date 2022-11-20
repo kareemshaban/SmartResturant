@@ -28,13 +28,13 @@
             font-weight: normal;
             font-style: normal;
           }
-          
+
           *{
             font-family: 'icomoon';
           }
-        
-          
-        
+
+
+
         </style>
 </head>
 
@@ -53,8 +53,33 @@
         <div class="page-wrapper">
              @include('Layouts.subheader' , ['pageTitle' =>  Config::get('app.locale') == 'ar'? 'لوحة التحكم' : 'DashBoard'])
             <div class="container-fluid">
+                @if (count($shift) > 0)
+
+                    <div class="alert alert-success alert-block">
+
+                        <button type="button" class="close" data-bs-dismiss="alert">×</button>
+
+                        <strong>{{ __('main.open_shift') }}</strong>
+
+                    </div>
+
+                @endif
+
+
+                @if (count($shift) == 0)
+
+                    <div class="alert alert-danger alert-block">
+
+{{--                        <button type="button" class="close" data-bs-dismiss="alert">×</button>--}}
+
+                        <strong>{{ __('main.no_open_shift') }}</strong>
+
+                    </div>
+
+                @endif
                 <div class="row justify-content-center">
                     <div class="col-lg-4 col-md-12">
+
                         <div class="white-box analytics-info">
                             <h3 class="box-title">Total Visit</h3>
                             <ul class="list-inline two-part d-flex align-items-center mb-0">
@@ -95,14 +120,14 @@
                         </div>
                     </div>
                 </div>
-     
+
                 <div class="row">
                     <div class="col-md-12 col-lg-12 col-sm-12" style="height: 550px;">
-                </div>        
+                </div>
             </div>
 
             @include('Layouts.cfooter')
-   
+
         </div>
     </div>
     <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>

@@ -37,11 +37,11 @@
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
                             href="{{ route('governorates') }}">{{ __('main.governorate_title') }}</a> </li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="{{ route('cities') }}">{{ __('main.cities_title') }}</a> </li>   
+                            href="{{ route('cities') }}">{{ __('main.cities_title') }}</a> </li>
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a @if ($slag == 2) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif 
+                    <a @if ($slag == 2) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif
                     href="{{ route('employees') }}" aria-expanded="false">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.side_employees') }}</span>
@@ -49,7 +49,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a @if ($slag == 3) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif 
+                    <a @if ($slag == 3) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif
                     href="{{ route('clients') }}" aria-expanded="false">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.client_side') }}</span>
@@ -59,7 +59,7 @@
                 <li class="nav-item sidebar-item  has-submenu">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#">
                         <i class="fa fa-coffee" aria-hidden="true"></i>
-              
+
                         <span class="hide-menu">{{ __('main.side_items') }}</span>
                     </a>
                     <ul class="submenu collapse">
@@ -68,11 +68,17 @@
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
                                 href="{{ route('sizes') }}">{{ __('main.side_sizes') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="{{ route('items') }}">{{ __('main.menue_items') }}</a></li>        
+                                href="{{ route('items') }}">{{ __('main.menue_items') }}</a></li>
                     </ul>
                 </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('myShift') }}"
+                       aria-expanded="false">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        <span class="hide-menu">{{ __('main.shifts') }}</span>
+                    </a>
+                </li>
 
-                
 
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('pos') }}"
@@ -82,8 +88,8 @@
                     </a>
                 </li>
                     <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.html"
-                        aria-expanded="false">
+                    <a href="{{route('logout')}}"  onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();" class="sidebar-link waves-effect waves-dark sidebar-link" data-toggle="tooltip" title="" data-original-title="Logout">
                         <i class="fa fa-power-off" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.side_logout') }}</span>
                     </a>
@@ -96,3 +102,6 @@
     </div>
     <!-- End Sidebar scroll-->
 </aside>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+    @csrf
+</form>

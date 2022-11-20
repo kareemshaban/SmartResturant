@@ -11,14 +11,15 @@ use App\Models\Size;
 class ItemSizes extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'id',
         'item_id',
         'size_id',
         'level',
-        'transformFactor', 
-        'price'
+        'transformFactor',
+        'price',
+        'priceWithAddValue'
     ];
 
     public function item()
@@ -31,5 +32,5 @@ class ItemSizes extends Model
         return $this->belongsTo(Size::class , 'size_id');
     }
 
- 
+
 }

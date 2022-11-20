@@ -81,6 +81,7 @@
                                     <th class="text-center">{{ __('main.level') }}</th>
                                     <th class="text-center">{{ __('main.transform') }}</th>
                                     <th class="text-center">{{ __('main.price') }}</th>
+                                    <th class="text-center">{{ __('main.priceWithAddValue') }}</th>
                                     <th class="text-center">{{ __('main.operations') }}</th>
                                 </tr>
                             </thead>
@@ -95,6 +96,8 @@
                                         <td class="text-center">{{ $size->level }}</td>
                                         <td class="text-center">{{ $size->transformFactor }}</td>
                                         <td class="text-center">{{ $size->price }}</td>
+                                        <td class="text-center">{{ $size->priceWithAddValue }}</td>
+
                                         <td class="text-center">
                                             <a href="{{ route('editItemSize', $size->id) }}"> <button
                                                     type="button" class="btn btn-success"><i
