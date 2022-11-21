@@ -7,7 +7,7 @@
                 <!-- User Profile-->
                 <li class="sidebar-item pt-2">
                     <a @if ($slag == 1) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif
-                        href="{{ route('home') }}" aria-expanded="false">
+                    href="{{ route('home') }}" aria-expanded="false">
                         <i class="far fa-clock" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.side_dashborad') }}</span>
                     </a>
@@ -19,25 +19,25 @@
                     </a>
                     <ul class="submenu collapse">
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="{{ route('religions') }}">{{ __('main.religion_title') }}</a></li>
+                                                           href="{{ route('religions') }}">{{ __('main.religion_title') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="{{ route('departments') }}">{{ __('main.department_title') }}</a></li>
+                                                           href="{{ route('departments') }}">{{ __('main.department_title') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="{{ route('genders') }}">{{ __('main.gender_title') }}</a> </li>
+                                                           href="{{ route('genders') }}">{{ __('main.gender_title') }}</a> </li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="{{ route('nationalties') }}">{{ __('main.nationality_title') }}</a></li>
+                                                           href="{{ route('nationalties') }}">{{ __('main.nationality_title') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="{{ route('maritalStatus') }}">{{ __('main.marital_status') }}</a></li>
+                                                           href="{{ route('maritalStatus') }}">{{ __('main.marital_status') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="{{ route('jobs') }}">{{ __('main.jobs_title') }}</a> </li>
+                                                           href="{{ route('jobs') }}">{{ __('main.jobs_title') }}</a> </li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="{{ route('educations') }}">{{ __('main.education_title') }}</a> </li>
+                                                           href="{{ route('educations') }}">{{ __('main.education_title') }}</a> </li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="{{ route('countries') }}">{{ __('main.country_title') }}</a> </li>
+                                                           href="{{ route('countries') }}">{{ __('main.country_title') }}</a> </li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="{{ route('governorates') }}">{{ __('main.governorate_title') }}</a> </li>
+                                                           href="{{ route('governorates') }}">{{ __('main.governorate_title') }}</a> </li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                            href="{{ route('cities') }}">{{ __('main.cities_title') }}</a> </li>
+                                                           href="{{ route('cities') }}">{{ __('main.cities_title') }}</a> </li>
                     </ul>
                 </li>
                 <li class="sidebar-item">
@@ -64,11 +64,11 @@
                     </a>
                     <ul class="submenu collapse">
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="{{ route('categories') }}">{{ __('main.side_cats') }}</a></li>
+                                                           href="{{ route('categories') }}">{{ __('main.side_cats') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="{{ route('sizes') }}">{{ __('main.side_sizes') }}</a></li>
+                                                           href="{{ route('sizes') }}">{{ __('main.side_sizes') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                href="{{ route('items') }}">{{ __('main.menue_items') }}</a></li>
+                                                           href="{{ route('items') }}">{{ __('main.menue_items') }}</a></li>
                     </ul>
                 </li>
                 <li class="sidebar-item">
@@ -82,12 +82,12 @@
 
                 <li class="sidebar-item">
                     <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('pos') }}"
-                        aria-expanded="false">
+                       aria-expanded="false">
                         <i class="fa fa-calculator" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.side_bill') }}</span>
                     </a>
                 </li>
-                    <li class="sidebar-item">
+                <li class="sidebar-item">
                     <a href="{{route('logout')}}"  onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();" class="sidebar-link waves-effect waves-dark sidebar-link" data-toggle="tooltip" title="" data-original-title="Logout">
                         <i class="fa fa-power-off" aria-hidden="true"></i>

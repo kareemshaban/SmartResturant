@@ -12,7 +12,8 @@ class Size extends Model
     protected $fillable = [
         'id',
         'name_ar',
-        'name_en'
+        'name_en',
+        'label'
     ];
 
     public function itemSize()

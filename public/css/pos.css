@@ -232,8 +232,8 @@ section
 
 .viewed
 {
-    padding-top: 51px;
-    padding-bottom: 60px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     background: #eff6fa;
 }
 .bbb_viewed_title_container
@@ -290,8 +290,9 @@ section
 }
 .bbb_viewed_image
 {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
 }
 .bbb_viewed_image img
 {
@@ -394,3 +395,32 @@ section
     display: flex;
     justify-content: center;
 }
+
+ #portfolio-flters {
+    padding: 0;
+    margin: 0 auto;
+    list-style: none;
+    text-align: center;
+    background: #fff;
+    border-radius: 50px;
+    padding: 2px 15px;
+}
+
+ #portfolio-flters li {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 15px 8px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #272829;
+    margin-bottom: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+ #portfolio-flters li:hover,
+ #portfolio-flters li.filter-active {
+    color: #149ddd;
+}
+

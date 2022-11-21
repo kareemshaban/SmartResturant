@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Client;
+use App\Models\Employee;
 use App\Models\Item;
 use App\Models\Shift;
 use Illuminate\Http\Request;
@@ -21,8 +23,11 @@ class PosController extends Controller
             -> where('state' , '=' , 0 )->get();
         if(count($shift) > 0){
             $categories = Category::with('items.sizes') -> get();
-            $items = Item::with('sizes' ,'cayegory' ) -> get();
-            return view('cpanel.pos.pos' , ['categories' => $categories , 'items' => $items]);
+            $items = Item::with('sizes.size' ,'cayegory' ) -> get();
+            $clients = Client::all();
+            $employees = Employee::all();
+            return view('cpanel.pos.pos' , ['categories' => $categories ,
+                'items' => $items , 'clients' => $clients , 'employees' => $employees]);
         } else {
             return redirect() -> route('home');
         }

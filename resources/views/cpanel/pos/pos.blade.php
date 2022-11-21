@@ -27,6 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>
     <link rel="stylesheet" href="../../css/pos.css">
 
+
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -41,8 +42,12 @@
         }
         .menue {
             background: #E8E8F2;
-    padding: 20px;
-    border-radius: 30px;
+            padding-right: 20px;
+            padding-left: 20px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border-radius: 30px;
+            height: 100ch;
         }
         .page{
             margin-left: 20px;/
@@ -62,7 +67,8 @@
         }
         .item-parent{
             background: white;
-            height: 150px;
+            min-height: 150px;
+            padding-bottom: 5px;
             border-radius: 15px;
         }
         .item-img{
@@ -78,7 +84,23 @@
             text-align: center;
             font-size: 15px;
             font-weight: bold;
+
         }
+        .sizes{
+            width: 90%;
+            margin: auto;
+        }
+        .sizes div {
+            border: solid 1px brown ;
+            padding: 5px;
+            background: antiquewhite;
+        }
+        .form-group {
+            margin: 0;
+        }
+        .last-form{
+            border-bottom: solid 1px #dadada;
+            padding-bottom: 5px;
         }
     </style>
 </head>
@@ -120,7 +142,7 @@
       <div class="viewed">
         <div class="container page ">
             <div class="row"  >
-                <div class="col-8 menue">
+                <div class="col-7 menue">
                     <div class="bbb_viewed_title_container">
                         <h3 class="bbb_viewed_title">{{ __('main.item_category') }}</h3>
                         <div class="bbb_viewed_nav_container">
@@ -140,7 +162,6 @@
                                 onclick="selecCategory(this , {{$category -> id}} )" >
                                     <div class="bbb_viewed_image"><img src="{{ asset('images/Category/' . $category->img) }}" alt=""></div>
                                     <div class="bbb_viewed_content text-center">
-                                        {{-- <div class="bbb_viewed_price">₹12225<span>₹13300</span></div> --}}
                                         <div class="bbb_viewed_name"><a href="#">{{ Config::get('app.locale') == 'ar' ? $category -> name_ar : $category -> name_en }}</a></div>
                                     </div>
                                 </div>
@@ -155,14 +176,19 @@
                             <h3 class="bbb_viewed_title">{{__('main.menue_items')}}</h3>
 
                         </div>
-                    <div class="row portfolio-container" style="margin: 10px;" data-aos="fade-up" data-aos-delay="100">
+                    <div class="row portfolio-container" style="margin: 10px; display: flex;align-items: center;" data-aos="fade-up" data-aos-delay="100">
                      @foreach($items as $item)
                         <div class="col-lg-3 col-md-6 portfolio-item  item-div .{{$item -> category_id}}">
                             <div class="portfolio-wrap item-parent">
                                 <img src="{{ asset('images/Item/' . $item->img) }}" class="img-fluid item-img" alt="">
                                 <label class="item-name">{{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
-                                <div class="portfolio-links">
-
+                                <div class="row sizes">
+                                    @foreach($item -> sizes as $size)
+                                        <div class="col-{{12 / count($item -> sizes)}} text-center"
+                                             onclick="selecItemSize( {{$size }} )" >
+                                            {{$size -> size -> label}}
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -174,7 +200,127 @@
 
 
                 </div>
+                 <div class="col-1">
 
+                 </div>
+                <div class="col-4 menue">
+                    <div class="row" data-aos="fade-up">
+                        <div class="col-lg-12 d-flex justify-content-center">
+                            <ul id="portfolio-flters">
+                                <li  class="filter-active" onclick="selectBillType(this , 1)">{{__('main.bill_type1')}}</li>
+                                <li onclick="selectBillType(this , 2)">{{__('main.bill_type2')}}</li>
+                                <li onclick="selectBillType(this , 3)">{{__('main.bill_type3')}}</li>
+                                <li onclick="selectBillType(this , 4)">{{__('main.bill_type4')}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <form class="center" method="POST" action="{{ route('storeBill') }}" enctype="multipart/form-data">
+                        @csrf
+                        <!-- {{ csrf_field() }} -->
+                        <div class="row justify-content-center">
+                            <div class="col-lg-12 d-flex justify-content-center">
+                                <div class="card-body px-0">
+                                   <div class="form-group">
+                                     <div class="row">
+                                        <div class="col-6">
+                                            <label>{{ __('main.client') }}</label>
+                                            <select class="custom-select mr-sm-2 @error('client_id') is-invalid @enderror"
+                                            name="client_id" id="client_id">
+                                            <option selected value="">Choose...</option>
+                                             @foreach($clients as $item)
+                                                <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+                                             @endforeach
+                                            </select>
+
+                                            @error('client_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                    </div>
+                                        <div class="col-6">
+                                            <label>{{ __('main.phone') }}</label>
+                                            <input type="text"
+                                                   class="form-control"
+                                                   placeholder="{{ __('main.phone') }}" autofocus />
+                                        </div>
+                                    </div>
+                                  </div>
+                                    <div class="form-group">
+                                        <label>{{ __('main.address') }}</label>
+                                        <input type="text" name="address" id="address"
+                                               class="form-control"
+                                               placeholder="{{ __('main.address') }}" autofocus />
+                                    </div>
+                                    <div class="form-group" id="driver_data">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>{{ __('main.driver') }}</label>
+                                                <select class="custom-select mr-sm-2 @error('driver_id') is-invalid @enderror"
+                                                        name="driver_id" id="driver_id">
+                                                    <option selected value="">Choose...</option>
+                                                    @foreach($employees as $item)
+                                                        <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+                                                    @endforeach
+                                                </select>
+
+                                                @error('driver_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-6">
+                                                <label>{{ __('main.delivery_service') }}</label>
+                                                <input type="number" name="delivery_service" id="delivery_service"
+                                                       class="form-control"
+                                                       placeholder="{{ __('main.delivery_service') }}" autofocus />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group last-form">
+                                        <input id="bill_type" name="bill_type" hidden type="text">
+                                    </div>
+
+
+                            </div>
+
+                            </div>
+
+                        </div>
+
+
+
+
+                    </form>
+
+                    <div class="row justify-content-center">
+                        <div class="col-lg-12 d-flex justify-content-center">
+                            <div class="card-body px-0">
+                                <table id="details" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th class="text-center">{{ __('main.item') }}</th>
+                                        <th class="text-center">{{ __('main.size') }}</th>
+                                        <th class="text-center">{{ __('main.quantity') }}</th>
+                                        <th class="text-center">{{ __('main.price') }}</th>
+                                        <th class="text-center">{{ __('main.total') }}</th>
+                                        <th class="text-center">{{ __('main.select') }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                    </tbody>
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -206,8 +352,7 @@
 
             viewedSlider.owlCarousel(
             {
-                loop:true,
-                margin:30,
+                loop:false,
                 autoplay:false,
                 autoplayTimeout:6000,
                 nav:false,
@@ -246,8 +391,6 @@
     });
 
     function selecCategory(element , id){
-
-       console.log(id);
         const collection = document.getElementsByClassName("selected-cat");
         let add = 0 ;
         if(element.classList.contains("selected-cat")){
@@ -299,6 +442,54 @@
      element.className = arr1.join(" ");
  }
 
+    function  selecItemSize(size){
+        console.log(size);
+        var table = document.getElementById("details");
+        var row = table.insertRow(-1);
+        row.className = "text-center";
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        var cell7 = row.insertCell(6);
+        cell1.innerHTML = Number(row.rowIndex) ;
+        cell2.innerHTML = "NEW CELL2";
+        cell3.innerHTML = size.size.label ;
+        cell4.innerHTML = "1" ;
+        cell5.innerHTML = size.priceWithAddValue ;
+        cell6.innerHTML = size.priceWithAddValue ;
+        cell7.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" /> </td>` ;
+
+    }
+    function selectBillType(element , i){
+        const collection = document.getElementsByClassName("filter-active");
+        let add = 0 ;
+        if(element.classList.contains("filter-active")){
+            add = 0 ;
+        } else {
+            add = 1 ;
+        }
+        if(collection){
+            for (let item of collection) {
+                item.classList.remove("filter-active");
+            }
+
+        }
+        if(add == 1)
+            element.classList.add("filter-active");
+
+        let driver_data = document.getElementById("driver_data");
+        let bill_type = document.getElementById("bill_type");
+        bill_type.value = i ;
+         if(i == 1){
+             driver_data.style.display = "block";
+         } else {
+             driver_data.style.display = "none";
+         }
+
+    }
     </script>
 
 </body>

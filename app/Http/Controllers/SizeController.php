@@ -38,12 +38,15 @@ class SizeController extends Controller
     {
             $validated = $request->validate([
                 'name_ar' => 'required|unique:sizes',
-                'name_en' => 'required|unique:sizes'
+                'name_en' => 'required|unique:sizes',
+                'label' => 'required|unique:sizes'
             ]);
-     
+
         Size::Create([
             'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en
+            'name_en' => $request ->name_en,
+            'label' =>$request ->label,
+
 
         ]);
         return redirect()->route('sizes')->with('success' , __('main.created'));
@@ -57,7 +60,7 @@ class SizeController extends Controller
      */
     public function show($id)
     {
-      
+
     }
 
     /**
@@ -88,12 +91,14 @@ class SizeController extends Controller
             $validated = $request->validate([
                 'name_ar' => ['required' , Rule::unique('sizes')->ignore($id)],
                 'name_en' => ['required' , Rule::unique('sizes')->ignore($id)],
+                'label' => ['required' , Rule::unique('sizes')->ignore($id)],
             ]);
 
            $size -> update([
             'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en
-           ]); 
+            'name_en' => $request ->name_en,
+             'label'=> $request ->name_en
+           ]);
            return redirect()->route('sizes')->with('success' , __('main.updated'));
         }
     }

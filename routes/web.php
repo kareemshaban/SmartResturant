@@ -143,6 +143,8 @@ function()
 
     //POS routes
     Route::get('/pos', [App\Http\Controllers\PosController::class, 'index'])->name('pos');
+    Route::post('/storeBill', [App\Http\Controllers\PosController::class, 'store'])->name('storeBill');
+
 
     //shift routes
     Route::get('/myShift', [App\Http\Controllers\ShiftController::class, 'index'])->name('myShift');

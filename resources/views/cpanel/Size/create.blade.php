@@ -97,6 +97,18 @@
                                 @enderror
                             </div>
 
+                            <div class="form-group">
+                                <label>{{ __('main.label') }}</label>
+                                <input type="text" name="label" id="label"
+                                       class="form-control @error('label') is-invalid @enderror"
+                                       placeholder="{{ __('main.label') }}" autofocus />
+                                @error('label')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
                         </div>
                     </div>
 

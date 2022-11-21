@@ -79,6 +79,8 @@
                                     <th class="text-center">{{ __('main.id') }}</th>
                                     <th class="text-center">{{ __('main.name_ar') }}</th>
                                     <th class="text-center">{{ __('main.name_en') }}</th>
+                                    <th class="text-center">{{ __('main.label') }}</th>
+
                                     <th class="text-center">{{ __('main.operations') }}</th>
                                 </tr>
                             </thead>
@@ -89,6 +91,8 @@
                                         <td class="text-center">{{ $size->id }}</td>
                                         <td class="text-center">{{ $size->name_ar }}</td>
                                         <td class="text-center">{{ $size->name_en }}</td>
+                                        <td class="text-center">{{ $size->label }}</td>
+
                                         <td class="text-center">
                                             <a href="{{ route('editSize', $size->id) }}"> <button
                                                     type="button" class="btn btn-success"><i

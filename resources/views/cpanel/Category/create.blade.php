@@ -86,6 +86,7 @@
                             </div>
 
                             <div class="form-group">
+                                div
                                 <label>{{ __('main.name_en') }}</label>
                                 <input type="text" name="name_en" id="name_en"
                                     class="form-control @error('name_en') is-invalid @enderror"
@@ -99,13 +100,13 @@
 
                             <div class="form-group">
                                 <label>{{ __('main.printer_hnt') }}</label>
-                              
-                                <select class="custom-select mr-sm-2 @error('printer') is-invalid @enderror" id="inlineFormCustomSelect" 
+
+                                <select class="custom-select mr-sm-2 @error('printer') is-invalid @enderror" id="inlineFormCustomSelect"
                                 name="printer" id="printer">
                                     <option selected value="0">Choose...</option>
-                                   @foreach ($printers as $item) 
-                                   <option value="{{$item -> name}}"> {{  $item -> name }}</option> 
-                                       
+                                   @foreach ($printers as $item)
+                                   <option value="{{$item -> name}}"> {{  $item -> name }}</option>
+
                                    @endforeach
                                   </select>
                                 @error('printer')
@@ -119,8 +120,8 @@
                                 <label>{{ __('main.img') }}</label>
                                 <div class="row">
 
-            
-                              <div class="col-6"> 
+
+                              <div class="col-6">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="img"   name="img"  accept="image/png, image/jpeg" required>
                                     <label class="custom-file-label" for="img" id="path">{{__('main.img_choose')}}   <span style="color:red;">*</span></label>
@@ -128,7 +129,7 @@
                                 <br> <span style="font-size: 9pt ; color:gray;">{{ __('main.img_hint') }}</span>
 
                               </div>
-                              <div class="col-6 text-right"> 
+                              <div class="col-6 text-right">
                                 <img src="../images/photo.png" id="profile-img-tag" width="150px" height="150px" class="profile-img"/>
                               </div>
                             </div>
@@ -155,10 +156,10 @@
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                
+
                 reader.onload = function (e) {
                     $('#profile-img-tag').attr('src', e.target.result);
-                    
+
                 }
                 reader.readAsDataURL(input.files[0]);
                 document.getElementById('path').innerHTML = input.files[0].name;
