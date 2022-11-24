@@ -152,6 +152,22 @@ function()
     Route::post('/endShift/{id}', [App\Http\Controllers\ShiftController::class, 'update'])->name('endShift');
 
 
+    //halls routes
+    Route::get('/halls', [App\Http\Controllers\HallController::class, 'index'])->name('halls');
+        Route::get('/createHall', [App\Http\Controllers\HallController::class, 'create'])->name('createHall');
+    Route::post('/storeHall', [App\Http\Controllers\HallController::class, 'store'])->name('storeHall');
+    Route::get('/editHall/{id}', [App\Http\Controllers\HallController::class, 'edit'])->name('editHall');
+    Route::post('/updateHall/{id}', [App\Http\Controllers\HallController::class, 'update'])->name('updateHall');
+    Route::get('/destroyHall/{id}', [App\Http\Controllers\HallController::class, 'destroy'])->name('destroyHall');
+
+    //tables routes
+    Route::get('/tables', [App\Http\Controllers\TableController::class, 'index'])->name('tables');
+    Route::get('/createTable', [App\Http\Controllers\TableController::class, 'create'])->name('createTable');
+    Route::post('/storeTable', [App\Http\Controllers\TableController::class, 'store'])->name('storeTable');
+    Route::get('/editTable/{id}', [App\Http\Controllers\TableController::class, 'edit'])->name('editTable');
+    Route::post('/updateTable/{id}', [App\Http\Controllers\TableController::class, 'update'])->name('updateTable');
+    Route::get('/destroyTable/{id}', [App\Http\Controllers\TableController::class, 'destroy'])->name('destroyTable');
+
 
        ////////////////////////////////////////////////////////////////////////////////////////////
     Auth::routes();

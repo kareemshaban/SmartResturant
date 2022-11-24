@@ -172,7 +172,29 @@ return [
     'delivery_service' => 'Delivery Service',
     'quantity' => 'QNT',
     'total' => 'Total',
-    'select' => 'select'
+    'select' => 'select',
+    'date' => 'Date & Time',
+    'bill_no' => 'Bill Number',
+    'Vat' => 'Vat',
+    'discount' => 'Discount',
+    'net' => 'Net',
+    'pay_prep' => 'Pay + Prepare',
+    'cancel_order' => 'Cancel Order',
+    'pay' => 'Pay Bill',
+    'prepare' => 'Prepare',
+    'search' => 'Search',
+    'print' => 'Print',
+    'refresh' => 'New Bill',
+    'halls' => 'Halls',
+    'tables' => 'Tables',
+    'new_hall' => 'Add New Hall',
+    'edit_hall' => 'Edit Hall Data',
+    'hall' => 'Hall',
+    'available' => 'Available?',
+    'available1' => 'Available',
+    'available2' => 'Reserved',
+    'new_table' => 'Add New Table',
+    'edit_table' => 'Edit Table Data'
 
 
 

@@ -38,6 +38,12 @@
                                                            href="{{ route('governorates') }}">{{ __('main.governorate_title') }}</a> </li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
                                                            href="{{ route('cities') }}">{{ __('main.cities_title') }}</a> </li>
+
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="{{ route('halls') }}">{{ __('main.halls') }}</a> </li>
+
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="{{ route('tables') }}">{{ __('main.tables') }}</a> </li>
                     </ul>
                 </li>
                 <li class="sidebar-item">

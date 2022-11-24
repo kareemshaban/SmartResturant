@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/pos.css">
 
 
@@ -102,6 +105,38 @@
             border-bottom: solid 1px #dadada;
             padding-bottom: 5px;
         }
+        .table-wrap-height {
+            max-height:300px;
+            height: 300px;
+            border-bottom: solid 1px #dadada;
+            overflow-y: auto;
+        }
+
+        .row_border{
+            border-bottom: solid 2px #dadada;
+        }
+        .row-center{
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .margin-content{
+            margin: 10px auto;
+        }
+        .margin-content button {
+            width: 100%;
+            white-space: normal;
+        }
+        .margin-content button i , span{
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .margin-content button .tools{
+            font-size: 40px;
+        }
+
     </style>
 </head>
 
@@ -185,7 +220,7 @@
                                 <div class="row sizes">
                                     @foreach($item -> sizes as $size)
                                         <div class="col-{{12 / count($item -> sizes)}} text-center"
-                                             onclick="selecItemSize( {{$size }} )" >
+                                             onclick="selecItemSize( {{$size}} , {{ $item}})" >
                                             {{$size -> size -> label}}
                                         </div>
                                     @endforeach
@@ -201,13 +236,65 @@
 
                 </div>
                  <div class="col-1">
+                     <div class="row " data-aos="fade-up">
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                             <button type="button" class="btn btn-labeled btn-success ">
+                                 <span class="btn-label"><i class="fa fa-check"></i></span>{{__('main.pay_prep')}}</button>
+                         </div>
+
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                         <button type="button" class="btn btn-labeled btn-warning ">
+                             <span class="btn-label"><i class="fa fa-dollar"></i></span>{{__('main.pay')}}</button>
+                         </div>
+
+
+
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                         <button type="button" class="btn btn-labeled btn-info ">
+                             <span class="btn-label"><i class="fa fa-shopping-bag"></i></span> {{__('main.prepare')}} </button>
+                         </div>
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                         <button type="button" class="btn btn-labeled btn-primary " onclick="increaseQnt()">
+                             <span class="btn-label"><i class="fa fa-plus-circle tools"></i> </span></button>
+                         </div>
+
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                             <button type="button" class="btn btn-labeled btn-dark " onclick="decreaseQnt()">
+                                 <span class="btn-label"><i class="fa fa-minus-circle tools"></i></span></button>
+                         </div>
+
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                             <button type="button" class="btn btn-labeled btn-danger ">
+                                 <span class="btn-label"><i class="fa fa-trash tools"></i></span></button>
+                         </div>
+
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                             <button type="button" class="btn btn-labeled btn-info ">
+                                 <span class="btn-label"><i class="fa fa-search"></i></span> {{__('main.search')}} </button>
+                         </div>
+
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                             <button type="button" class="btn btn-labeled btn-warning ">
+                                 <span class="btn-label"><i class="fa fa-print"></i></span> {{__('main.print')}} </button>
+                         </div>
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                             <button type="button" class="btn btn-labeled btn-danger ">
+                                 <span class="btn-label"><i class="fa fa-remove"></i></span>{{__('main.cancel_order')}}</button>
+                         </div>
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                         <button type="button" class="btn btn-labeled btn-info" onclick="refresh()">
+                             <span class="btn-label"><i class="fa fa-refresh"></i></span>{{__('main.refresh')}}</button>
+                         </div>
+
+
+                     </div>
 
                  </div>
                 <div class="col-4 menue">
                     <div class="row" data-aos="fade-up">
                         <div class="col-lg-12 d-flex justify-content-center">
                             <ul id="portfolio-flters">
-                                <li  class="filter-active" onclick="selectBillType(this , 1)">{{__('main.bill_type1')}}</li>
+                                <li  class="filter-active" onclick="selectBillType(this , 1)" id="default_type">{{__('main.bill_type1')}}</li>
                                 <li onclick="selectBillType(this , 2)">{{__('main.bill_type2')}}</li>
                                 <li onclick="selectBillType(this , 3)">{{__('main.bill_type3')}}</li>
                                 <li onclick="selectBillType(this , 4)">{{__('main.bill_type4')}}</li>
@@ -219,7 +306,7 @@
                         <!-- {{ csrf_field() }} -->
                         <div class="row justify-content-center">
                             <div class="col-lg-12 d-flex justify-content-center">
-                                <div class="card-body px-0">
+                                <div class="card-body px-0" style="margin: 0 ; padding: 0;">
                                    <div class="form-group">
                                      <div class="row">
                                         <div class="col-6">
@@ -242,6 +329,7 @@
                                             <label>{{ __('main.phone') }}</label>
                                             <input type="text"
                                                    class="form-control"
+                                                   id="phone" name="phone"
                                                    placeholder="{{ __('main.phone') }}" autofocus />
                                         </div>
                                     </div>
@@ -291,35 +379,94 @@
 
 
 
-
-                    </form>
-
                     <div class="row justify-content-center">
                         <div class="col-lg-12 d-flex justify-content-center">
-                            <div class="card-body px-0">
-                                <table id="details" class="table table-striped table-bordered" style="width:100%">
-                                    <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th class="text-center">{{ __('main.item') }}</th>
-                                        <th class="text-center">{{ __('main.size') }}</th>
-                                        <th class="text-center">{{ __('main.quantity') }}</th>
-                                        <th class="text-center">{{ __('main.price') }}</th>
-                                        <th class="text-center">{{ __('main.total') }}</th>
-                                        <th class="text-center">{{ __('main.select') }}</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                            <div class="card-body px-0" style="margin: 0 ; padding: 0;" >
+                                <div class="table-wrap-height">
+                                    <table id="details" class="table table-bordered  table-striped"  style="width:100%">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th class="text-center">#</th>
+                                            <th class="text-center" hidden>item_id</th>
+                                            <th class="text-center" hidden>size_id</th>
+                                            <th class="text-center" hidden>item_size_id</th>
+                                            <th class="text-center" hidden>details_id</th>
+                                            <th class="text-center">{{ __('main.item') }}</th>
+                                            <th class="text-center">{{ __('main.size') }}</th>
+                                            <th class="text-center">{{ __('main.quantity') }}</th>
+                                            <th class="text-center">{{ __('main.price') }}</th>
+                                            <th class="text-center">{{ __('main.total') }}</th>
+                                            <th class="text-center">{{ __('main.select') }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="details-body">
 
 
-                                    </tbody>
+                                        </tbody>
 
 
-                                </table>
+                                    </table>
+                                </div>
+                                <div class="form-group row_border">
+                                  <div class="row justify-content-center">
+                                      <div class="col-4">
+                                          <label>{{ __('main.date') }}</label>
+                                          <input type="text"
+                                                 id="date" name="date"
+                                                 class="form-control text-center"
+                                                 placeholder="{{ __('main.date') }}" autofocus value="{{\Carbon\Carbon::now()}}" readonly/>
+                                      </div>
+                                      <div class="col-4">
+                                          <label>{{ __('main.bill_no') }}</label>
+                                          <input type="text"
+                                                 class="form-control text-center"
+                                                 placeholder="{{ __('main.bill_no') }}" autofocus value="000001" readonly/>
+                                      </div>
+                                  </div>
+                                </div>
+
+                                <div class="form-group row_border">
+                                    <div class="row justify-content-center" >
+                                        <div class="col-4">
+                                            <label>{{ __('main.total') }}</label>
+                                            <input type="text"
+                                                   class="form-control text-center"
+                                                   id="total" name="total"
+                                                   placeholder="{{ __('main.date') }}" autofocus  readonly value="0"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>{{ __('main.Vat') }}</label>
+                                            <input type="text"
+                                                   class="form-control text-center"  id="vat" name="vat"
+                                                   placeholder="{{ __('main.Vat') }}" autofocus  readonly value="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row_border">
+                                    <div class="row justify-content-center">
+                                        <div class="col-4">
+                                            <label>{{ __('main.discount') }}</label>
+                                            <input type="text"
+                                                   class="form-control text-center"
+                                                   id="discount" name="discount"
+                                                   placeholder="{{ __('main.discount') }}" autofocus  readonly value="0"/>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>{{ __('main.net') }}</label>
+                                            <input type="text"
+                                                   class="form-control text-center"  id="net" name="net"
+                                                   placeholder="{{ __('main.net') }}" autofocus  readonly value="0"/>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
 
+
+                    </form>
                 </div>
 
             </div>
@@ -344,7 +491,7 @@
     <script type="text/javascript">
  $(document).ready(function()
 {
-
+    refresh();
 
         if($('.bbb_viewed_slider').length)
         {
@@ -442,9 +589,8 @@
      element.className = arr1.join(" ");
  }
 
-    function  selecItemSize(size){
-        console.log(size);
-        var table = document.getElementById("details");
+    function  selecItemSize(size , item ){
+        var table = document.getElementById("details-body");
         var row = table.insertRow(-1);
         row.className = "text-center";
         var cell1 = row.insertCell(0);
@@ -454,14 +600,38 @@
         var cell5 = row.insertCell(4);
         var cell6 = row.insertCell(5);
         var cell7 = row.insertCell(6);
-        cell1.innerHTML = Number(row.rowIndex) ;
-        cell2.innerHTML = "NEW CELL2";
-        cell3.innerHTML = size.size.label ;
-        cell4.innerHTML = "1" ;
-        cell5.innerHTML = size.priceWithAddValue ;
-        cell6.innerHTML = size.priceWithAddValue ;
-        cell7.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" /> </td>` ;
+        var cell8 = row.insertCell(7);
+        var cell9 = row.insertCell(8);
+        var cell10 = row.insertCell(9);
+        var cell11 = row.insertCell(10);
+        cell2.hidden = true ;
+        cell3.hidden = true ;
+        cell4.hidden = true ;
+        cell5.hidden = true ;
 
+        cell1.innerHTML = Number(row.rowIndex) ;
+        cell2.innerHTML = item.id;
+        cell3.innerHTML = size.size.id;
+        cell4.innerHTML = size.id;
+        cell5.innerHTML = "0";
+
+        cell6.innerHTML = item.name_en
+        cell7.innerHTML = size.size.label ;
+        cell8.innerHTML = "1" ;
+        cell9.innerHTML = size.priceWithAddValue ;
+        cell10.innerHTML = size.priceWithAddValue ;
+        cell11.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>` ;
+
+        calculateTotal();
+    }
+
+    function  rowCheckChange(ele){
+        const table =  document.getElementById("details");
+        var checkBoxes = table.getElementsByTagName("INPUT");
+        for (let item of checkBoxes) {
+            item.checked = false;
+        }
+        ele.checked = true ;
     }
     function selectBillType(element , i){
         const collection = document.getElementsByClassName("filter-active");
@@ -490,6 +660,124 @@
          }
 
     }
+
+    function calculateTotal(){
+
+        const table =  document.getElementById("details");
+        var tbodys = table.getElementsByTagName("tbody");
+        var tbody = tbodys[0];
+        var total = 0 ;
+        var trs = tbody.getElementsByTagName("tr");
+        for (let item of trs) {
+            var td = item.getElementsByTagName("td")[9];
+            total += Number(td.innerHTML);
+        }
+        const totalEl = document.getElementById("total");
+        const discountEl = document.getElementById("discount");
+        const vatEl = document.getElementById("vat");
+        const netEl = document.getElementById("net");
+        if(totalEl && discountEl && vatEl && netEl){
+            let discount = discountEl.value ;
+            let vat = vatEl.value ;
+            let net = Number(total) + Number(vat) - Number(discount) ;
+            totalEl.value = total ;
+            netEl.value = net ;
+        }
+    }
+    function increaseQnt(){
+        const table =  document.getElementById("details");
+        var tbodys = table.getElementsByTagName("tbody");
+        var tbody = tbodys[0];
+        var target ;
+        var trs = tbody.getElementsByTagName("tr");
+        for (let item of trs) {
+            var td = item.getElementsByTagName("td")[10];
+            var checkBox = td.getElementsByTagName("input")[0];
+            if(checkBox.checked){
+                target = item ;
+                break;
+            }
+        }
+        var qntTd = target.getElementsByTagName("td")[7];
+        var oldQnt = qntTd.innerHTML ;
+        var qnt = Number(oldQnt) + 1 ;
+        qntTd.innerHTML = qnt ;
+
+        var priceTd = target.getElementsByTagName("td")[8];
+        var price = priceTd.innerHTML ;
+
+        var totalTd = target.getElementsByTagName("td")[9];
+        var total = Number(price) * Number(qnt);
+        totalTd.innerHTML = total ;
+
+        calculateTotal();
+
+    }
+
+     function decreaseQnt(){
+         const table =  document.getElementById("details");
+         var tbodys = table.getElementsByTagName("tbody");
+         var tbody = tbodys[0];
+         var target ;
+         var trs = tbody.getElementsByTagName("tr");
+         for (let item of trs) {
+             var td = item.getElementsByTagName("td")[10];
+             var checkBox = td.getElementsByTagName("input")[0];
+             if(checkBox.checked){
+                 target = item ;
+                 break;
+             }
+         }
+         var qntTd = target.getElementsByTagName("td")[7];
+         var oldQnt = qntTd.innerHTML ;
+         if(oldQnt > 0) {
+             var qnt = Number(oldQnt) - 1;
+             qntTd.innerHTML = qnt;
+
+
+             var priceTd = target.getElementsByTagName("td")[8];
+             var price = priceTd.innerHTML;
+
+             var totalTd = target.getElementsByTagName("td")[9];
+             var total = Number(price) * Number(qnt);
+             totalTd.innerHTML = total;
+
+             calculateTotal();
+         }
+     }
+     function refresh(){
+        const client_id = document.getElementById("client_id");
+        const phone = document.getElementById("phone");
+        const  address = document.getElementById("address");
+        const driver_id = document.getElementById("driver_id");
+        const delivery_service = document.getElementById("delivery_service");
+        const default_type = document.getElementById("default_type");
+       if(default_type.className.indexOf("filter-active") == - 1){
+           selectBillType(default_type ,  1);
+       }
+
+         client_id.selectedIndex = "0";
+         phone.value = "";
+         address.value = "" ;
+         driver_id.selectedIndex = "0";
+         delivery_service.value = "" ;
+         const totalEl = document.getElementById("total");
+         const discountEl = document.getElementById("discount");
+         const vatEl = document.getElementById("vat");
+         const netEl = document.getElementById("net");
+         const date = document.getElementById("date");
+         if(totalEl && discountEl && vatEl && netEl){
+             totalEl.value = 0 ;
+             discountEl.value = 0 ;
+             vatEl.value = 0 ;
+             netEl.value = 0 ;
+             date.value = new Date().toLocaleString();
+             $("#details tbody tr").remove();
+
+
+
+         }
+     }
     </script>
 
 </body>
