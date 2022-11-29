@@ -28,6 +28,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <link href="../../vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../../vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../../vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../../vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+
     <link rel="stylesheet" href="../../css/pos.css">
 
 
@@ -286,6 +295,11 @@
                              <span class="btn-label"><i class="fa fa-refresh"></i></span>{{__('main.refresh')}}</button>
                          </div>
 
+                         <div class="col-lg-12 d-flex justify-content-center margin-content">
+                             <button type="button" class="btn btn-labeled btn-dark" onclick="refresh()" id="mediumButton">
+                                 <span class="btn-label"><i class="fa fa-refresh"></i></span>{{__('main.tables')}}</button>
+                         </div>
+
 
                      </div>
 
@@ -480,7 +494,48 @@
     </div>
 
 
+    <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"  data-bs-dismiss="modal" aria-label="Close"  style="color: red; font-size: 20px; font-weight: bold;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="mediumBody">
+                    <div class="container">
+                        <div class="row" >
+                            <div class="col-lg-12">
+                                <ul id="portfolio-flters">
+                                    @foreach($halls as $hall)
+                                    <li data-filter=".{{$hall -> id}}">{{ ( Config::get('app.locale') == 'ar') ? $hall -> name_ar  : $hall -> name_en}}</li>
+                                    @endforeach
 
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row portfolio-container" data-aos="fade-up" data-aos-easing="ease-in-out"
+                             data-aos-duration="500" style="min-height:300px;">
+
+                            @foreach ($tables as $item)
+                                <div  class="col-lg-4 col-md-6 portfolio-wrap {{$item -> hall_id}}">
+                                    <div class="portfolio-item">
+                                        {{( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en }}
+                                    </div>
+                                </div>
+                            @endforeach
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -488,6 +543,17 @@
     <script src="../cpanel/js/waves.js"></script>
     <script src="../cpanel/js/sidebarmenu.js"></script>
     <script src="../cpanel/js/custom.js"></script>
+
+    <script src="../../vendor/purecounter/purecounter.js"></script>
+    <script src="../../vendor/aos/aos.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="../../vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="../../vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="../../vendor/waypoints/noframework.waypoints.js"></script>
+    <script src="../../vendor/php-email-form/validate.js"></script>
+
+
     <script type="text/javascript">
  $(document).ready(function()
 {
@@ -533,7 +599,30 @@
             }
         }
 
-
+    $(document).on('click', '#mediumButton', function(event) {
+        event.preventDefault();
+        let href = $(this).attr('data-attr');
+        $.ajax({
+            url: href,
+            beforeSend: function() {
+                $('#loader').show();
+            },
+            // return the result
+            success: function(result) {
+                $('#mediumModal').modal("show");
+              //  $('#mediumBody').html(result).show();
+            },
+            complete: function() {
+                $('#loader').hide();
+            },
+            error: function(jqXHR, testStatus, error) {
+                console.log(error);
+                alert("Page " + href + " cannot open. Error:" + error);
+                $('#loader').hide();
+            },
+            timeout: 8000
+        })
+    });
 
     });
 

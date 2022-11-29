@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Employee;
+use App\Models\Hall;
 use App\Models\Item;
 use App\Models\Shift;
+use App\Models\Table;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,8 +28,11 @@ class PosController extends Controller
             $items = Item::with('sizes.size' ,'cayegory' ) -> get();
             $clients = Client::all();
             $employees = Employee::all();
+            $halls = Hall::all();
+            $tables = Table::all();
             return view('cpanel.pos.pos' , ['categories' => $categories ,
-                'items' => $items , 'clients' => $clients , 'employees' => $employees]);
+                'items' => $items , 'clients' => $clients , 'employees' => $employees ,
+                'halls' => $halls , 'tables' => $tables]);
         } else {
             return redirect() -> route('home');
         }
