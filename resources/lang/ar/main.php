@@ -193,7 +193,9 @@ return [
     'available1' => 'متاح',
     'available2' => 'محجوزة',
     'new_table' => 'إضافة طاولة جديدة',
-    'edit_table' => 'تعديل بيانات طاولة'
+    'edit_table' => 'تعديل بيانات طاولة',
+    'table_not_available' => 'طاولة غير متاحة',
+    'extras' => 'الإضافات'
 
 
 

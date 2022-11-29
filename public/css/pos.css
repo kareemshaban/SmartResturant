@@ -18,6 +18,9 @@ body
     background: #eff6fa;
     color: #000000;
 }
+html, body{
+    height: 100%;
+}
 div
 {
     display: block;
@@ -287,6 +290,7 @@ section
     padding-bottom: 10px;
     padding-left: 25px;
     padding-right: 25px;
+    box-shadow: 0 10px 10px 0px darkgrey;
 }
 .bbb_viewed_image
 {
@@ -298,6 +302,11 @@ section
 {
     display: block;
     max-width: 100%;
+    box-shadow: 0 2.8px 2.2px rgb(0 0 0 / 3%), 0 6.7px 5.3px rgb(0 0 0 / 5%), 0 12.5px 10px rgb(0 0 0 / 6%), 0 22.3px 17.9px rgb(0 0 0 / 7%), 0 41.8px 33.4px rgb(0 0 0 / 9%), 0 100px 80px rgb(0 0 0 / 12%);
+    border-radius: 50%;
+    width: 70px !important;
+    height: 70px;
+    border-radius: 50%;
 }
 .bbb_viewed_content
 {
@@ -336,6 +345,9 @@ section
 .bbb_viewed_name
 {
     margin-top: 3px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .bbb_viewed_name a
 {
@@ -396,26 +408,58 @@ section
     justify-content: center;
 }
 
- #portfolio-flters {
+#portfolio-flters {
     padding: 0;
-    margin: 0 0 35px 0;
+    margin: 0 auto;
     list-style: none;
     text-align: center;
+    background: #fff;
+    border-radius: 50px;
+    padding: 2px 15px;
 }
- #portfolio-flters li {
+
+#portfolio-flters li {
     cursor: pointer;
-    margin: 0 12px 5px 12px;
     display: inline-block;
-    padding: 0 4px 6px 4px;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 20px;
-    color: #444;
+    padding: 10px 15px 8px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #272829;
+    margin-bottom: 5px;
     transition: all 0.3s ease-in-out;
-    border-bottom: 2px solid #fff;
-    font-family: OpenSans-Regular, sans-serif;
 }
- #portfolio-flters li:hover, .portfolio #portfolio-flters li.filter-active {
-    border-color: #68A4C4;
-    color: #68A4C4;
+
+#portfolio-flters li:hover,
+#portfolio-flters li.filter-active {
+    color: #149ddd;
+}
+
+#modal-flters {
+    padding: 0;
+    margin: 0 auto;
+    list-style: none;
+    text-align: center;
+    background: #fff;
+    border-radius: 50px;
+    padding: 2px 15px;
+}
+
+#modal-flters li {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 15px 8px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #272829;
+    margin-bottom: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+#modal-flters li:hover,
+#modal-flters li.model-filter-active {
+    color: #149ddd;
 }

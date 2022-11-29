@@ -74,6 +74,9 @@
         .item-div{
             display: none;
         }
+        .table-div{
+            display: none;
+        }
         .show {
             display: block;
         }
@@ -81,7 +84,10 @@
             background: white;
             min-height: 150px;
             padding-bottom: 5px;
-            border-radius: 15px;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 15px;
+            box-shadow: 0 27px 25px 0px darkgrey;
+            border: outset 1px brown;
         }
         .item-img{
             width:70px;
@@ -89,6 +95,30 @@
             border-radius: 50%;
             margin: 10px auto;
             display: block;
+            box-shadow: 0 27px 25px 0px darkgrey;
+        }
+        .extra{
+            height: 70px;
+            min-height: 70px;
+        }
+        .extra-img{
+            width:30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 10px auto;
+            display: block;
+            box-shadow: 0 27px 25px 0px darkgrey;
+        }
+        .extra-name{
+            display: block;
+            margin: auto;
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 95%;
         }
         .item-name{
             display: block;
@@ -96,11 +126,19 @@
             text-align: center;
             font-size: 15px;
             font-weight: bold;
-
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 95%;
         }
         .sizes{
-            width: 90%;
+            width: 100%;
             margin: auto;
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            box-shadow: 0 27px 25px 0px darkgrey;
         }
         .sizes div {
             border: solid 1px brown ;
@@ -145,7 +183,37 @@
         .margin-content button .tools{
             font-size: 40px;
         }
+        .margin-content button span {
+            margin-right: 10px;
+        }
+        .name_en {
+            direction: ltr;
+        }
+        .name_ar{
+            direction: rtl;
+        }
+      .available{
+          background: green;
 
+         }
+       .notAvailable{
+           background: red;
+       }
+       .selected_table{
+           background: #149ddd !important;
+       }
+      .tables{
+          width: 80px;
+          height: 80px;
+          text-align: center;
+          justify-content: center;
+          display: flex;
+          flex-direction: column;
+          border-radius: 15px;
+          color: white;
+          box-shadow: 0 27px 25px 0px darkgrey;
+          margin-bottom: 5px;
+      }
     </style>
 </head>
 
@@ -186,7 +254,7 @@
       <div class="viewed">
         <div class="container page ">
             <div class="row"  >
-                <div class="col-7 menue">
+                <div class="col-6 menue">
                     <div class="bbb_viewed_title_container">
                         <h3 class="bbb_viewed_title">{{ __('main.item_category') }}</h3>
                         <div class="bbb_viewed_nav_container">
@@ -220,12 +288,15 @@
                             <h3 class="bbb_viewed_title">{{__('main.menue_items')}}</h3>
 
                         </div>
+                    <div class="row" style="min-height: 300px;">
+                    <div  class="col-8" style="padding: 0;">
                     <div class="row portfolio-container" style="margin: 10px; display: flex;align-items: center;" data-aos="fade-up" data-aos-delay="100">
                      @foreach($items as $item)
-                        <div class="col-lg-3 col-md-6 portfolio-item  item-div .{{$item -> category_id}}">
+                         @if($item -> type == 0 && count($item -> sizes) > 0)
+                        <div class="col-lg-4 col-md-6 portfolio-item  item-div .{{$item -> category_id}}">
                             <div class="portfolio-wrap item-parent">
                                 <img src="{{ asset('images/Item/' . $item->img) }}" class="img-fluid item-img" alt="">
-                                <label class="item-name">{{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
+                                <label class="item-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">{{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
                                 <div class="row sizes">
                                     @foreach($item -> sizes as $size)
                                         <div class="col-{{12 / count($item -> sizes)}} text-center"
@@ -236,7 +307,27 @@
                                 </div>
                             </div>
                         </div>
+                            @endif
                     @endforeach
+                     </div>
+                    </div>
+                    <div  class="col-4" style="padding: 0;     border-left: solid 2px gray;">
+                        <div class="row portfolio-container" style="margin: 10px; display: flex;align-items: center;" data-aos="fade-up" data-aos-delay="100">
+
+                        @foreach($items as $item)
+                            @if($item -> type == 1 )
+                                <div class="col-lg-6 col-md-6 portfolio-item  item-div .{{$item -> category_id}} ">
+                                    <div class="portfolio-wrap item-parent extra">
+                                        <img src="{{ asset('images/Item/' . $item->img) }}" class="img-fluid extra-img" alt="">
+                                        <label class="extra-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">{{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
+
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+
+                        </div>
+                    </div>
 
                     </div>
 
@@ -244,7 +335,7 @@
 
 
                 </div>
-                 <div class="col-1">
+                 <div class="col-2">
                      <div class="row " data-aos="fade-up">
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
                              <button type="button" class="btn btn-labeled btn-success ">
@@ -273,8 +364,8 @@
                          </div>
 
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
-                             <button type="button" class="btn btn-labeled btn-danger ">
-                                 <span class="btn-label"><i class="fa fa-trash tools"></i></span></button>
+                             <button type="button" class="btn btn-labeled btn-danger " onclick="removeItem()">
+                                 <span class="btn-label"><i class="fa fa-trash tools" ></i></span></button>
                          </div>
 
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
@@ -295,9 +386,9 @@
                              <span class="btn-label"><i class="fa fa-refresh"></i></span>{{__('main.refresh')}}</button>
                          </div>
 
-                         <div class="col-lg-12 d-flex justify-content-center margin-content">
-                             <button type="button" class="btn btn-labeled btn-dark" onclick="refresh()" id="mediumButton">
-                                 <span class="btn-label"><i class="fa fa-refresh"></i></span>{{__('main.tables')}}</button>
+                         <div class="col-lg-12 d-flex justify-content-center margin-content" >
+                             <button  type="button" class="btn btn-labeled btn-dark"  id="mediumButton">
+                                 <span class="btn-label"><i class="fa fa-cutlery"></i></span>    {{   __('main.tables')}}</button>
                          </div>
 
 
@@ -410,6 +501,8 @@
                                             <th class="text-center">{{ __('main.quantity') }}</th>
                                             <th class="text-center">{{ __('main.price') }}</th>
                                             <th class="text-center">{{ __('main.total') }}</th>
+                                            <th class="text-center" hidden>price without vat</th>
+                                            <th class="text-center" hidden>total without vat</th>
                                             <th class="text-center">{{ __('main.select') }}</th>
                                         </tr>
                                         </thead>
@@ -471,6 +564,10 @@
                                             <input type="text"
                                                    class="form-control text-center"  id="net" name="net"
                                                    placeholder="{{ __('main.net') }}" autofocus  readonly value="0"/>
+
+                                            <input type="text"
+                                                   class="form-control text-center"  id="table_id" name="table_id"  hidden />
+
                                         </div>
                                     </div>
                                 </div>
@@ -505,30 +602,34 @@
                 </div>
                 <div class="modal-body" id="mediumBody">
                     <div class="container">
-                        <div class="row" >
-                            <div class="col-lg-12">
-                                <ul id="portfolio-flters">
+                        <div class="row" data-aos="fade-up">
+                            <div class="col-lg-12 d-flex justify-content-center">
+                                <ul id="modal-flters">
                                     @foreach($halls as $hall)
-                                    <li data-filter=".{{$hall -> id}}">{{ ( Config::get('app.locale') == 'ar') ? $hall -> name_ar  : $hall -> name_en}}</li>
+                                        <li
+                                        onclick="selectHall(this , {{$hall -> id}})">
+                                            {{ ( Config::get('app.locale') == 'ar') ?
+                                             $hall -> name_ar : $hall -> name_en}}</li>
                                     @endforeach
 
                                 </ul>
                             </div>
                         </div>
-                        <div class="row portfolio-container" data-aos="fade-up" data-aos-easing="ease-in-out"
-                             data-aos-duration="500" style="min-height:300px;">
 
-                            @foreach ($tables as $item)
-                                <div  class="col-lg-4 col-md-6 portfolio-wrap {{$item -> hall_id}}">
-                                    <div class="portfolio-item">
-                                        {{( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en }}
+
+                        <div class="row portfolio-container" style="margin: 10px; display: flex;align-items: center;" data-aos="fade-up" data-aos-delay="100">
+                            @foreach($tables as $table)
+
+                                    <div class="col-lg-3 col-md-6 portfolio-item  table-div .{{$table -> hall_id}}">
+                                        <div class="portfolio-wrap tables {{$table -> available == 1 ? 'available' : 'notAvailable'}}" #
+                                        onclick="selectTable(this , {{$table}})">
+
+                                            <label class="table-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">{{ Config::get('app.locale') == 'ar' ? $table -> name_ar : $table -> name_en}}</label>
+
+                                        </div>
                                     </div>
-                                </div>
+
                             @endforeach
-
-
-
-
 
                         </div>
                     </div>
@@ -557,6 +658,9 @@
     <script type="text/javascript">
  $(document).ready(function()
 {
+    const mediumButton = document.getElementById("mediumButton");
+    mediumButton.style.display = "none";
+
     refresh();
 
         if($('.bbb_viewed_slider').length)
@@ -575,8 +679,7 @@
                     0:{items:1},
                     575:{items:2},
                     768:{items:3},
-                    991:{items:4},
-                    1199:{items:5}
+                    991:{items:4}
                 }
             });
 
@@ -680,47 +783,72 @@
 
     function  selecItemSize(size , item ){
         var table = document.getElementById("details-body");
-        var row = table.insertRow(-1);
-        row.className = "text-center";
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-        var cell5 = row.insertCell(4);
-        var cell6 = row.insertCell(5);
-        var cell7 = row.insertCell(6);
-        var cell8 = row.insertCell(7);
-        var cell9 = row.insertCell(8);
-        var cell10 = row.insertCell(9);
-        var cell11 = row.insertCell(10);
-        cell2.hidden = true ;
-        cell3.hidden = true ;
-        cell4.hidden = true ;
-        cell5.hidden = true ;
+        var repeate = document.getElementById( 'details-body-tr' + size.id);
+        console.log(repeate);
+        if(!repeate) {
+            var row = table.insertRow(-1);
+            row.id = 'details-body-tr' + size.id;
+            row.className = "text-center";
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            var cell7 = row.insertCell(6);
+            var cell8 = row.insertCell(7);
+            var cell9 = row.insertCell(8);
+            var cell10 = row.insertCell(9);
+            var cell11 = row.insertCell(10);
+            var cell12 = row.insertCell(11);
+            var cell13 = row.insertCell(12);
+            cell2.hidden = true;
+            cell3.hidden = true;
+            cell4.hidden = true;
+            cell5.hidden = true;
+            cell11.hidden = true;
+            cell12.hidden = true;
 
-        cell1.innerHTML = Number(row.rowIndex) ;
-        cell2.innerHTML = item.id;
-        cell3.innerHTML = size.size.id;
-        cell4.innerHTML = size.id;
-        cell5.innerHTML = "0";
+            cell1.innerHTML = Number(row.rowIndex);
+            cell2.innerHTML = item.id;
+            cell3.innerHTML = size.size.id;
+            cell4.innerHTML = size.id;
+            cell5.innerHTML = "0";
 
-        cell6.innerHTML = item.name_en
-        cell7.innerHTML = size.size.label ;
-        cell8.innerHTML = "1" ;
-        cell9.innerHTML = size.priceWithAddValue ;
-        cell10.innerHTML = size.priceWithAddValue ;
-        cell11.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>` ;
+            cell6.innerHTML = item.name_en
+            cell7.innerHTML = size.size.label;
+            cell8.innerHTML = "1";
+            cell9.innerHTML = size.priceWithAddValue;
+            cell10.innerHTML = size.priceWithAddValue;
+            cell11.innerHTML = size.price;
+            cell12.innerHTML = size.price;
 
-        calculateTotal();
+            cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
+
+            calculateTotal();
+        } else {
+            var tds = repeate.getElementsByTagName('td');
+            var check = tds[12];
+
+            var checkBox = check.getElementsByTagName("input")[0];
+            checkBox.checked = true ;
+            increaseQnt();
+            checkBox.checked = false ;
+        }
     }
 
     function  rowCheckChange(ele){
+        console.log(ele.checked);
         const table =  document.getElementById("details");
         var checkBoxes = table.getElementsByTagName("INPUT");
         for (let item of checkBoxes) {
+            if(item != ele)
             item.checked = false;
         }
-        ele.checked = true ;
+
+         //   ele.checked = true ;
+
+
     }
     function selectBillType(element , i){
         const collection = document.getElementsByClassName("filter-active");
@@ -741,11 +869,17 @@
 
         let driver_data = document.getElementById("driver_data");
         let bill_type = document.getElementById("bill_type");
+        let mediumButton = document.getElementById("mediumButton");
         bill_type.value = i ;
          if(i == 1){
              driver_data.style.display = "block";
          } else {
              driver_data.style.display = "none";
+         }
+         if(i == 3 || i == 4){
+             mediumButton.style.display = "block";
+         } else {
+             mediumButton.style.display = "none";
          }
 
     }
@@ -756,10 +890,13 @@
         var tbodys = table.getElementsByTagName("tbody");
         var tbody = tbodys[0];
         var total = 0 ;
+        var totalWithoutVat = 0 ;
         var trs = tbody.getElementsByTagName("tr");
         for (let item of trs) {
             var td = item.getElementsByTagName("td")[9];
+            var td2 = item.getElementsByTagName("td")[11];
             total += Number(td.innerHTML);
+            totalWithoutVat += Number(td2.innerHTML);
         }
         const totalEl = document.getElementById("total");
         const discountEl = document.getElementById("discount");
@@ -767,10 +904,11 @@
         const netEl = document.getElementById("net");
         if(totalEl && discountEl && vatEl && netEl){
             let discount = discountEl.value ;
-            let vat = vatEl.value ;
-            let net = Number(total) + Number(vat) - Number(discount) ;
+            let vat = Number(total) - Number(totalWithoutVat) ;
+            let net = Number(total)- Number(discount) ;
             totalEl.value = total ;
             netEl.value = net ;
+            vatEl.value = vat ;
         }
     }
     function increaseQnt(){
@@ -780,7 +918,7 @@
         var target ;
         var trs = tbody.getElementsByTagName("tr");
         for (let item of trs) {
-            var td = item.getElementsByTagName("td")[10];
+            var td = item.getElementsByTagName("td")[12];
             var checkBox = td.getElementsByTagName("input")[0];
             if(checkBox.checked){
                 target = item ;
@@ -793,11 +931,18 @@
         qntTd.innerHTML = qnt ;
 
         var priceTd = target.getElementsByTagName("td")[8];
+        var price2Td = target.getElementsByTagName("td")[10];
+
         var price = priceTd.innerHTML ;
+        var price2 = price2Td.innerHTML ;
 
         var totalTd = target.getElementsByTagName("td")[9];
+        var total2Td = target.getElementsByTagName("td")[11];
+
         var total = Number(price) * Number(qnt);
+        var total2 = Number(price2) * Number(qnt);
         totalTd.innerHTML = total ;
+        total2Td.innerHTML = total2 ;
 
         calculateTotal();
 
@@ -810,7 +955,7 @@
          var target ;
          var trs = tbody.getElementsByTagName("tr");
          for (let item of trs) {
-             var td = item.getElementsByTagName("td")[10];
+             var td = item.getElementsByTagName("td")[12];
              var checkBox = td.getElementsByTagName("input")[0];
              if(checkBox.checked){
                  target = item ;
@@ -819,7 +964,7 @@
          }
          var qntTd = target.getElementsByTagName("td")[7];
          var oldQnt = qntTd.innerHTML ;
-         if(oldQnt > 0) {
+         if(oldQnt > 1) {
              var qnt = Number(oldQnt) - 1;
              qntTd.innerHTML = qnt;
 
@@ -827,12 +972,95 @@
              var priceTd = target.getElementsByTagName("td")[8];
              var price = priceTd.innerHTML;
 
+             var price2Td = target.getElementsByTagName("td")[10];
+             var price2 = price2Td.innerHTML;
+
              var totalTd = target.getElementsByTagName("td")[9];
              var total = Number(price) * Number(qnt);
+
+             var total2Td = target.getElementsByTagName("td")[11];
+             var total2 = Number(price) * Number(qnt);
+
              totalTd.innerHTML = total;
+             total2Td.innerHTML = total2 ;
 
              calculateTotal();
          }
+     }
+ function  removeItem(){
+     const table =  document.getElementById("details");
+     var tbodys = table.getElementsByTagName("tbody");
+     var tbody = tbodys[0];
+     var target ;
+     var trs = tbody.getElementsByTagName("tr");
+     for (let item of trs) {
+         var td = item.getElementsByTagName("td")[12];
+         var checkBox = td.getElementsByTagName("input")[0];
+         if(checkBox.checked){
+             target = item ;
+             break;
+         }
+     }
+     console.log(target.rowIndex);
+     table.deleteRow(target.rowIndex);
+     calculateTotal();
+ }
+     function  selectHall(element , id){
+
+         console.log(id);
+         const collection = document.getElementsByClassName("model-filter-active");
+         let add = 0 ;
+         if(element.classList.contains("model-filter-active")){
+             add = 0 ;
+         } else {
+             add = 1 ;
+         }
+         if(collection){
+             for (let item of collection) {
+                 item.classList.remove("model-filter-active");
+             }
+
+         }
+         if(add == 1)
+             element.classList.add("model-filter-active");
+
+
+         var x, i;
+         id = '.' + id ;
+         x = document.getElementsByClassName("table-div");
+         for (i = 0; i < x.length; i++) {
+             w3RemoveClass(x[i], "show");
+             if (x[i].className.indexOf(id) > -1) w3AddClass(x[i], "show");
+         }
+     }
+     function selectTable(element , table){
+        if(table.available == 1){
+            // select table
+            const collection = document.getElementsByClassName("selected_table");
+            let add = 0 ;
+            if(element.classList.contains("selected_table")){
+                add = 0 ;
+            } else {
+                add = 1 ;
+            }
+            if(collection){
+                for (let item of collection) {
+                    item.classList.remove("selected_table");
+                }
+
+            }
+            const table_id = document.getElementById('table_id');
+            if(add == 1){
+                element.classList.add('selected_table');
+                table_id.value = table.id ;
+            } else {
+                table_id.value = 0 ;
+            }
+
+        } else {
+            // table is not available
+            alert($('<div>{{trans('main.table_not_available')}}</div>').text());
+        }
      }
      function refresh(){
         const client_id = document.getElementById("client_id");
@@ -841,6 +1069,7 @@
         const driver_id = document.getElementById("driver_id");
         const delivery_service = document.getElementById("delivery_service");
         const default_type = document.getElementById("default_type");
+
        if(default_type.className.indexOf("filter-active") == - 1){
            selectBillType(default_type ,  1);
        }

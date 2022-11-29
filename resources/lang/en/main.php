@@ -194,7 +194,9 @@ return [
     'available1' => 'Available',
     'available2' => 'Reserved',
     'new_table' => 'Add New Table',
-    'edit_table' => 'Edit Table Data'
+    'edit_table' => 'Edit Table Data',
+    'table_not_available' => 'Table is not Available',
+    'extras' => 'Extras'
 
 
 

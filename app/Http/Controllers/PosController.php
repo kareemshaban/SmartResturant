@@ -25,7 +25,7 @@ class PosController extends Controller
             -> where('state' , '=' , 0 )->get();
         if(count($shift) > 0){
             $categories = Category::with('items.sizes') -> get();
-            $items = Item::with('sizes.size' ,'cayegory' ) -> get();
+                $items = Item::with('sizes.size' ,'cayegory' ) -> get();
             $clients = Client::all();
             $employees = Employee::all();
             $halls = Hall::all();
