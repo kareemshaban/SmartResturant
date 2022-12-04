@@ -100,6 +100,7 @@
         .extra{
             height: 70px;
             min-height: 70px;
+            border-radius: 15px;
         }
         .extra-img{
             width:30px;
@@ -317,7 +318,7 @@
                         @foreach($items as $item)
                             @if($item -> type == 1 )
                                 <div class="col-lg-6 col-md-6 portfolio-item  item-div .{{$item -> category_id}} ">
-                                    <div class="portfolio-wrap item-parent extra">
+                                    <div class="portfolio-wrap item-parent extra"  onclick="selectExtra({{ $item}})" >
                                         <img src="{{ asset('images/Item/' . $item->img) }}" class="img-fluid extra-img" alt="">
                                         <label class="extra-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">{{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
 
@@ -488,7 +489,7 @@
                         <div class="col-lg-12 d-flex justify-content-center">
                             <div class="card-body px-0" style="margin: 0 ; padding: 0;" >
                                 <div class="table-wrap-height">
-                                    <table id="details" class="table table-bordered  table-striped"  style="width:100%">
+                                    <table id="details" class="table table-bordered "  style="width:100%">
                                         <thead class="thead-dark">
                                         <tr>
                                             <th class="text-center">#</th>
@@ -593,7 +594,7 @@
 
     <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close"  data-bs-dismiss="modal" aria-label="Close"  style="color: red; font-size: 20px; font-weight: bold;">
@@ -620,7 +621,7 @@
                         <div class="row portfolio-container" style="margin: 10px; display: flex;align-items: center;" data-aos="fade-up" data-aos-delay="100">
                             @foreach($tables as $table)
 
-                                    <div class="col-lg-3 col-md-6 portfolio-item  table-div .{{$table -> hall_id}}">
+                                    <div class="col-lg-2 col-md-4 col-4 portfolio-item  table-div .{{$table -> hall_id}}">
                                         <div class="portfolio-wrap tables {{$table -> available == 1 ? 'available' : 'notAvailable'}}" #
                                         onclick="selectTable(this , {{$table}})">
 
@@ -660,7 +661,7 @@
 {
     const mediumButton = document.getElementById("mediumButton");
     mediumButton.style.display = "none";
-
+    $items = [] ;
     refresh();
 
         if($('.bbb_viewed_slider').length)
@@ -787,6 +788,7 @@
         console.log(repeate);
         if(!repeate) {
             var row = table.insertRow(-1);
+            $items.push(item);
             row.id = 'details-body-tr' + size.id;
             row.className = "text-center";
             var cell1 = row.insertCell(0);
@@ -809,7 +811,7 @@
             cell11.hidden = true;
             cell12.hidden = true;
 
-            cell1.innerHTML = Number(row.rowIndex);
+            cell1.innerHTML = $items.length ;
             cell2.innerHTML = item.id;
             cell3.innerHTML = size.size.id;
             cell4.innerHTML = size.id;
@@ -836,6 +838,63 @@
             checkBox.checked = false ;
         }
     }
+
+ function  selectExtra(item){
+     var table = document.getElementById("details-body");
+     var repeate = document.getElementById( 'details-body-tr-extra' + item.id);
+     if(!repeate) {
+         var row = table.insertRow(-1);
+         row.id = 'details-body-tr-extra' + item.id;
+         row.className = "text-center";
+         var cell1 = row.insertCell(0);
+         var cell2 = row.insertCell(1);
+         var cell3 = row.insertCell(2);
+         var cell4 = row.insertCell(3);
+         var cell5 = row.insertCell(4);
+         var cell6 = row.insertCell(5);
+         var cell7 = row.insertCell(6);
+         var cell8 = row.insertCell(7);
+         var cell9 = row.insertCell(8);
+         var cell10 = row.insertCell(9);
+         var cell11 = row.insertCell(10);
+         var cell12 = row.insertCell(11);
+         var cell13 = row.insertCell(12);
+         cell2.hidden = true;
+         cell3.hidden = true;
+         cell4.hidden = true;
+         cell5.hidden = true;
+         cell11.hidden = true;
+         cell12.hidden = true;
+
+         cell1.innerHTML = "";
+         cell1.style.background = "#E8E8F2";
+         cell2.innerHTML = item.id;
+         cell3.innerHTML = item.sizes.length > 0 ? item.sizes[0].size_id : 0;
+         cell4.innerHTML = item.sizes.length > 0 ? item.sizes[0].id : 0;
+         cell5.innerHTML = "0";
+
+         cell6.innerHTML = item.name_en
+         cell7.innerHTML = "---";
+         cell8.innerHTML = "1";
+         cell9.innerHTML = item.sizes.length > 0 ? item.sizes[0].priceWithAddValue : 0;
+         cell10.innerHTML = item.sizes.length > 0 ?  item.sizes[0].priceWithAddValue : 0;
+         cell11.innerHTML = item.sizes.length > 0 ?  item.sizes[0].price : 0;
+         cell12.innerHTML = item.sizes.length > 0 ?  item.sizes[0].price : 0;
+
+         cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
+         row.style.background = "cornflowerblue";
+         row.style.color = "white";
+         calculateTotal();
+     } else {
+         var tds = repeate.getElementsByTagName('td');
+         var check = tds[12];
+
+         var checkBox = check.getElementsByTagName("input")[0];
+         checkBox.checked = true ;
+         increaseQnt();
+         checkBox.checked = false ;
+     }
+ }
 
     function  rowCheckChange(ele){
         console.log(ele.checked);
@@ -905,7 +964,7 @@
         if(totalEl && discountEl && vatEl && netEl){
             let discount = discountEl.value ;
             let vat = Number(total) - Number(totalWithoutVat) ;
-            let net = Number(total)- Number(discount) ;
+            let net = Number(total)- Number(discount)  +  vat;
             totalEl.value = total ;
             netEl.value = net ;
             vatEl.value = vat ;
@@ -1069,6 +1128,8 @@
         const driver_id = document.getElementById("driver_id");
         const delivery_service = document.getElementById("delivery_service");
         const default_type = document.getElementById("default_type");
+         document.getElementById('table_id').value = 0;
+        $items = [] ;
 
        if(default_type.className.indexOf("filter-active") == - 1){
            selectBillType(default_type ,  1);
