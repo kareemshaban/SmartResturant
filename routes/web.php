@@ -169,6 +169,23 @@ function()
     Route::get('/destroyTable/{id}', [App\Http\Controllers\TableController::class, 'destroy'])->name('destroyTable');
 
 
+    //settings routes
+    Route::get('/tax-settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('tax-settings');
+    Route::post('/storeTaxSetting', [App\Http\Controllers\SettingsController::class, 'store'])->name('storeTaxSetting');
+    Route::post('/updateTaxSetting/{id}', [App\Http\Controllers\SettingsController::class, 'update'])->name('updateTaxSetting');
+
+
+
+
+
+    //ajax
+    Route::get('/getClient/{id}', [App\Http\Controllers\ClientController::class, 'getClient'])->name('getClient');
+    Route::get('/getVats', [App\Http\Controllers\SettingsController::class, 'getVats'])->name('getVats');
+    Route::get('/getBillNo', [App\Http\Controllers\PosController::class, 'getBillNo'])->name('getBillNo');
+    Route::get('/getDriver/{id}', [App\Http\Controllers\EmployeeController::class, 'getDriver'])->name('getDriver');
+
+
+
        ////////////////////////////////////////////////////////////////////////////////////////////
     Auth::routes();
 

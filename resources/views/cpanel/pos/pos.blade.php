@@ -251,7 +251,7 @@
           </form>
         </div>
       </nav>
-
+     <input hidden id="local" value="{{Config::get('app.locale') }}"/>
       <div class="viewed">
         <div class="container page ">
             <div class="row"  >
@@ -351,7 +351,7 @@
 
 
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
-                         <button type="button" class="btn btn-labeled btn-info ">
+                         <button type="submit" class="btn btn-labeled btn-info " form="header-form">
                              <span class="btn-label"><i class="fa fa-shopping-bag"></i></span> {{__('main.prepare')}} </button>
                          </div>
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
@@ -407,7 +407,8 @@
                             </ul>
                         </div>
                     </div>
-                    <form class="center" method="POST" action="{{ route('storeBill') }}" enctype="multipart/form-data">
+                    <form class="center" method="POST" action="{{ route('storeBill') }}"
+                          enctype="multipart/form-data" id="header-form">
                         @csrf
                         <!-- {{ csrf_field() }} -->
                         <div class="row justify-content-center">
@@ -418,7 +419,7 @@
                                         <div class="col-6">
                                             <label>{{ __('main.client') }}</label>
                                             <select class="custom-select mr-sm-2 @error('client_id') is-invalid @enderror"
-                                            name="client_id" id="client_id">
+                                            name="client_id" id="client_id" onchange="selectClient()">
                                             <option selected value="">Choose...</option>
                                              @foreach($clients as $item)
                                                 <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
@@ -437,6 +438,9 @@
                                                    class="form-control"
                                                    id="phone" name="phone"
                                                    placeholder="{{ __('main.phone') }}" autofocus />
+                                            <input type="text"
+                                                   class="form-control"
+                                                   id="client_name" name="client_name" hidden />
                                         </div>
                                     </div>
                                   </div>
@@ -451,7 +455,7 @@
                                             <div class="col-6">
                                                 <label>{{ __('main.driver') }}</label>
                                                 <select class="custom-select mr-sm-2 @error('driver_id') is-invalid @enderror"
-                                                        name="driver_id" id="driver_id">
+                                                        name="driver_id" id="driver_id" onchange="selectDriver()">
                                                     <option selected value="">Choose...</option>
                                                     @foreach($employees as $item)
                                                         <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
@@ -468,14 +472,45 @@
                                                 <label>{{ __('main.delivery_service') }}</label>
                                                 <input type="number" name="delivery_service" id="delivery_service"
                                                        class="form-control"
-                                                       placeholder="{{ __('main.delivery_service') }}" autofocus />
+                                                       placeholder="{{ __('main.delivery_service') }}" autofocus
+                                                      />
+                                                <input type="text"
+                                                       class="form-control"
+                                                       id="driver_name" name="driver_name" hidden />
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group last-form">
-                                        <input id="bill_type" name="bill_type" hidden type="text">
+                                    <div class="form-group" id="hall_data">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>{{ __('main.table') }}</label>
+
+                                                <input type="text"
+                                                       class="form-control text-center @error('table_id') is-invalid @enderror"
+                                                        id="table_name" name="table_name" readonly style="font-size: 14px;"/>
+                                                <input type="text"
+                                                       class="form-control text-center"  id="table_id" name="table_id"  hidden />
+
+                                                @error('table_id')
+                                                <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-6">
+                                                <label>{{ __('main.service') }}</label>
+                                                    <input type="number" name="service" id="service"
+                                                       class="form-control"
+                                                       placeholder="{{ __('main.service') }}" readonly
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
 
+                                    <div class="form-group last-form">
+                                        <input id="bill_type" name="billType" hidden type="text">
+                                    </div>
+                                    <input type="text" name="items[]" id="items">
 
                             </div>
 
@@ -520,15 +555,15 @@
                                       <div class="col-4">
                                           <label>{{ __('main.date') }}</label>
                                           <input type="text"
-                                                 id="date" name="date"
+                                                 id="date" name="bill_date"
                                                  class="form-control text-center"
                                                  placeholder="{{ __('main.date') }}" autofocus value="{{\Carbon\Carbon::now()}}" readonly/>
                                       </div>
                                       <div class="col-4">
                                           <label>{{ __('main.bill_no') }}</label>
-                                          <input type="text"
+                                          <input type="text" id="bill_number" name="bill_number"
                                                  class="form-control text-center"
-                                                 placeholder="{{ __('main.bill_no') }}" autofocus value="000001" readonly/>
+                                                     placeholder="{{ __('main.bill_no') }}" autofocus  readonly/>
                                       </div>
                                   </div>
                                 </div>
@@ -548,6 +583,12 @@
                                                    class="form-control text-center"  id="vat" name="vat"
                                                    placeholder="{{ __('main.Vat') }}" autofocus  readonly value="0"/>
                                         </div>
+                                        <div class="col-4">
+                                            <label>{{ __('main.service_val') }}</label>
+                                            <input type="text"
+                                                   class="form-control text-center"  id="serviceVal" name="serviceVal"
+                                                   placeholder="{{ __('main.service_val') }}" autofocus  readonly value="0"/>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -565,9 +606,15 @@
                                             <input type="text"
                                                    class="form-control text-center"  id="net" name="net"
                                                    placeholder="{{ __('main.net') }}" autofocus  readonly value="0"/>
-
                                             <input type="text"
-                                                   class="form-control text-center"  id="table_id" name="table_id"  hidden />
+                                                   class="form-control text-center"  id="cash" name="cash"
+                                                   placeholder="{{ __('main.cash') }}" hidden value="0"/>
+                                            <input type="text"
+                                                   class="form-control text-center"  id="credit" name="credit"
+                                                   placeholder="{{ __('main.credit') }}" hidden value="0"/>
+                                            <input type="text"
+                                                   class="form-control text-center"  id="bank" name="bank"
+                                                   placeholder="{{ __('main.net') }}" hidden value="0"/>
 
                                         </div>
                                     </div>
@@ -605,7 +652,7 @@
                     <div class="container">
                         <div class="row" data-aos="fade-up">
                             <div class="col-lg-12 d-flex justify-content-center">
-                                <ul id="modal-flters">
+                                <ul id="modal-flters" style="background: lightgray;">
                                     @foreach($halls as $hall)
                                         <li
                                         onclick="selectHall(this , {{$hall -> id}})">
@@ -657,11 +704,15 @@
 
 
     <script type="text/javascript">
+
  $(document).ready(function()
 {
     const mediumButton = document.getElementById("mediumButton");
     mediumButton.style.display = "none";
-    $items = [] ;
+    let hall_data = document.getElementById("hall_data");
+    hall_data.style.display = "none";
+    details = [] ;
+    document.getElementById('items').value = details ;
     refresh();
 
         if($('.bbb_viewed_slider').length)
@@ -783,12 +834,31 @@
  }
 
     function  selecItemSize(size , item ){
+        const local = document.getElementById("local").value;
         var table = document.getElementById("details-body");
         var repeate = document.getElementById( 'details-body-tr' + size.id);
         console.log(repeate);
         if(!repeate) {
             var row = table.insertRow(-1);
-            $items.push(item);
+
+            let obj ={
+                'item_id': item.id ,
+                'size_id': size.size.id,
+                'item_size_id' : size.id ,
+                'qnt' : 1 ,
+                'price':  size.price,
+                'priceWithVat': size.priceWithAddValue,
+                'total': size.price,
+                'totalWithVat': size.priceWithAddValue,
+                'isExtra': 0,
+                'extra_item_id':0,
+                'notes': '',
+                'txt_holder': ''
+            };
+            details.push(obj);
+            console.log(details);
+            document.getElementById('items').value = JSON.parse( JSON.stringify(details) ) ;
+            console.log(document.getElementById('items').value);
             row.id = 'details-body-tr' + size.id;
             row.className = "text-center";
             var cell1 = row.insertCell(0);
@@ -811,16 +881,16 @@
             cell11.hidden = true;
             cell12.hidden = true;
 
-            cell1.innerHTML = $items.length ;
-            cell2.innerHTML = item.id;
+            cell1.innerHTML = details.length ;
+            cell2.innerHTML = item.id+'<input name="item_id[]" value="'+item.id+'">';
             cell3.innerHTML = size.size.id;
             cell4.innerHTML = size.id;
             cell5.innerHTML = "0";
 
-            cell6.innerHTML = item.name_en
+            cell6.innerHTML = local == 'ar' ? item.name_ar : item.name_en ;
             cell7.innerHTML = size.size.label;
             cell8.innerHTML = "1";
-            cell9.innerHTML = size.priceWithAddValue;
+            cell9.innerHTML =  size.priceWithAddValue;
             cell10.innerHTML = size.priceWithAddValue;
             cell11.innerHTML = size.price;
             cell12.innerHTML = size.price;
@@ -829,6 +899,13 @@
 
             calculateTotal();
         } else {
+
+            const table =  document.getElementById("details");
+            var checkBoxes = table.getElementsByTagName("INPUT");
+            for (let item of checkBoxes) {
+                    item.checked = false;
+            }
+
             var tds = repeate.getElementsByTagName('td');
             var check = tds[12];
 
@@ -842,6 +919,7 @@
  function  selectExtra(item){
      var table = document.getElementById("details-body");
      var repeate = document.getElementById( 'details-body-tr-extra' + item.id);
+     const local = document.getElementById("local").value;
      if(!repeate) {
          var row = table.insertRow(-1);
          row.id = 'details-body-tr-extra' + item.id;
@@ -873,7 +951,7 @@
          cell4.innerHTML = item.sizes.length > 0 ? item.sizes[0].id : 0;
          cell5.innerHTML = "0";
 
-         cell6.innerHTML = item.name_en
+         cell6.innerHTML =  local == 'ar' ? item.name_ar : item.name_en ;
          cell7.innerHTML = "---";
          cell8.innerHTML = "1";
          cell9.innerHTML = item.sizes.length > 0 ? item.sizes[0].priceWithAddValue : 0;
@@ -886,6 +964,12 @@
          row.style.color = "white";
          calculateTotal();
      } else {
+
+         const table =  document.getElementById("details");
+         var checkBoxes = table.getElementsByTagName("INPUT");
+         for (let item of checkBoxes) {
+             item.checked = false;
+         }
          var tds = repeate.getElementsByTagName('td');
          var check = tds[12];
 
@@ -904,10 +988,6 @@
             if(item != ele)
             item.checked = false;
         }
-
-         //   ele.checked = true ;
-
-
     }
     function selectBillType(element , i){
         const collection = document.getElementsByClassName("filter-active");
@@ -927,19 +1007,37 @@
             element.classList.add("filter-active");
 
         let driver_data = document.getElementById("driver_data");
+        let hall_data = document.getElementById("hall_data");
         let bill_type = document.getElementById("bill_type");
         let mediumButton = document.getElementById("mediumButton");
         bill_type.value = i ;
-         if(i == 1){
+        if(i == 1){
              driver_data.style.display = "block";
          } else {
              driver_data.style.display = "none";
          }
          if(i == 3 || i == 4){
              mediumButton.style.display = "block";
+             hall_data.style.display = "block";
          } else {
              mediumButton.style.display = "none";
+             hall_data.style.display = "none";
          }
+
+         let total = 0 ;
+
+        const table =  document.getElementById("details");
+        var tbodys = table.getElementsByTagName("tbody");
+        var tbody = tbodys[0];
+        var trs = tbody.getElementsByTagName("tr");
+        for (let item of trs) {
+            var td = item.getElementsByTagName("td")[9];
+            var td2 = item.getElementsByTagName("td")[11];
+            total += Number(td.innerHTML);
+        }
+
+        handleService(total);
+        calculateTotal();
 
     }
 
@@ -950,6 +1048,7 @@
         var tbody = tbodys[0];
         var total = 0 ;
         var totalWithoutVat = 0 ;
+        var service = 0  ;
         var trs = tbody.getElementsByTagName("tr");
         for (let item of trs) {
             var td = item.getElementsByTagName("td")[9];
@@ -961,14 +1060,43 @@
         const discountEl = document.getElementById("discount");
         const vatEl = document.getElementById("vat");
         const netEl = document.getElementById("net");
+
+        service = handleService(total);
+
         if(totalEl && discountEl && vatEl && netEl){
             let discount = discountEl.value ;
             let vat = Number(total) - Number(totalWithoutVat) ;
-            let net = Number(total)- Number(discount)  +  vat;
-            totalEl.value = total ;
-            netEl.value = net ;
+            let net = Number(total)- Number(discount)  + Number(service);
+            totalEl.value = totalWithoutVat ;
             vatEl.value = vat ;
+            netEl.value = net ;
+
         }
+    }
+    function handleService(total){
+        var service = 0  , servicePer = 0;
+        let bill_type = document.getElementById("bill_type").value;
+        const delivery_service = document.getElementById("delivery_service").value;
+        const serviceEl = document.getElementById("service");
+        const serviceVal =  document.getElementById("serviceVal");
+        if(Number(total) > 0){
+            if(bill_type == 1){
+                service = delivery_service ;
+                servicePer = 0 ;
+            } else if(bill_type == 2){
+                service = 0 ;
+                servicePer = 0 ;
+            } else {
+                servicePer = serviceEl.value;
+
+                service =  (Number(total) * (Number(servicePer)/100)).toFixed(2);
+            }
+        } else {
+            service = 0 ;
+            servicePer = 0 ;
+        }
+        serviceVal.value =  service;
+        return service ;
     }
     function increaseQnt(){
         const table =  document.getElementById("details");
@@ -984,10 +1112,20 @@
                 break;
             }
         }
+
         var qntTd = target.getElementsByTagName("td")[7];
         var oldQnt = qntTd.innerHTML ;
         var qnt = Number(oldQnt) + 1 ;
         qntTd.innerHTML = qnt ;
+
+        var idTd = target.getElementsByTagName("td")[3];
+        var id = idTd.innerHTML ;
+
+        if(details.filter(c=> c.item_size_id == id).length > 0){
+            details.filter(c=> c.item_size_id == id)[0].qnt = qnt ;
+        }
+
+        document.getElementById('items').value = details ;
 
         var priceTd = target.getElementsByTagName("td")[8];
         var price2Td = target.getElementsByTagName("td")[10];
@@ -1027,7 +1165,14 @@
              var qnt = Number(oldQnt) - 1;
              qntTd.innerHTML = qnt;
 
+             var idTd = target.getElementsByTagName("td")[3];
+             var id = idTd.innerHTML ;
 
+             if(details.filter(c=> c.item_size_id == id).length > 0){
+                 details.filter(c=> c.item_size_id == id)[0].qnt = qnt ;
+             }
+
+             document.getElementById('items').value = details ;
              var priceTd = target.getElementsByTagName("td")[8];
              var price = priceTd.innerHTML;
 
@@ -1060,7 +1205,14 @@
              break;
          }
      }
-     console.log(target.rowIndex);
+     var idTd = target.getElementsByTagName("td")[3];
+     var id = idTd.innerHTML ;
+
+     if(details.filter(c=> c.item_size_id == id).length > 0){
+         details.splice(details.indexOf(details.filter(c=> c.item_size_id == id)[0]) , 1);
+     }
+     document.getElementById('items').value = details ;
+     console.log(details);
      table.deleteRow(target.rowIndex);
      calculateTotal();
  }
@@ -1109,11 +1261,15 @@
 
             }
             const table_id = document.getElementById('table_id');
+            const table_name = document.getElementById('table_name');
             if(add == 1){
                 element.classList.add('selected_table');
                 table_id.value = table.id ;
+                table_name.value = table.hall.name_ar +  "--" + table.name_ar;
+
             } else {
                 table_id.value = 0 ;
+                table_name.value = "";
             }
 
         } else {
@@ -1127,29 +1283,72 @@
         const  address = document.getElementById("address");
         const driver_id = document.getElementById("driver_id");
         const delivery_service = document.getElementById("delivery_service");
+        const service = document.getElementById("service");
+        const table_name = document.getElementById("table_name");
+         const table_id = document.getElementById("table_name");
+        const bill_number = document.getElementById("bill_number");
         const default_type = document.getElementById("default_type");
          document.getElementById('table_id').value = 0;
-        $items = [] ;
+         details = [] ;
 
+         let bill_type = document.getElementById("bill_type");
+         bill_type.value = 1 ;
        if(default_type.className.indexOf("filter-active") == - 1){
            selectBillType(default_type ,  1);
        }
 
          client_id.selectedIndex = "0";
+         table_name.value = "";
+         table_id.value = "0";
          phone.value = "";
          address.value = "" ;
          driver_id.selectedIndex = "0";
-         delivery_service.value = "" ;
+
+         $.ajax({
+             type:'get',
+             url:'getVats',
+             dataType: 'json',
+
+             success:function(response){
+                 if(response){
+                     delivery_service.value = response.delivery_service ;
+                     service.value = response.service ;
+
+                 } else {
+                     delivery_service.value = "" ;
+                     service.value = "" ;
+                 }
+             }
+         });
+
+         $.ajax({
+             type:'get',
+             url:'getBillNo',
+             dataType: 'json',
+
+             success:function(response){
+                 if(response){
+                     bill_number.value = response;
+
+                 } else {
+                     bill_number.value = "";
+                 }
+             }
+         });
+
+
          const totalEl = document.getElementById("total");
          const discountEl = document.getElementById("discount");
          const vatEl = document.getElementById("vat");
          const netEl = document.getElementById("net");
+         const serviceVal = document.getElementById("serviceVal");
          const date = document.getElementById("date");
          if(totalEl && discountEl && vatEl && netEl){
              totalEl.value = 0 ;
              discountEl.value = 0 ;
              vatEl.value = 0 ;
              netEl.value = 0 ;
+             serviceVal.value = 0 ;
              date.value = new Date().toLocaleString();
              $("#details tbody tr").remove();
 
@@ -1157,6 +1356,48 @@
 
          }
      }
+
+     function selectClient(){
+        const client_id = document.getElementById("client_id").value ;
+         $.ajax({
+             type:'get',
+             url:'getClient' + '/' + client_id,
+             dataType: 'json',
+
+             success:function(response){
+                 if(response){
+                     document.getElementById("phone").value = response.mobile ? response.mobile :
+                         (response.phone ? response.phone : "");
+                     document.getElementById("address").value = response.address ? response.address : "";
+                     document.getElementById("client_name").value = response.name_ar +'--' + response.name_en;
+                 } else {
+                     document.getElementById("client_id").selectedIndex = 0 ;
+                     document.getElementById("phone").value = "";
+                     document.getElementById("address").value = "";
+                     document.getElementById("client_name").value = "";
+                 }
+             }
+         });
+     }
+
+      function selectDriver(){
+     const driver_id = document.getElementById("driver_id").value ;
+     $.ajax({
+         type:'get',
+         url:'getDriver' + '/' + driver_id,
+         dataType: 'json',
+
+         success:function(response){
+             console.log(response);
+             if(response){
+                 document.getElementById("driver_name").value = response.name_ar +'--' + response.name_en;
+             } else {
+                 document.getElementById("driver_name").value = "";
+             }
+         }
+     });
+ }
+
     </script>
 
 </body>

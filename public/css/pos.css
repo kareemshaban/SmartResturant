@@ -445,7 +445,9 @@ section
     border-radius: 50px;
     padding: 2px 15px;
 }
-
+.flters-halls{
+    background: lightblue !important;
+}
 #modal-flters li {
     cursor: pointer;
     display: inline-block;

@@ -196,7 +196,16 @@ return [
     'new_table' => 'Add New Table',
     'edit_table' => 'Edit Table Data',
     'table_not_available' => 'Table is not Available',
-    'extras' => 'Extras'
+    'extras' => 'Extras',
+    'settings' => ' Settings',
+    'tax_settings' => 'Tax Settings',
+    'report_settings' => 'Report Settings',
+
+    'service' => 'Service %',
+    'tobacco_tax' => 'Tobacco Tax %',
+    'receipt_tax' => 'Receipt Tax %',
+    'table' => 'Hall - Table',
+    'service_val' => 'Service'
 
 
 

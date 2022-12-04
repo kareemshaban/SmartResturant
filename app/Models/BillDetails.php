@@ -11,6 +11,7 @@ class BillDetails extends Model
 
     protected $fillable = [
         'id',
+        'identifier',
         'bill_id',
         'item_id',
         'size_id',
@@ -21,6 +22,8 @@ class BillDetails extends Model
         'total',
         'totalWithVat',
         'isExtra',
-        'extra_item_id'
+        'extra_item_id',
+        'notes',
+        'txt_holder'
     ];
 }

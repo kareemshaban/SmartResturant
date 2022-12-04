@@ -15,6 +15,7 @@ class CreateBillDetailsTable extends Migration
     {
         Schema::create('bill_details', function (Blueprint $table) {
             $table->id();
+            $table->string('identifier') -> unique();
             $table->integer('bill_id')  ;
             $table->integer('item_id') ;
             $table->integer('size_id') ;
@@ -26,6 +27,8 @@ class CreateBillDetailsTable extends Migration
             $table->decimal('totalWithVat');
             $table->integer('isExtra');
             $table->integer('extra_item_id');
+            $table->string('notes');
+            $table->string('txt_holder');
             $table->timestamps();
         });
     }

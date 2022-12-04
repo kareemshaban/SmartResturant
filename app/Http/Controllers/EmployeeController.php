@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Departments;
 use App\Models\Education;
 use App\Models\Employee;
@@ -44,8 +45,8 @@ class EmployeeController extends Controller
         $jobs = Jobs::all();
 
         return view('cpanel.Employee.create' , [
-          'religions' => $religions , 
-          'genders' => $genders , 
+          'religions' => $religions ,
+          'genders' => $genders ,
           'nationalties' => $nationalties ,
           'martialStats' => $martialStats ,
           'educations' => $educations,
@@ -97,9 +98,9 @@ class EmployeeController extends Controller
             return redirect()->route('employees')->with('error' , $ex->getMessage());
         }
 
-      
 
-    
+
+
 
 
 
@@ -116,6 +117,11 @@ class EmployeeController extends Controller
         //
     }
 
+    public function getDriver($id){
+        $employee = Employee::find($id);
+        echo json_encode ($employee);
+        exit;
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -135,9 +141,9 @@ class EmployeeController extends Controller
         $jobs = Jobs::all();
 
         return view('cpanel.Employee.edit' , [
-           'employee' => $employee , 
-          'religions' => $religions , 
-          'genders' => $genders , 
+           'employee' => $employee ,
+          'religions' => $religions ,
+          'genders' => $genders ,
           'nationalties' => $nationalties ,
           'martialStats' => $martialStats ,
           'educations' => $educations,

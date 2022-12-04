@@ -93,6 +93,21 @@
                         <span class="hide-menu">{{ __('main.side_bill') }}</span>
                     </a>
                 </li>
+
+                <li class="nav-item sidebar-item  has-submenu">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#">
+                        <i class="fa fa-bookmark" aria-hidden="true"></i>
+
+                        <span class="hide-menu">{{ __('main.settings') }}</span>
+                    </a>
+                    <ul class="submenu collapse">
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="{{ route('tax-settings') }}">{{ __('main.tax_settings') }}</a></li>
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="{{ route('sizes') }}">{{ __('main.report_settings') }}</a></li>
+                    </ul>
+                </li>
+
                 <li class="sidebar-item">
                     <a href="{{route('logout')}}"  onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();" class="sidebar-link waves-effect waves-dark sidebar-link" data-toggle="tooltip" title="" data-original-title="Logout">

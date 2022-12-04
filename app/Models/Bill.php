@@ -11,23 +11,31 @@ class Bill extends Model
 
     protected $fillable = [
         'id',
+        'identifier',
         'billType',
         'client_id',
         'phone',
         'address',
         'driver_id',
+        'table_id',
         'delivery_service',
-        'service',
         'bill_date',
         'bill_number',
         'total',
         'vat',
+        'serviceVal',
         'discount',
         'net',
         'user_id',
         'payed',
         'state',
-        'table_id'
+        'client_name',
+        'driver_name',
+        'cash',
+        'credit',
+        'bank',
+        'notes'
+
     ];
 
 

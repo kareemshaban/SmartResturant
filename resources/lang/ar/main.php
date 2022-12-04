@@ -195,7 +195,16 @@ return [
     'new_table' => 'إضافة طاولة جديدة',
     'edit_table' => 'تعديل بيانات طاولة',
     'table_not_available' => 'طاولة غير متاحة',
-    'extras' => 'الإضافات'
+    'extras' => 'الإضافات',
+    'settings' => ' الإعدادات',
+    'tax_settings' => 'إعدادات الضريبة',
+    'report_settings' => 'إعدادات التقارير',
+    'service' => 'الخدمة %',
+     'tobacco_tax' => 'ضريبة التبغ %',
+    'receipt_tax' => 'ضريبة سندات الصرف %',
+    'table' => 'الصالة- الطاولة',
+    'service_val' => 'الخدمة',
+
 
 
 

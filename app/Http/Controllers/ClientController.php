@@ -82,6 +82,12 @@ class ClientController extends Controller
         //
     }
 
+    public function getClient($id){
+        $client = Client::find($id);
+        echo json_encode ($client);
+        exit;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

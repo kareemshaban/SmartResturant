@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Settings;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
@@ -12,9 +14,20 @@ class SettingsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index()
     {
-        //
+        $settings = Settings::all();
+        if(count($settings) > 0)
+            return view('cpanel.settings.edit' , ['setting' => $settings[0]]);
+        else
+            return view('cpanel.settings.create');
     }
 
     /**
@@ -35,7 +48,26 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'delivery_service' => 'required|numeric',
+            'service' => 'required|numeric|min:0:max:100',
+            'tobacco_tax' => 'required|numeric|min:0:max:100',
+            'receipt_tax' => 'required|numeric|min:0:max:100'
+        ]);
+
+        try {
+            Settings::create([
+                'delivery_service' => $request->delivery_service,
+                'service' => $request->service,
+                'tobacco_tax' => $request->tobacco_tax,
+                'receipt_tax' => $request->receipt_tax,
+            ]);
+            return redirect()->route('tax-settings')->with('success' , __('main.created'));
+
+        } catch(QueryException $ex){
+            return redirect()->route('tax-settings')->with('error' ,  $ex->getMessage());
+        }
+
     }
 
     /**
@@ -67,9 +99,31 @@ class SettingsController extends Controller
      * @param  \App\Models\Settings  $settings
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Settings $settings)
+    public function update(Request $request , $id)
     {
-        //
+        $setting = Settings::find($id);
+        if($setting){
+            $validated = $request->validate([
+                'delivery_service' => 'required|numeric',
+                'service' => 'required|numeric|min:0:max:100',
+                'tobacco_tax' => 'required|numeric|min:0:max:100',
+                'receipt_tax' => 'required|numeric|min:0:max:100'
+            ]);
+
+
+            try {
+                $setting -> update([
+                    'delivery_service' => $request->delivery_service,
+                    'service' => $request->service,
+                    'tobacco_tax' => $request->tobacco_tax,
+                    'receipt_tax' => $request->receipt_tax,
+                ]);
+                return redirect()->route('tax-settings')->with('success' , __('main.updated'));
+
+            } catch(QueryException $ex){
+                return redirect()->route('tax-settings')->with('error' ,  $ex->getMessage());
+            }
+        }
     }
 
     /**
@@ -81,5 +135,14 @@ class SettingsController extends Controller
     public function destroy(Settings $settings)
     {
         //
+    }
+
+    public function getVats(){
+        $settings = Settings::all();
+        if(count($settings) > 0)
+        echo json_encode ($settings[0]);
+        else
+            echo json_encode (null);
+        exit;
     }
 }
