@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\BillDetails;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Employee;
@@ -11,6 +12,7 @@ use App\Models\Item;
 use App\Models\Settings;
 use App\Models\Shift;
 use App\Models\Table;
+use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,54 +66,93 @@ class PosController extends Controller
     //prepare
     public function store(Request $request)
     {
+       $uuid =  $this -> unique_code(20);
+       $validated = $request->validate([
+           'billType' => 'required',
+           'bill_date' => 'required',
+           'bill_number' => 'required|unique:bills',
+           'total' => 'required',
+           'vat' => 'required',
+           'serviceVal' => 'required',
+           'net' => 'required',
+       ]);
+       try {
+           $id = Bill::create([
+               'identifier' => $uuid,
+               'billType' => $request -> billType ,
+               'client_id' => $request -> client_id ? $request -> client_id : 0 ,
+               'phone' => $request ->phone ?$request ->phone : '',
+               'address' => $request -> address ? $request -> address : '',
+               'driver_id' => $request -> driver_id ? $request -> driver_id : 0 ,
+               'table_id' => $request -> table_id ? $request -> table_id : 0 ,
+               'delivery_service' => $request -> billType == 1 ?  ($request -> delivery_service ? $request -> delivery_service : 0) : 0  ,
+               'bill_date' => Carbon::parse($request -> bill_date  ) ,
+               'bill_number' => $request -> bill_number,
+               'total' => $request -> total ,
+               'vat' => $request -> vat ,
+               'serviceVal' => $request -> serviceVal,
+               'discount' => $request-> discount,
+               'net' => $request-> net,
+               'user_id' => Auth::user() -> id ,
+               'payed' =>  false ,
+               'state' => 0 ,
+               'client_name' => $request -> client_name ? $request -> client_name : '',
+               'driver_name' => $request -> driver_name ? $request -> driver_name : '',
+               'notes' => $request -> notes ? $request -> notes : '',
+               'cash' => $request -> cash ,
+               'credit' => $request -> credit ,
+               'bank' => $request -> bank ,
 
-        dd( $request -> item_id) ;
-//        $uuid =  $this -> unique_code(20);
-//        $validated = $request->validate([
-//            'billType' => 'required',
-//            'bill_date' => 'required',
-//            'bill_number' => 'required|unique:bills',
-//            'total' => 'required',
-//            'vat' => 'required',
-//            'serviceVal' => 'required',
-//            'net' => 'required',
-//        ]);
-//        try {
-//            $id = Bill::create([
-//                'identifier' => $uuid,
-//                'billType' => $request -> billType ,
-//                'client_id' => $request -> client_id ? $request -> client_id : 0 ,
-//                'phone' => $request ->phone ?$request ->phone : '',
-//                'address' => $request -> address ? $request -> address : '',
-//                'driver_id' => $request -> driver_id ? $request -> driver_id : 0 ,
-//                'table_id' => $request -> table_id ? $request -> table_id : 0 ,
-//                'delivery_service' => $request -> delivery_service ? $request -> delivery_service : 0 ,
-//                'bill_date' => $request -> bill_date  ,
-//                'bill_number' => $request -> bill_number,
-//                'total' => $request -> total ,
-//                'vat' => $request -> vat ,
-//                'serviceVal' => $request -> serviceVal,
-//                'discount' => $request-> discount,
-//                'net' => $request-> net,
-//                'user_id' => Auth::user() -> id ,
-//                'payed' =>  false ,
-//                'state' => 0 ,
-//                'client_name' => $request -> client_name ? $request -> client_name : '',
-//                'driver_name' => $request -> driver_name ? $request -> driver_name : '',
-//                'notes' => $request -> notes ? $request -> notes : '',
-//                'cash' => $request -> cash ,
-//                'credit' => $request -> credit ,
-//                'bank' => $request -> bank ,
-//
-//            ]);
-//            $this -> storeDetails($uuid , $id);
-//
-//        }catch(QueryException $ex){
-//            return redirect()->route('pos')->with('error' ,  $ex->getMessage());
-//        }
+           ]) -> id;
+           $this -> bookTable($request -> table_id);
+           $this -> storeDetails($uuid , $id , $request);
+           return redirect()->route('pos')->with('success' , __('main.created'));
+
+       }catch(QueryException $ex){
+
+           return redirect()->route('pos')->with('error' ,  $ex->getMessage());
+       }
     }
-    public function storeDetails($identifier , $id){
+    public function storeDetails($identifier , $id , $request){
 
+
+        for($i = 0 ; $i < count($request -> item_id) ; $i++ ){
+            BillDetails::create([
+               'identifier' => $identifier,
+                'bill_id' => $id ,
+                'item_id' => $request -> item_id[$i],
+                'size_id' => $request -> size_id[$i],
+                'item_size_id' => $request -> item_size_id[$i],
+                'qnt' => $request -> qnt[$i],
+                'price' => $request -> price[$i],
+                'priceWithVat' => $request -> priceWithVat[$i],
+                'total' => $request -> totalTable[$i],
+                'totalWithVat' => $request -> totalWithVat[$i],
+                'isExtra' => $request -> isExtra[$i],
+                'extra_item_id' => $request -> extra_item_id[$i],
+                'notes' => "",
+                'txt_holder' => "",
+            ]);
+        }
+
+
+    }
+    public function bookTable($table_id){
+       $table = Table::find($table_id);
+       if($table){
+        $table -> available = 0 ;
+        $table -> update();
+       }
+
+
+
+    }
+    public function releaseTable($table_id){
+        $table = Table::find($table_id);
+        if($table){
+         $table -> available = 1 ;
+        }
+        $table -> update();
     }
 
     /**
@@ -159,9 +200,9 @@ class PosController extends Controller
         //
     }
     public function getBillNo(){
-        $bills = Bill::all();
+        $bills = Bill::orderBy('id', 'ASC')->get();
         if(count($bills) > 0){
-            $id = $bills[count($bills) -1].id ;
+            $id = $bills[count($bills) -1] -> id ;
         } else
             $id = 0 ;
 

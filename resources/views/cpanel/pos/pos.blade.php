@@ -215,6 +215,12 @@
           box-shadow: 0 27px 25px 0px darkgrey;
           margin-bottom: 5px;
       }
+      .alertImage{
+          width: 70px;
+          height: 70px;
+          display: block;
+          margin: 10px auto;
+      }
     </style>
 </head>
 
@@ -253,6 +259,7 @@
       </nav>
      <input hidden id="local" value="{{Config::get('app.locale') }}"/>
       <div class="viewed">
+        @include('flash-message')
         <div class="container page ">
             <div class="row"  >
                 <div class="col-6 menue">
@@ -317,6 +324,7 @@
 
                         @foreach($items as $item)
                             @if($item -> type == 1 )
+                            @if( count($item -> sizes) > 0)
                                 <div class="col-lg-6 col-md-6 portfolio-item  item-div .{{$item -> category_id}} ">
                                     <div class="portfolio-wrap item-parent extra"  onclick="selectExtra({{ $item}})" >
                                         <img src="{{ asset('images/Item/' . $item->img) }}" class="img-fluid extra-img" alt="">
@@ -324,7 +332,8 @@
 
                                     </div>
                                 </div>
-                            @endif
+                                @endif
+                                @endif
                         @endforeach
 
                         </div>
@@ -510,7 +519,7 @@
                                     <div class="form-group last-form">
                                         <input id="bill_type" name="billType" hidden type="text">
                                     </div>
-                                    <input type="text" name="items[]" id="items">
+
 
                             </div>
 
@@ -532,6 +541,7 @@
                                             <th class="text-center" hidden>size_id</th>
                                             <th class="text-center" hidden>item_size_id</th>
                                             <th class="text-center" hidden>details_id</th>
+                                            <th class="text-center" hidden>isExtra</th>
                                             <th class="text-center">{{ __('main.item') }}</th>
                                             <th class="text-center">{{ __('main.size') }}</th>
                                             <th class="text-center">{{ __('main.quantity') }}</th>
@@ -540,6 +550,7 @@
                                             <th class="text-center" hidden>price without vat</th>
                                             <th class="text-center" hidden>total without vat</th>
                                             <th class="text-center">{{ __('main.select') }}</th>
+                                            <th class="text-center" hidden>extraitemId</th>
                                         </tr>
                                         </thead>
                                         <tbody id="details-body">
@@ -638,7 +649,7 @@
 
     </div>
 
-
+    {{--    tables Modal   --}}
     <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -686,6 +697,21 @@
         </div>
     </div>
 
+    {{--    Confirmation  Modal   --}}
+    <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"  data-bs-dismiss="modal"  aria-label="Close" style="color: red; font-size: 20px; font-weight: bold;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="smallBody">
+                    <img src="../../images/warning.png" class="alertImage">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../cpanel/js/app-style-switcher.js"></script>
@@ -712,7 +738,6 @@
     let hall_data = document.getElementById("hall_data");
     hall_data.style.display = "none";
     details = [] ;
-    document.getElementById('items').value = details ;
     refresh();
 
         if($('.bbb_viewed_slider').length)
@@ -776,6 +801,31 @@
                 $('#loader').hide();
             },
             timeout: 8000
+        })
+    });
+
+    $(document).on('click', '.notAvailable', function(event) {
+        event.preventDefault();
+        let href = $(this).attr('data-attr');
+        $.ajax({
+            url: href
+            , beforeSend: function() {
+                $('#loader').show();
+            },
+            // return the result
+            success: function(result) {
+                $('#smallModal').modal("show");
+                $('#mediumModal').modal("hide");
+            }
+            , complete: function() {
+                $('#loader').hide();
+            }
+            , error: function(jqXHR, testStatus, error) {
+                console.log(error);
+                alert("Page " + href + " cannot open. Error:" + error);
+                $('#loader').hide();
+            }
+            , timeout: 8000
         })
     });
 
@@ -856,9 +906,6 @@
                 'txt_holder': ''
             };
             details.push(obj);
-            console.log(details);
-            document.getElementById('items').value = JSON.parse( JSON.stringify(details) ) ;
-            console.log(document.getElementById('items').value);
             row.id = 'details-body-tr' + size.id;
             row.className = "text-center";
             var cell1 = row.insertCell(0);
@@ -866,35 +913,40 @@
             var cell3 = row.insertCell(2);
             var cell4 = row.insertCell(3);
             var cell5 = row.insertCell(4);
-            var cell6 = row.insertCell(5);
-            var cell7 = row.insertCell(6);
-            var cell8 = row.insertCell(7);
-            var cell9 = row.insertCell(8);
-            var cell10 = row.insertCell(9);
-            var cell11 = row.insertCell(10);
-            var cell12 = row.insertCell(11);
-            var cell13 = row.insertCell(12);
+            var cell50 = row.insertCell(5);
+            var cell6 = row.insertCell(6);
+            var cell7 = row.insertCell(7);
+            var cell8 = row.insertCell(8);
+            var cell9 = row.insertCell(9);
+            var cell10 = row.insertCell(10);
+            var cell11 = row.insertCell(11);
+            var cell12 = row.insertCell(12);
+            var cell13 = row.insertCell(13);
+            var cell14 = row.insertCell(14);
             cell2.hidden = true;
             cell3.hidden = true;
             cell4.hidden = true;
             cell5.hidden = true;
+            cell50.hidden = true;
             cell11.hidden = true;
             cell12.hidden = true;
+            cell14.hidden = true;
 
             cell1.innerHTML = details.length ;
-            cell2.innerHTML = item.id+'<input name="item_id[]" value="'+item.id+'">';
-            cell3.innerHTML = size.size.id;
-            cell4.innerHTML = size.id;
+            cell2.innerHTML = item.id+'<input name="item_id[]" value="'+item.id+'" hidden>';
+            cell3.innerHTML = size.size.id +'<input name="size_id[]" value="'+size.size.id+'" hidden>';
+            cell4.innerHTML = size.id +'<input name="item_size_id[]" value="'+size.id+'" hidden>';
             cell5.innerHTML = "0";
-
+            cell50.innerHTML = "0" +'<input name="isExtra[]" value="0" hidden>';
             cell6.innerHTML = local == 'ar' ? item.name_ar : item.name_en ;
             cell7.innerHTML = size.size.label;
-            cell8.innerHTML = "1";
-            cell9.innerHTML =  size.priceWithAddValue;
-            cell10.innerHTML = size.priceWithAddValue;
-            cell11.innerHTML = size.price;
-            cell12.innerHTML = size.price;
+            cell8.innerHTML = "1" +'<input name="qnt[]" value="1" hidden>';
+            cell9.innerHTML =  size.priceWithAddValue +'<input name="priceWithVat[]" value="'+size.priceWithAddValue+'" hidden>';
+            cell10.innerHTML = size.priceWithAddValue +'<input name="totalWithVat[]" value="'+ size.priceWithAddValue+'" hidden>';
+            cell11.innerHTML = size.price +'<input name="price[]" value="'+size.price+'" hidden>';
+            cell12.innerHTML = size.price +'<input name="totalTable[]" value="'+size.price+'" hidden>';
 
+            cell14.innerHTML = 0 +'<input name="extra_item_id[]" value="0" hidden>';
             cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
 
             calculateTotal();
@@ -907,7 +959,7 @@
             }
 
             var tds = repeate.getElementsByTagName('td');
-            var check = tds[12];
+            var check = tds[13];
 
             var checkBox = check.getElementsByTagName("input")[0];
             checkBox.checked = true ;
@@ -917,7 +969,8 @@
     }
 
  function  selectExtra(item){
-     var table = document.getElementById("details-body");
+    if(details.length > 0){
+        var table = document.getElementById("details-body");
      var repeate = document.getElementById( 'details-body-tr-extra' + item.id);
      const local = document.getElementById("local").value;
      if(!repeate) {
@@ -929,36 +982,42 @@
          var cell3 = row.insertCell(2);
          var cell4 = row.insertCell(3);
          var cell5 = row.insertCell(4);
-         var cell6 = row.insertCell(5);
-         var cell7 = row.insertCell(6);
-         var cell8 = row.insertCell(7);
-         var cell9 = row.insertCell(8);
-         var cell10 = row.insertCell(9);
-         var cell11 = row.insertCell(10);
-         var cell12 = row.insertCell(11);
-         var cell13 = row.insertCell(12);
+         var cell50 = row.insertCell(5);
+         var cell6 = row.insertCell(6);
+         var cell7 = row.insertCell(7);
+         var cell8 = row.insertCell(8);
+         var cell9 = row.insertCell(9);
+         var cell10 = row.insertCell(10);
+         var cell11 = row.insertCell(11);
+         var cell12 = row.insertCell(12);
+         var cell13 = row.insertCell(13);
+         var cell14 = row.insertCell(14);
          cell2.hidden = true;
          cell3.hidden = true;
          cell4.hidden = true;
          cell5.hidden = true;
+         cell50.hidden = true;
          cell11.hidden = true;
+
          cell12.hidden = true;
+         cell14.hidden = true;
+
 
          cell1.innerHTML = "";
          cell1.style.background = "#E8E8F2";
-         cell2.innerHTML = item.id;
-         cell3.innerHTML = item.sizes.length > 0 ? item.sizes[0].size_id : 0;
-         cell4.innerHTML = item.sizes.length > 0 ? item.sizes[0].id : 0;
+         cell2.innerHTML = item.id +'<input name="item_id[]" value="'+item.id+'" hidden>';
+         cell3.innerHTML =item.sizes[0].size_id  +'<input name="size_id[]" value="'+item.sizes[0].size_id +'" hidden>';
+         cell4.innerHTML =  item.sizes[0].id  +'<input name="item_size_id[]" value="'+item.sizes[0].id+'" hidden>';;
          cell5.innerHTML = "0";
-
+         cell50.innerHTML = "1" +'<input name="isExtra[]" value="1" hidden>';
          cell6.innerHTML =  local == 'ar' ? item.name_ar : item.name_en ;
          cell7.innerHTML = "---";
-         cell8.innerHTML = "1";
-         cell9.innerHTML = item.sizes.length > 0 ? item.sizes[0].priceWithAddValue : 0;
-         cell10.innerHTML = item.sizes.length > 0 ?  item.sizes[0].priceWithAddValue : 0;
-         cell11.innerHTML = item.sizes.length > 0 ?  item.sizes[0].price : 0;
-         cell12.innerHTML = item.sizes.length > 0 ?  item.sizes[0].price : 0;
-
+         cell8.innerHTML = "1" +'<input name="qnt[]" value="1" hidden>';
+         cell9.innerHTML =  item.sizes[0].priceWithAddValue +'<input name="priceWithVat[]" value="'+ item.sizes[0].priceWithAddValue +'" hidden>';
+         cell10.innerHTML = item.sizes[0].priceWithAddValue +'<input name="totalWithVat[]" value="'+ item.sizes[0].priceWithAddValue +'" hidden>';
+         cell11.innerHTML = item.sizes[0].price+'<input name="price[]" value="'+ item.sizes[0].price  +'" hidden>';
+         cell12.innerHTML = item.sizes[0].price  +'<input name="totalTable[]" value="'+ item.sizes[0].price +'" hidden>';
+         cell14.innerHTML = details[details.length -1].item_size_id +'<input name="extra_item_id[]" value="'+details[details.length -1].item_size_id +'" hidden>';
          cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
          row.style.background = "cornflowerblue";
          row.style.color = "white";
@@ -971,13 +1030,17 @@
              item.checked = false;
          }
          var tds = repeate.getElementsByTagName('td');
-         var check = tds[12];
+         var check = tds[13];
 
          var checkBox = check.getElementsByTagName("input")[0];
          checkBox.checked = true ;
          increaseQnt();
          checkBox.checked = false ;
      }
+    } else {
+        alert($('<div>{{trans('main.add_item_first')}}</div>').text());
+    }
+
  }
 
     function  rowCheckChange(ele){
@@ -1051,10 +1114,12 @@
         var service = 0  ;
         var trs = tbody.getElementsByTagName("tr");
         for (let item of trs) {
-            var td = item.getElementsByTagName("td")[9];
-            var td2 = item.getElementsByTagName("td")[11];
-            total += Number(td.innerHTML);
-            totalWithoutVat += Number(td2.innerHTML);
+            var td = item.getElementsByTagName("td")[10];
+            var td2 = item.getElementsByTagName("td")[12];
+            var inp1 = td.getElementsByTagName("input")[0];
+            var inp2 = td2.getElementsByTagName("input")[0];
+            total += Number(inp1.value);
+            totalWithoutVat += Number(inp2.value);
         }
         const totalEl = document.getElementById("total");
         const discountEl = document.getElementById("discount");
@@ -1105,7 +1170,7 @@
         var target ;
         var trs = tbody.getElementsByTagName("tr");
         for (let item of trs) {
-            var td = item.getElementsByTagName("td")[12];
+            var td = item.getElementsByTagName("td")[13];
             var checkBox = td.getElementsByTagName("input")[0];
             if(checkBox.checked){
                 target = item ;
@@ -1113,10 +1178,12 @@
             }
         }
 
-        var qntTd = target.getElementsByTagName("td")[7];
-        var oldQnt = qntTd.innerHTML ;
+        var qntTd = target.getElementsByTagName("td")[8];
+        var qntInp = qntTd.getElementsByTagName("input")[0];
+        var oldQnt = qntInp.value ;
         var qnt = Number(oldQnt) + 1 ;
-        qntTd.innerHTML = qnt ;
+        qntTd.innerHTML = qnt +'<input name="qnt[]" value="'+qnt+'" hidden>';
+
 
         var idTd = target.getElementsByTagName("td")[3];
         var id = idTd.innerHTML ;
@@ -1125,21 +1192,24 @@
             details.filter(c=> c.item_size_id == id)[0].qnt = qnt ;
         }
 
-        document.getElementById('items').value = details ;
 
-        var priceTd = target.getElementsByTagName("td")[8];
-        var price2Td = target.getElementsByTagName("td")[10];
 
-        var price = priceTd.innerHTML ;
-        var price2 = price2Td.innerHTML ;
+        var priceTd = target.getElementsByTagName("td")[9];
+        var price2Td = target.getElementsByTagName("td")[11];
+         var priceInp = priceTd.getElementsByTagName("input")[0];
+         var price2Inp = price2Td.getElementsByTagName("input")[0];
 
-        var totalTd = target.getElementsByTagName("td")[9];
-        var total2Td = target.getElementsByTagName("td")[11];
+        var price = priceInp.value ;
+        var price2 = price2Inp.value ;
+
+        var totalTd = target.getElementsByTagName("td")[10];
+        var total2Td = target.getElementsByTagName("td")[12];
+
 
         var total = Number(price) * Number(qnt);
         var total2 = Number(price2) * Number(qnt);
-        totalTd.innerHTML = total ;
-        total2Td.innerHTML = total2 ;
+        totalTd.innerHTML = total +'<input name="totalWithVat[]" value="'+total+'" hidden>';
+        total2Td.innerHTML = total2  +'<input name="totalTable[]" value="'+total2+'" hidden>';
 
         calculateTotal();
 
@@ -1152,18 +1222,20 @@
          var target ;
          var trs = tbody.getElementsByTagName("tr");
          for (let item of trs) {
-             var td = item.getElementsByTagName("td")[12];
+             var td = item.getElementsByTagName("td")[13];
              var checkBox = td.getElementsByTagName("input")[0];
              if(checkBox.checked){
                  target = item ;
                  break;
              }
          }
-         var qntTd = target.getElementsByTagName("td")[7];
-         var oldQnt = qntTd.innerHTML ;
+         var qntTd = target.getElementsByTagName("td")[8];
+         var qntInp = qntTd.getElementsByTagName("input")[0];
+         var oldQnt = qntInp.value ;
          if(oldQnt > 1) {
              var qnt = Number(oldQnt) - 1;
-             qntTd.innerHTML = qnt;
+             qntTd.innerHTML = qnt +'<input name="qnt[]" value="'+qnt+'" hidden>';
+
 
              var idTd = target.getElementsByTagName("td")[3];
              var id = idTd.innerHTML ;
@@ -1172,21 +1244,25 @@
                  details.filter(c=> c.item_size_id == id)[0].qnt = qnt ;
              }
 
-             document.getElementById('items').value = details ;
-             var priceTd = target.getElementsByTagName("td")[8];
-             var price = priceTd.innerHTML;
 
-             var price2Td = target.getElementsByTagName("td")[10];
-             var price2 = price2Td.innerHTML;
+            var priceTd = target.getElementsByTagName("td")[9];
+            var price2Td = target.getElementsByTagName("td")[11];
+            var priceInp = priceTd.getElementsByTagName("input")[0];
+            var price2Inp = price2Td.getElementsByTagName("input")[0];
 
-             var totalTd = target.getElementsByTagName("td")[9];
-             var total = Number(price) * Number(qnt);
+            var price = priceInp.value ;
+            var price2 = price2Inp.value ;
 
-             var total2Td = target.getElementsByTagName("td")[11];
-             var total2 = Number(price) * Number(qnt);
+            var totalTd = target.getElementsByTagName("td")[10];
+            var total2Td = target.getElementsByTagName("td")[12];
 
-             totalTd.innerHTML = total;
-             total2Td.innerHTML = total2 ;
+
+
+            var total = Number(price) * Number(qnt);
+            var total2 = Number(price2) * Number(qnt);
+            totalTd.innerHTML = total +'<input name="totalWithVat[]" value="'+total+'" hidden>';
+            total2Td.innerHTML = total2  +'<input name="totalTable[]" value="'+total2+'" hidden>';
+
 
              calculateTotal();
          }
@@ -1198,7 +1274,7 @@
      var target ;
      var trs = tbody.getElementsByTagName("tr");
      for (let item of trs) {
-         var td = item.getElementsByTagName("td")[12];
+         var td = item.getElementsByTagName("td")[13];
          var checkBox = td.getElementsByTagName("input")[0];
          if(checkBox.checked){
              target = item ;
@@ -1211,7 +1287,6 @@
      if(details.filter(c=> c.item_size_id == id).length > 0){
          details.splice(details.indexOf(details.filter(c=> c.item_size_id == id)[0]) , 1);
      }
-     document.getElementById('items').value = details ;
      console.log(details);
      table.deleteRow(target.rowIndex);
      calculateTotal();
@@ -1274,7 +1349,7 @@
 
         } else {
             // table is not available
-            alert($('<div>{{trans('main.table_not_available')}}</div>').text());
+            //alert($('<div>{{trans('main.table_not_available')}}</div>').text());
         }
      }
      function refresh(){
@@ -1327,6 +1402,8 @@
              dataType: 'json',
 
              success:function(response){
+                console.log(response);
+
                  if(response){
                      bill_number.value = response;
 

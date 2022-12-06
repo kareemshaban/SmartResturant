@@ -205,7 +205,8 @@ return [
     'tobacco_tax' => 'Tobacco Tax %',
     'receipt_tax' => 'Receipt Tax %',
     'table' => 'Hall - Table',
-    'service_val' => 'Service'
+    'service_val' => 'Service',
+    'add_item_first' => 'Please Add Menue Item First!'
 
 
 
