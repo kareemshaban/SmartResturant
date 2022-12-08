@@ -44,6 +44,8 @@
 
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
                                                            href="{{ route('tables') }}">{{ __('main.tables') }}</a> </li>
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="{{ route('printers') }}">{{ __('main.printers') }}</a> </li>
                     </ul>
                 </li>
                 <li class="sidebar-item">

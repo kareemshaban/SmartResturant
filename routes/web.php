@@ -168,6 +168,15 @@ function()
     Route::post('/updateTable/{id}', [App\Http\Controllers\TableController::class, 'update'])->name('updateTable');
     Route::get('/destroyTable/{id}', [App\Http\Controllers\TableController::class, 'destroy'])->name('destroyTable');
 
+   // printers routes
+
+    //tables routes
+    Route::get('/printers', [App\Http\Controllers\PrinterController::class, 'index'])->name('printers');
+    Route::get('/createPrinter', [App\Http\Controllers\PrinterController::class, 'create'])->name('createPrinter');
+    Route::post('/storePrinter', [App\Http\Controllers\PrinterController::class, 'store'])->name('storePrinter');
+    Route::get('/editPrinter/{id}', [App\Http\Controllers\PrinterController::class, 'edit'])->name('editPrinter');
+    Route::post('/updatePrinter/{id}', [App\Http\Controllers\PrinterController::class, 'update'])->name('updatePrinter');
+    Route::get('/destroyPrinter/{id}', [App\Http\Controllers\PrinterController::class, 'destroy'])->name('destroyPrinter');
 
     //settings routes
     Route::get('/tax-settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('tax-settings');
@@ -183,6 +192,7 @@ function()
     Route::get('/getVats', [App\Http\Controllers\SettingsController::class, 'getVats'])->name('getVats');
     Route::get('/getBillNo', [App\Http\Controllers\PosController::class, 'getBillNo'])->name('getBillNo');
     Route::get('/getDriver/{id}', [App\Http\Controllers\EmployeeController::class, 'getDriver'])->name('getDriver');
+    Route::get('/getTableBill/{id}', [App\Http\Controllers\BillController::class, 'getTableBill'])->name('getTableBill');
 
 
 

@@ -18,4 +18,7 @@ class Table extends Model
     public function hall(){
         return $this->belongsTo(Hall::class , 'hall_id');
     }
+    public function bills(){
+        return $this->hasMany(Bill::class , 'table_id');
+    }
 }

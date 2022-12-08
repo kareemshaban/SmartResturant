@@ -40,188 +40,6 @@
     <link rel="stylesheet" href="../../css/pos.css">
 
 
-    <style>
-        @font-face {
-            font-family: 'icomoon';
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        * {
-            font-family: 'icomoon';
-        }
-        .menue {
-            background: #E8E8F2;
-            padding-right: 20px;
-            padding-left: 20px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            border-radius: 30px;
-            height: 100ch;
-        }
-        .page{
-            margin-left: 20px;/
-    margin-right: 20px;
-    width:  calc( 100% - 40px);
-    min-width: calc( 100% - 40px);
-}
-        }
-        .cloned {
-            display: none !important;
-        }
-        .item-div{
-            display: none;
-        }
-        .table-div{
-            display: none;
-        }
-        .show {
-            display: block;
-        }
-        .item-parent{
-            background: white;
-            min-height: 150px;
-            padding-bottom: 5px;
-            border-top-right-radius: 15px;
-            border-top-left-radius: 15px;
-            box-shadow: 0 27px 25px 0px darkgrey;
-            border: outset 1px brown;
-        }
-        .item-img{
-            width:70px;
-            height: 70px;
-            border-radius: 50%;
-            margin: 10px auto;
-            display: block;
-            box-shadow: 0 27px 25px 0px darkgrey;
-        }
-        .extra{
-            height: 70px;
-            min-height: 70px;
-            border-radius: 15px;
-        }
-        .extra-img{
-            width:30px;
-            height: 30px;
-            border-radius: 50%;
-            margin: 10px auto;
-            display: block;
-            box-shadow: 0 27px 25px 0px darkgrey;
-        }
-        .extra-name{
-            display: block;
-            margin: auto;
-            text-align: center;
-            font-size: 11px;
-            font-weight: bold;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            width: 95%;
-        }
-        .item-name{
-            display: block;
-            margin: auto;
-            text-align: center;
-            font-size: 15px;
-            font-weight: bold;
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-            width: 95%;
-        }
-        .sizes{
-            width: 100%;
-            margin: auto;
-            position: absolute;
-            bottom: 0px;
-            left: 0;
-            right: 0;
-            box-shadow: 0 27px 25px 0px darkgrey;
-        }
-        .sizes div {
-            border: solid 1px brown ;
-            padding: 5px;
-            background: antiquewhite;
-        }
-        .form-group {
-            margin: 0;
-        }
-        .last-form{
-            border-bottom: solid 1px #dadada;
-            padding-bottom: 5px;
-        }
-        .table-wrap-height {
-            max-height:300px;
-            height: 300px;
-            border-bottom: solid 1px #dadada;
-            overflow-y: auto;
-        }
-
-        .row_border{
-            border-bottom: solid 2px #dadada;
-        }
-        .row-center{
-            margin: 0;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .margin-content{
-            margin: 10px auto;
-        }
-        .margin-content button {
-            width: 100%;
-            white-space: normal;
-        }
-        .margin-content button i , span{
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .margin-content button .tools{
-            font-size: 40px;
-        }
-        .margin-content button span {
-            margin-right: 10px;
-        }
-        .name_en {
-            direction: ltr;
-        }
-        .name_ar{
-            direction: rtl;
-        }
-      .available{
-          background: green;
-
-         }
-       .notAvailable{
-           background: red;
-       }
-       .selected_table{
-           background: #149ddd !important;
-       }
-      .tables{
-          width: 80px;
-          height: 80px;
-          text-align: center;
-          justify-content: center;
-          display: flex;
-          flex-direction: column;
-          border-radius: 15px;
-          color: white;
-          box-shadow: 0 27px 25px 0px darkgrey;
-          margin-bottom: 5px;
-      }
-      .alertImage{
-          width: 70px;
-          height: 70px;
-          display: block;
-          margin: 10px auto;
-      }
-    </style>
 </head>
 
 <body>
@@ -353,7 +171,7 @@
                          </div>
 
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
-                         <button type="button" class="btn btn-labeled btn-warning ">
+                         <button type="button" class="btn btn-labeled btn-warning paymentButton">
                              <span class="btn-label"><i class="fa fa-dollar"></i></span>{{__('main.pay')}}</button>
                          </div>
 
@@ -681,7 +499,7 @@
 
                                     <div class="col-lg-2 col-md-4 col-4 portfolio-item  table-div .{{$table -> hall_id}}">
                                         <div class="portfolio-wrap tables {{$table -> available == 1 ? 'available' : 'notAvailable'}}" #
-                                        onclick="selectTable(this , {{$table}})">
+                                        onclick="selectTable(this , {{$table}})" id="{{$table -> id}}">
 
                                             <label class="table-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">{{ Config::get('app.locale') == 'ar' ? $table -> name_ar : $table -> name_en}}</label>
 
@@ -708,10 +526,134 @@
                 </div>
                 <div class="modal-body" id="smallBody">
                     <img src="../../images/warning.png" class="alertImage">
+                    <label class="alertTitle">{{__('main.booked_table_title')}}</label>
+                    <br> <label  class="alertSubTitle" id="modal_table_bill"></label>
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <button type="button" class="btn btn-labeled btn-warning" >
+                                <span class="btn-label"><i class="fa fa-eye"></i></span>{{__('main.show_bill')}}</button>
+                        </div>
+                        <div class="col-6 text-center">
+                            <button type="button" class="btn btn-labeled btn-primary paymentButton"  >
+                                <span class="btn-label"><i class="fa fa-dollar"></i></span>{{__('main.pay')}}</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    {{--    Payment  Modal   --}}
+    <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"  data-bs-dismiss="modal"  aria-label="Close" style="color: red; font-size: 20px; font-weight: bold;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="paymentBody">
+                    <form>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.bill_no') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                    <input type="text"  id="modalBillNo"
+                                           class="form-control"
+                                           placeholder="{{ __('main.bill_no') }}" readonly />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.table') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span></label>
+                                    <input type="text"  id="modalTableHall"
+                                           class="form-control"
+                                           placeholder="{{ __('main.table') }}" readonly />
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-6 " style="display: block; margin: auto">
+                                <div class="form-group">
+                                    <label>{{ __('main.total') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                    <input type="text"  id="modalBillTotal"
+                                           class="form-control"
+                                           placeholder="{{ __('main.total') }}" readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.discount') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                    <input type="number"  id="modalBillDiscountPer"
+                                           class="form-control" max="100"
+                                           placeholder="{{ __('main.discount') }} %"  />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label>{{ __('main.discount') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                <div class="form-group">
+                                    <input type="number"  id="modalBillDiscount"
+                                           class="form-control"
+                                           placeholder="{{ __('main.discount') }}"  />
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="row">
+                            <div class="col-6 " style="display: block; margin: auto">
+                                <div class="form-group">
+                                    <label>{{ __('main.net') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                    <input type="text"  id="modalBillNet"
+                                           class="form-control"
+                                           placeholder="{{ __('main.net') }}" readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.cash') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                    <input type="number"  id="modalBillCash"
+                                           class="form-control"
+                                           placeholder="{{ __('main.cash') }}"  />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label>{{ __('main.visa') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                <div class="form-group">
+                                    <input type="number"  id="modalBillCredit"
+                                           class="form-control"
+                                           placeholder="{{ __('main.visa') }}"  />
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6" style="display: block; margin: 20px auto; text-align: center;">
+                                <button type="button" class="btn btn-labeled btn-primary"  >
+                                    {{__('main.finish_bill')}}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../cpanel/js/app-style-switcher.js"></script>
@@ -738,6 +680,7 @@
     let hall_data = document.getElementById("hall_data");
     hall_data.style.display = "none";
     details = [] ;
+    Bill = null ;
     refresh();
 
         if($('.bbb_viewed_slider').length)
@@ -805,30 +748,106 @@
     });
 
     $(document).on('click', '.notAvailable', function(event) {
+        const table_id = event.target.id ;
+        const local = document.getElementById("local").value;
+        $.ajax({
+            type:'get',
+            url:'getTableBill' + '/' + table_id,
+            dataType: 'json',
+
+            success:function(response){
+                console.log(response);
+                if(response[0]) {
+                    Bill = response[0] ;
+                    var modal_table_bill = document.getElementById('modal_table_bill');
+                    modal_table_bill.innerHTML = 'Bill Number :' + response[0].bill_number  + '<br>'
+                    + 'Table :' + ( local == 'ar' ? response[0].table.name_ar : response[0].table.name_en) ;
+                } else {
+                    Bill = null ;
+                    modal_table_bill.innerHTML ="";
+                }
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href
+                    , beforeSend: function() {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function(result) {
+                        $('#smallModal').modal("show");
+                        $('#mediumModal').modal("hide");
+                    }
+                    , complete: function() {
+                        $('#loader').hide();
+                    }
+                    , error: function(jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    }
+                    , timeout: 8000
+                })
+            }
+
+
+        });
+
+
+    });
+
+    $(document).on('click', '.paymentButton', function(event) {
+        const local = document.getElementById("local").value;
         event.preventDefault();
         let href = $(this).attr('data-attr');
         $.ajax({
-            url: href
-            , beforeSend: function() {
+            url: href,
+            beforeSend: function() {
                 $('#loader').show();
             },
             // return the result
             success: function(result) {
-                $('#smallModal').modal("show");
-                $('#mediumModal').modal("hide");
-            }
-            , complete: function() {
+                $('#paymentModal').modal("show");
+                try {
+                    $('#smallModal').modal("hide");
+                } catch (err){
+                    console.log(err);
+                }
+                var modalBillNo = document.getElementById('modalBillNo');
+                var modalTableHall = document.getElementById('modalTableHall');
+                var modalBillTotal = document.getElementById('modalBillTotal');
+                var modalBillDiscountPer = document.getElementById('modalBillDiscountPer');
+                var modalBillDiscount = document.getElementById('modalBillDiscount');
+                var modalBillNet = document.getElementById('modalBillNet');
+                var modalBillCash = document.getElementById('modalBillCash');
+                var modalBillCredit = document.getElementById('modalBillNet');
+
+                if(Bill){
+                    modalBillNo.value = Bill.bill_number ;
+                    modalTableHall.value = local == 'ar' ?( Bill.table.name_ar + '--' + Bill.table.hall.name_ar  ) :
+                        ( Bill.table.name_en + '--' + Bill.table.hall.name_en  ) ;
+                    modalBillTotal.value = Bill.net ;
+                    modalBillDiscountPer.value = "0" ;
+                    modalBillDiscount.value = "0" ;
+                    modalBillNet.value = Bill.net ;
+                    modalBillCash.value = Bill.net ;
+                    modalBillCredit.value = "0" ;
+
+                }
+
+                //  $('#mediumBody').html(result).show();
+            },
+            complete: function() {
                 $('#loader').hide();
-            }
-            , error: function(jqXHR, testStatus, error) {
+            },
+            error: function(jqXHR, testStatus, error) {
                 console.log(error);
                 alert("Page " + href + " cannot open. Error:" + error);
                 $('#loader').hide();
-            }
-            , timeout: 8000
+            },
+            timeout: 8000
         })
     });
-
     });
 
     function selecCategory(element , id){

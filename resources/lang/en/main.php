@@ -206,7 +206,20 @@ return [
     'receipt_tax' => 'Receipt Tax %',
     'table' => 'Hall - Table',
     'service_val' => 'Service',
-    'add_item_first' => 'Please Add Menue Item First!'
+    'add_item_first' => 'Please Add Menue Item First!',
+        'printers' => 'Printers',
+    'printer_name' => 'Printer Name',
+    'printer_type' => 'Printer Type',
+    'printer_type1' => 'Network',
+    'printer_type2' => 'Windows',
+    'printer_nickname' => 'Nick Name',
+    'new_printer' => 'Add New Printer',
+    'edit_printer' => 'Edit Printer Data',
+    'booked_table_title' => 'This Table is reserved , Choose what you want to do ',
+    'show_bill' => 'Show Bill',
+    'cash' => 'Cash',
+    'visa' => 'Credit',
+    'finish_bill' => 'Finish Bill'
 
 
 

@@ -204,7 +204,21 @@ return [
     'receipt_tax' => 'ضريبة سندات الصرف %',
     'table' => 'الصالة- الطاولة',
     'service_val' => 'الخدمة',
-    'add_item_first' => 'عفوا يجب اضافة صنف مينو أولا'
+    'add_item_first' => 'عفوا يجب اضافة صنف مينو أولا',
+    'printers' => 'الطابعات',
+    'printer_name' => 'إسم الطابعة',
+    'printer_type' => 'نوع الطابعة',
+    'printer_type1' => 'شبكة',
+    'printer_type2' => 'ويندوز',
+    'printer_nickname' => 'إسم مستعار',
+    'new_printer' => 'إضافة طابعة جديدة',
+    'edit_printer' => 'تعديل بيانات الطابعة',
+    'booked_table_title' => 'هذه الطاولة محجوزة أختر ما تريد تنفيذه',
+    'show_bill' => 'عرض الفاتورة',
+    'cash' => 'نقدا',
+    'visa' => 'صراف',
+    'finish_bill' => 'إنهاء الفاتوةر'
+
 
 
 

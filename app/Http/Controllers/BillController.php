@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class BillController extends Controller
@@ -81,5 +82,12 @@ class BillController extends Controller
     public function destroy(Bill $bill)
     {
         //
+    }
+
+    public function getTableBill($id){
+        $bill = Bill::with('details' , 'table.hall') ->
+        where('table_id' , '=' , $id) -> get();
+        echo json_encode ($bill);
+        exit;
     }
 }

@@ -26,4 +26,10 @@ class BillDetails extends Model
         'notes',
         'txt_holder'
     ];
+
+    public function bill()
+    {
+        return $this->belongsTo(Bill::class , 'identifier');
+    }
+
 }
