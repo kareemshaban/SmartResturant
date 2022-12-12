@@ -29,7 +29,13 @@ class BillDetails extends Model
 
     public function bill()
     {
-        return $this->belongsTo(Bill::class , 'identifier');
+        return $this->belongsTo(Bill::class , 'identifier' , 'identifier');
+    }
+
+
+    public function items()
+    {
+        return $this->belongsToMany(ItemSizes::class  );
     }
 
 }

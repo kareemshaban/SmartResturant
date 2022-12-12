@@ -219,7 +219,11 @@ return [
     'show_bill' => 'Show Bill',
     'cash' => 'Cash',
     'visa' => 'Credit',
-    'finish_bill' => 'Finish Bill'
+    'finish_bill' => 'Finish Bill',
+    'payment_header' => 'Payment Process',
+    'bill_created' => 'The invoice has been processed successfully',
+    'bill_payed' => 'The bill has been successfully paid',
+    'bll_prep_payed' => 'The invoice has been processed and paid successfully'
 
 
 

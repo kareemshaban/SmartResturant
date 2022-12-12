@@ -166,7 +166,7 @@
                  <div class="col-2">
                      <div class="row " data-aos="fade-up">
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
-                             <button type="button" class="btn btn-labeled btn-success ">
+                             <button type="submit" class="btn btn-labeled btn-success " form="header-form" name="action" value="pay_prepare">
                                  <span class="btn-label"><i class="fa fa-check"></i></span>{{__('main.pay_prep')}}</button>
                          </div>
 
@@ -178,7 +178,7 @@
 
 
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
-                         <button type="submit" class="btn btn-labeled btn-info " form="header-form">
+                         <button type="submit" class="btn btn-labeled btn-info " form="header-form" name="action" value="prepare">
                              <span class="btn-label"><i class="fa fa-shopping-bag"></i></span> {{__('main.prepare')}} </button>
                          </div>
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
@@ -228,9 +228,9 @@
                         <div class="col-lg-12 d-flex justify-content-center">
                             <ul id="portfolio-flters">
                                 <li  class="filter-active" onclick="selectBillType(this , 1)" id="default_type">{{__('main.bill_type1')}}</li>
-                                <li onclick="selectBillType(this , 2)">{{__('main.bill_type2')}}</li>
-                                <li onclick="selectBillType(this , 3)">{{__('main.bill_type3')}}</li>
-                                <li onclick="selectBillType(this , 4)">{{__('main.bill_type4')}}</li>
+                                <li onclick="selectBillType(this , 2)" id="default_type2">{{__('main.bill_type2')}}</li>
+                                <li onclick="selectBillType(this , 3)" id="default_type3">{{__('main.bill_type3')}}</li>
+                                <li onclick="selectBillType(this , 4)" id="default_type4">{{__('main.bill_type4')}}</li>
                             </ul>
                         </div>
                     </div>
@@ -530,7 +530,7 @@
                     <br> <label  class="alertSubTitle" id="modal_table_bill"></label>
                     <div class="row">
                         <div class="col-6 text-center">
-                            <button type="button" class="btn btn-labeled btn-warning" >
+                            <button type="button" class="btn btn-labeled btn-warning" onclick="setBill()">
                                 <span class="btn-label"><i class="fa fa-eye"></i></span>{{__('main.show_bill')}}</button>
                         </div>
                         <div class="col-6 text-center">
@@ -548,20 +548,26 @@
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                  <label class="modelTitle"> {{__('main.payment_header')}}</label>
                     <button type="button" class="close"  data-bs-dismiss="modal"  aria-label="Close" style="color: red; font-size: 20px; font-weight: bold;">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" id="paymentBody">
-                    <form>
+                    <form   method="POST" action="{{ route('payBill') }}"
+                          enctype="multipart/form-data" >
+                        @csrf
 
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>{{ __('main.bill_no') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
-                                    <input type="text"  id="modalBillNo"
+                                    <input type="text"  id="modalBillNo" name="modalBillNo"
                                            class="form-control"
                                            placeholder="{{ __('main.bill_no') }}" readonly />
+                                    <input type="text"  id="modalBillId" name="modalBillId"
+                                           class="form-control"
+                                           placeholder="{{ __('main.bill_no') }}" hidden />
                                 </div>
                             </div>
                             <div class="col-6">
@@ -570,6 +576,9 @@
                                     <input type="text"  id="modalTableHall"
                                            class="form-control"
                                            placeholder="{{ __('main.table') }}" readonly />
+                                    <input type="text"  id="modalTableId" name="modalTableId"
+                                           class="form-control"
+                                           placeholder="{{ __('main.table') }}" hidden />
                                 </div>
 
                             </div>
@@ -580,7 +589,7 @@
                             <div class="col-6 " style="display: block; margin: auto">
                                 <div class="form-group">
                                     <label>{{ __('main.total') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
-                                    <input type="text"  id="modalBillTotal"
+                                    <input type="text"  id="modalBillTotal" name="modalBillTotal"
                                            class="form-control"
                                            placeholder="{{ __('main.total') }}" readonly />
                                 </div>
@@ -590,18 +599,20 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>{{ __('main.discount') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
-                                    <input type="number"  id="modalBillDiscountPer"
+                                    <label>{{ __('main.discount') }} <span style="color:red; font-size:20px; font-weight:bold;">%</span> </label>
+                                    <input type="number"  step="any"  id="modalBillDiscountPer" name="modalBillDiscountPer"
                                            class="form-control" max="100"
-                                           placeholder="{{ __('main.discount') }} %"  />
+                                           placeholder="{{ __('main.discount') }} %"  onkeyup="calculateModalDiscount()"
+                                    onchange="calculateModalDiscount()"/>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <label>{{ __('main.discount') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                <label>{{ __('main.discount') }} <span style="color:red; font-size:20px; font-weight:bold;"></span> </label>
                                 <div class="form-group">
-                                    <input type="number"  id="modalBillDiscount"
+                                    <input type="number" step="any" id="modalBillDiscount" name="modalBillDiscount"
                                            class="form-control"
-                                           placeholder="{{ __('main.discount') }}"  />
+                                           placeholder="{{ __('main.discount') }}"  onkeyup="calculateModalDiscountPer()"
+                                           onchange="calculateModalDiscountPer()" />
                                 </div>
 
                             </div>
@@ -612,7 +623,7 @@
                             <div class="col-6 " style="display: block; margin: auto">
                                 <div class="form-group">
                                     <label>{{ __('main.net') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
-                                    <input type="text"  id="modalBillNet"
+                                    <input type="text"  id="modalBillNet" name="modalBillNet"
                                            class="form-control"
                                            placeholder="{{ __('main.net') }}" readonly />
                                 </div>
@@ -623,7 +634,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>{{ __('main.cash') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
-                                    <input type="number"  id="modalBillCash"
+                                    <input type="number" step="any" id="modalBillCash" name="modalBillCash"
                                            class="form-control"
                                            placeholder="{{ __('main.cash') }}"  />
                                 </div>
@@ -631,7 +642,7 @@
                             <div class="col-6">
                                 <label>{{ __('main.visa') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
                                 <div class="form-group">
-                                    <input type="number"  id="modalBillCredit"
+                                    <input type="number" step="any" id="modalBillCredit" name="modalBillCredit"
                                            class="form-control"
                                            placeholder="{{ __('main.visa') }}"  />
                                 </div>
@@ -643,7 +654,7 @@
 
                         <div class="row">
                             <div class="col-6" style="display: block; margin: 20px auto; text-align: center;">
-                                <button type="button" class="btn btn-labeled btn-primary"  >
+                                <button type="submit" class="btn btn-labeled btn-primary"  >
                                     {{__('main.finish_bill')}}</button>
                             </div>
                         </div>
@@ -675,12 +686,42 @@
 
  $(document).ready(function()
 {
-    const mediumButton = document.getElementById("mediumButton");
-    mediumButton.style.display = "none";
+    $.ajax({
+        type:'get',
+        url:'getLastBill',
+        dataType: 'json',
+
+        success:function(response){
+            console.log(response);
+
+            if(response){
+
+                if(response.billType == 1 || response.billType == 2){
+                    if(response.payed == 0){
+                        Bill = response ;
+                        $('#paymentModal').modal("show");
+                        fillPaymentModal();
+                    } else {
+                        Bill = null ;
+                    }
+
+                } else {
+                    Bill = null ;
+                }
+
+
+            } else {
+                Bill = null ;
+            }
+        }
+    });
+
+    // const mediumButton = document.getElementById("mediumButton");
+    // mediumButton.style.display = "none";
     let hall_data = document.getElementById("hall_data");
     hall_data.style.display = "none";
     details = [] ;
-    Bill = null ;
+
     refresh();
 
         if($('.bbb_viewed_slider').length)
@@ -813,27 +854,7 @@
                 } catch (err){
                     console.log(err);
                 }
-                var modalBillNo = document.getElementById('modalBillNo');
-                var modalTableHall = document.getElementById('modalTableHall');
-                var modalBillTotal = document.getElementById('modalBillTotal');
-                var modalBillDiscountPer = document.getElementById('modalBillDiscountPer');
-                var modalBillDiscount = document.getElementById('modalBillDiscount');
-                var modalBillNet = document.getElementById('modalBillNet');
-                var modalBillCash = document.getElementById('modalBillCash');
-                var modalBillCredit = document.getElementById('modalBillNet');
-
-                if(Bill){
-                    modalBillNo.value = Bill.bill_number ;
-                    modalTableHall.value = local == 'ar' ?( Bill.table.name_ar + '--' + Bill.table.hall.name_ar  ) :
-                        ( Bill.table.name_en + '--' + Bill.table.hall.name_en  ) ;
-                    modalBillTotal.value = Bill.net ;
-                    modalBillDiscountPer.value = "0" ;
-                    modalBillDiscount.value = "0" ;
-                    modalBillNet.value = Bill.net ;
-                    modalBillCash.value = Bill.net ;
-                    modalBillCredit.value = "0" ;
-
-                }
+                fillPaymentModal();
 
                 //  $('#mediumBody').html(result).show();
             },
@@ -849,6 +870,77 @@
         })
     });
     });
+   function  fillPaymentModal(){
+     const local = document.getElementById("local").value;
+     const modalBillNo = document.getElementById('modalBillNo');
+     const modalTableHall = document.getElementById('modalTableHall');
+     const modalTableId = document.getElementById('modalTableId');
+     const modalBillTotal = document.getElementById('modalBillTotal');
+     const modalBillDiscountPer = document.getElementById('modalBillDiscountPer');
+     const modalBillDiscount = document.getElementById('modalBillDiscount');
+     const modalBillNet = document.getElementById('modalBillNet');
+     const modalBillCash = document.getElementById('modalBillCash');
+     const modalBillCredit = document.getElementById('modalBillCredit');
+     const modalBillId = document.getElementById('modalBillId');
+
+
+     if(Bill){
+         modalBillId.value = Bill.id ;
+         modalBillNo.value = Bill.bill_number ;
+         if(Bill.table){
+             modalTableHall.value = local == 'ar' ?( Bill.table.name_ar + '--' + Bill.table.hall.name_ar  ) :
+                 ( Bill.table.name_en + '--' + Bill.table.hall.name_en  ) ;
+             modalTableId.value = Bill.table.id ;
+         }  else {
+             modalTableId.value = 0;
+         }
+
+        var per = (Bill.discount / ( Number(Bill.net) + Number(Bill.discount)) )* 100;
+         modalBillTotal.value =   Bill.net;
+          modalBillDiscountPer.value = per ;
+         modalBillDiscount.value = Bill.discount ;
+         modalBillNet.value = Bill.net ;
+         modalBillCash.value = Bill.cash == 0 ? Bill.net : Bill.cash;
+         modalBillCredit.value = Bill.credit;
+
+     }
+ }
+   function calculateModalDiscount(){
+       const modalBillTotal = document.getElementById('modalBillTotal');
+       const modalBillDiscountPer = document.getElementById('modalBillDiscountPer');
+       var modalBillDiscount = document.getElementById('modalBillDiscount');
+       const modalBillNet = document.getElementById('modalBillNet');
+       const modalBillCash = document.getElementById('modalBillCash');
+       const modalBillCredit = document.getElementById('modalBillCredit');
+
+        var total = modalBillTotal.value ;
+        var per = modalBillDiscountPer.value ;
+        var discount = total * (per / 100);
+        var net = Number(total) - Number(discount);
+        modalBillDiscount.value = discount.toFixed("2");
+       modalBillNet.value = net.toFixed("2");
+       modalBillCash.value = net.toFixed("2");
+       modalBillCredit.value = 0;
+   }
+   function calculateModalDiscountPer(){
+     const modalBillTotal = document.getElementById('modalBillTotal');
+     const modalBillDiscountPer = document.getElementById('modalBillDiscountPer');
+     var modalBillDiscount = document.getElementById('modalBillDiscount');
+     const modalBillNet = document.getElementById('modalBillNet');
+     const modalBillCash = document.getElementById('modalBillCash');
+     const modalBillCredit = document.getElementById('modalBillCredit');
+
+     var total = modalBillTotal.value ;
+     var discount = modalBillDiscount.value ;
+
+     var per = (discount / total )* 100;
+     var net = Number(total) - Number(discount);
+     modalBillDiscountPer.value =per.toFixed("2");
+     modalBillNet.value = net.toFixed("2") ;
+     modalBillCash.value = net.toFixed("2") ;
+     modalBillCredit.value = 0 ;
+   }
+
 
     function selecCategory(element , id){
         const collection = document.getElementsByClassName("selected-cat");
@@ -878,7 +970,7 @@
         }
 
 
- function w3AddClass(element, name) {
+   function w3AddClass(element, name) {
      var i, arr1, arr2;
      arr1 = element.className.split(" ");
      arr2 = name.split(" ");
@@ -889,8 +981,8 @@
      }
  }
 
- // Hide elements that are not selected
- function w3RemoveClass(element, name) {
+    // Hide elements that are not selected
+    function w3RemoveClass(element, name) {
      var i, arr1, arr2;
      arr1 = element.className.split(" ");
      arr2 = name.split(" ");
@@ -902,72 +994,14 @@
      element.className = arr1.join(" ");
  }
 
-    function  selecItemSize(size , item ){
+    function selecItemSize(size , item ){
         const local = document.getElementById("local").value;
         var table = document.getElementById("details-body");
         var repeate = document.getElementById( 'details-body-tr' + size.id);
         console.log(repeate);
         if(!repeate) {
-            var row = table.insertRow(-1);
 
-            let obj ={
-                'item_id': item.id ,
-                'size_id': size.size.id,
-                'item_size_id' : size.id ,
-                'qnt' : 1 ,
-                'price':  size.price,
-                'priceWithVat': size.priceWithAddValue,
-                'total': size.price,
-                'totalWithVat': size.priceWithAddValue,
-                'isExtra': 0,
-                'extra_item_id':0,
-                'notes': '',
-                'txt_holder': ''
-            };
-            details.push(obj);
-            row.id = 'details-body-tr' + size.id;
-            row.className = "text-center";
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            var cell4 = row.insertCell(3);
-            var cell5 = row.insertCell(4);
-            var cell50 = row.insertCell(5);
-            var cell6 = row.insertCell(6);
-            var cell7 = row.insertCell(7);
-            var cell8 = row.insertCell(8);
-            var cell9 = row.insertCell(9);
-            var cell10 = row.insertCell(10);
-            var cell11 = row.insertCell(11);
-            var cell12 = row.insertCell(12);
-            var cell13 = row.insertCell(13);
-            var cell14 = row.insertCell(14);
-            cell2.hidden = true;
-            cell3.hidden = true;
-            cell4.hidden = true;
-            cell5.hidden = true;
-            cell50.hidden = true;
-            cell11.hidden = true;
-            cell12.hidden = true;
-            cell14.hidden = true;
-
-            cell1.innerHTML = details.length ;
-            cell2.innerHTML = item.id+'<input name="item_id[]" value="'+item.id+'" hidden>';
-            cell3.innerHTML = size.size.id +'<input name="size_id[]" value="'+size.size.id+'" hidden>';
-            cell4.innerHTML = size.id +'<input name="item_size_id[]" value="'+size.id+'" hidden>';
-            cell5.innerHTML = "0";
-            cell50.innerHTML = "0" +'<input name="isExtra[]" value="0" hidden>';
-            cell6.innerHTML = local == 'ar' ? item.name_ar : item.name_en ;
-            cell7.innerHTML = size.size.label;
-            cell8.innerHTML = "1" +'<input name="qnt[]" value="1" hidden>';
-            cell9.innerHTML =  size.priceWithAddValue +'<input name="priceWithVat[]" value="'+size.priceWithAddValue+'" hidden>';
-            cell10.innerHTML = size.priceWithAddValue +'<input name="totalWithVat[]" value="'+ size.priceWithAddValue+'" hidden>';
-            cell11.innerHTML = size.price +'<input name="price[]" value="'+size.price+'" hidden>';
-            cell12.innerHTML = size.price +'<input name="totalTable[]" value="'+size.price+'" hidden>';
-
-            cell14.innerHTML = 0 +'<input name="extra_item_id[]" value="0" hidden>';
-            cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
-
+            AddItemToTable(size , item);
             calculateTotal();
         } else {
 
@@ -986,60 +1020,76 @@
             checkBox.checked = false ;
         }
     }
+    function AddItemToTable(size , item){
+        var table = document.getElementById("details-body");
 
- function  selectExtra(item){
+        var row = table.insertRow(-1);
+
+        let obj ={
+            'item_id': item.id ,
+            'size_id': size.size.id,
+            'item_size_id' : size.id ,
+            'qnt' : 1 ,
+            'price':  size.price,
+            'priceWithVat': size.priceWithAddValue,
+            'total': size.price,
+            'totalWithVat': size.priceWithAddValue,
+            'isExtra': 0,
+            'extra_item_id':0,
+            'notes': '',
+            'txt_holder': ''
+        };
+        details.push(obj);
+        row.id = 'details-body-tr' + size.id;
+        row.className = "text-center";
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell50 = row.insertCell(5);
+        var cell6 = row.insertCell(6);
+        var cell7 = row.insertCell(7);
+        var cell8 = row.insertCell(8);
+        var cell9 = row.insertCell(9);
+        var cell10 = row.insertCell(10);
+        var cell11 = row.insertCell(11);
+        var cell12 = row.insertCell(12);
+        var cell13 = row.insertCell(13);
+        var cell14 = row.insertCell(14);
+        cell2.hidden = true;
+        cell3.hidden = true;
+        cell4.hidden = true;
+        cell5.hidden = true;
+        cell50.hidden = true;
+        cell11.hidden = true;
+        cell12.hidden = true;
+        cell14.hidden = true;
+
+        cell1.innerHTML = details.length ;
+        cell2.innerHTML = item.id+'<input name="item_id[]" value="'+item.id+'" hidden>';
+        cell3.innerHTML = size.size.id +'<input name="size_id[]" value="'+size.size.id+'" hidden>';
+        cell4.innerHTML = size.id +'<input name="item_size_id[]" value="'+size.id+'" hidden>';
+        cell5.innerHTML = "0";
+        cell50.innerHTML = "0" +'<input name="isExtra[]" value="0" hidden>';
+        cell6.innerHTML = local == 'ar' ? item.name_ar : item.name_en ;
+        cell7.innerHTML = size.size.label;
+        cell8.innerHTML = "1" +'<input name="qnt[]" value="1" hidden>';
+        cell9.innerHTML =  size.priceWithAddValue +'<input name="priceWithVat[]" value="'+size.priceWithAddValue+'" hidden>';
+        cell10.innerHTML = size.priceWithAddValue +'<input name="totalWithVat[]" value="'+ size.priceWithAddValue+'" hidden>';
+        cell11.innerHTML = size.price +'<input name="price[]" value="'+size.price+'" hidden>';
+        cell12.innerHTML = size.price +'<input name="totalTable[]" value="'+size.price+'" hidden>';
+
+        cell14.innerHTML = 0 +'<input name="extra_item_id[]" value="0" hidden>';
+        cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
+    }
+    function selectExtra(item){
     if(details.length > 0){
         var table = document.getElementById("details-body");
      var repeate = document.getElementById( 'details-body-tr-extra' + item.id);
      const local = document.getElementById("local").value;
      if(!repeate) {
-         var row = table.insertRow(-1);
-         row.id = 'details-body-tr-extra' + item.id;
-         row.className = "text-center";
-         var cell1 = row.insertCell(0);
-         var cell2 = row.insertCell(1);
-         var cell3 = row.insertCell(2);
-         var cell4 = row.insertCell(3);
-         var cell5 = row.insertCell(4);
-         var cell50 = row.insertCell(5);
-         var cell6 = row.insertCell(6);
-         var cell7 = row.insertCell(7);
-         var cell8 = row.insertCell(8);
-         var cell9 = row.insertCell(9);
-         var cell10 = row.insertCell(10);
-         var cell11 = row.insertCell(11);
-         var cell12 = row.insertCell(12);
-         var cell13 = row.insertCell(13);
-         var cell14 = row.insertCell(14);
-         cell2.hidden = true;
-         cell3.hidden = true;
-         cell4.hidden = true;
-         cell5.hidden = true;
-         cell50.hidden = true;
-         cell11.hidden = true;
-
-         cell12.hidden = true;
-         cell14.hidden = true;
-
-
-         cell1.innerHTML = "";
-         cell1.style.background = "#E8E8F2";
-         cell2.innerHTML = item.id +'<input name="item_id[]" value="'+item.id+'" hidden>';
-         cell3.innerHTML =item.sizes[0].size_id  +'<input name="size_id[]" value="'+item.sizes[0].size_id +'" hidden>';
-         cell4.innerHTML =  item.sizes[0].id  +'<input name="item_size_id[]" value="'+item.sizes[0].id+'" hidden>';;
-         cell5.innerHTML = "0";
-         cell50.innerHTML = "1" +'<input name="isExtra[]" value="1" hidden>';
-         cell6.innerHTML =  local == 'ar' ? item.name_ar : item.name_en ;
-         cell7.innerHTML = "---";
-         cell8.innerHTML = "1" +'<input name="qnt[]" value="1" hidden>';
-         cell9.innerHTML =  item.sizes[0].priceWithAddValue +'<input name="priceWithVat[]" value="'+ item.sizes[0].priceWithAddValue +'" hidden>';
-         cell10.innerHTML = item.sizes[0].priceWithAddValue +'<input name="totalWithVat[]" value="'+ item.sizes[0].priceWithAddValue +'" hidden>';
-         cell11.innerHTML = item.sizes[0].price+'<input name="price[]" value="'+ item.sizes[0].price  +'" hidden>';
-         cell12.innerHTML = item.sizes[0].price  +'<input name="totalTable[]" value="'+ item.sizes[0].price +'" hidden>';
-         cell14.innerHTML = details[details.length -1].item_size_id +'<input name="extra_item_id[]" value="'+details[details.length -1].item_size_id +'" hidden>';
-         cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
-         row.style.background = "cornflowerblue";
-         row.style.color = "white";
+         AddExtraToTable(item);
          calculateTotal();
      } else {
 
@@ -1061,8 +1111,57 @@
     }
 
  }
+    function AddExtraToTable(item){
+        var table = document.getElementById("details-body");
+        var row = table.insertRow(-1);
+        row.id = 'details-body-tr-extra' + item.id;
+        row.className = "text-center";
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell50 = row.insertCell(5);
+        var cell6 = row.insertCell(6);
+        var cell7 = row.insertCell(7);
+        var cell8 = row.insertCell(8);
+        var cell9 = row.insertCell(9);
+        var cell10 = row.insertCell(10);
+        var cell11 = row.insertCell(11);
+        var cell12 = row.insertCell(12);
+        var cell13 = row.insertCell(13);
+        var cell14 = row.insertCell(14);
+        cell2.hidden = true;
+        cell3.hidden = true;
+        cell4.hidden = true;
+        cell5.hidden = true;
+        cell50.hidden = true;
+        cell11.hidden = true;
 
-    function  rowCheckChange(ele){
+        cell12.hidden = true;
+        cell14.hidden = true;
+
+
+        cell1.innerHTML = "";
+        cell1.style.background = "#E8E8F2";
+        cell2.innerHTML = item.id +'<input name="item_id[]" value="'+item.id+'" hidden>';
+        cell3.innerHTML =item.sizes[0].size_id  +'<input name="size_id[]" value="'+item.sizes[0].size_id +'" hidden>';
+        cell4.innerHTML =  item.sizes[0].id  +'<input name="item_size_id[]" value="'+item.sizes[0].id+'" hidden>';;
+        cell5.innerHTML = "0";
+        cell50.innerHTML = "1" +'<input name="isExtra[]" value="1" hidden>';
+        cell6.innerHTML =  local == 'ar' ? item.name_ar : item.name_en ;
+        cell7.innerHTML = "---";
+        cell8.innerHTML = "1" +'<input name="qnt[]" value="1" hidden>';
+        cell9.innerHTML =  item.sizes[0].priceWithAddValue +'<input name="priceWithVat[]" value="'+ item.sizes[0].priceWithAddValue +'" hidden>';
+        cell10.innerHTML = item.sizes[0].priceWithAddValue +'<input name="totalWithVat[]" value="'+ item.sizes[0].priceWithAddValue +'" hidden>';
+        cell11.innerHTML = item.sizes[0].price+'<input name="price[]" value="'+ item.sizes[0].price  +'" hidden>';
+        cell12.innerHTML = item.sizes[0].price  +'<input name="totalTable[]" value="'+ item.sizes[0].price +'" hidden>';
+        cell14.innerHTML = details[details.length -1].item_size_id +'<input name="extra_item_id[]" value="'+details[details.length -1].item_size_id +'" hidden>';
+        cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
+        row.style.background = "cornflowerblue";
+        row.style.color = "white";
+    }
+    function rowCheckChange(ele){
         console.log(ele.checked);
         const table =  document.getElementById("details");
         var checkBoxes = table.getElementsByTagName("INPUT");
@@ -1099,10 +1198,10 @@
              driver_data.style.display = "none";
          }
          if(i == 3 || i == 4){
-             mediumButton.style.display = "block";
+            // mediumButton.style.display = "block";
              hall_data.style.display = "block";
          } else {
-             mediumButton.style.display = "none";
+            // mediumButton.style.display = "none";
              hall_data.style.display = "none";
          }
 
@@ -1233,8 +1332,7 @@
         calculateTotal();
 
     }
-
-     function decreaseQnt(){
+    function decreaseQnt(){
          const table =  document.getElementById("details");
          var tbodys = table.getElementsByTagName("tbody");
          var tbody = tbodys[0];
@@ -1286,7 +1384,7 @@
              calculateTotal();
          }
      }
- function  removeItem(){
+    function removeItem(){
      const table =  document.getElementById("details");
      var tbodys = table.getElementsByTagName("tbody");
      var tbody = tbodys[0];
@@ -1310,7 +1408,7 @@
      table.deleteRow(target.rowIndex);
      calculateTotal();
  }
-     function  selectHall(element , id){
+    function selectHall(element , id){
 
          console.log(id);
          const collection = document.getElementsByClassName("model-filter-active");
@@ -1338,7 +1436,7 @@
              if (x[i].className.indexOf(id) > -1) w3AddClass(x[i], "show");
          }
      }
-     function selectTable(element , table){
+    function selectTable(element , table){
         if(table.available == 1){
             // select table
             const collection = document.getElementsByClassName("selected_table");
@@ -1371,7 +1469,7 @@
             //alert($('<div>{{trans('main.table_not_available')}}</div>').text());
         }
      }
-     function refresh(){
+    function refresh(){
         const client_id = document.getElementById("client_id");
         const phone = document.getElementById("phone");
         const  address = document.getElementById("address");
@@ -1433,6 +1531,24 @@
          });
 
 
+         $.ajax({
+             type:'get',
+             url:'getBillNo',
+             dataType: 'json',
+
+             success:function(response){
+                 console.log(response);
+
+                 if(response){
+                     bill_number.value = response;
+
+                 } else {
+                     bill_number.value = "";
+                 }
+             }
+         });
+
+
          const totalEl = document.getElementById("total");
          const discountEl = document.getElementById("discount");
          const vatEl = document.getElementById("vat");
@@ -1452,8 +1568,7 @@
 
          }
      }
-
-     function selectClient(){
+    function selectClient(){
         const client_id = document.getElementById("client_id").value ;
          $.ajax({
              type:'get',
@@ -1475,8 +1590,7 @@
              }
          });
      }
-
-      function selectDriver(){
+    function selectDriver(){
      const driver_id = document.getElementById("driver_id").value ;
      $.ajax({
          type:'get',
@@ -1494,6 +1608,82 @@
      });
  }
 
+
+    function setBill(){
+        console.log(Bill);
+       if(Bill){
+           var ele = null ;
+
+           let bill_type = document.getElementById("bill_type");
+           let client_id = document.getElementById('client_id');
+           let phone = document.getElementById('phone');
+           let address = document.getElementById('address');
+           let driver_id = document.getElementById('driver_id');
+           let table_id = document.getElementById('table_id');
+           let table_name = document.getElementById('table_name');
+           let date = document.getElementById('date');
+           let bill_number = document.getElementById('bill_number');
+           let total = document.getElementById('total');
+           let vat = document.getElementById('vat');
+           let serviceVal = document.getElementById('serviceVal');
+           let discount = document.getElementById('discount');
+           let net = document.getElementById('net');
+           let cash = document.getElementById('cash');
+           let credit = document.getElementById('credit');
+           let bank = document.getElementById('bank');
+
+
+           bill_type.value = Bill.billType ;
+           if(Bill.billType == 1){
+               ele =  document.getElementById("default_type");
+           } else if(Bill.billType == 2){
+               ele =  document.getElementById("default_type2");
+           } else if(Bill.billType == 3){
+               ele =  document.getElementById("default_type3");
+           } else if(Bill.billType == 4){
+               ele =  document.getElementById("default_type4");
+           }
+           selectBillType(ele ,  Bill.billType);
+           client_id.value = Bill.client_id ;
+           phone.value = Bill.phone ;
+           address.value = Bill.address;
+           if(Bill.driver_id > 0){
+               driver_id.value = Bill.driver_id ;
+           }
+           if(Bill.table_id > 0){
+               table_id.value = Bill.table_id ;
+               table_name.value = Bill.table.hall.name_ar +  "--" + Bill.table.name_ar;
+
+           } else {
+               table_id.value = 0 ;
+               table_name.value = "";
+           }
+            date.value = new Date(Bill.bill_date).toLocaleString() ;
+            bill_number.value = Bill.bill_number ;
+            total.value = Bill.total ;
+            vat.value = Bill.vat ;
+            serviceVal.value = Bill.serviceVal ;
+            discount.value = Bill.discount ;
+            net.value = Bill.net ;
+            cash.value = Bill.cash ;
+            credit.value = Bill.credit ;
+            bank.value = Bill.bank ;
+            for(let i = 0 ; i < Bill.details.length ; i++){
+               if(Bill.details[i].isExtra == 0){
+                   // AddItem
+                   AddItemToTable(Bill.details[i].items[0] , Bill.details[i].items[0].item);
+               } else {
+                   // AddExtra
+                   AddExtraToTable(Bill.details[i].items[0].item);
+               }
+            }
+
+
+
+
+            $('#smallModal').modal("hide");
+       }
+    }
     </script>
 
 </body>

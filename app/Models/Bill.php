@@ -39,7 +39,7 @@ class Bill extends Model
     ];
     public function details()
     {
-        return $this->hasMany(BillDetails::class , 'identifier');
+        return $this->hasMany(BillDetails::class , 'identifier' , 'identifier');
     }
     public function table(){
         return $this->belongsTo(Table::class , 'table_id');

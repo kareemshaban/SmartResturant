@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Category ;
 use App\Models\ItemSizes ;
 
 class Item extends Model
@@ -34,4 +34,6 @@ class Item extends Model
     {
         return $this->hasMany(ItemSizes::class , 'item_id');
     }
+
+
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use App\Models\BillDetails;
+use App\Models\BillDetailsItems;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Employee;
@@ -106,7 +107,20 @@ class PosController extends Controller
            ]) -> id;
            $this -> bookTable($request -> table_id);
            $this -> storeDetails($uuid , $id , $request);
-           return redirect()->route('pos')->with('success' , __('main.created'));
+           $val = null;
+           switch ($request->input('action')){
+               case 'pay_prepare':
+                   $val = 2 ;
+                   break;
+               case 'prepare':
+                   $val = 1 ;
+                   break;
+           }
+           if($val = 1 )
+              return redirect()->route('pos')->with('success' , __('main.bill_created'));
+           else
+               return redirect()->route('pos');
+
 
        }catch(QueryException $ex){
 
@@ -117,7 +131,7 @@ class PosController extends Controller
 
 
         for($i = 0 ; $i < count($request -> item_id) ; $i++ ){
-            BillDetails::create([
+         $details_id =   BillDetails::create([
                'identifier' => $identifier,
                 'bill_id' => $id ,
                 'item_id' => $request -> item_id[$i],
@@ -132,6 +146,11 @@ class PosController extends Controller
                 'extra_item_id' => $request -> extra_item_id[$i],
                 'notes' => "",
                 'txt_holder' => "",
+            ]) -> id;
+
+            BillDetailsItems::create([
+                    'bill_id' => $details_id ,
+                    'item_sizes_id' =>  $request -> item_size_id[$i]
             ]);
         }
 
@@ -151,10 +170,42 @@ class PosController extends Controller
         $table = Table::find($table_id);
         if($table){
          $table -> available = 1 ;
+            $table -> update();
         }
-        $table -> update();
+
     }
 
+    public function payBill(Request  $request){
+
+        $validated = $request->validate([
+            'modalBillId' => 'required',
+            'modalTableId' => 'required',
+            'modalBillDiscount' => 'required',
+            'modalBillNet' => 'required',
+            'modalBillCash' => 'required',
+            'modalBillCredit' => 'required'
+        ]);
+
+        $bill = Bill::find($request -> modalBillId);
+        if($bill){
+            try {
+                $bill->update([
+                    'discount' => $request->modalBillDiscount,
+                    'net' => $request->modalBillNet,
+                    'cash' => $request->modalBillCash,
+                    'credit' => $request->modalBillCredit,
+                    'payed' => true,
+                    'state' => 2
+                ]);
+
+                $this -> releaseTable($request -> modalTableId);
+                return redirect()->route('pos')->with('success' , __('main.bill_payed'));
+            }catch(QueryException $ex){
+
+                return redirect()->route('pos')->with('error' ,  $ex->getMessage());
+            }
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -163,7 +214,7 @@ class PosController extends Controller
      */
     public function show(cr $cr)
     {
-        //
+
     }
 
     /**
@@ -208,6 +259,15 @@ class PosController extends Controller
 
         $billNo =  str_pad($id + 1, 6 , '0' , STR_PAD_LEFT);
             echo json_encode ($billNo);
+        exit;
+    }
+
+    public function getLastBill(){
+        $bills = Bill::with('details.items' , 'table.hall') -> orderBy('id', 'desc')->get();
+        if(count($bills) > 0)
+        echo json_encode ($bills ->first());
+        else
+            json_encode (null);
         exit;
     }
 

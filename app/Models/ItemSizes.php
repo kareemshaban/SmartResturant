@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Size;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Item;
-use App\Models\Size;
 
 
 class ItemSizes extends Model
@@ -31,6 +31,9 @@ class ItemSizes extends Model
     {
         return $this->belongsTo(Size::class , 'size_id');
     }
-
+    public function details()
+    {
+        return $this->belongsToMany(BillDetails::class , 'bill_details_items' , 'item_sizes_id' , 'bill_id');
+    }
 
 }
