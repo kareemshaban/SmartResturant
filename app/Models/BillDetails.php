@@ -35,7 +35,7 @@ class BillDetails extends Model
 
     public function items()
     {
-        return $this->belongsToMany(ItemSizes::class  );
+        return $this->belongsToMany(ItemSizes::class , 'bill_details_items'  ) ;
     }
 
 }

@@ -207,7 +207,7 @@ return [
     'table' => 'Hall - Table',
     'service_val' => 'Service',
     'add_item_first' => 'Please Add Menue Item First!',
-        'printers' => 'Printers',
+    'printers' => 'Printers',
     'printer_name' => 'Printer Name',
     'printer_type' => 'Printer Type',
     'printer_type1' => 'Network',
@@ -223,8 +223,16 @@ return [
     'payment_header' => 'Payment Process',
     'bill_created' => 'The invoice has been processed successfully',
     'bill_payed' => 'The bill has been successfully paid',
-    'bll_prep_payed' => 'The invoice has been processed and paid successfully'
-
-
-
+    'bll_prep_payed' => 'The invoice has been processed and paid successfully',
+    'cancel_order_title' => 'Are You Sure that you need to cancel this Order ?!',
+    'confirm_btn' => 'Yes , Sure',
+    'cancel_btn' => 'Cancel',
+    'no_bill_found' => 'Please Select an order to Cancel!',
+    'bill_payed_alredy' => 'This Bill is Payed Already',
+    'can_not_cancel' => 'Sorry You are not allowed to cancel a completed Order !',
+    'bill_deleted' => 'an order has been Canceled Successfully',
+    'search_by_bill_number' => 'Search For Bill By Number',
+    'no_search_result' => 'Sorry No Bills Found With This Number',
+    'empty_bill' => 'Sorry You are not allowed to create an Empty Order',
+    'bill_updated' => 'Bill Updated Successfully'
 ];

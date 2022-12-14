@@ -86,8 +86,19 @@ class BillController extends Controller
 
     public function getTableBill($id){
         $bill = Bill::with('details.items.item', 'table.hall') -> with('details.items.size') ->
-        where('table_id' , '=' , $id) -> get();
+        where('table_id' , '=' , $id)
+            -> where('payed' , '=' , 0)
+            -> get() ;
         echo json_encode ($bill);
         exit;
     }
+    public function searchBill($val){
+        $bill = Bill::with('details.items.item', 'table.hall') -> with('details.items.size') ->
+        where('bill_number' , '=' , $val)
+            -> get() ;
+        echo json_encode ($bill);
+        exit;
+    }
+
+
 }

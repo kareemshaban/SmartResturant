@@ -31,9 +31,5 @@ class ItemSizes extends Model
     {
         return $this->belongsTo(Size::class , 'size_id');
     }
-    public function details()
-    {
-        return $this->belongsToMany(BillDetails::class , 'bill_details_items' , 'item_sizes_id' , 'bill_id');
-    }
 
 }

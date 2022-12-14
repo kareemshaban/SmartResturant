@@ -70,8 +70,9 @@
                                 margin-left: 30px; margin-right:30px;"></a>
 							@endif
           <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit">Search</button>
+            <input class="form-control me-2" type="search" placeholder="{{__('main.search_by_bill_number')}}"
+                   aria-label="Search" name="val" id="val" >
+            <button class="btn btn-outline-primary" type="button" id="searchBill">{{__('main.search')}}</button>
           </form>
         </div>
       </nav>
@@ -206,11 +207,11 @@
                                  <span class="btn-label"><i class="fa fa-print"></i></span> {{__('main.print')}} </button>
                          </div>
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
-                             <button type="button" class="btn btn-labeled btn-danger ">
+                             <button type="button" class="btn btn-labeled btn-danger " id="cancelOrder">
                                  <span class="btn-label"><i class="fa fa-remove"></i></span>{{__('main.cancel_order')}}</button>
                          </div>
                          <div class="col-lg-12 d-flex justify-content-center margin-content">
-                         <button type="button" class="btn btn-labeled btn-info" onclick="refresh()">
+                         <button type="button" class="btn btn-labeled btn-info" onclick="refresh(1)">
                              <span class="btn-label"><i class="fa fa-refresh"></i></span>{{__('main.refresh')}}</button>
                          </div>
 
@@ -393,6 +394,10 @@
                                           <input type="text" id="bill_number" name="bill_number"
                                                  class="form-control text-center"
                                                      placeholder="{{ __('main.bill_no') }}" autofocus  readonly/>
+                                          <input type="text" id="identifier" name="identifier"
+                                                 class="form-control text-center"
+                                                 placeholder="identifier"   hidden=""/>
+
                                       </div>
                                   </div>
                                 </div>
@@ -542,6 +547,34 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"  data-bs-dismiss="modal"  aria-label="Close" style="color: red; font-size: 20px; font-weight: bold;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="smallBody">
+                    <img src="../../images/warning.png" class="alertImage">
+                    <label class="alertTitle">{{__('main.cancel_order_title')}}</label>
+                    <br> <label  class="alertSubTitle" id="modal_table_bill"></label>
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <button type="button" class="btn btn-labeled btn-warning" onclick="cancelOrder()">
+                                <span class="btn-label" style="margin-right: 10px"><i class="fa fa-check"></i></span>{{__('main.confirm_btn')}}</button>
+                        </div>
+                        <div class="col-6 text-center">
+                            <button type="button" class="btn btn-labeled btn-primary"  data-bs-dismiss="modal"  aria-label="Close">
+                                <span class="btn-label" style="margin-right: 10px"><i class="fa fa-close"></i></span>{{__('main.cancel_btn')}}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     {{--    Payment  Modal   --}}
     <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
@@ -722,7 +755,7 @@
     hall_data.style.display = "none";
     details = [] ;
 
-    refresh();
+    refresh(1);
 
         if($('.bbb_viewed_slider').length)
         {
@@ -803,6 +836,9 @@
                     var modal_table_bill = document.getElementById('modal_table_bill');
                     modal_table_bill.innerHTML = 'Bill Number :' + response[0].bill_number  + '<br>'
                     + 'Table :' + ( local == 'ar' ? response[0].table.name_ar : response[0].table.name_en) ;
+
+                    let identifier = document.getElementById('identifier');
+                    identifier.value = Bill.identifier ;
                 } else {
                     Bill = null ;
                     modal_table_bill.innerHTML ="";
@@ -838,38 +874,102 @@
     });
 
     $(document).on('click', '.paymentButton', function(event) {
-        const local = document.getElementById("local").value;
-        event.preventDefault();
-        let href = $(this).attr('data-attr');
-        $.ajax({
-            url: href,
-            beforeSend: function() {
-                $('#loader').show();
-            },
-            // return the result
-            success: function(result) {
-                $('#paymentModal').modal("show");
-                try {
-                    $('#smallModal').modal("hide");
-                } catch (err){
-                    console.log(err);
-                }
-                fillPaymentModal();
+        if(Bill) {
+            if (Bill.payed == 0) {
+                const local = document.getElementById("local").value;
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function () {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function (result) {
+                        $('#paymentModal').modal("show");
+                        try {
+                            $('#smallModal').modal("hide");
+                        } catch (err) {
+                            console.log(err);
+                        }
+                        fillPaymentModal();
 
-                //  $('#mediumBody').html(result).show();
-            },
-            complete: function() {
-                $('#loader').hide();
-            },
-            error: function(jqXHR, testStatus, error) {
-                console.log(error);
-                alert("Page " + href + " cannot open. Error:" + error);
-                $('#loader').hide();
-            },
-            timeout: 8000
-        })
+                        //  $('#mediumBody').html(result).show();
+                    },
+                    complete: function () {
+                        $('#loader').hide();
+                    },
+                    error: function (jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            } else {
+                // bill is payed
+                alert($('<div>{{trans('main.bill_payed_alredy')}}</div>').text());
+            }
+        } else {
+            alert($('<div>{{trans('main.no_bill_found')}}</div>').text());
+        }
     });
     });
+ $(document).on('click', '#cancelOrder', function(event) {
+     if(Bill) {
+             event.preventDefault();
+             let href = $(this).attr('data-attr');
+             $.ajax({
+                 url: href,
+                 beforeSend: function () {
+                     $('#loader').show();
+                 },
+                 // return the result
+                 success: function (result) {
+                     $('#confirmModal').modal("show");
+                 },
+                 complete: function () {
+                     $('#loader').hide();
+                 },
+                 error: function (jqXHR, testStatus, error) {
+                     console.log(error);
+                     alert("Page " + href + " cannot open. Error:" + error);
+                     $('#loader').hide();
+                 },
+                 timeout: 8000
+             })
+     } else {
+         alert($('<div>{{trans('main.no_bill_found')}}</div>').text());
+     }
+ });
+
+ $(document).on('click', '#searchBill', function(event){
+     const val = document.getElementById('val').value ;
+     console.log(val);
+     $.ajax({
+         type:'get',
+         url:'searchBill' + '/' + val,
+         dataType: 'json',
+
+         success:function(response){
+             console.log(response);
+             if(response[0]) {
+                 Bill = response[0] ;
+                 setBill();
+
+
+             } else {
+                 alert($('<div>{{trans('main.no_search_result')}}</div>').text());
+             }
+         }
+     });
+ });
+
+    function cancelOrder(){
+        let url = "{{ route('cancelOrder', ':id') }}";
+        url = url.replace(':id', Bill.id);
+        document.location.href=url;
+    }
    function  fillPaymentModal(){
      const local = document.getElementById("local").value;
      const modalBillNo = document.getElementById('modalBillNo');
@@ -1083,6 +1183,9 @@
         cell14.innerHTML = 0 +'<input name="extra_item_id[]" value="0" hidden>';
         cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
     }
+
+
+
     function selectExtra(item){
     if(details.length > 0){
         var table = document.getElementById("details-body");
@@ -1469,7 +1572,7 @@
             //alert($('<div>{{trans('main.table_not_available')}}</div>').text());
         }
      }
-    function refresh(){
+    function refresh(i){
         const client_id = document.getElementById("client_id");
         const phone = document.getElementById("phone");
         const  address = document.getElementById("address");
@@ -1480,6 +1583,9 @@
          const table_id = document.getElementById("table_name");
         const bill_number = document.getElementById("bill_number");
         const default_type = document.getElementById("default_type");
+        let identifier = document.getElementById('identifier');
+        identifier.value = "" ;
+        document.getElementById('val').value = '' ;
          document.getElementById('table_id').value = 0;
          details = [] ;
 
@@ -1513,40 +1619,26 @@
              }
          });
 
-         $.ajax({
-             type:'get',
-             url:'getBillNo',
-             dataType: 'json',
+         if(i == 1){
+             $.ajax({
+                 type:'get',
+                 url:'getBillNo',
+                 dataType: 'json',
 
-             success:function(response){
-                console.log(response);
+                 success:function(response){
+                     console.log(response);
 
-                 if(response){
-                     bill_number.value = response;
+                     if(response){
+                         bill_number.value = response;
 
-                 } else {
-                     bill_number.value = "";
+                     } else {
+                         bill_number.value = "";
+                     }
                  }
-             }
-         });
+             });
+         }
 
 
-         $.ajax({
-             type:'get',
-             url:'getBillNo',
-             dataType: 'json',
-
-             success:function(response){
-                 console.log(response);
-
-                 if(response){
-                     bill_number.value = response;
-
-                 } else {
-                     bill_number.value = "";
-                 }
-             }
-         });
 
 
          const totalEl = document.getElementById("total");
@@ -1609,80 +1701,194 @@
  }
 
 
+ function setBillDetailsItem(detail){
+     var table = document.getElementById("details-body");
+
+     var row = table.insertRow(-1);
+
+     let obj ={
+         'item_id': detail.items[0].item_id ,
+         'size_id': detail.items[0].size_id,
+         'item_size_id' : detail.items[0].id,
+         'qnt' : detail.qnt ,
+         'price':  detail.price,
+         'priceWithVat': detail.priceWithVat,
+         'total': detail.total,
+         'totalWithVat': detail.totalWithVat,
+         'isExtra': 0,
+         'extra_item_id':0,
+         'notes': '',
+         'txt_holder': ''
+     };
+     details.push(obj);
+     row.id = 'details-body-tr' + detail.items[0].id;
+     row.className = "text-center";
+     var cell1 = row.insertCell(0);
+     var cell2 = row.insertCell(1);
+     var cell3 = row.insertCell(2);
+     var cell4 = row.insertCell(3);
+     var cell5 = row.insertCell(4);
+     var cell50 = row.insertCell(5);
+     var cell6 = row.insertCell(6);
+     var cell7 = row.insertCell(7);
+     var cell8 = row.insertCell(8);
+     var cell9 = row.insertCell(9);
+     var cell10 = row.insertCell(10);
+     var cell11 = row.insertCell(11);
+     var cell12 = row.insertCell(12);
+     var cell13 = row.insertCell(13);
+     var cell14 = row.insertCell(14);
+     cell2.hidden = true;
+     cell3.hidden = true;
+     cell4.hidden = true;
+     cell5.hidden = true;
+     cell50.hidden = true;
+     cell11.hidden = true;
+     cell12.hidden = true;
+     cell14.hidden = true;
+
+     cell1.innerHTML = details.length ;
+     cell2.innerHTML = detail.items[0].item_id +'<input name="item_id[]" value="'+detail.items[0].item_id+'" hidden>';
+     cell3.innerHTML = detail.items[0].size_id +'<input name="size_id[]" value="'+detail.items[0].size_id+'" hidden>';
+     cell4.innerHTML = detail.items[0].id +'<input name="item_size_id[]" value="'+detail.items[0].id+'" hidden>';
+     cell5.innerHTML = detail.id +'<input name="detail_id[]" value="'+detail.id+'" hidden>';
+     cell50.innerHTML = "0" +'<input name="isExtra[]" value="0" hidden>';
+     cell6.innerHTML = local == 'ar' ? detail.items[0].item.name_ar : detail.items[0].item.name_en ;
+     cell7.innerHTML = detail.items[0].size.label;
+     cell8.innerHTML = detail.qnt  +'<input name="qnt[]" value="'+detail.qnt +'" hidden>';
+     cell9.innerHTML =  detail.priceWithVat +'<input name="priceWithVat[]" value="'+detail.priceWithVat+'" hidden>';
+     cell10.innerHTML = detail.totalWithVat +'<input name="totalWithVat[]" value="'+ detail.totalWithVat+'" hidden>';
+     cell11.innerHTML = detail.price +'<input name="price[]" value="'+detail.price+'" hidden>';
+     cell12.innerHTML = detail.total +'<input name="totalTable[]" value="'+detail.total+'" hidden>';
+
+     cell14.innerHTML = 0 +'<input name="extra_item_id[]" value="0" hidden>';
+     cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
+ }
+ function setBillDetailsExtra(detail){
+     var table = document.getElementById("details-body");
+     var row = table.insertRow(-1);
+     row.id = 'details-body-tr-extra' + detail.items[0].item_id;
+     row.className = "text-center";
+     var cell1 = row.insertCell(0);
+     var cell2 = row.insertCell(1);
+     var cell3 = row.insertCell(2);
+     var cell4 = row.insertCell(3);
+     var cell5 = row.insertCell(4);
+     var cell50 = row.insertCell(5);
+     var cell6 = row.insertCell(6);
+     var cell7 = row.insertCell(7);
+     var cell8 = row.insertCell(8);
+     var cell9 = row.insertCell(9);
+     var cell10 = row.insertCell(10);
+     var cell11 = row.insertCell(11);
+     var cell12 = row.insertCell(12);
+     var cell13 = row.insertCell(13);
+     var cell14 = row.insertCell(14);
+     cell2.hidden = true;
+     cell3.hidden = true;
+     cell4.hidden = true;
+     cell5.hidden = true;
+     cell50.hidden = true;
+     cell11.hidden = true;
+
+     cell12.hidden = true;
+     cell14.hidden = true;
+
+
+     cell1.innerHTML = "";
+     cell1.style.background = "#E8E8F2";
+     cell2.innerHTML = detail.items[0].item_id +'<input name="item_id[]" value="'+detail.items[0].item_id+'" hidden>';
+     cell3.innerHTML = detail.items[0].size_id  +'<input name="size_id[]" value="'+detail.items[0].size_id  +'" hidden>';
+     cell4.innerHTML =  detail.items[0].id  +'<input name="item_size_id[]" value="'+detail.items[0].id+'" hidden>';;
+     cell5.innerHTML = detail.id +'<input name="detail_id[]" value="'+detail.id+'" hidden>';
+     cell50.innerHTML = "1" +'<input name="isExtra[]" value="1" hidden>';
+     cell6.innerHTML =  local == 'ar' ? detail.items[0].item.name_ar : detail.items[0].item.name_en ;
+     cell7.innerHTML = "---";
+     cell8.innerHTML = detail.qnt +'<input name="qnt[]" value="'+detail.qnt +'" hidden>';
+     cell9.innerHTML =  detail.priceWithVat +'<input name="priceWithVat[]" value="'+detail.priceWithVat+'" hidden>';
+     cell10.innerHTML = detail.totalWithVat +'<input name="totalWithVat[]" value="'+ detail.totalWithVat+'" hidden>';
+     cell11.innerHTML = detail.price +'<input name="price[]" value="'+detail.price+'" hidden>';
+     cell12.innerHTML = detail.total +'<input name="totalTable[]" value="'+detail.total+'" hidden>';
+
+     cell14.innerHTML = details[details.length -1].item_size_id +'<input name="extra_item_id[]" value="'+details[details.length -1].item_size_id +'" hidden>';
+     cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
+     row.style.background = "cornflowerblue";
+     row.style.color = "white";
+ }
     function setBill(){
-        console.log(Bill);
-       if(Bill){
-           var ele = null ;
+        refresh(0);
+            if(Bill){
+                var ele = null ;
 
-           let bill_type = document.getElementById("bill_type");
-           let client_id = document.getElementById('client_id');
-           let phone = document.getElementById('phone');
-           let address = document.getElementById('address');
-           let driver_id = document.getElementById('driver_id');
-           let table_id = document.getElementById('table_id');
-           let table_name = document.getElementById('table_name');
-           let date = document.getElementById('date');
-           let bill_number = document.getElementById('bill_number');
-           let total = document.getElementById('total');
-           let vat = document.getElementById('vat');
-           let serviceVal = document.getElementById('serviceVal');
-           let discount = document.getElementById('discount');
-           let net = document.getElementById('net');
-           let cash = document.getElementById('cash');
-           let credit = document.getElementById('credit');
-           let bank = document.getElementById('bank');
+                let bill_type = document.getElementById("bill_type");
+                let client_id = document.getElementById('client_id');
+                let phone = document.getElementById('phone');
+                let address = document.getElementById('address');
+                let driver_id = document.getElementById('driver_id');
+                let table_id = document.getElementById('table_id');
+                let table_name = document.getElementById('table_name');
+                let date = document.getElementById('date');
+                let bill_number = document.getElementById('bill_number');
+                let total = document.getElementById('total');
+                let vat = document.getElementById('vat');
+                let serviceVal = document.getElementById('serviceVal');
+                let discount = document.getElementById('discount');
+                let net = document.getElementById('net');
+                let cash = document.getElementById('cash');
+                let credit = document.getElementById('credit');
+                let bank = document.getElementById('bank');
+                let identifier = document.getElementById('identifier');
+                identifier.value = Bill.identifier ;
+                bill_type.value = Bill.billType ;
+                if(Bill.billType == 1){
+                    ele =  document.getElementById("default_type");
+                } else if(Bill.billType == 2){
+                    ele =  document.getElementById("default_type2");
+                } else if(Bill.billType == 3){
+                    ele =  document.getElementById("default_type3");
+                } else if(Bill.billType == 4){
+                    ele =  document.getElementById("default_type4");
+                }
+                selectBillType(ele ,  Bill.billType);
+                client_id.value = Bill.client_id ;
+                phone.value = Bill.phone ;
+                address.value = Bill.address;
+                if(Bill.driver_id > 0){
+                    driver_id.value = Bill.driver_id ;
+                }
+                if(Bill.table_id > 0){
+                    table_id.value = Bill.table_id ;
+                    table_name.value = Bill.table.hall.name_ar +  "--" + Bill.table.name_ar;
+
+                } else {
+                    table_id.value = 0 ;
+                    table_name.value = "";
+                }
+                date.value = new Date(Bill.bill_date).toLocaleString() ;
+                bill_number.value = Bill.bill_number ;
+                total.value = Bill.total ;
+                vat.value = Bill.vat ;
+                serviceVal.value = Bill.serviceVal ;
+                discount.value = Bill.discount ;
+                net.value = Bill.net ;
+                cash.value = Bill.cash ;
+                credit.value = Bill.credit ;
+                bank.value = Bill.bank ;
+                for(let i = 0 ; i < Bill.details.length ; i++){
+                    if(Bill.details[i].isExtra == 0){
+                        // AddItem
+                        setBillDetailsItem(Bill.details[i]);
+                    } else {
+                        // AddExtra
+                        setBillDetailsExtra(Bill.details[i]);
+                    }
+                }
 
 
-           bill_type.value = Bill.billType ;
-           if(Bill.billType == 1){
-               ele =  document.getElementById("default_type");
-           } else if(Bill.billType == 2){
-               ele =  document.getElementById("default_type2");
-           } else if(Bill.billType == 3){
-               ele =  document.getElementById("default_type3");
-           } else if(Bill.billType == 4){
-               ele =  document.getElementById("default_type4");
-           }
-           selectBillType(ele ,  Bill.billType);
-           client_id.value = Bill.client_id ;
-           phone.value = Bill.phone ;
-           address.value = Bill.address;
-           if(Bill.driver_id > 0){
-               driver_id.value = Bill.driver_id ;
-           }
-           if(Bill.table_id > 0){
-               table_id.value = Bill.table_id ;
-               table_name.value = Bill.table.hall.name_ar +  "--" + Bill.table.name_ar;
 
-           } else {
-               table_id.value = 0 ;
-               table_name.value = "";
-           }
-            date.value = new Date(Bill.bill_date).toLocaleString() ;
-            bill_number.value = Bill.bill_number ;
-            total.value = Bill.total ;
-            vat.value = Bill.vat ;
-            serviceVal.value = Bill.serviceVal ;
-            discount.value = Bill.discount ;
-            net.value = Bill.net ;
-            cash.value = Bill.cash ;
-            credit.value = Bill.credit ;
-            bank.value = Bill.bank ;
-            for(let i = 0 ; i < Bill.details.length ; i++){
-               if(Bill.details[i].isExtra == 0){
-                   // AddItem
-                   AddItemToTable(Bill.details[i].items[0] , Bill.details[i].items[0].item);
-               } else {
-                   // AddExtra
-                   AddExtraToTable(Bill.details[i].items[0].item);
-               }
+
+                $('#smallModal').modal("hide");
             }
-
-
-
-
-            $('#smallModal').modal("hide");
-       }
     }
     </script>
 

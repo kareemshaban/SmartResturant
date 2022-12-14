@@ -145,6 +145,9 @@ function()
     Route::get('/pos', [App\Http\Controllers\PosController::class, 'index'])->name('pos');
     Route::post('/storeBill', [App\Http\Controllers\PosController::class, 'store'])->name('storeBill');
     Route::post('/payBill', [App\Http\Controllers\PosController::class, 'payBill'])->name('payBill');
+    Route::get('/cancelOrder/{id}', [App\Http\Controllers\PosController::class, 'destroy'])->name('cancelOrder');
+
+
 
 
     //shift routes
@@ -194,7 +197,9 @@ function()
     Route::get('/getBillNo', [App\Http\Controllers\PosController::class, 'getBillNo'])->name('getBillNo');
     Route::get('/getDriver/{id}', [App\Http\Controllers\EmployeeController::class, 'getDriver'])->name('getDriver');
     Route::get('/getTableBill/{id}', [App\Http\Controllers\BillController::class, 'getTableBill'])->name('getTableBill');
-        Route::get('/getLastBill', [App\Http\Controllers\PosController::class, 'getLastBill'])->name('getLastBill');
+    Route::get('/getLastBill', [App\Http\Controllers\PosController::class, 'getLastBill'])->name('getLastBill');
+    Route::get('/searchBill/{val}', [App\Http\Controllers\BillController::class, 'searchBill'])->name('searchBill');
+
 
 
        ////////////////////////////////////////////////////////////////////////////////////////////

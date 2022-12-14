@@ -15,9 +15,9 @@ class CreateBillDetailsItemsTable extends Migration
     {
             Schema::create('bill_details_items', function (Blueprint $table) {
                 $table->id();
-                $table->integer('bill_id');
-            $table->integer('item_id');
-            $table->unique(['bill_id', 'item_id']);
+                $table->integer('bill_details_id');
+            $table->integer('item_sizes_id');
+            $table->unique(['bill_details_id', 'item_sizes_id']);
             $table->timestamps();
         });
     }
