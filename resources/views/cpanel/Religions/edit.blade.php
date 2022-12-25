@@ -14,7 +14,7 @@
 <title>Smart Resturant</title>
 <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
 <!-- Favicon icon -->
-<link rel="icon" type="image/png" sizes="16x16" href="../cpanel/plugins/images/favicon.png">
+  <link rel="shortcut icon" href="../images/favicon.png" type="">
 <!-- Custom CSS -->
 <!-- Custom CSS -->
 

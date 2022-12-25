@@ -67,7 +67,7 @@
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
                             <h4 class="float-left pt-2">{{ __('main.new_size') }}</h4>
                             <div class="float-right card-header-actions mr-1">
-                               <button type="submit" class="btn btn-labeled btn-primary " form="header-form" >
+                               <button type="submit" class="btn btn-labeled btn-primary "  >
                                     <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                             </div>
                         </div>

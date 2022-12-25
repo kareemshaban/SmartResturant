@@ -190,6 +190,13 @@ function()
     Route::post('/updateTaxSetting/{id}', [App\Http\Controllers\SettingsController::class, 'update'])->name('updateTaxSetting');
 
 
+    Route::get('/report-settings', [App\Http\Controllers\ReportSettingController::class, 'index'])->name('report-settings');
+    Route::post('/storeReportSetting', [App\Http\Controllers\ReportSettingController::class, 'store'])->name('storeReportSetting');
+    Route::post('/updateReportSetting/{id}', [App\Http\Controllers\ReportSettingController::class, 'update'])->name('updateReportSetting');
+
+    Route::get('/company', [App\Http\Controllers\CompanyInfoController::class, 'index'])->name('company');
+    Route::post('/storeCompany', [App\Http\Controllers\CompanyInfoController::class, 'store'])->name('storeCompany');
+    Route::post('/updateCompany/{id}', [App\Http\Controllers\CompanyInfoController::class, 'update'])->name('updateCompany');
 
 
 

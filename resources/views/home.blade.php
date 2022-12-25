@@ -59,30 +59,6 @@
         <div class="page-wrapper">
              @include('Layouts.subheader' , ['pageTitle' =>  Config::get('app.locale') == 'ar'? 'لوحة التحكم' : 'DashBoard'])
             <div class="container-fluid">
-{{--                @if (count($shift) > 0)--}}
-
-{{--                    <div class="alert alert-success alert-block">--}}
-
-{{--                        <button type="button" class="close" data-bs-dismiss="alert">×</button>--}}
-
-{{--                        <strong>{{ __('main.open_shift') }}</strong>--}}
-
-{{--                    </div>--}}
-
-{{--                @endif--}}
-
-
-{{--                @if (count($shift) == 0)--}}
-
-{{--                    <div class="alert alert-danger alert-block">--}}
-
-{{--                        <button type="button" class="close" data-bs-dismiss="alert">×</button>--}}
-
-{{--                        <strong>{{ __('main.no_open_shift') }}</strong>--}}
-
-{{--                    </div>--}}
-
-{{--                @endif--}}
 
                 <img src="../../assets/img/dashboard.jpg" style="width: 100%; height: auto">
 

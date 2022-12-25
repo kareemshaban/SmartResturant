@@ -14,7 +14,7 @@
     <title>Smart Resturant</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../cpanel/plugins/images/favicon.png">
+      <link rel="shortcut icon" href="../images/favicon.png" type="">
     <!-- Custom CSS -->
     <!-- Custom CSS -->
 
@@ -67,9 +67,8 @@
                     <div class="card-header px-0 mt-2 bg-transparent clearfix">
                         <h4 class="float-left pt-2">{{__('main.new_shift')}}</h4>
                         <div class="float-right card-header-actions mr-1">
-                            <button class="btn btn-primary"  type="submit">
-                                <span class="ml-1">{{__('main.start')}}</span>
-                            </button>
+                            <button type="submit" class="btn btn-labeled btn-primary "  >
+                                <span class="btn-label"><i class="fa fa-power-off"></i></span>{{__('main.start')}}</button>
                         </div>
                     </div>
                     <div class="card-body px-0">

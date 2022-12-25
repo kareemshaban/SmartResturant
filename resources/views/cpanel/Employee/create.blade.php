@@ -14,7 +14,7 @@
     <title>Smart Resturant</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../cpanel/plugins/images/favicon.png">
+      <link rel="shortcut icon" href="../images/favicon.png" type="">
     <!-- Custom CSS -->
     <!-- Custom CSS -->
 
@@ -44,7 +44,7 @@
             text-align: right;
         }
         .form {
-
+    background: #ffffff !important;
     border: outset 3px saddlebrown;
     border-radius: 15px;
     box-shadow: 20px 19px 38px rgba(0,0,0,0.30), 20px 15px 12px rgba(0,0,0,0.22);
@@ -86,14 +86,14 @@ h2 span {
                 <div class="row justify-content-center" style="padding-bottom: 50px;">
                     @csrf
                     <!-- {{ csrf_field() }} -->
-                    <div class="col-md-9 col-xl-9 form" >
+                    <div class="col-md-9 col-xl-9 form data-entry" >
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
                             <h4 class="float-left pt-2">{{ __('main.new_employee') }}
                             <br> <span style="    font-size: 9pt;
                             color: gray;">{{  __('main.required_note') }}</span> <span style="color:red; font-size:20px; font-weight:bold;">*</span>
                             </h4>
                             <div class="float-right card-header-actions mr-1">
-                               <button type="submit" class="btn btn-labeled btn-primary " form="header-form" >
+                               <button type="submit" class="btn btn-labeled btn-primary "  >
                                     <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                             </div>
                         </div>

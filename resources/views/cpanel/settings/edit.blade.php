@@ -12,7 +12,7 @@
     <meta name="robots" content="noindex,nofollow">
     <title>Smart Resturant</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
-    <link rel="icon" type="image/png" sizes="16x16" href="../cpanel/plugins/images/favicon.png">
+      <link rel="shortcut icon" href="../images/favicon.png" type="">
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
@@ -65,9 +65,8 @@
                     <div class="card-header px-0 mt-2 bg-transparent clearfix">
                         <h4 class="float-left pt-2">{{ __('main.tax_settings') }}</h4>
                         <div class="float-right card-header-actions mr-1">
-                            <button class="btn btn-primary" type="submit">
-                                <span class="ml-1">{{ __('main.save_btn') }}</span>
-                            </button>
+                          <button type="submit" class="btn btn-labeled btn-primary "  >
+                                    <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                         </div>
                     </div>
                     <div class="card-body px-0">

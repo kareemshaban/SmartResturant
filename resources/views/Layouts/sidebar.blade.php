@@ -106,7 +106,10 @@
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
                                                            href="{{ route('tax-settings') }}">{{ __('main.tax_settings') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('sizes') }}">{{ __('main.report_settings') }}</a></li>
+                                                           href="{{ route('report-settings') }}">{{ __('main.report_settings') }}</a></li>
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="{{ route('company') }}">{{ __('main.company_info') }}</a></li>
+
                     </ul>
                 </li>
 

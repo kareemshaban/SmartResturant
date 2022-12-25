@@ -82,7 +82,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mb-4 mx-auto text-center">
-                <a href="javascript:;"  class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+                    <a href="javascript:;"  class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
                     Company
                 </a>
                 <a href="javascript:;"  class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">

@@ -12,7 +12,7 @@
     <meta name="robots" content="noindex,nofollow">
     <title>Smart Resturant</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
-    <link rel="icon" type="image/png" sizes="16x16" href="../cpanel/plugins/images/favicon.png">
+      <link rel="shortcut icon" href="../images/favicon.png" type="">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
@@ -63,7 +63,7 @@
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
                         <a href="{{ route('createEmployee') }}">
-                           <button type="button" class="btn btn-labeled btn-primary " form="header-form" >
+                           <button type="button" class="btn btn-labeled btn-primary "  >
                                 <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
 
                         </a>
