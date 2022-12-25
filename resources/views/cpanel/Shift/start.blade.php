@@ -26,6 +26,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
     <br><script src = "http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer ></script>
     <link href="../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -62,7 +63,7 @@
 
             <div class="row justify-content-center">
                 @csrf <!-- {{ csrf_field() }} -->
-                <div class="col-md-9 col-xl-7">
+                <div class="col-md-9 col-xl-7 data-entry">
                     <div class="card-header px-0 mt-2 bg-transparent clearfix">
                         <h4 class="float-left pt-2">{{__('main.new_shift')}}</h4>
                         <div class="float-right card-header-actions mr-1">

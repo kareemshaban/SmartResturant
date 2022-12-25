@@ -43,7 +43,7 @@
             text-align: right;
         }
         .form {
-            
+
     border: outset 3px saddlebrown;
     border-radius: 15px;
     box-shadow: 20px 19px 38px rgba(0,0,0,0.30), 20px 15px 12px rgba(0,0,0,0.22);
@@ -54,11 +54,11 @@
     border-bottom: 2px solid saddlebrown;
     line-height: 0.1em;
     margin: 20px auto;
-} 
+}
 
-h2 span { 
-    background:#fff; 
-    padding:0 10px; 
+h2 span {
+    background:#fff;
+    padding:0 10px;
     color: brown
 }
     </style>
@@ -82,7 +82,7 @@ h2 span {
         <div class="container-fluid">
             <form class="center" method="POST" action="{{ route('updateClient' , $client -> id) }}" enctype="multipart/form-data">
 
-                <div class="row justify-content-center" style="padding-bottom: 50px;"> 
+                <div class="row justify-content-center" style="padding-bottom: 50px;">
                     @csrf
                     <!-- {{ csrf_field() }} -->
                     <div class="col-md-9 col-xl-9 form" >
@@ -92,14 +92,13 @@ h2 span {
                             color: gray;">{{  __('main.required_note') }}</span> <span style="color:red; font-size:20px; font-weight:bold;">*</span>
                             </h4>
                             <div class="float-right card-header-actions mr-1">
-                                <button class="btn btn-primary" type="submit">
-                                    <span class="ml-1">{{ __('main.save_btn') }}</span>
-                                </button>
+                               <button type="submit" class="btn btn-labeled btn-primary " form="header-form" >
+                                    <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                             </div>
                         </div>
                         <div class="card-body px-0 col12">
                         <h2   class="text-center"> <span>{{ __('main.side_basic') }} </span></h2>
-                         
+
 
                         <div class="row">
                            <div class="col-6">
@@ -107,14 +106,14 @@ h2 span {
                                 <label>{{ __('main.name_ar') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
                                 <input type="text" name="name_ar" id="name_ar"
                                     class="form-control @error('name_ar') is-invalid @enderror arabic-input"
-                                    placeholder="{{ __('main.name_ar_place') }}" autofocus  
+                                    placeholder="{{ __('main.name_ar_place') }}" autofocus
                                     value="{{ $client -> name_ar }}"/>
                                 @error('name_ar')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div> 
+                            </div>
                            </div>
                            <div class="col-6">
                             <div class="form-group">
@@ -132,32 +131,32 @@ h2 span {
 
                            </div>
 
-                        
-                        </div>    
+
+                        </div>
                         <div class="row">
                             <div class="col-6">
                              <div class="form-group">
                                 <label>{{ __('main.discount_type') }}</label>
-                                <select class="custom-select mr-sm-2 @error('discount_type') is-invalid @enderror" id="discount_type" 
+                                <select class="custom-select mr-sm-2 @error('discount_type') is-invalid @enderror" id="discount_type"
                                 name="discount_type"  onchange="discount_typeChange()">
                                     <option @if($client -> discount_type == 0) selected @endif value="0">{{ __('main.discount_type1') }}</option>
                                     <option  @if($client -> discount_type == 1) selected @endif value="1">{{ __('main.discount_type2') }}</option>
                                     <option  @if($client -> discount_type == 2) selected @endif value="2">{{ __('main.discount_type3') }}</option>
-                                  
+
                                   </select>
                                 @error('discount_type')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-5">
                              <div class="form-group">
                                 <label>{{ __('main.discount_val') }}</label>
                                 <input type="number" name="discount_value" id="discount_value"
                                 class="form-control @error('discount_value') is-invalid @enderror"
-                                placeholder="{{ __('main.discount_val') }}" autofocus 
+                                placeholder="{{ __('main.discount_val') }}" autofocus
                                 value="{{ $client -> discount_value != null ? $client -> discount_value : ''  }}"  />
 
                                 @error('discount_value')
@@ -166,21 +165,21 @@ h2 span {
                                     </span>
                                 @enderror
                              </div>
- 
+
                             </div>
                             <div class="col-1" style="    display: flex;
                             flex-direction: column;
-                            justify-content: center;"> 
+                            justify-content: center;">
                                 <label id="discount_label" style=" margin-top: 10px;font-size: 18px;"></label>
                             </div>
- 
-                         
-                         </div>   
-                           
-                        
+
+
+                         </div>
+
+
                         </div>
-                    
-                           
+
+
                          <h2 class="text-center"> <span> {{ __('main.contact_data') }} </span></h2>
 
                          <div class="row">
@@ -196,14 +195,14 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
                                  <label>{{ __('main.mobile') }}</label>
                                  <input type="tele" name="mobile" id="mobile"
                                      class="form-control @error('mobile') is-invalid @enderror"
-                                     placeholder="{{ __('main.mobile') }}" autofocus 
+                                     placeholder="{{ __('main.mobile') }}" autofocus
                                      value="{{ $client -> mobile != null ? $client -> mobile : ''  }}" />
                                  @error('mobile')
                                      <span class="invalid-feedback" role="alert">
@@ -211,32 +210,32 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
+
+
+                         </div>
                          <div class="row">
                             <div class="col-6">
                              <div class="form-group">
                                  <label>{{ __('main.email_title') }}</label>
                                  <input type="email" name="email" id="email"
                                      class="form-control @error('email') is-invalid @enderror"
-                                     placeholder="{{ __('main.email_title') }}" autofocus 
+                                     placeholder="{{ __('main.email_title') }}" autofocus
                                      value="{{ $client -> email != null ? $client -> email : ''  }}"/>
                                  @error('email')
                                      <span class="invalid-feedback" role="alert">
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
                                  <label>{{ __('main.postcode') }}</label>
                                  <input type="text" name="postal_code" id="postal_code"
                                      class="form-control @error('postal_code') is-invalid @enderror"
-                                     placeholder="{{ __('main.postcode') }}" autofocus 
+                                     placeholder="{{ __('main.postcode') }}" autofocus
                                      value="{{ $client -> postal_code != null ? $client -> postal_code : ''  }}"/>
                                  @error('postal_code')
                                      <span class="invalid-feedback" role="alert">
@@ -244,34 +243,34 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
+
+
+                         </div>
                          <div class="row">
                             <div class="col-6">
                              <div class="form-group">
                                  <label>{{ __('main.fax') }}</label>
                                  <input type="text" name="fax_number" id="fax_number"
                                      class="form-control @error('fax_number') is-invalid @enderror"
-                                     placeholder="{{ __('main.fax') }}" autofocus 
+                                     placeholder="{{ __('main.fax') }}" autofocus
                                      value="{{ $client -> fax_number != null ? $client -> fax_number : ''  }}"/>
                                  @error('fax_number')
                                      <span class="invalid-feedback" role="alert">
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
-                            </div>    
-                         </div> 
+                             </div>
+                            </div>
+                         </div>
 
                          <div class="row">
                             <div class="col-12">
                              <div class="form-group">
                                  <label>{{ __('main.address') }}</label>
 
-                                 <textarea name="address" id="address" 
+                                 <textarea name="address" id="address"
                                  class="form-control @error('address') is-invalid @enderror"
                                  placeholder="{{ __('main.address') }}" autofocus>  {{ $client -> address != null ? $client -> address : ''  }} </textarea>
                                  @error('address')
@@ -279,9 +278,9 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
-                            </div>    
-                         </div> 
+                             </div>
+                            </div>
+                         </div>
 
                          <h2 class="text-center"> <span> {{ __('main.money_data') }} </span></h2>
 
@@ -291,21 +290,21 @@ h2 span {
                                  <label>{{ __('main.oppening_balance') }}</label>
                                  <input type="number" step="any" name="oppening_balance" id="oppening_balance"
                                      class="form-control @error('oppening_balance') is-invalid @enderror"
-                                     placeholder="{{ __('main.oppening_balance') }}" autofocus 
+                                     placeholder="{{ __('main.oppening_balance') }}" autofocus
                                      value="{{ $client -> oppening_balance != null ? $client -> oppening_balance : '0'  }}"/>
                                  @error('oppening_balance')
                                      <span class="invalid-feedback" role="alert">
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
                                  <label>{{ __('main.current_balance') }}</label>
                                  <input type="text" name="current_balance" id="current_balance"
                                      class="form-control @error('current_balance') is-invalid @enderror"
-                                     placeholder="{{ __('main.current_balance') }}" autofocus disabled 
+                                     placeholder="{{ __('main.current_balance') }}" autofocus disabled
                                      value="{{ $client -> current_balance != null ? $client -> current_balance : '0'  }}"/>
                                  @error('current_balance')
                                      <span class="invalid-feedback" role="alert">
@@ -313,11 +312,11 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
+
+
+                         </div>
 
                          <div class="row">
                             <div class="col-6">
@@ -325,21 +324,21 @@ h2 span {
                                  <label>{{ __('main.limit_money') }}</label>
                                  <input type="number" step="any" name="limit_money" id="limit_money"
                                      class="form-control @error('limit_money') is-invalid @enderror"
-                                     placeholder="{{ __('main.limit_money') }}" autofocus 
+                                     placeholder="{{ __('main.limit_money') }}" autofocus
                                      value="{{ $client -> limit_money != null ? $client -> limit_money : '0'  }}"/>
                                  @error('limit_money')
                                      <span class="invalid-feedback" role="alert">
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
                                  <label>{{ __('main.limit_days') }}</label>
                                  <input type="number" name="limit_days" id="limit_days"
                                      class="form-control @error('limit_days') is-invalid @enderror"
-                                     placeholder="{{ __('main.limit_days') }}" autofocus 
+                                     placeholder="{{ __('main.limit_days') }}" autofocus
                                      value="{{ $client -> limit_days != null ? $client -> limit_days : '0'  }}"/>
                                  @error('limit_days')
                                      <span class="invalid-feedback" role="alert">
@@ -347,14 +346,11 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
-                         
 
-                         
+
+                         </div>
 
 
 
@@ -365,7 +361,10 @@ h2 span {
 
 
 
-                         </div>   
+
+
+
+                         </div>
 
                         </div>
 
@@ -390,17 +389,17 @@ h2 span {
 
         function discount_typeChange(){
             var discount_select = document.getElementById("discount_type");
-           
+
             if(discount_select != null){
                 var discount_inp = document.getElementById("discount_value");
-                var discount_label = document.getElementById("discount_label"); 
+                var discount_label = document.getElementById("discount_label");
                 if(discount_inp){
                     if(discount_select.value == 1){
                         discount_inp.disabled  = false ;
                         if(discount_label){
                           discount_label.innerHTML = "%" ;
                             }
-                
+
                     }else if(discount_select.value == 2){
                         discount_inp.disabled  = false ;
                         if(discount_label){
@@ -417,7 +416,7 @@ h2 span {
                 }
 
             }
-            
+
         }
       </script>
     <script src="../../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>

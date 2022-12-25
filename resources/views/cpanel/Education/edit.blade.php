@@ -64,7 +64,7 @@
                 <div class="row justify-content-center">
                     @csrf
                     <!-- {{ csrf_field() }} -->
-                    <div class="col-md-9 col-xl-7">
+                    <div class="col-md-9 col-xl-7 data-entry">
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
                             <h4 class="float-left pt-2">{{ __('main.edit_education') }}</h4>
                             <div class="float-right card-header-actions mr-1">

@@ -21,6 +21,8 @@ function()
     Route::get('/', [App\Http\Controllers\FrontController::class, 'index'])->name('index');
     Route::get('about', [App\Http\Controllers\FrontController::class, 'about'])->name('about');
 
+    Auth::routes();
+
    ////////////////////////////////////////////////////////////////////////////////////////////
    /* REGION CPANEL ROUTES*/
    Route::get('/home', [App\Http\Controllers\DashboradController::class, 'index'])->name('home');
@@ -199,10 +201,10 @@ function()
     Route::get('/getTableBill/{id}', [App\Http\Controllers\BillController::class, 'getTableBill'])->name('getTableBill');
     Route::get('/getLastBill', [App\Http\Controllers\PosController::class, 'getLastBill'])->name('getLastBill');
     Route::get('/searchBill/{val}', [App\Http\Controllers\BillController::class, 'searchBill'])->name('searchBill');
-
+    Route::get('/checkShift', [App\Http\Controllers\DashboradController::class, 'checkShift'])->name('checkShift');
 
 
        ////////////////////////////////////////////////////////////////////////////////////////////
-    Auth::routes();
+
 
 });

@@ -30,21 +30,18 @@
   <!-- responsive style -->
   <link href="css/responsive.css" rel="stylesheet" />
 
+
+    <style>
+        i{
+            font: normal normal normal 14px/1 FontAwesome !important;
+        }
+    </style>
 </head>
 
 <body>
 
 @include('Layouts.haeder'  ,['slag' => 1])
 
-  <!-- offer section -->
-
-  <!-- end offer section -->
-
-  <!-- food section -->
-
-  <!-- end food section -->
-
-  <!-- about section -->
 
   <section class="about_section layout_padding">
     <div class="container  ">
@@ -57,7 +54,7 @@
                 <h3 class="text-center">
                   {{__('main.about_smart_title')}}
                 </h3>
-      
+
               <p>
              {{__('main.about_smart_details')}}
               </p>

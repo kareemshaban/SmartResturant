@@ -232,7 +232,8 @@ return [
     'search_by_bill_number' => 'ابحث عن فاتورة بالرقم',
     'no_search_result' => 'عفوا لا يوجد فواتير مسجلة بهذا الرقم',
     'empty_bill' => 'عفوا لا يمكنك إنشاء فاتورة فارغة',
-    'bill_updated' => 'تم تعديل الطلب بنجاح'
+    'bill_updated' => 'تم تعديل الطلب بنجاح',
+    'control_shift' => 'التحكم  '
 
 
 

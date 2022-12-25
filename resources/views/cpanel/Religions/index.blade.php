@@ -25,6 +25,7 @@
     <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css" />
 
     <link href="../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../cpanel/css/style.css" rel="stylesheet">
 <style>
     @font-face {
         font-family: 'icomoon';
@@ -33,13 +34,13 @@
         font-weight: normal;
         font-style: normal;
       }
-      
+
       *{
         font-family: 'icomoon';
       }
-    
-      
-    
+
+
+
     </style>
 </head>
 
@@ -62,7 +63,8 @@
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
                        <a href="{{route('createReligion')}}">
-                        <button type="button" class="btn btn-primary ">{{__('main.add_new')}}</button>
+                        <button type="button" class="btn btn-labeled btn-primary " form="header-form" >
+                                <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
 
                        </a>
 
@@ -92,14 +94,14 @@
                               <td class="text-center">
                                 <a href= "{{route('editReligion' , $religion -> id)}}">    <button type="button" class="btn btn-success"><i class="fas fa-edit"></i></button> </a>
                                 <a onclick="return confirm('Are you sure?')" href= "{{route('destroyReligion' , $religion -> id)}} ">  <button type="button" class="btn btn-danger"><i class="far fa-trash-alt"></i></button> </a>
-                              </td>  
-                              </tr>      
-                          
+                              </td>
+                              </tr>
+
                             @endforeach
 
                         </tbody>
-                   
-                   
+
+
                     </table>
                     </div>
                 </div>
@@ -111,7 +113,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 
-   
+
     <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../cpanel/js/app-style-switcher.js"></script>
@@ -127,4 +129,4 @@
             $('#table').DataTable();
         });
     </script>
-</body> 
+</body>

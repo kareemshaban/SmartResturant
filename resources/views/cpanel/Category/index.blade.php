@@ -25,7 +25,11 @@
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
     <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css" />
 
+
     <link href="../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../cpanel/css/style.css" rel="stylesheet">
+
+    <link href="../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -62,8 +66,8 @@
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
                         <a href="{{ route('createCategory') }}">
-                            <button type="button" class="btn btn-primary ">{{ __('main.add_new') }}</button>
-
+                                <button type="button" class="btn btn-labeled btn-primary " form="header-form" >
+                                    <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
                         </a>
 
                     </div>
@@ -89,7 +93,7 @@
                                     <tr>
                                         <td class="text-center">{{ $loop->index + 1 }}</td>
                                         <td class="text-center">
-                                            <img src="{{ asset('images/Category/' . $category->img) }}" height=100 width=100 alt="category image">
+                                            <img src="{{ asset('images/Category/' . $category->img) }}" height=50 width=50 alt="category image">
                                         </td>
                                         <td class="text-center">{{ $category->id }}</td>
                                         <td class="text-center">{{ $category->name_ar }}</td>

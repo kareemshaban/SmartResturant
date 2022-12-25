@@ -43,7 +43,7 @@
             text-align: right;
         }
         .form {
-            
+
     border: outset 3px saddlebrown;
     border-radius: 15px;
     box-shadow: 20px 19px 38px rgba(0,0,0,0.30), 20px 15px 12px rgba(0,0,0,0.22);
@@ -55,11 +55,11 @@
     border-bottom: 2px solid saddlebrown;
     line-height: 0.1em;
     margin: 20px auto;
-} 
+}
 
-h2 span { 
-    background:#fff; 
-    padding:0 10px; 
+h2 span {
+    background:#fff;
+    padding:0 10px;
     color: brown;
 }
     </style>
@@ -83,7 +83,7 @@ h2 span {
         <div class="container-fluid">
             <form class="center" method="POST" action="{{ route('updateEmployee' , $employee -> id) }}" enctype="multipart/form-data">
 
-                <div class="row justify-content-center" style="padding-bottom: 50px;"> 
+                <div class="row justify-content-center" style="padding-bottom: 50px;">
                     @csrf
                     <!-- {{ csrf_field() }} -->
                     <div class="col-md-9 col-xl-9 form" >
@@ -93,14 +93,13 @@ h2 span {
                             color: gray;">{{  __('main.required_note') }}</span> <span style="color:red; font-size:20px; font-weight:bold;">*</span>
                             </h4>
                             <div class="float-right card-header-actions mr-1">
-                                <button class="btn btn-primary" type="submit">
-                                    <span class="ml-1">{{ __('main.save_btn') }}</span>
-                                </button>
+                               <button type="submit" class="btn btn-labeled btn-primary " form="header-form" >
+                                    <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                             </div>
                         </div>
                         <div class="card-body px-0 col12">
                         <h2 class="text-center"> <span>{{ __('main.side_basic') }} </span>  </h2>
-                         
+
 
                         <div class="row">
                            <div class="col-6">
@@ -114,7 +113,7 @@ h2 span {
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div> 
+                            </div>
                            </div>
                            <div class="col-6">
                             <div class="form-group">
@@ -131,18 +130,18 @@ h2 span {
 
                            </div>
 
-                        
-                        </div>    
+
+                        </div>
                         <div class="row">
                             <div class="col-6">
                              <div class="form-group">
                                 <label>{{ __('main.religion') }}</label>
-                                <select class="custom-select mr-sm-2 @error('religion_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                <select class="custom-select mr-sm-2 @error('religion_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                 name="religion_id" id="religion_id">
                                   @if($employee -> religion_id == 0 )  <option selected value="0">Choose...</option> @endif
-                                   @foreach ($religions as $item) 
-                                   <option value="{{$item -> id}}"      @if($employee -> religion_id == $item ->  id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
+                                   @foreach ($religions as $item)
+                                   <option value="{{$item -> id}}"      @if($employee -> religion_id == $item ->  id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
                                    @endforeach
                                   </select>
                                 @error('religion_id')
@@ -150,17 +149,17 @@ h2 span {
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
                                 <label>{{ __('main.gender') }}</label>
-                                <select class="custom-select mr-sm-2 @error('gender_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                <select class="custom-select mr-sm-2 @error('gender_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                 name="gender_id" id="gender_id">
                                 @if($employee -> gender_id == 0) <option selected value="0">Choose...</option> @endif
-                                   @foreach ($genders as $item) 
-                                   <option value="{{$item -> id}}"  @if($employee -> gender_id == $item ->  id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
+                                   @foreach ($genders as $item)
+                                   <option value="{{$item -> id}}"  @if($employee -> gender_id == $item ->  id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
                                    @endforeach
                                   </select>
                                 @error('gender_id')
@@ -169,24 +168,24 @@ h2 span {
                                     </span>
                                 @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div>   
-                           
-                        
+
+
+                         </div>
+
+
                         </div>
                         <div class="row">
                             <div class="col-6">
                              <div class="form-group">
                                 <label>{{ __('main.nationalty') }}</label>
-                                <select class="custom-select mr-sm-2 @error('nationalty_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                <select class="custom-select mr-sm-2 @error('nationalty_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                 name="nationalty_id" id="nationalty_id">
                                 @if($employee -> nationalty_id == 0)  <option selected value="0">Choose...</option> @endif
-                                   @foreach ($nationalties as $item) 
-                                   <option value="{{$item -> id}}"   @if($employee -> nationalty_id == $item -> id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
+                                   @foreach ($nationalties as $item)
+                                   <option value="{{$item -> id}}"   @if($employee -> nationalty_id == $item -> id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
                                    @endforeach
                                   </select>
                                 @error('nationalty_id')
@@ -194,17 +193,17 @@ h2 span {
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
                                 <label>{{ __('main.martial') }}</label>
-                                <select class="custom-select mr-sm-2 @error('martialState_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                <select class="custom-select mr-sm-2 @error('martialState_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                 name="martialState_id" id="martialState_id">
                                 @if($employee -> martialState_id == 0)   <option selected value="0">Choose...</option> @endif
-                                   @foreach ($martialStats as $item) 
-                                   <option value="{{$item -> id}}" @if($employee -> martialState_id == $item -> id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
+                                   @foreach ($martialStats as $item)
+                                   <option value="{{$item -> id}}" @if($employee -> martialState_id == $item -> id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
                                    @endforeach
                                   </select>
                                 @error('martialState_id')
@@ -213,12 +212,12 @@ h2 span {
                                     </span>
                                 @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div>   
-                           
+
+
+                         </div>
+
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -231,7 +230,7 @@ h2 span {
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                </div> 
+                                </div>
                                </div>
                                <div class="col-6">
                                 <div class="form-group">
@@ -245,9 +244,9 @@ h2 span {
                                         </span>
                                     @enderror
                                 </div>
-    
-                               </div>    
-                        </div> 
+
+                               </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-6">
@@ -261,17 +260,17 @@ h2 span {
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
-                                </div> 
+                                </div>
                                </div>
                                <div class="col-6">
                                 <div class="form-group">
                                     <label>{{ __('main.education') }}</label>
-                                    <select class="custom-select mr-sm-2 @error('education_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                    <select class="custom-select mr-sm-2 @error('education_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                     name="education_id" id="education_id">
                                       @if($employee -> education_id == 0)  <option selected value="0">Choose...</option> @endif
-                                       @foreach ($educations as $item) 
-                                       <option value="{{$item -> id}}"  @if($employee -> education_id == $item -> id) selected @endif>  {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                           
+                                       @foreach ($educations as $item)
+                                       <option value="{{$item -> id}}"  @if($employee -> education_id == $item -> id) selected @endif>  {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
                                        @endforeach
                                       </select>
                                     @error('education_id')
@@ -279,21 +278,21 @@ h2 span {
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
-    
-                               </div>    
+
+                               </div>
                         </div>
-                    </div> 
+                    </div>
                         <h2 class="text-center"> <span>{{ __('main.work_data') }} </span> </h2>
                         <div class="row">
                             <div class="col-6">
                              <div class="form-group">
                                 <label>{{ __('main.department') }}</label>
-                                <select class="custom-select mr-sm-2 @error('department_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                <select class="custom-select mr-sm-2 @error('department_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                 name="department_id" id="department_id">
                                 @if($employee -> department_id == 0)  <option selected value="0">Choose...</option> @endif
-                                   @foreach ($departments as $item) 
-                                   <option value="{{$item -> id}}" @if($employee -> department_id == $item -> id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
+                                   @foreach ($departments as $item)
+                                   <option value="{{$item -> id}}" @if($employee -> department_id == $item -> id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
                                    @endforeach
                                   </select>
                                 @error('department_id')
@@ -301,16 +300,16 @@ h2 span {
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
                                 <label>{{ __('main.job') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span></label>
-                                <select class="custom-select mr-sm-2 @error('job_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                <select class="custom-select mr-sm-2 @error('job_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                 name="job_id" id="job_id">
-                                   @foreach ($jobs as $item) 
-                                   <option value="{{$item -> id}}" @if($employee -> job_id == $item -> id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
+                                   @foreach ($jobs as $item)
+                                   <option value="{{$item -> id}}" @if($employee -> job_id == $item -> id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
                                    @endforeach
                                   </select>
                                 @error('job_id')
@@ -319,10 +318,10 @@ h2 span {
                                     </span>
                                 @enderror
                              </div>
- 
+
                             </div>
- 
-                         
+
+
                          </div>
                         <div class="row">
                             <div class="col-6">
@@ -336,7 +335,7 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
@@ -350,14 +349,14 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
 
 
-                 
+                         </div>
+
+
+
                          <h2 class="text-center"> <span>{{ __('main.contact_data') }} </span> </h2>
 
                          <div class="row">
@@ -372,7 +371,7 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
@@ -386,11 +385,11 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
+
+
+                         </div>
                          <div class="row">
                             <div class="col-6">
                              <div class="form-group">
@@ -403,7 +402,7 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
@@ -417,11 +416,11 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
+
+
+                         </div>
                          <div class="row">
                             <div class="col-6">
                              <div class="form-group">
@@ -434,16 +433,16 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
-                            </div>    
-                         </div> 
+                             </div>
+                            </div>
+                         </div>
 
                          <div class="row">
                             <div class="col-12">
                              <div class="form-group">
                                  <label>{{ __('main.address') }}</label>
 
-                                 <textarea name="address" id="address" 
+                                 <textarea name="address" id="address"
                                  class="form-control @error('address') is-invalid @enderror"
                                  placeholder="{{ __('main.address') }}" autofocus> {{ $employee -> address !== null ? $employee -> address : '' }} </textarea>
                                  @error('address')
@@ -451,9 +450,9 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
-                            </div>    
-                         </div> 
+                             </div>
+                            </div>
+                         </div>
 
 
 
@@ -464,7 +463,7 @@ h2 span {
 
 
 
-                         </div>   
+                         </div>
 
                         </div>
 

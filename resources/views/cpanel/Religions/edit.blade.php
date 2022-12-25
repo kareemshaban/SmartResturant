@@ -34,13 +34,13 @@
         font-weight: normal;
         font-style: normal;
       }
-      
+
       *{
         font-family: 'icomoon';
       }
-    
-      
-    
+
+
+
     </style>
 </head>
 
@@ -62,7 +62,7 @@
 
             <div class="row justify-content-center">
                 @csrf <!-- {{ csrf_field() }} -->
-                <div class="col-md-9 col-xl-7">
+                <div class="col-md-9 col-xl-7 data-entry">
                     <div class="card-header px-0 mt-2 bg-transparent clearfix">
                       <h4 class="float-left pt-2">{{__('main.new_religion')}}</h4>
                       <div class="float-right card-header-actions mr-1">
@@ -89,7 +89,7 @@
                                     </span>
                                 @enderror
                       </div>
-            
+
                       <div class="form-group">
                         <label>{{__('main.name_en')}}</label>
                         <input
@@ -107,21 +107,21 @@
                       </span>
                   @enderror
                       </div>
-            
+
                     </div>
                   </div>
-         
+
                 </div>
-       
-       
-          
-       
+
+
+
+
             </div>
         </form>
 
     </div>
 
-   
+
     <script src="../../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../cpanel/js/app-style-switcher.js"></script>
@@ -132,4 +132,4 @@
     <script src="../../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
     <script src="../../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="../../cpanel/js/pages/dashboards/dashboard1.js"></script>
-</body> 
+</body>

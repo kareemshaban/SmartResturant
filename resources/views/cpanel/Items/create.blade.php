@@ -27,6 +27,7 @@
     <br>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
     <link href="../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -44,7 +45,7 @@
             text-align: right;
         }
         .form {
-            
+
     border: outset 3px saddlebrown;
     border-radius: 15px;
     box-shadow: 20px 19px 38px rgba(0,0,0,0.30), 20px 15px 12px rgba(0,0,0,0.22);
@@ -55,11 +56,11 @@
     border-bottom: 2px solid saddlebrown;
     line-height: 0.1em;
     margin: 20px auto;
-} 
+}
 
-h2 span { 
-    background:#fff; 
-    padding:0 10px; 
+h2 span {
+    background:#fff;
+    padding:0 10px;
     color: brown
 }
 .perc{
@@ -98,9 +99,8 @@ h2 span {
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
                             <h4 class="float-left pt-2">{{ __('main.new_item') }}</h4>
                             <div class="float-right card-header-actions mr-1">
-                                <button class="btn btn-primary" type="submit">
-                                    <span class="ml-1">{{ __('main.save_btn') }}</span>
-                                </button>
+                               <button type="submit" class="btn btn-labeled btn-primary " form="header-form" >
+                                    <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                             </div>
                         </div>
                         <div class="card-body px-0">
@@ -119,14 +119,14 @@ h2 span {
                                     </div>
                                     <div class="col-6">
                                         <label>{{ __('main.item_type') }}</label>
-                                        <select class="custom-select mr-sm-2 @error('type') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                        <select class="custom-select mr-sm-2 @error('type') is-invalid @enderror" id="inlineFormCustomSelect"
                                         name="type" id="type">
                                             <option selected value="">Choose...</option>
-                                   
-                                           <option value="0"> {{__('main.item_type1') }}</option> 
-                                           <option value="1"> {{__('main.item_type2') }}</option> 
-                                           <option value="2"> {{__('main.item_type3') }}</option> 
-                                       
+
+                                           <option value="0"> {{__('main.item_type1') }}</option>
+                                           <option value="1"> {{__('main.item_type2') }}</option>
+                                           <option value="2"> {{__('main.item_type3') }}</option>
+
                                           </select>
                                         @error('type')
                                             <span class="invalid-feedback" role="alert">
@@ -136,7 +136,7 @@ h2 span {
                                     </div>
 
                                 </div>
-                            
+
                             </div>
 
                             <div class="form-group">
@@ -164,35 +164,35 @@ h2 span {
                                         @enderror
                                     </div>
                                 </div>
-                             
+
                             </div>
 
-                    
+
 
                             <div class="form-group">
                                 <div class="row">
                                    <div class="col-6">
                                     <label>{{ __('main.item_category') }}</label>
-                              
-                                    <select class="custom-select mr-sm-2 @error('category_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+
+                                    <select class="custom-select mr-sm-2 @error('category_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                     name="category_id" id="category_id">
                                         <option selected value="">Choose...</option>
-                                       @foreach ($categories as $item) 
+                                       @foreach ($categories as $item)
                                        <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ?
-                                         $item -> name_ar : $item -> name_en}}</option> 
-                                           
+                                         $item -> name_ar : $item -> name_en}}</option>
+
                                        @endforeach
                                       </select>
                                     @error('category_id')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
-                                    @enderror    
-                                </div>    
+                                    @enderror
+                                </div>
                                 <div class="col-5">
                                     <label>{{ __('main.isAddValue') }}</label>
-                            
-                                    <input class="form-control-cehck  @error('isAddValue') is-invalid @enderror" type="checkbox" 
+
+                                    <input class="form-control-cehck  @error('isAddValue') is-invalid @enderror" type="checkbox"
                                      id="isAddValue" name="isAddValue" onchange="addValueChange()">
                                     <input type="number" name="addValue" id="addValue"
                                     class="form-control @error('addValue') is-invalid @enderror"
@@ -206,7 +206,7 @@ h2 span {
                                 </div>
                                 <div class="col-1 perc">%</div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="form-group">
@@ -221,7 +221,7 @@ h2 span {
                                 @enderror
                             </div>
 
-                            
+
                             <div class="form-group">
                                 <label>{{ __('main.description_en') }}</label>
                                 <textarea type="text" name="description_en" id="description_en"
@@ -234,15 +234,15 @@ h2 span {
                                 @enderror
                             </div>
 
-               
+
 
 
                             <div class="form-group">
                                 <label>{{ __('main.img') }}</label>
                                 <div class="row">
 
-            
-                              <div class="col-6"> 
+
+                              <div class="col-6">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="img"   name="img"  accept="image/png, image/jpeg" required>
                                     <label class="custom-file-label" for="img" id="path">{{__('main.img_choose')}}   <span style="color:red;">*</span></label>
@@ -250,7 +250,7 @@ h2 span {
                                 <br> <span style="font-size: 9pt ; color:gray;">{{ __('main.img_hint') }}</span>
 
                               </div>
-                              <div class="col-6 text-right"> 
+                              <div class="col-6 text-right">
                                 <img src="../images/photo.png" id="profile-img-tag" width="150px" height="150px" class="profile-img"/>
                               </div>
                             </div>
@@ -277,10 +277,10 @@ h2 span {
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                
+
                 reader.onload = function (e) {
                     $('#profile-img-tag').attr('src', e.target.result);
-                    
+
                 }
                 reader.readAsDataURL(input.files[0]);
                 document.getElementById('path').innerHTML = input.files[0].name;
@@ -294,7 +294,7 @@ h2 span {
 <script >
          $(document).ready(function() {
            var discount_inp = document.getElementById("isAddValue");
-           var discount_label = document.getElementById("addValue"); 
+           var discount_label = document.getElementById("addValue");
 
            discount_inp.checked = false ;
            addValue_inp.disabled = true;
@@ -306,7 +306,7 @@ h2 span {
 
         if(value)
         addValue_inp.disabled = false;
-        else 
+        else
         addValue_inp.disabled = true;
     }
 

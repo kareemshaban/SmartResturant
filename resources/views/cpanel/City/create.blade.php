@@ -27,6 +27,7 @@
     <br>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
     <link href="../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -63,25 +64,24 @@
                 <div class="row justify-content-center">
                     @csrf
                     <!-- {{ csrf_field() }} -->
-                    <div class="col-md-9 col-xl-7">
+                    <div class="col-md-9 col-xl-7 data-entry">
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
                             <h4 class="float-left pt-2">{{ __('main.new_city') }}</h4>
                             <div class="float-right card-header-actions mr-1">
-                                <button class="btn btn-primary" type="submit">
-                                    <span class="ml-1">{{ __('main.save_btn') }}</span>
-                                </button>
+                               <button type="submit" class="btn btn-labeled btn-primary " form="header-form" >
+                                    <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                             </div>
                         </div>
                         <div class="card-body px-0">
 
                             <div class="form-group">
                                 <label>{{ __('main.governorate') }}</label>
-                                <select class="custom-select mr-sm-2 @error('governorate_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                <select class="custom-select mr-sm-2 @error('governorate_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                 name="governorate_id" id="governorate_id">
                                     <option selected>Choose...</option>
-                                   @foreach ($governorate as $item) 
-                                   <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
+                                   @foreach ($governorate as $item)
+                                   <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
                                    @endforeach
                                   </select>
                                 @error('governorate_id')

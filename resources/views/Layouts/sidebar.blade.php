@@ -3,7 +3,7 @@
     <div class="scroll-sidebar">
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
-            <ul id="sidebarnav">
+            <ul id="sidebarnav" style="padding-top: 30px; padding-left: 5px;">
                 <!-- User Profile-->
                 <li class="sidebar-item pt-2">
                     <a @if ($slag == 1) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif

@@ -64,7 +64,7 @@
                 <div class="row justify-content-center">
                     @csrf
                     <!-- {{ csrf_field() }} -->
-                    <div class="col-md-9 col-xl-7">
+                    <div class="col-md-9 col-xl-7 data-entry">
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
                             <h4 class="float-left pt-2">{{ __('main.edit_gover') }}</h4>
                             <div class="float-right card-header-actions mr-1">
@@ -77,12 +77,12 @@
 
                             <div class="form-group">
                                 <label>{{ __('main.country') }}</label>
-                                <select class="custom-select mr-sm-2 @error('country_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                <select class="custom-select mr-sm-2 @error('country_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                 name="country_id" id="country_id">
                                     <option >Choose...</option>
-                                   @foreach ($countries as $item) 
-                                   <option value="{{$item -> id}}" @if ($item -> id == $governorate -> country_id) selected @endif > {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option> 
-                                       
+                                   @foreach ($countries as $item)
+                                   <option value="{{$item -> id}}" @if ($item -> id == $governorate -> country_id) selected @endif > {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
                                    @endforeach
                                   </select>
                                 @error('country_id')

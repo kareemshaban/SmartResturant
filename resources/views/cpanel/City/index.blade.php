@@ -26,6 +26,9 @@
     <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css" />
 
     <link href="../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../cpanel/css/style.css" rel="stylesheet">
+
+    <link href="../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -62,7 +65,8 @@
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
                         <a href="{{ route('createCity') }}">
-                            <button type="button" class="btn btn-primary ">{{ __('main.add_new') }}</button>
+                            <button type="button" class="btn btn-labeled btn-primary " form="header-form" >
+                                <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
 
                         </a>
 
@@ -94,7 +98,7 @@
                                         <td class="text-center">{{ $item->Governorate -> name_ar}} --- {{$item -> Governorate -> name_en }}</td>
 
                                         <td class="text-center">{{ $item-> Governorate -> country -> name_ar}} --- {{$item -> Governorate -> country -> name_en }}</td>
-                                        
+
                                         <td class="text-center">
                                             <a href="{{ route('editCity', $item->id) }}"> <button
                                                     type="button" class="btn btn-success"><i

@@ -27,11 +27,16 @@ class DashboradController extends Controller
 
     public function index(){
         //check for shift state
+
+            return view('home' );
+
+
+    }
+    public function checkShift(){
         $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
             -> where('state' , '=' , 0 )->get();
-            return view('home' , ['shift' => $shift]);
-
-
+        echo json_encode ($shift);
+        exit;
     }
     public function religions(){
         $religions = Religions::all();

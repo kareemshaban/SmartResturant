@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css" />
 
     <link href="../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -62,7 +63,8 @@
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
                         <a href="{{ route('createItem') }}">
-                            <button type="button" class="btn btn-primary ">{{ __('main.add_new') }}</button>
+                           <button type="button" class="btn btn-labeled btn-primary " form="header-form" >
+                                <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
 
                         </a>
 
@@ -93,12 +95,12 @@
                                         <td class="text-center">
                                             <img src="{{ asset('images/Item/' . $item->img) }}" height=50 width=50 alt="Item image">
                                         </td>
-                                        <td class="text-center">{{ ( Config::get('app.locale') == 'ar') ? $item->cayegory -> name_ar : 
+                                        <td class="text-center">{{ ( Config::get('app.locale') == 'ar') ? $item->cayegory -> name_ar :
                                         $item->cayegory -> name_en }}</td>
                                         <td class="text-center">{{ $item->name_ar }}</td>
                                         <td class="text-center">{{ $item->name_en }}</td>
-                                        <td class="text-center">@if ($item -> type == 0){{__('main.item_type1')}} @elseif ($item -> type == 1) {{  __('main.item_type2')   }} 
-                                            @else  {{ __('main.item_type3') }}  
+                                        <td class="text-center">@if ($item -> type == 0){{__('main.item_type1')}} @elseif ($item -> type == 1) {{  __('main.item_type2')   }}
+                                            @else  {{ __('main.item_type3') }}
                                             @endif </td>
                                         <td class="text-center">
                                             <a href="{{ route('editItem', $item->id) }}"> <button

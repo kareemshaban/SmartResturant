@@ -29,7 +29,11 @@
   <link href="../../css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="../../css/responsive.css" rel="stylesheet" />
-
+    <style>
+        i{
+            font: normal normal normal 14px/1 FontAwesome !important;
+        }
+    </style>
 </head>
 
 <body class="sub_page">
@@ -53,7 +57,7 @@
             <h3 class="text-center">
               {{__('main.about_smart_title')}}
             </h3>
-  
+
           <p>
          {{__('main.about_smart_details')}}
           </p>

@@ -27,6 +27,8 @@
     <br>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
     <link href="../../cpanel/css/style.min.css" rel="stylesheet">
+
+    <link href="../../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -63,13 +65,12 @@
                 <div class="row justify-content-center">
                     @csrf
                     <!-- {{ csrf_field() }} -->
-                    <div class="col-md-9 col-xl-7">
+                    <div class="col-md-9 col-xl-7 data-entry">
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
                             <h4 class="float-left pt-2">{{ __('main.edit_cat') }}</h4>
                             <div class="float-right card-header-actions mr-1">
-                                <button class="btn btn-primary" type="submit">
-                                    <span class="ml-1">{{ __('main.save_btn') }}</span>
-                                </button>
+                               <button type="submit" class="btn btn-labeled btn-primary " form="header-form" >
+                                    <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                             </div>
                         </div>
                         <div class="card-body px-0">
@@ -77,7 +78,7 @@
                                 <label>{{ __('main.name_ar') }}</label>
                                 <input type="text" name="name_ar" id="name_ar"
                                     class="form-control @error('name_ar') is-invalid @enderror"
-                                    placeholder="{{ __('main.name_ar_place') }}" autofocus 
+                                    placeholder="{{ __('main.name_ar_place') }}" autofocus
                                     value="{{ $category -> name_ar }}"/>
                                 @error('name_ar')
                                     <span class="invalid-feedback" role="alert">
@@ -90,7 +91,7 @@
                                 <label>{{ __('main.name_en') }}</label>
                                 <input type="text" name="name_en" id="name_en"
                                     class="form-control @error('name_en') is-invalid @enderror"
-                                    placeholder="{{ __('main.name_en_place') }}" autofocus 
+                                    placeholder="{{ __('main.name_en_place') }}" autofocus
                                     value="{{ $category -> name_en }}"/>
                                 @error('name_en')
                                     <span class="invalid-feedback" role="alert">
@@ -101,15 +102,15 @@
 
                             <div class="form-group">
                                 <label>{{ __('main.printer_hnt') }}</label>
-                              
-                                <select class="custom-select mr-sm-2 @error('printer') is-invalid @enderror" id="inlineFormCustomSelect" 
+
+                                <select class="custom-select mr-sm-2 @error('printer') is-invalid @enderror" id="inlineFormCustomSelect"
                                 name="printer" id="printer">
                                   @if($category -> printer == 0)  <option selected value="0">Choose...</option> @endif
-                                   @foreach ($printers as $item) 
+                                   @foreach ($printers as $item)
                                    <option value="{{$item -> name}}"  @if ($category -> printer == $item -> name)
                                     selected
-                                   @endif> {{  $item -> name }}</option> 
-                                       
+                                   @endif> {{  $item -> name }}</option>
+
                                    @endforeach
                                   </select>
                                 @error('printer')
@@ -123,8 +124,8 @@
                                 <label>{{ __('main.img') }}</label>
                                 <div class="row">
 
-            
-                              <div class="col-6"> 
+
+                              <div class="col-6">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="img"   name="img"  accept="image/png, image/jpeg" >
                                     <label class="custom-file-label" for="img" id="path">{{__('main.img_choose')}}   <span style="color:red;">*</span></label>
@@ -132,8 +133,8 @@
                                 <br> <span style="font-size: 9pt ; color:gray;">{{ __('main.img_hint') }}</span>
 
                               </div>
-                              <div class="col-6 text-right"> 
-                                <img  src="{{ asset('images/Category/' . $category->img) }}" 
+                              <div class="col-6 text-right">
+                                <img  src="{{ asset('images/Category/' . $category->img) }}"
                                 id="profile-img-tag" width="150px" height="150px" class="profile-img"/>
                               </div>
                             </div>
@@ -160,10 +161,10 @@
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                
+
                 reader.onload = function (e) {
                     $('#profile-img-tag').attr('src', e.target.result);
-                    
+
                 }
                 reader.readAsDataURL(input.files[0]);
                 document.getElementById('path').innerHTML = input.files[0].name;

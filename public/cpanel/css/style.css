@@ -3896,12 +3896,12 @@ input[type="button"].btn-block {
   margin-right: 1rem;
   font-size: 1.09375rem;
   line-height: inherit;
-  white-space: nowrap; 
+  white-space: nowrap;
 
 }
   .navbar-brand:hover, .navbar-brand:focus {
-    text-decoration: none; 
-  
+    text-decoration: none;
+
   }
 
 .navbar-nav {
@@ -3914,7 +3914,7 @@ input[type="button"].btn-block {
   flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
-  list-style: none; 
+  list-style: none;
 
 }
   .navbar-nav .nav-link {
@@ -8755,7 +8755,7 @@ a.text-purple:hover, a.text-purple:focus {
     border-color: #e9ecef; } }
 
 /*******************
-Padding margin property 
+Padding margin property
 *******************/
 html[dir="ltr"] body .m-t-5 {
   margin-top: 5px; }
@@ -9023,8 +9023,8 @@ html[dir="ltr"] body .p-l-0 {
     #main-wrapper[data-layout="vertical"] .left-sidebar[data-sidebarbg="skin6"] .create-btn, #main-wrapper[data-layout="horizontal"] .left-sidebar[data-sidebarbg="skin6"] .create-btn {
       background: #4fc3f7; }
 
-/*============================================================== 
- For all pages 
+/*==============================================================
+ For all pages
  ============================================================== */
 #main-wrapper {
   width: 100%;
@@ -9601,8 +9601,8 @@ Notify
       display: none; }
     .topbar .top-navbar .navbar-header {
       line-height: 64px;
-      
-   
+
+
     }
       .topbar .top-navbar .navbar-header .navbar-brand {
         display: -webkit-box;
@@ -9615,7 +9615,7 @@ Notify
         padding: 0 10px 0 10px;
         background: #2F323E !important;
         color: #fff ;
-         
+
       }
         .topbar .top-navbar .navbar-header .navbar-brand .logo-icon {
           margin-right: 5px; }
@@ -10370,17 +10370,17 @@ Author: Wrappixel
 
 File: scss
 */
-/*============================================================== 
- For Desktop & above all (1650px) 
+/*==============================================================
+ For Desktop & above all (1650px)
  ============================================================== */
-/*============================================================== 
- For Laptop & above all (1370px) 
+/*==============================================================
+ For Laptop & above all (1370px)
  ============================================================== */
-/*-- ============================================================== 
- Small Desktop & above all (1024px) 
+/*-- ==============================================================
+ Small Desktop & above all (1024px)
  ============================================================== */
-/*-- ============================================================== 
- Ipad & above all(768px) 
+/*-- ==============================================================
+ Ipad & above all(768px)
  ============================================================== */
 @media (min-width: 768px) {
   .bc-content {
@@ -10388,9 +10388,67 @@ File: scss
     -ms-flex-pack: end;
     justify-content: flex-end; } }
 
-/*-- ============================================================== 
- Phone and below ipad(767px) 
+/*-- ==============================================================
+ Phone and below ipad(767px)
  ============================================================== */
 @media (max-width: 991.98px) {
   .do-block {
     display: block !important; } }
+.modal-close-btn {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    background: red;
+    box-shadow: none;
+    height: 35px;
+    width: 35px;
+}
+.alertImage{
+    width: 60px;
+    height: 60px;
+    display: block;
+    margin: 0 auto;
+}
+.alertTitle{
+    text-align: center;
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 5px auto;
+}
+.alertSubTitle{
+    text-align: center;
+    color: #149ddd;
+    font-size: 15px;
+    font-weight: bold;
+    margin: 10px auto;
+    display: block;
+}
+.modelTitle{
+    font-size: 20px;
+    font-weight: bold;
+    color: #149ddd;
+}
+.btn-label{
+margin-right:10px ;
+}
+.submenu {
+    background: transparent !important;
+}
+body{
+    background: #eef5f9 !important;
+}
+.data-entry{
+    margin-top: 40px;
+    padding: 20px;
+    border: solid 2px lightgray;
+    border-radius: 20px;
+}
+.data-entry Button {
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-size: 15px;
+    border-radius: 15px;
+}

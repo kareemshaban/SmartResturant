@@ -5,12 +5,12 @@
     <!-- header section strats -->
     <header class="header_section">
       <div class="container">
-        <nav class="navbar navbar-expand-lg custom_nav-container " 
+        <nav class="navbar navbar-expand-lg custom_nav-container "
         @if ( Config::get('app.locale') == 'ar') style="direction: rtl" @else style="direction: ltr;" @endif>
           <a class="navbar-brand" href="{{route('index')}}">
             <span style="
             font-family: 'Dancing Script', cursive !important;">
-                Smart Restuarnt 
+                Smart Restuarnt
             </span>
           </a>
 
@@ -88,7 +88,7 @@
                         {{__('main.hero_title')}}
                     </h1>
                     <p>
-                        {{__('main.hero_detail2')}}                  
+                        {{__('main.hero_detail2')}}
                      </p>
                     <div class="btn-box" hidden>
                       <a href="" class="btn1">
@@ -106,12 +106,12 @@
                 <div class="col-md-7 col-lg-6 ">
                   <div class="detail-box">
                     <h1>
-                        {{__('main.hero_title')}}                   
-                    
+                        {{__('main.hero_title')}}
+
                     </h1>
                     <p>
-                        {{__('main.hero_detail3')}}                
-                    
+                        {{__('main.hero_detail3')}}
+
                     </p>
                     <div class="btn-box" hidden>
                       <a href="" class="btn1">

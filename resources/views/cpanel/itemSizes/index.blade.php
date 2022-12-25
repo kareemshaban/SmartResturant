@@ -62,7 +62,8 @@
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
                         <a href="{{ route('createItemSize' , $item) }}">
-                            <button type="button" class="btn btn-primary ">{{ __('main.add_new') }}</button>
+                           <button type="button" class="btn btn-labeled btn-primary " form="header-form" >
+                                <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
 
                         </a>
 

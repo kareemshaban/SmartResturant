@@ -44,7 +44,7 @@
             text-align: right;
         }
         .form {
-            
+
     border: outset 3px saddlebrown;
     border-radius: 15px;
     box-shadow: 20px 19px 38px rgba(0,0,0,0.30), 20px 15px 12px rgba(0,0,0,0.22);
@@ -55,11 +55,11 @@
     border-bottom: 2px solid saddlebrown;
     line-height: 0.1em;
     margin: 20px auto;
-} 
+}
 
-h2 span { 
-    background:#fff; 
-    padding:0 10px; 
+h2 span {
+    background:#fff;
+    padding:0 10px;
     color: brown
 }
 .perc{
@@ -98,9 +98,8 @@ h2 span {
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
                             <h4 class="float-left pt-2">{{ __('main.edit_new') }}</h4>
                             <div class="float-right card-header-actions mr-1">
-                                <button class="btn btn-primary" type="submit">
-                                    <span class="ml-1">{{ __('main.save_btn') }}</span>
-                                </button>
+                               <button type="submit" class="btn btn-labeled btn-primary " form="header-form" >
+                                    <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                             </div>
                         </div>
                         <div class="card-body px-0">
@@ -110,7 +109,7 @@ h2 span {
                                         <label>{{ __('main.code') }}</label>
                                         <input type="text" name="code" id="code"
                                             class="form-control @error('code') is-invalid @enderror"
-                                            placeholder="{{ __('main.code') }}" autofocus  
+                                            placeholder="{{ __('main.code') }}" autofocus
                                             value="{{ $item -> code }}"/>
                                         @error('code')
                                             <span class="invalid-feedback" role="alert">
@@ -120,16 +119,16 @@ h2 span {
                                     </div>
                                     <div class="col-6">
                                         <label>{{ __('main.item_type') }}</label>
-                                        <select class="custom-select mr-sm-2 @error('type') is-invalid @enderror" id="inlineFormCustomSelect" 
+                                        <select class="custom-select mr-sm-2 @error('type') is-invalid @enderror" id="inlineFormCustomSelect"
                                         name="type" id="type">
-                                   
+
                                            <option value="0"  @if ($item -> type == 0)
                                            selected
-                                           @endif> {{__('main.item_type1') }}</option> 
+                                           @endif> {{__('main.item_type1') }}</option>
                                            <option value="1" @if ($item -> type == 1)
                                             selected
-                                            @endif> {{__('main.item_type2') }}</option> 
-                                       
+                                            @endif> {{__('main.item_type2') }}</option>
+
                                           </select>
                                         @error('type')
                                             <span class="invalid-feedback" role="alert">
@@ -139,7 +138,7 @@ h2 span {
                                     </div>
 
                                 </div>
-                            
+
                             </div>
 
                             <div class="form-group">
@@ -160,7 +159,7 @@ h2 span {
                                         <label>{{ __('main.name_en') }}</label>
                                         <input type="text" name="name_en" id="name_en"
                                             class="form-control @error('name_en') is-invalid @enderror"
-                                            placeholder="{{ __('main.name_en_place') }}" autofocus 
+                                            placeholder="{{ __('main.name_en_place') }}" autofocus
                                             value="{{ $item -> name_en }}"/>
                                         @error('name_en')
                                             <span class="invalid-feedback" role="alert">
@@ -169,41 +168,41 @@ h2 span {
                                         @enderror
                                     </div>
                                 </div>
-                             
+
                             </div>
 
-                    
+
 
                             <div class="form-group">
                                 <div class="row">
                                    <div class="col-6">
                                     <label>{{ __('main.item_category') }}</label>
-                              
-                                    <select class="custom-select mr-sm-2 @error('category_id') is-invalid @enderror" id="inlineFormCustomSelect" 
+
+                                    <select class="custom-select mr-sm-2 @error('category_id') is-invalid @enderror" id="inlineFormCustomSelect"
                                     name="category_id" id="category_id">
-                                       @foreach ($categories as $itemm) 
+                                       @foreach ($categories as $itemm)
                                        <option value="{{$itemm -> id}}" @if ($item -> id == $itemm -> category_id)
                                         selected
                                        @endif>   {{ ( Config::get('app.locale') == 'ar') ?
-                                         $itemm -> name_ar : $itemm -> name_en}}</option> 
-                                           
+                                         $itemm -> name_ar : $itemm -> name_en}}</option>
+
                                        @endforeach
                                       </select>
                                     @error('category_id')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
-                                    @enderror    
-                                </div>    
+                                    @enderror
+                                </div>
                                 <div class="col-5">
                                     <label>{{ __('main.isAddValue') }}</label>
-                            
-                                    <input class="form-control-cehck  @error('isAddValue') is-invalid @enderror" type="checkbox" 
-                                     id="isAddValue" name="isAddValue" onchange="addValueChange()" 
+
+                                    <input class="form-control-cehck  @error('isAddValue') is-invalid @enderror" type="checkbox"
+                                     id="isAddValue" name="isAddValue" onchange="addValueChange()"
                                      @if ($item -> isAddValue == 1)  checked @endif >
                                     <input type="number" name="addValue" id="addValue"
                                     class="form-control @error('addValue') is-invalid @enderror"
-                                    placeholder="{{ __('main.addValue') }}" autofocus 
+                                    placeholder="{{ __('main.addValue') }}" autofocus
                                     value="{{ $item -> addValue != null ?  $item -> addValue : ''  }}">
 
                                     @error('isAddValue')
@@ -214,7 +213,7 @@ h2 span {
                                 </div>
                                 <div class="col-1 perc">%</div>
                                 </div>
-                                
+
                             </div>
 
                             <div class="form-group">
@@ -229,7 +228,7 @@ h2 span {
                                 @enderror
                             </div>
 
-                            
+
                             <div class="form-group">
                                 <label>{{ __('main.description_en') }}</label>
                                 <textarea type="text" name="description_en" id="description_en"
@@ -242,15 +241,15 @@ h2 span {
                                 @enderror
                             </div>
 
-               
+
 
 
                             <div class="form-group">
                                 <label>{{ __('main.img') }}</label>
                                 <div class="row">
 
-            
-                              <div class="col-6"> 
+
+                              <div class="col-6">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" id="img"   name="img"  accept="image/png, image/jpeg" >
                                     <label class="custom-file-label" for="img" id="path">{{__('main.img_choose')}}   <span style="color:red;">*</span></label>
@@ -258,7 +257,7 @@ h2 span {
                                 <br> <span style="font-size: 9pt ; color:gray;">{{ __('main.img_hint') }}</span>
 
                               </div>
-                              <div class="col-6 text-right"> 
+                              <div class="col-6 text-right">
                                 <img src="{{ asset('images/Item/' . $item->img) }}" id="profile-img-tag" width="150px" height="150px" class="profile-img"/>
                               </div>
                             </div>
@@ -285,10 +284,10 @@ h2 span {
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                
+
                 reader.onload = function (e) {
                     $('#profile-img-tag').attr('src', e.target.result);
-                    
+
                 }
                 reader.readAsDataURL(input.files[0]);
                 document.getElementById('path').innerHTML = input.files[0].name;
@@ -311,7 +310,7 @@ $(document).ready(function() {
 
         if(value)
         addValue_inp.disabled = false;
-        else 
+        else
         addValue_inp.disabled = true;
     }
 

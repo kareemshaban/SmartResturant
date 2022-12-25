@@ -234,5 +234,6 @@ return [
     'search_by_bill_number' => 'Search For Bill By Number',
     'no_search_result' => 'Sorry No Bills Found With This Number',
     'empty_bill' => 'Sorry You are not allowed to create an Empty Order',
-    'bill_updated' => 'Bill Updated Successfully'
+    'bill_updated' => 'Bill Updated Successfully',
+    'control_shift' => 'Control'
 ];

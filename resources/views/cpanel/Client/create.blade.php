@@ -27,6 +27,7 @@
     <br>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
     <link href="../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -43,7 +44,7 @@
             text-align: right;
         }
         .form {
-            
+
     border: outset 3px saddlebrown;
     border-radius: 15px;
     box-shadow: 20px 19px 38px rgba(0,0,0,0.30), 20px 15px 12px rgba(0,0,0,0.22);
@@ -54,11 +55,11 @@
     border-bottom: 2px solid saddlebrown;
     line-height: 0.1em;
     margin: 20px auto;
-} 
+}
 
-h2 span { 
-    background:#fff; 
-    padding:0 10px; 
+h2 span {
+    background:#fff;
+    padding:0 10px;
     color: brown
 }
     </style>
@@ -82,7 +83,7 @@ h2 span {
         <div class="container-fluid">
             <form class="center" method="POST" action="{{ route('storeClient') }}" enctype="multipart/form-data">
 
-                <div class="row justify-content-center" style="padding-bottom: 50px;"> 
+                <div class="row justify-content-center" style="padding-bottom: 50px;">
                     @csrf
                     <!-- {{ csrf_field() }} -->
                     <div class="col-md-9 col-xl-9 form" >
@@ -92,14 +93,13 @@ h2 span {
                             color: gray;">{{  __('main.required_note') }}</span> <span style="color:red; font-size:20px; font-weight:bold;">*</span>
                             </h4>
                             <div class="float-right card-header-actions mr-1">
-                                <button class="btn btn-primary" type="submit">
-                                    <span class="ml-1">{{ __('main.save_btn') }}</span>
-                                </button>
+                               <button type="submit" class="btn btn-labeled btn-primary " form="header-form" >
+                                    <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                             </div>
                         </div>
                         <div class="card-body px-0 col12">
                         <h2   class="text-center"> <span>{{ __('main.side_basic') }} </span></h2>
-                         
+
 
                         <div class="row">
                            <div class="col-6">
@@ -113,7 +113,7 @@ h2 span {
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                            </div> 
+                            </div>
                            </div>
                            <div class="col-6">
                             <div class="form-group">
@@ -130,25 +130,25 @@ h2 span {
 
                            </div>
 
-                        
-                        </div>    
+
+                        </div>
                         <div class="row">
                             <div class="col-6">
                              <div class="form-group">
                                 <label>{{ __('main.discount_type') }}</label>
-                                <select class="custom-select mr-sm-2 @error('discount_type') is-invalid @enderror" id="discount_type" 
+                                <select class="custom-select mr-sm-2 @error('discount_type') is-invalid @enderror" id="discount_type"
                                 name="discount_type"  onchange="discount_typeChange()">
                                     <option selected value="0">{{ __('main.discount_type1') }}</option>
                                     <option  value="1">{{ __('main.discount_type2') }}</option>
                                     <option  value="2">{{ __('main.discount_type3') }}</option>
-                                  
+
                                   </select>
                                 @error('discount_type')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-5">
                              <div class="form-group">
@@ -163,21 +163,21 @@ h2 span {
                                     </span>
                                 @enderror
                              </div>
- 
+
                             </div>
                             <div class="col-1" style="    display: flex;
                             flex-direction: column;
-                            justify-content: center;"> 
+                            justify-content: center;">
                                 <label id="discount_label" style=" margin-top: 10px;font-size: 18px;"></label>
                             </div>
- 
-                         
-                         </div>   
-                           
-                        
+
+
+                         </div>
+
+
                         </div>
-                    
-                           
+
+
                          <h2 class="text-center"> <span> {{ __('main.contact_data') }} </span></h2>
 
                          <div class="row">
@@ -192,7 +192,7 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
@@ -206,11 +206,11 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
+
+
+                         </div>
                          <div class="row">
                             <div class="col-6">
                              <div class="form-group">
@@ -223,7 +223,7 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
@@ -237,11 +237,11 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
+
+
+                         </div>
                          <div class="row">
                             <div class="col-6">
                              <div class="form-group">
@@ -254,16 +254,16 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
-                            </div>    
-                         </div> 
+                             </div>
+                            </div>
+                         </div>
 
                          <div class="row">
                             <div class="col-12">
                              <div class="form-group">
                                  <label>{{ __('main.address') }}</label>
 
-                                 <textarea name="address" id="address" 
+                                 <textarea name="address" id="address"
                                  class="form-control @error('address') is-invalid @enderror"
                                  placeholder="{{ __('main.address') }}" autofocus>  </textarea>
                                  @error('address')
@@ -271,9 +271,9 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
-                            </div>    
-                         </div> 
+                             </div>
+                            </div>
+                         </div>
 
                          <h2 class="text-center"> <span> {{ __('main.money_data') }} </span></h2>
 
@@ -289,7 +289,7 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
@@ -303,11 +303,11 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
+
+
+                         </div>
 
                          <div class="row">
                             <div class="col-6">
@@ -321,7 +321,7 @@ h2 span {
                                          <strong>{{ $message }}</strong>
                                      </span>
                                  @enderror
-                             </div> 
+                             </div>
                             </div>
                             <div class="col-6">
                              <div class="form-group">
@@ -335,14 +335,11 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
- 
+
                             </div>
- 
-                         
-                         </div> 
-                         
 
-                         
+
+                         </div>
 
 
 
@@ -353,7 +350,10 @@ h2 span {
 
 
 
-                         </div>   
+
+
+
+                         </div>
 
                         </div>
 
@@ -374,10 +374,10 @@ h2 span {
     <script>
         $(document).ready(function() {
            var discount_inp = document.getElementById("discount_value");
-           var discount_label = document.getElementById("discount_label"); 
+           var discount_label = document.getElementById("discount_label");
            if(discount_inp){
             discount_inp.disabled  = true ;
-           } 
+           }
            if(discount_label){
             discount_label.innerHTML = "" ;
            }
@@ -385,17 +385,17 @@ h2 span {
 
         function discount_typeChange(){
             var discount_select = document.getElementById("discount_type");
-           
+
             if(discount_select != null){
                 var discount_inp = document.getElementById("discount_value");
-                var discount_label = document.getElementById("discount_label"); 
+                var discount_label = document.getElementById("discount_label");
                 if(discount_inp){
                     if(discount_select.value == 1){
                         discount_inp.disabled  = false ;
                         if(discount_label){
                           discount_label.innerHTML = "%" ;
                             }
-                
+
                     }else if(discount_select.value == 2){
                         discount_inp.disabled  = false ;
                         if(discount_label){
@@ -412,7 +412,7 @@ h2 span {
                 }
 
             }
-            
+
         }
       </script>
     <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
