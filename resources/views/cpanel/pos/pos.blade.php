@@ -55,7 +55,7 @@
     data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
     <nav class="navbar navbar-light bg-light sticky">
         <div class="container-fluid"   @if ( Config::get('app.locale') == 'ar') style="direction: rtl" @else style="direction: ltr;" @endif>
-            <a class="navbar-brand" href="{{route('index')}}">
+            <a class="navbar-brand" href="{{route('home')}}">
                 <span style="
                 font-family: 'Dancing Script', cursive !important; font-weight: bold;">
                     Smart Restuarnt POS

@@ -55,9 +55,9 @@
             <div class="container-fluid">
                 @if (count($shift) > 0)
 
-                    <div class="alert alert-success alert-block">
+                    <div class="alert alert-success alert-block" style="text-align: center;">
 
-                        <button type="button" class="close" data-bs-dismiss="alert">×</button>
+                        <button type="button" class="close" data-bs-dismiss="alert" style="float: left;">×</button>
 
                         <strong>{{ __('main.open_shift') }}</strong>
 
@@ -68,7 +68,7 @@
 
                 @if (count($shift) == 0)
 
-                    <div class="alert alert-danger alert-block">
+                    <div class="alert alert-danger alert-block" style="text-align: center;">
 
 {{--                        <button type="button" class="close" data-bs-dismiss="alert">×</button>--}}
 

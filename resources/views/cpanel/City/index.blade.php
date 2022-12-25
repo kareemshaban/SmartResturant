@@ -94,7 +94,7 @@
                                         <td class="text-center">{{ $item->Governorate -> name_ar}} --- {{$item -> Governorate -> name_en }}</td>
 
                                         <td class="text-center">{{ $item-> Governorate -> country -> name_ar}} --- {{$item -> Governorate -> country -> name_en }}</td>
-                                        
+
                                         <td class="text-center">
                                             <a href="{{ route('editCity', $item->id) }}"> <button
                                                     type="button" class="btn btn-success"><i

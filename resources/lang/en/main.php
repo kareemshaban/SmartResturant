@@ -234,5 +234,13 @@ return [
     'search_by_bill_number' => 'Search For Bill By Number',
     'no_search_result' => 'Sorry No Bills Found With This Number',
     'empty_bill' => 'Sorry You are not allowed to create an Empty Order',
-    'bill_updated' => 'Bill Updated Successfully'
+    'bill_updated' => 'Bill Updated Successfully',
+    'company_info' => 'Company Info',
+    'header_ar' => 'Arabic Header Text',
+    'header_en' => 'English Header Text',
+    'footer_ar' => 'Arabic Footer Text',
+    'footer_en' => 'English Footer Text',
+    'logo' => 'Company Logo',
+    'activity_ar' => 'Activity Arabic',
+    'activity_en' => 'Activity English'
 ];
