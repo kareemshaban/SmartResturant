@@ -113,6 +113,22 @@
                     </ul>
                 </li>
 
+                <li class="nav-item sidebar-item  has-submenu">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#">
+                        <i class="fa fa-calculator" aria-hidden="true"></i>
+
+                        <span class="hide-menu">{{ __('main.accountancy') }}</span>
+                    </a>
+                    <ul class="submenu collapse">
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="{{ route('expenses_type') }}">{{ __('main.expenses_type') }}</a></li>
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="{{ route('recipt') }}">{{ __('main.recipt') }}</a></li>
+
+
+                    </ul>
+                </li>
+
                 <li class="sidebar-item">
                     <a href="{{route('logout')}}"  onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();" class="sidebar-link waves-effect waves-dark sidebar-link" data-toggle="tooltip" title="" data-original-title="Logout">

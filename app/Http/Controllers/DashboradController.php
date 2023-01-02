@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shift;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Models\Religions ;
 use App\Models\Departments ;
 use App\Models\Gender ;
 use App\Models\Nationality ;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use App\Models\MaritalStatus ;
 use App\Models\Jobs ;
@@ -16,7 +18,7 @@ use App\Models\Education ;
 use App\Models\Country ;
 use App\Models\City ;
 use App\Models\Governorate ;
-
+use ArPHP\I18N\Arabic;
 
 class DashboradController extends Controller
 {
@@ -26,16 +28,26 @@ class DashboradController extends Controller
     }
 
     public function index(){
-        //check for shift state
+//        $reportHtml = view('home', [])->render();
+//
+//        $arabic = new Arabic();
+//        $p = $arabic->arIdentify($reportHtml);
+//
+//        for ($i = count($p)-1; $i >= 0; $i-=2) {
+//            $utf8ar = $arabic->utf8Glyphs(substr($reportHtml, $p[$i-1], $p[$i] - $p[$i-1]));
+//            $reportHtml = substr_replace($reportHtml, $utf8ar, $p[$i-1], $p[$i] - $p[$i-1]);
+//        }
+//
+//        $pdf = PDF::loadHTML($reportHtml);
+//        return $pdf->download('purchase.pdf');
 
-            return view('home' );
-
+        return view('home');
 
     }
     public function checkShift(){
         $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
             -> where('state' , '=' , 0 )->get();
-        echo json_encode ($shift);
+        echo json_encode ($shift );
         exit;
     }
     public function religions(){

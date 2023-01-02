@@ -59,6 +59,7 @@
     @include('Layouts.cheader')
     @include('Layouts.subheader' , ['pageTitle' =>  Config::get('app.locale') == 'ar'? 'بداية شيفت' : 'Start Shift'])
     <div class="container-fluid">
+        @include('flash-message')
         <form class="center" method="POST" action="{{ route('storeShift') }}" enctype="multipart/form-data" >
 
             <div class="row justify-content-center">

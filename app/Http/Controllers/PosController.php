@@ -7,12 +7,17 @@ use App\Models\BillDetails;
 use App\Models\BillDetailsItems;
 use App\Models\Category;
 use App\Models\Client;
+use App\Models\CompanyInfo;
 use App\Models\Employee;
 use App\Models\Hall;
 use App\Models\Item;
+use App\Models\ReportSetting;
 use App\Models\Settings;
 use App\Models\Shift;
 use App\Models\Table;
+use ArPHP\I18N\Arabic;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -43,7 +48,7 @@ class PosController extends Controller
                 'items' => $items , 'clients' => $clients , 'employees' => $employees ,
                 'halls' => $halls , 'tables' => $tables ]);
         } else {
-            return redirect() -> route('home');
+            return redirect() -> route('myShift' )->with('success', __('main.no_open_shift'));
         }
 
     }
@@ -373,5 +378,29 @@ class PosController extends Controller
     function unique_code($limit)
     {
         return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
+    }
+
+    public function PrintAction($id){
+        $companyInfos = CompanyInfo::all();
+        $printSettings = ReportSetting::all();
+        $settings = Settings::all();
+        $bill = Bill::with('details.items.item' , 'table.hall' , 'client') -> with('details.items.size') -> find($id);
+
+        if(count($companyInfos) > 0 && count($printSettings) > 0 && count($settings) > 0 && $bill){
+  //return  view('cpanel.Reports.printBill', ['companyInfo' => $companyInfos[0] , 'printSetting' => $printSettings[0] , 'bill' => $bill , '$setting' => $settings[0]]);
+            $reportHtml = view('cpanel.Reports.printBill', ['companyInfo' => $companyInfos[0] ,
+                'printSetting' => $printSettings[0] , 'bill' => $bill , '$setting' => $settings[0]]) ->render();
+
+        $arabic = new Arabic();
+        $p = $arabic->arIdentify($reportHtml);
+
+        for ($i = count($p)-1; $i >= 0; $i-=2) {
+            $utf8ar = $arabic->utf8Glyphs(substr($reportHtml, $p[$i-1], $p[$i] - $p[$i-1]));
+            $reportHtml = substr_replace($reportHtml, $utf8ar, $p[$i-1], $p[$i] - $p[$i-1]);
+        }
+        $pdf = PDF::loadHTML($reportHtml) ->setWarnings(false);
+        return $pdf->download('client_receipt.pdf');
+        }
+
     }
 }

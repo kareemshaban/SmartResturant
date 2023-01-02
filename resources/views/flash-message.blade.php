@@ -2,7 +2,7 @@
 
 <div class="alert alert-success alert-block" style="text-align: center;">
 
-	<button type="button" class="close" data-bs-dismiss="alert" style="float: left;">>×</button>
+	<button type="button" class="close" data-bs-dismiss="alert" style="float: left;">×</button>
 
         <strong>{{ $message }}</strong>
 
@@ -15,7 +15,7 @@
 
 <div class="alert alert-danger alert-block" style="text-align: center;">
 
-	<button type="button" class="close" data-bs-dismiss="alert" style="float: left;">>×</button>
+	<button type="button" class="close" data-bs-dismiss="alert" style="float: left;">×</button>
 
         <strong>{{ $message }}</strong>
 
@@ -28,7 +28,7 @@
 
 <div class="alert alert-warning alert-block" style="text-align: center;">
 
-	<button type="button" class="close" data-bs-dismiss="alert" style="float: left;">>×</button>
+	<button type="button" class="close" data-bs-dismiss="alert" style="float: left;">×</button>
 
 	<strong>{{ $message }}</strong>
 
@@ -41,7 +41,7 @@
 
 <div class="alert alert-info alert-block" style="text-align: center;">
 
-	<button type="button" class="close" data-bs-dismiss="alert" style="float: left;">>×</button>
+	<button type="button" class="close" data-bs-dismiss="alert" style="float: left;">×</button>
 
 	<strong>{{ $message }}</strong>
 

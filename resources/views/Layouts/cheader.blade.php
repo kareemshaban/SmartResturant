@@ -32,11 +32,11 @@
             <!-- ============================================================== -->
 
             					@if ( Config::get('app.locale') == 'ar')
-						<a rel="alternate" hreflang="en" href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}"  ><img src="../../images/english.png" style="    width: 50px;
+						<a rel="alternate" hreflang="en" href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}"  ><img src="../images/english.png" style="    width: 50px;
                             margin-left: 30px; margin-right:30px;"></a>
 						@endif
 						@if ( Config::get('app.locale') == 'en')
-							<a rel="alternate" hreflang="ar" href="{{ LaravelLocalization::getLocalizedURL('ar', null, [], true) }}" ><img src="../../images/arabic.png" style="    width: 50px;
+							<a rel="alternate" hreflang="ar" href="{{ LaravelLocalization::getLocalizedURL('ar', null, [], true) }}" ><img src="../images/arabic.png" style="    width: 50px;
                                 margin-left: 30px; margin-right:30px;"></a>
 							@endif
 

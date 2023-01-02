@@ -16,6 +16,7 @@ class Shift extends Model
         'end_at',
         'state',
         'start_money',
-        'end_money'
+        'end_money',
+        'count'
     ];
 }

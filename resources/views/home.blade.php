@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords"
@@ -30,18 +31,15 @@
         @font-face {
             font-family: 'icomoon';
             src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf") ;
+            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
             font-weight: normal;
             font-style: normal;
-          }
+        }
 
-          *{
+        body {
             font-family: 'icomoon';
-          }
-
-
-
-        </style>
+        }
+    </style>
 </head>
 
 
@@ -60,7 +58,7 @@
              @include('Layouts.subheader' , ['pageTitle' =>  Config::get('app.locale') == 'ar'? 'لوحة التحكم' : 'DashBoard'])
             <div class="container-fluid">
 
-                <img src="../../assets/img/dashboard.jpg" style="width: 100%; height: auto">
+                <img src="../assets/img/dashboard.jpg" style="width: 100%; height: auto">
 
                 <div class="row">
                     <div class="col-md-12 col-lg-12 col-sm-12" >
@@ -78,6 +76,7 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    {{__('main.shifts')}}
                     <button type="button" class="close"  data-bs-dismiss="modal"  aria-label="Close" style="color: red; font-size: 20px; font-weight: bold;">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -108,6 +107,8 @@
 
     <script type="text/javascript">
         let id = 0 ;
+        var url = document.referrer ;
+        console.log(url);
         $(document).ready(function()
         {
             $.ajax({
@@ -116,15 +117,21 @@
                 dataType: 'json',
 
                 success:function(response){
-                    console.log();
+                    console.log(response);
                     if(response){
                        if(response.length > 0){
-                           openDialog(1);
+                           if(url.indexOf('login') > -1){
+                               openDialog(1);
+                           }
+
                        } else {
-                           openDialog(0);
-                       }
+                           if(url.indexOf('login') > -1 ){
+                               openDialog(0);
+                           }                       }
                     } else {
-                       openDialog(0);
+                        if(url.indexOf('login') > -1){
+                            openDialog(0);
+                        }
                     }
                 }
             });

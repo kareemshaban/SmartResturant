@@ -136,8 +136,8 @@ return [
     'item_category' =>  'فئة الصنف',
     'new_item' => 'إضافة صنف جديد',
     'edit_new' => 'تعديل بيانات صنف',
-    'description_ar' => 'وصف المنتج باللغة العربية',
-    'description_en' => 'وصف المنتج باللغة الإنجليزية',
+    'description_ar' => 'الوصف  باللغة العربية',
+    'description_en' => 'الوصف  باللغة الإنجليزية',
 
     'isAddValue' => 'يوجد قيمة مضافة ؟',
     'addValue' => 'أدخل نسبة القيمة المضافة',
@@ -243,7 +243,31 @@ return [
     'footer_en' => 'الترويسة السفلية إنجليزي',
     'logo' => 'شعار الشركة',
     'activity_ar' => 'النشاط عربي',
-    'activity_en' => 'النشاط انجليزي'
+    'activity_en' => 'النشاط انجليزي',
+    'accountancy' => 'الحسابات',
+    'expenses_type' => 'انواع المصروفات',
+    'recipt' => 'مستند صرف صندوق',
+    'new_expenses' => 'إضافة نوع صرف جديد',
+    'show_bill_number' => 'عرض رقم الفاتورة',
+    'show_supplier_name' => 'عرض اسم المورد',
+    'show_tax_number' => 'عرض الرقم الضريبي',
+     'edit_expenses' => 'تعديل بيانات نوع الصرف',
+    'doc_number' => 'رقم المستند',
+    'doc_date' => 'تاريخ المستند',
+    'tax_type' => 'نوع الضريبة',
+    'doc_type' => 'نوع المستند',
+    'amount' => 'المبلغ',
+    'amount_tax' => 'المبلغ + الضريبة',
+    'new_recipit' => 'إضافة مستند صرف صندوق',
+    'edit_recipit' => 'تعديل بيانات مستند صرف',
+    'tax_type1' => 'بدون قيمة مضافة',
+    'tax_type2' => 'بقيمة مضافة',
+    'tax' => 'الضريبة',
+    'bill_number_txt' => 'رقم الفاتورة',
+    'tax_number_txt' => 'الرقم الضريبي',
+    'supplier_name_txt' => 'إسم المورد',
+    'commerical_register' => 'السجل التجاري',
+    'tax_number' => 'الرقم الضريبي'
 
 
 

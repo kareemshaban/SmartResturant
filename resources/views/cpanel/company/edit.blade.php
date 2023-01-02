@@ -163,10 +163,10 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>{{ __('main.fax') }} 1</label>
+                                    <label>{{ __('main.commerical_register') }} </label>
                                     <input type="text" name="fax1" id="fax1"
                                            class="form-control @error('fax1') is-invalid @enderror"
-                                           placeholder="{{ __('main.fax') }} 1" autofocus value="{{$setting -> fax1 }}"/>
+                                           placeholder="{{ __('main.commerical_register') }} " autofocus value="{{$setting -> fax1 }}"/>
                                     @error('fax1')
                                     <span class="invalid-feedback" role="alert">
                                            <strong>{{ $message }}</strong>
@@ -177,10 +177,10 @@
 
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label>{{ __('main.fax') }} 2</label>
+                                    <label>{{ __('main.tax_number') }} </label>
                                     <input type="text" name="fax2" id="fax2"
                                            class="form-control @error('fax2') is-invalid @enderror"
-                                           placeholder="{{ __('main.fax') }} 2" autofocus value="{{$setting -> fax2 }}"/>
+                                           placeholder="{{ __('main.tax_number') }} " autofocus value="{{$setting -> fax2 }}"/>
                                     @error('fax2')
                                     <span class="invalid-feedback" role="alert">
                                            <strong>{{ $message }}</strong>

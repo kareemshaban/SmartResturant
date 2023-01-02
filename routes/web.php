@@ -199,6 +199,19 @@ function()
     Route::post('/updateCompany/{id}', [App\Http\Controllers\CompanyInfoController::class, 'update'])->name('updateCompany');
 
 
+    Route::get('/expenses_type', [App\Http\Controllers\ExpensesTypeController::class, 'index'])->name('expenses_type');
+    Route::get('/createExpenses_type', [App\Http\Controllers\ExpensesTypeController::class, 'create'])->name('createExpenses_type');
+    Route::post('/storeExpenses_type', [App\Http\Controllers\ExpensesTypeController::class, 'store'])->name('storeExpenses_type');
+    Route::get('/editExpenses_type/{id}', [App\Http\Controllers\ExpensesTypeController::class, 'edit'])->name('editExpenses_type');
+    Route::post('/updateExpenses_type/{id}', [App\Http\Controllers\ExpensesTypeController::class, 'update'])->name('updateExpenses_type');
+    Route::get('/destroyExpenses_type/{id}', [App\Http\Controllers\ExpensesTypeController::class, 'destroy'])->name('destroyExpenses_type');
+
+    Route::get('/recipt', [App\Http\Controllers\ReciptController::class, 'index'])->name('recipt');
+    Route::get('/createRecipt', [App\Http\Controllers\ReciptController::class, 'create'])->name('createRecipt');
+    Route::post('/storeRecipt', [App\Http\Controllers\ReciptController::class, 'store'])->name('storeRecipt');
+    Route::get('/editRecipt/{id}', [App\Http\Controllers\ReciptController::class, 'edit'])->name('editRecipt');
+    Route::post('/updateRecipt/{id}', [App\Http\Controllers\ReciptController::class, 'update'])->name('updateRecipt');
+    Route::get('/destroyRecipt/{id}', [App\Http\Controllers\ReciptController::class, 'destroy'])->name('destroyRecipt');
 
     //ajax
     Route::get('/getClient/{id}', [App\Http\Controllers\ClientController::class, 'getClient'])->name('getClient');
@@ -209,8 +222,11 @@ function()
     Route::get('/getLastBill', [App\Http\Controllers\PosController::class, 'getLastBill'])->name('getLastBill');
     Route::get('/searchBill/{val}', [App\Http\Controllers\BillController::class, 'searchBill'])->name('searchBill');
     Route::get('/checkShift', [App\Http\Controllers\DashboradController::class, 'checkShift'])->name('checkShift');
+    Route::get('/getRecipitBillNo', [App\Http\Controllers\ReciptController::class, 'getRecipitBillNo'])->name('getRecipitBillNo');
+    Route::get('/getExpense/{id}', [App\Http\Controllers\ExpensesTypeController::class, 'getExpense'])->name('getExpense');
 
 
+    Route::get('/printAction/{id}', [App\Http\Controllers\PosController::class, 'printAction'])->name('printAction');
        ////////////////////////////////////////////////////////////////////////////////////////////
 
 

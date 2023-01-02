@@ -44,6 +44,8 @@ class Bill extends Model
     public function table(){
         return $this->belongsTo(Table::class , 'table_id');
     }
-
+    public function client(){
+        return $this->belongsTo(Client::class , 'client_id');
+    }
 
 }

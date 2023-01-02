@@ -1,6 +1,10 @@
 <div class="hero_area">
     <div class="bg-box">
-      <img src="../images/hero-bg.jpg" alt="" class="hero-img">
+        @if($slag == 1)
+      <img src="images/hero-bg.jpg" alt="" class="hero-img">
+         @else
+            <img src="../images/hero-bg.jpg" alt="" class="hero-img">
+            @endif
     </div>
     <!-- header section strats -->
     <header class="header_section">
