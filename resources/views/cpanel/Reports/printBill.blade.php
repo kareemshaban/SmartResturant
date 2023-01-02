@@ -210,13 +210,18 @@
     </div><!--End InvoiceTop-->
 
     <div id="mid" class="info">
-        <img id='barcode'
-             src="https://api.qrserver.com/v1/create-qr-code/?data=https://seasonsge.com/showBooking/{{$bill -> identifier}}&amp;size=100x100"
-             alt=""
-             title="HELLO"
-             width="100"
-             height="100"
-             style="width: 80px; height: auto; display: block; margin: 5px auto;">
+        @if($client == 1)
+            <img id='barcode'
+                 src="https://api.qrserver.com/v1/create-qr-code/?data=https://seasonsge.com/showBooking/{{$bill -> identifier}}&amp;size=100x100"
+                 alt=""
+                 title="HELLO"
+                 width="100"
+                 height="100"
+                 style="width: 80px; height: auto; display: block; margin: 5px auto;">
+            @else
+            <h2 class="text-center"> المطبخ</h2>
+        @endif
+
         <table class="hedaer_table">
             <tr>
                 <td class="tabletitle">الوقت</td>
@@ -281,7 +286,7 @@
                     <td class="tabletitle">الإجمالي</td>
                     <td class="Rate"><h2></h2></td>
                     <td class="payment"><h2></h2></td>
-                    <td class="payment"><h2>{{$bill -> net}}</h2></td>
+                    <td class="payment"><h2>{{array_sum(array_column($bill -> details ->toArray() , 'totalWithVat'))}}</h2></td>
                 </tr>
 
 
