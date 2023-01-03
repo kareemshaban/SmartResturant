@@ -267,6 +267,11 @@ return [
     'tax_number_txt' => 'Tax Number',
     'supplier_name_txt' => 'Supplier Name',
     'commerical_register' => 'Commercial Register ',
-    'tax_number' => 'Tax Number'
+    'tax_number' => 'Tax Number',
+    'reports' => 'Reports',
+    'machines' => 'Machines',
+    'add_machine' => 'Add Machine',
+    'machine_code' => 'Machine code ',
+    'machine_name' => 'Machine Name',
 
 ];

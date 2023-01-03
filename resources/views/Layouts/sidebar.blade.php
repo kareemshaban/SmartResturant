@@ -46,6 +46,8 @@
                                                            href="{{ route('tables') }}">{{ __('main.tables') }}</a> </li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
                                                            href="{{ route('printers') }}">{{ __('main.printers') }}</a> </li>
+
+
                     </ul>
                 </li>
                 <li class="sidebar-item">
@@ -128,6 +130,23 @@
 
                     </ul>
                 </li>
+
+                <li class="nav-item sidebar-item  has-submenu">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#">
+                        <i class="fa fa-chart-bar" aria-hidden="true"></i>
+
+                        <span class="hide-menu">{{ __('main.reports') }}</span>
+                    </a>
+                    <ul class="submenu collapse">
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="{{ route('expenses_type') }}">{{ __('main.expenses_type') }}</a></li>
+                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="{{ route('recipt') }}">{{ __('main.recipt') }}</a></li>
+
+
+                    </ul>
+                </li>
+
 
                 <li class="sidebar-item">
                     <a href="{{route('logout')}}"  onclick="event.preventDefault();

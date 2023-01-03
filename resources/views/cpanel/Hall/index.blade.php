@@ -99,6 +99,8 @@
                                                 href="{{ route('destroyHall', $hall->id) }} "> <button
                                                     type="button" class="btn btn-danger"><i
                                                         class="far fa-trash-alt"></i></button> </a>
+                                            <button type="button" class="btn btn-info" onclick="showModalMachine( {{$hall -> id }}  )">{{__('main.add_machine')}}</button>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -112,6 +114,70 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label class="modelTitle"> {{__('main.machines')}}</label>
+                    <button type="button" class="close modal-close-btn"  data-bs-dismiss="modal"  aria-label="Close" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="paymentBody">
+                    <form   method="POST" action="{{ route('storeMachine') }}"
+                            enctype="multipart/form-data" >
+                        @csrf
+
+                        <div class="row">
+                            <div class="col-12 " >
+                                <div class="form-group">
+                                    <label>{{ __('main.hall') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                    <input type="text"  id="hall" name="hall"
+                                           class="form-control"
+                                           placeholder="{{ __('main.symbol') }}"  readonly/>
+                                    <input hidden="hidden" id="hall_id" name="hall_id" type="text"/>
+                                    <input hidden="hidden" id="mac_address" name="mac_address" type="text"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>{{ __('main.machine_code') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                    <input type="text"  id="code" name="code"
+                                           class="form-control" readonly
+                                           placeholder="{{ __('main.machine_code') }}"  />
+                                    <input type="text"  id="id" name="id"
+                                           class="form-control"
+                                           placeholder="{{ __('main.code') }}"  hidden=""/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 " >
+                                <div class="form-group">
+                                    <label>{{ __('main.machine_name') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                    <input type="text"  id="name" name="name"
+                                           class="form-control"
+                                           placeholder="{{ __('main.machine_name') }}"  />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-6" style="display: block; margin: 20px auto; text-align: center;">
+                                <button type="submit" class="btn btn-labeled btn-primary"  >
+                                    {{__('main.save_btn')}}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
@@ -131,6 +197,74 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#table').DataTable();
+
+
         });
+        function showModalMachine(id ){
+            $.ajax({
+                type:'get',
+                url:'getHall' + '/' + id,
+                dataType: 'json',
+
+                success:function(response){
+                    console.log(response);
+                    if(response){
+                        let href = $(this).attr('data-attr');
+                        console.log(name);
+                        $.ajax({
+                            url: href,
+                            beforeSend: function() {
+                                $('#loader').show();
+                            },
+                            // return the result
+                            success: function(result) {
+                                $('#createModal').modal("show");
+                                $(".modal-body #name").val( "" );
+                                $.ajax({
+                                    type:'get',
+                                    url:'getMachineNo',
+                                    dataType: 'json',
+                                    success:function(response){
+                                        console.log(response);
+                                        if(response){
+                                            $(".modal-body #code").val( response );
+
+                                        }
+                                    }
+                                });
+                                $.ajax({
+                                    type:'get',
+                                    url:'getMac',
+                                    dataType: 'json',
+                                    success:function(response){
+                                        console.log(response);
+                                        if(response){
+                                            $(".modal-body #mac_address").val( response );
+
+                                        }
+                                    }
+                                });
+                                $(".modal-body #hall").val( response.name_ar + '---' + response.name_en);
+                                $(".modal-body #hall_id").val( id );
+                                $(".modal-body #id").val( 0 );
+                            },
+                            complete: function() {
+                                $('#loader').hide();
+                            },
+                            error: function(jqXHR, testStatus, error) {
+                                console.log(error);
+                                alert("Page " + href + " cannot open. Error:" + error);
+                                $('#loader').hide();
+                            },
+                            timeout: 8000
+                        })
+                    } else {
+
+                    }
+                }
+            });
+
+
+        }
     </script>
 </body>

@@ -267,7 +267,13 @@ return [
     'tax_number_txt' => 'الرقم الضريبي',
     'supplier_name_txt' => 'إسم المورد',
     'commerical_register' => 'السجل التجاري',
-    'tax_number' => 'الرقم الضريبي'
+    'tax_number' => 'الرقم الضريبي',
+    'reports' => 'التقارير',
+    'machines' => 'الماكينات',
+    'add_machine' => 'ربط ماكينة',
+    'machine_code' => 'رقم الماكينة',
+    'machine_name' => 'إسم الماكينة',
+
 
 
 
