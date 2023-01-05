@@ -227,7 +227,18 @@ function()
 
 
     Route::get('/printAction/{id}', [App\Http\Controllers\PosController::class, 'printAction'])->name('printAction');
+    Route::get('/PrintActionKitchen/{id}', [App\Http\Controllers\PosController::class, 'PrintActionKitchen'])->name('PrintActionKitchen');
+
+    Route::post('/storeMachine', [App\Http\Controllers\MachineController::class, 'store'])->name('storeMachine');
+    Route::get('/getHall/{id}', [App\Http\Controllers\MachineController::class, 'getHall'])->name('getHall');
+    Route::get('/getMachineNo', [App\Http\Controllers\MachineController::class, 'getMachineNo'])->name('getMachineNo');
+    Route::get('/getMac', [App\Http\Controllers\MachineController::class, 'getMac'])->name('getMac');
+
+
        ////////////////////////////////////////////////////////////////////////////////////////////
+    ///
+    Route::get('clearSession/{key}', [App\Http\Controllers\HomeController::class, 'clearSession'])->name('clearSession');
+
 
 
 });

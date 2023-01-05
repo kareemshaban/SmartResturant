@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class PosController extends Controller
 {
@@ -99,7 +100,7 @@ class PosController extends Controller
                         'bill_number' => $request->bill_number,
                         'total' => $request->total,
                         'vat' => $request->vat,
-                        'serviceVal' => $request->serviceVal,
+                        'serviceVal' => $request->billType > 1 ? $request->serviceVal : 0,
                         'discount' => $request->discount,
                         'net' => $request->net,
                         'user_id' => Auth::user()->id,
@@ -155,7 +156,7 @@ class PosController extends Controller
                         'bill_number' => $request->bill_number,
                         'total' => $request->total,
                         'vat' => $request->vat,
-                        'serviceVal' => $request->serviceVal,
+                        'serviceVal' => $request->billType > 1 ? $request->serviceVal : 0,
                         'discount' => $request->discount,
                         'net' => $request->net,
                         'user_id' => Auth::user()->id,
@@ -269,7 +270,10 @@ class PosController extends Controller
                 ]);
 
                 $this -> releaseTable($request -> modalTableId);
-                return redirect()->route('pos')->with('success' , __('main.bill_payed'));
+
+                Session::put('payed', $bill -> id);
+
+                 return redirect()->route('pos')->with('success' ,  __('main.bill_payed'));
             }catch(QueryException $ex){
 
                 return redirect()->route('pos')->with('error' ,  $ex->getMessage());
@@ -389,7 +393,7 @@ class PosController extends Controller
         if(count($companyInfos) > 0 && count($printSettings) > 0 && count($settings) > 0 && $bill){
   //return  view('cpanel.Reports.printBill', ['companyInfo' => $companyInfos[0] , 'printSetting' => $printSettings[0] , 'bill' => $bill , '$setting' => $settings[0]]);
             $reportHtml = view('cpanel.Reports.printBill', ['companyInfo' => $companyInfos[0] ,
-                'printSetting' => $printSettings[0] , 'bill' => $bill , '$setting' => $settings[0]]) ->render();
+                'printSetting' => $printSettings[0] , 'bill' => $bill , '$setting' => $settings[0] , 'client' => 1]) ->render();
 
         $arabic = new Arabic();
         $p = $arabic->arIdentify($reportHtml);
@@ -399,7 +403,45 @@ class PosController extends Controller
             $reportHtml = substr_replace($reportHtml, $utf8ar, $p[$i-1], $p[$i] - $p[$i-1]);
         }
         $pdf = PDF::loadHTML($reportHtml) ->setWarnings(false);
-        return $pdf->download('client_receipt.pdf');
+
+            if (Session::has('payed'))
+            {
+                Session::forget('payed');
+
+            }
+           // return  $pdf->stream("client_receipt.pdf",array("Attachment"=>0));
+            return $pdf->stream("filename.pdf", array("Attachment" => false));
+          // return $pdf->download('client_receipt.pdf');
+        }
+
+    }
+
+    public function PrintActionKitchen($id){
+        $companyInfos = CompanyInfo::all();
+        $printSettings = ReportSetting::all();
+        $settings = Settings::all();
+        $bill = Bill::with('details.items.item' , 'table.hall' , 'client') -> with('details.items.size') -> find($id);
+
+        if(count($companyInfos) > 0 && count($printSettings) > 0 && count($settings) > 0 && $bill){
+            //return  view('cpanel.Reports.printBill', ['companyInfo' => $companyInfos[0] , 'printSetting' => $printSettings[0] , 'bill' => $bill , '$setting' => $settings[0]]);
+            $reportHtml = view('cpanel.Reports.printBill', ['companyInfo' => $companyInfos[0] ,
+                'printSetting' => $printSettings[0] , 'bill' => $bill , '$setting' => $settings[0] , 'client' => 0]) ->render();
+
+            $arabic = new Arabic();
+            $p = $arabic->arIdentify($reportHtml);
+
+            for ($i = count($p)-1; $i >= 0; $i-=2) {
+                $utf8ar = $arabic->utf8Glyphs(substr($reportHtml, $p[$i-1], $p[$i] - $p[$i-1]));
+                $reportHtml = substr_replace($reportHtml, $utf8ar, $p[$i-1], $p[$i] - $p[$i-1]);
+            }
+            $pdf = PDF::loadHTML($reportHtml) ->setWarnings(false);
+
+            if (Session::has('payed'))
+            {
+                Session::forget('payed');
+
+            }
+            return $pdf->stream("filename.pdf", array("Attachment" => false));
         }
 
     }

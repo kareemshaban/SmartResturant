@@ -210,13 +210,18 @@
     </div><!--End InvoiceTop-->
 
     <div id="mid" class="info">
-        <img id='barcode'
-             src="https://api.qrserver.com/v1/create-qr-code/?data=https://seasonsge.com/showBooking/{{$bill -> identifier}}&amp;size=100x100"
-             alt=""
-             title="HELLO"
-             width="100"
-             height="100"
-             style="width: 80px; height: auto; display: block; margin: 5px auto;">
+        @if($client == 1)
+            <img id='barcode'
+                 src="https://api.qrserver.com/v1/create-qr-code/?data=https://seasonsge.com/showBooking/{{$bill -> identifier}}&amp;size=100x100"
+                 alt=""
+                 title="HELLO"
+                 width="100"
+                 height="100"
+                 style="width: 80px; height: auto; display: block; margin: 5px auto;">
+            @else
+            <h2 class="text-center"> المطبخ</h2>
+        @endif
+
         <table class="hedaer_table">
             <tr>
                 <td class="tabletitle">الوقت</td>
@@ -261,32 +266,42 @@
             <table>
                 <tr >
                     <td class="tabletitle"> الصنف</td>
+                    @if($client == 0)
+                    <td class="tabletitle">الوحدة</td>
+                    @endif
                     <td class="tabletitle">الكمية</td>
+                    @if($client == 1)
                     <td class="tabletitle">السعر</td>
                     <td class="tabletitle">الإجمالي</td>
+                    @endif
                 </tr>
 
                 @foreach($bill -> details as $detail)
-                    <tr class="service">
+                    <tr class="service" @if($detail -> isExtra == 1)  style="background: lightgray"  @endif>
                         <td class="tableitem"> {{$detail -> items[0] -> item -> name_ar}}
                                 <br> {{$detail -> items[0] -> size -> label}}</td>
+                        @if($client == 0)
+                        <td class="tableitem">{{$detail -> items[0] -> size -> label}}</td>
+                        @endif
                         <td class="tableitem">{{$detail -> qnt}}</td>
+                        @if($client == 1)
                         <td class="tableitem">{{$detail -> priceWithVat}}</td>
                         <td class="tableitem">{{$detail -> totalWithVat}}</td>
+                        @endif
                     </tr>
                 @endforeach
 
-
+                @if($client == 1)
                 <tr class="tabletitle">
                     <td class="tabletitle">الإجمالي</td>
                     <td class="Rate"><h2></h2></td>
                     <td class="payment"><h2></h2></td>
-                    <td class="payment"><h2>{{$bill -> net}}</h2></td>
+                    <td class="payment"><h2>{{array_sum(array_column($bill -> details ->toArray() , 'totalWithVat'))}}</h2></td>
                 </tr>
-
+                @endif
 
             </table>
-
+            @if($client == 1)
             <table class="hedaer_table">
                 <tr>
                     <td class="tabletitle">الإجمالي قبل الضريبة</td>
@@ -315,6 +330,7 @@
                 </tr>
 
             </table>
+            @endif
         </div><!--End Table-->
 
 
@@ -324,4 +340,11 @@
         {!! $printSetting -> footer_ar !!}
     </div>
 </div><!--End Invoice-->
+<script type="text/javascript">
+    try {
+        this.print();
+    } catch (e) {
+
+    }
+</script>
 </body>

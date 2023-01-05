@@ -2,6 +2,7 @@
 <html dir="ltr" lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,15 +32,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-    <link href="../../vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="../../vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="../../vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="../../vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="../vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous">
+    </script>
 
-
-    <link rel="stylesheet" href="../../css/pos.css">
+    <link rel="stylesheet" href="../css/pos.css">
 
 
 </head>
@@ -720,8 +724,8 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-6" style="display: block; margin: 20px auto; text-align: center;">
-                            <button type="submit" class="btn btn-labeled btn-primary">
+                        <div class="col-6" style="display: block; margin: 20px auto; text-align: center;" >
+                            <button type="submit" class="btn btn-labeled btn-primary" >
                                 {{__('main.finish_bill')}}</button>
                         </div>
                     </div>
@@ -730,7 +734,26 @@
         </div>
     </div>
 </div>
+<input hidden="hidden" id="session">
+@if($id = Session::get('payed'))
+    <script>
+        var id = "{{ Session::get('payed')}}";
+            let url = "{{ route('printAction', ':id') }}";
+            url = url.replace(':id', id);
+            window.open(url,'_blank');
 
+        setTimeout(() =>{
+            url = "{{ route('PrintActionKitchen', ':id') }}";
+            url = url.replace(':id', id);
+            window.open(url,'_blank');
+        } , 1000);
+            setTimeout(() =>{
+                url = "{{ route('pos') }}";
+                document.location.href=url;
+            } , 1000);
+
+    </script>
+@endif
 
 <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../cpanel/js/app-style-switcher.js"></script>
@@ -749,7 +772,10 @@
 
 
 <script type="text/javascript">
+      function dismissPayment(){
 
+
+      }
     $(document).ready(function () {
 
         $(".carousel").on("touchstart", function(event){
@@ -807,8 +833,10 @@
                         if (response.payed == 0) {
                             Bill = response;
                             $('#paymentModal').modal("show");
-                            fillPaymentModal();
+                               fillPaymentModal();
                         } else {
+                            // Bill = response;
+                            // printAction(Bill.id)
                             Bill = null;
                         }
 
@@ -1040,7 +1068,11 @@
         url = url.replace(':id', Bill.id);
         document.location.href = url;
     }
-
+    function printAction(id) {
+        let url = "{{ route('printAction', ':id') }}";
+        url = url.replace(':id',id);
+        document.location.href = url;
+    }
     function fillPaymentModal() {
         const local = document.getElementById("local").value;
         const modalBillNo = document.getElementById('modalBillNo');
