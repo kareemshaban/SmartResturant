@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Hall;
 use App\Models\Machine;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MachineController extends Controller
 {
@@ -15,8 +17,38 @@ class MachineController extends Controller
      */
     public function index()
     {
-        //
+        $machines = Machine::with('hall') -> get();
+        echo json_encode($machines);
+        exit;
     }
+    public function selectMachine()
+    {
+        $machines = Machine::with('hall') -> get();
+
+        $items = array();
+        for ($i = 0 ; $i < count($machines) ; $i++ ){
+            $users = User::where('machine_id' , '=' , $machines[$i] -> id) -> get();
+            if(count($users) == 0){
+                array_push($items,$machines[$i]);
+            }
+        }
+
+        echo  (json_encode($items));
+
+        exit;
+    }
+    public function setUserMachine($id){
+        $user = User::find(Auth::user() -> id);
+        $machine = Machine::find($id);
+        if($user && $machine){
+            $user -> machine_id = $id ;
+            $user -> update();
+            echo  json_encode('done');
+
+            exit;
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -57,7 +89,21 @@ class MachineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'code' => 'required|unique:machines',
+            'name' => 'required|unique:machines',
+            'hall_id' => 'required',
+            'mac_address' => 'required|unique:machines',
+        ]);
+
+        Machine::create([
+            'code' => $request -> code,
+            'name' => $request -> name,
+            'hall_id' => $request -> hall_id,
+            'mac_address' => $request -> mac_address,
+        ]);
+
+        return redirect()->route('halls')->with('success' , __('main.machine_attached'));
     }
 
     /**

@@ -770,7 +770,7 @@
 <script src="../../vendor/waypoints/noframework.waypoints.js"></script>
 <script src="../../vendor/php-email-form/validate.js"></script>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
       function dismissPayment(){
 
@@ -1356,7 +1356,7 @@
         cell2.innerHTML = item.id + '<input name="item_id[]" value="' + item.id + '" hidden>';
         cell3.innerHTML = item.sizes[0].size_id + '<input name="size_id[]" value="' + item.sizes[0].size_id + '" hidden>';
         cell4.innerHTML = item.sizes[0].id + '<input name="item_size_id[]" value="' + item.sizes[0].id + '" hidden>';
-        ;
+
         cell5.innerHTML = "0";
         cell50.innerHTML = "1" + '<input name="isExtra[]" value="1" hidden>';
         cell6.innerHTML = local == 'ar' ? item.name_ar : item.name_en;

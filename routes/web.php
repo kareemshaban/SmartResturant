@@ -233,8 +233,15 @@ function()
     Route::get('/getHall/{id}', [App\Http\Controllers\MachineController::class, 'getHall'])->name('getHall');
     Route::get('/getMachineNo', [App\Http\Controllers\MachineController::class, 'getMachineNo'])->name('getMachineNo');
     Route::get('/getMac', [App\Http\Controllers\MachineController::class, 'getMac'])->name('getMac');
+    Route::get('/getMachines', [App\Http\Controllers\MachineController::class, 'index'])->name('getMachines');
+    Route::get('/getUser', [App\Http\Controllers\HomeController::class, 'getUser'])->name('getUser');
+    Route::get('/selectMachine', [App\Http\Controllers\MachineController::class, 'selectMachine'])->name('selectMachine');
+    Route::get('/setUserMachine/{id}', [App\Http\Controllers\MachineController::class, 'setUserMachine'])->name('setUserMachine');
 
 
+    //
+    Route::get('/report_total', [App\Http\Controllers\ReportController::class, 'report_total'])->name('report_total');
+    Route::post('/report_total', [App\Http\Controllers\ReportController::class, 'report_total_search'])->name('report_total');
        ////////////////////////////////////////////////////////////////////////////////////////////
     ///
     Route::get('clearSession/{key}', [App\Http\Controllers\HomeController::class, 'clearSession'])->name('clearSession');

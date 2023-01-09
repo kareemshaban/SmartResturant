@@ -35,19 +35,25 @@ class PosController extends Controller
     {
         $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
             -> where('state' , '=' , 0 )->get();
-        if(count($shift) > 0){
-            $categories = Category::with('items.sizes') -> get();
+
+        if(count($shift) > 0 ){
+            if(Auth::user() -> machine_id > 0){
+                $categories = Category::with('items.sizes') -> get();
                 $items = Item::with('sizes.size' ,'cayegory' ) -> get();
-            $clients = Client::all();
-            $employees = Employee::all();
-            $halls = Hall::all();
-            $tables = Table::with('hall') -> get();
-            $setting = null ;
+                $clients = Client::all();
+                $employees = Employee::all();
+                $halls = Hall::all();
+                $tables = Table::with('hall') -> get();
+                $setting = null ;
 
 
-            return view('cpanel.pos.pos' , ['categories' => $categories ,
-                'items' => $items , 'clients' => $clients , 'employees' => $employees ,
-                'halls' => $halls , 'tables' => $tables ]);
+                return view('cpanel.pos.pos' , ['categories' => $categories ,
+                    'items' => $items , 'clients' => $clients , 'employees' => $employees ,
+                    'halls' => $halls , 'tables' => $tables ]);
+            } else {
+                return redirect() -> route('home' );
+            }
+
         } else {
             return redirect() -> route('myShift' )->with('success', __('main.no_open_shift'));
         }

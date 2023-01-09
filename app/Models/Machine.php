@@ -15,4 +15,9 @@ class Machine extends Model
         'hall_id',
         'mac_address'
     ];
+    public function hall()
+    {
+        return $this->belongsTo(Hall::class , 'hall_id');
+    }
+
 }

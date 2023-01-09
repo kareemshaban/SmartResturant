@@ -68,6 +68,10 @@
 
                         </a>
 
+                            <button type="button" class="btn btn-labeled btn-success " style="margin-left: 30px;" id="showBtn">
+                                <span class="btn-label"><i class="fa fa-eye"></i></span>{{__('main.show_machines')}}</button>
+
+
                     </div>
 
                 </div>
@@ -179,6 +183,40 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label class="modelTitle"> {{__('main.machines')}}</label>
+                    <button type="button" class="close modal-close-btn"  data-bs-dismiss="modal"  aria-label="Close" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="paymentBody">
+                    <div class="col-12">
+                        <table id="table" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">{{ __('main.id') }}</th>
+                                <th class="text-center">{{ __('main.machine_code') }}</th>
+                                <th class="text-center">{{ __('main.machine_name') }}</th>
+                                <th class="text-center">{{ __('main.hall') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody id="body">
+
+
+                            </tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
@@ -198,6 +236,66 @@
         $(document).ready(function() {
             $('#table').DataTable();
 
+            $(document).on('click', '#showBtn', function(event) {
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    type: 'get',
+                    url: 'getMachines' ,
+                    dataType: 'json',
+
+                    success: function (response) {
+                        console.log(response);
+                        $.ajax({
+                            url: href,
+                            beforeSend: function() {
+                                $('#loader').show();
+                            },
+                            // return the result
+                            success: function(result) {
+                                $('#showModal').modal("show");
+                                 var table = document.getElementById('body');
+
+                                for (let i = 0 ; i < response.length ; i++){
+                                    var row =table.insertRow(-1);
+                                    row.className = "text-center";
+                                    var cell1 = row.insertCell(0);
+                                    var cell2 = row.insertCell(1);
+                                    var cell3 = row.insertCell(2);
+                                    var cell4 = row.insertCell(3);
+                                    var cell5 = row.insertCell(4);
+                                    cell1.className = "text-center";
+                                    cell2.className = "text-center";
+                                    cell3.className = "text-center";
+                                    cell4.className = "text-center";
+                                    cell5.className = "text-center";
+
+                                    cell1.innerHTML = i + 1;
+                                    cell2.innerHTML = response[i].id;
+                                    cell3.innerHTML = response[i].code;
+                                    cell4.innerHTML = response[i].name;
+                                    cell5.innerHTML = response[i].hall.name_ar ;
+
+
+                                }
+                            },
+                            complete: function() {
+                                $('#loader').hide();
+                            },
+                            error: function(jqXHR, testStatus, error) {
+                                console.log(error);
+                                alert("Page " + href + " cannot open. Error:" + error);
+                                $('#loader').hide();
+                            },
+                            timeout: 8000
+                        })
+                    }
+                });
+
+
+
+
+            });
 
         });
         function showModalMachine(id ){
@@ -266,5 +364,7 @@
 
 
         }
+
+
     </script>
 </body>
