@@ -141,29 +141,29 @@
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
                                                            href="{{ route('report_total') }}">{{ __('main.report_total') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_details') }}</a></li>
+                                                           href="{{ route('report_details') }}">{{ __('main.report_details') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_billType') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_billType') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_daily_sales') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_daily_sales') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_period_sales') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_period_sales') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_expense_recipt') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_expense_recipt') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_client_movements') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_client_movements') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_movements_total') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_movements_total') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_clients_toatl_sales') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_clients_toatl_sales') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_box_movement') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_box_movement') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_tax_declaration_total') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_tax_declaration_total') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_tax_declaration_details') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_tax_declaration_details') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('expenses_type') }}">{{ __('main.report_tax') }}</a></li>
+                                                           href="{{ route('#') }}">{{ __('main.report_tax') }}</a></li>
 
 
 

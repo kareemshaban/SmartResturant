@@ -298,7 +298,12 @@ return [
     'from_time' => 'من وقت',
     'to_time' => 'الي وقت',
     'shift_no' => 'رقم الشيفت',
-    'users' => 'المستخدمين'
+    'users' => 'المستخدمين',
+    'print_type' => 'نوع الطباعة',
+    'print_type1' => 'ورق رول 80 ميلي',
+    'print_type2' => 'ورق رول 57 ميلي',
+    'print_type3' => 'ورق A4',
+    'item_auto_complete' => 'ابحث بإسم الصنف او بكود الصنف'
 
 
 

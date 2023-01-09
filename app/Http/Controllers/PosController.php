@@ -93,6 +93,10 @@ class PosController extends Controller
                     'net' => 'required',
                 ]);
                 try {
+                    $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
+                        -> where('state' , '=' , 0 )->get();
+                    $shift_number = count($shift ) > 0 ? $shift[0] -> id : 0 ;
+
                     $id = Bill::create([
                         'identifier' => $uuid,
                         'billType' => $request->billType,
@@ -118,6 +122,8 @@ class PosController extends Controller
                         'cash' => $request->cash,
                         'credit' => $request->credit,
                         'bank' => $request->bank,
+                        'shift_number' => $shift_number,
+                        'machine_id' => Auth::user() -> machine_id
 
                     ])->id;
                     $this->bookTable($request->table_id);
@@ -173,7 +179,7 @@ class PosController extends Controller
                         'notes' => $request->notes ? $bill->notes : '',
                         'cash' => $request->cash,
                         'credit' => $request->credit,
-                        'bank' => $request->bank,
+                        'bank' => $request->bank
 
                     ]);
                     $this->EmptyBillDetails($request->identifier);
@@ -214,6 +220,7 @@ class PosController extends Controller
                 'item_id' => $request -> item_id[$i],
                 'size_id' => $request -> size_id[$i],
                 'item_size_id' => $request -> item_size_id[$i],
+                'category_id' => $request -> category_id[$i],
                 'qnt' => $request -> qnt[$i],
                 'price' => $request -> price[$i],
                 'priceWithVat' => $request -> priceWithVat[$i],

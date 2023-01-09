@@ -242,6 +242,10 @@ function()
     //
     Route::get('/report_total', [App\Http\Controllers\ReportController::class, 'report_total'])->name('report_total');
     Route::post('/report_total', [App\Http\Controllers\ReportController::class, 'report_total_search'])->name('report_total');
+
+    Route::get('/report_details', [App\Http\Controllers\ReportController::class, 'report_details'])->name('report_details');
+    Route::post('/report_details', [App\Http\Controllers\ReportController::class, 'report_details_search'])->name('report_details');
+    Route::get('/autocomplete-search', [App\Http\Controllers\ReportController::class, 'autocompleteSearch']);
        ////////////////////////////////////////////////////////////////////////////////////////////
     ///
     Route::get('clearSession/{key}', [App\Http\Controllers\HomeController::class, 'clearSession'])->name('clearSession');

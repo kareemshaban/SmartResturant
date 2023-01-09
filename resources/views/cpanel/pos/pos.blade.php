@@ -381,6 +381,8 @@
                                                 <th class="text-center" hidden>total without vat</th>
                                                 <th class="text-center">{{ __('main.select') }}</th>
                                                 <th class="text-center" hidden>extraitemId</th>
+                                                <th class="text-center" hidden>category_id</th>
+
                                             </tr>
                                             </thead>
                                             <tbody id="details-body">
@@ -1263,6 +1265,8 @@
         var cell12 = row.insertCell(12);
         var cell13 = row.insertCell(13);
         var cell14 = row.insertCell(14);
+        var cell15 = row.insertCell(15);
+
         cell2.hidden = true;
         cell3.hidden = true;
         cell4.hidden = true;
@@ -1271,6 +1275,8 @@
         cell11.hidden = true;
         cell12.hidden = true;
         cell14.hidden = true;
+        cell15.hidden = true;
+
 
         cell1.innerHTML = details.length;
         cell2.innerHTML = item.id + '<input name="item_id[]" value="' + item.id + '" hidden>';
@@ -1287,6 +1293,8 @@
         cell12.innerHTML = size.price + '<input name="totalTable[]" value="' + size.price + '" hidden>';
 
         cell14.innerHTML = 0 + '<input name="extra_item_id[]" value="0" hidden>';
+        cell15.innerHTML = 0 + '<input name="category_id[]" value="'+item.category_id+'" hidden>';
+
         cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
     }
 

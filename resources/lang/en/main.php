@@ -300,6 +300,10 @@ return [
     'from_time' => 'From Time',
     'to_time' => 'To Time',
     'shift_no' => 'Shift Number',
-    'users' => 'Users'
+    'users' => 'Users',
+    'print_type1' => 'Roll Paper 80 mm',
+    'print_type2' => 'Roll Paper 57mm',
+    'print_type3' => 'A4 Paper',
+    'item_auto_complete' => 'Search With Item Name Or Item Code'
 
 ];

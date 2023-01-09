@@ -34,7 +34,9 @@ class Bill extends Model
         'cash',
         'credit',
         'bank',
-        'notes'
+        'notes',
+        'shift_number',
+        'machine_id'
 
     ];
     public function details()
@@ -46,6 +48,9 @@ class Bill extends Model
     }
     public function client(){
         return $this->belongsTo(Client::class , 'client_id');
+    }
+    public function user(){
+        return $this->belongsTo(User::class , 'user_id');
     }
 
 }

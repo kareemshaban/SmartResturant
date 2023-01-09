@@ -16,6 +16,7 @@ class BillDetails extends Model
         'item_id',
         'size_id',
         'item_size_id',
+        'category_id',
         'qnt',
         'price',
         'priceWithVat',

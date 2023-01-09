@@ -61,7 +61,7 @@
 
     <div class="page-wrapper">
         @include('Layouts.subheader', [
-            'pageTitle' => Config::get('app.locale') == 'ar' ? 'تقرير إجمالي المبيعات': 'Total Sales Report' ])
+            'pageTitle' => Config::get('app.locale') == 'ar' ? 'تقرير تفصيلي المبيعات': 'Details Sales Report' ])
         <div class="container-fluid">
 
             <div class="row justify-content-center">
@@ -69,49 +69,49 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-xl-8 form data-entry">
 
-                        <form class="center" method="POST" action="{{ route('report_total') }}" enctype="multipart/form-data">
+                        <form class="center" method="POST" action="{{ route('report_details') }}" enctype="multipart/form-data">
                             <div class="card-header px-0 mt-2 bg-transparent clearfix">
-                                <h4 class="float-left pt-2">{{ __('main.report_total') }}</h4>
+                                <h4 class="float-left pt-2">{{ __('main.report_details') }}</h4>
                                 <div class="float-right card-header-actions mr-1">
                                     <button type="submit" class="btn btn-labeled btn-primary "  >
                                         <span class="btn-label"><i class="fa fa-eye"></i></span>{{__('main.search_btn')}}</button>
                                 </div>
                             </div>
-                                @csrf
-                                <!-- {{ csrf_field() }} -->
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label>{{ __('main.bill_no') }}</label>
-                                            <input type="checkbox" name="is_bill_no" id="is_bill_no"/>
-                                            <input type="text" name="bill_no" id="bill_no"
-                                                   class="form-control @error('bill_no') is-invalid @enderror"
-                                                   placeholder="{{ __('main.bill_no') }}" autofocus />
-                                            @error('bill_no')
-                                            <span class="invalid-feedback" role="alert">
+                            @csrf
+                            <!-- {{ csrf_field() }} -->
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label>{{ __('main.bill_no') }}</label>
+                                        <input type="checkbox" name="is_bill_no" id="is_bill_no"/>
+                                        <input type="text" name="bill_no" id="bill_no"
+                                               class="form-control @error('bill_no') is-invalid @enderror"
+                                               placeholder="{{ __('main.bill_no') }}" autofocus />
+                                        @error('bill_no')
+                                        <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                            @enderror
-                                        </div>
-                                        <div class="col-6">
-                                            <label>{{ __('main.client_side') }}</label>
-                                            <input type="checkbox" name="is_client" id="is_client"/>
-                                            <select name="client_id" id="client_id" class="form-select @error('bill_no') is-invalid @enderror">
-                                                <option selected value=""> choose...</option>
-                                                @foreach($clients as $client)
-                                                    <option value="{{$client -> id}}">{{  Config::get('app.locale') == 'ar' ?  $client -> name_ar : $client -> name_en }} </option>
-                                                @endforeach
-                                            </select>
-                                            @error('client_id')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                            @enderror
-                                        </div>
-
+                                        @enderror
                                     </div>
+                                    <div class="col-6">
+                                        <label>{{ __('main.client_side') }}</label>
+                                        <input type="checkbox" name="is_client" id="is_client"/>
+                                        <select name="client_id" id="client_id" class="form-select @error('bill_no') is-invalid @enderror">
+                                            <option selected value=""> choose...</option>
+                                            @foreach($clients as $client)
+                                                <option value="{{$client -> id}}">{{  Config::get('app.locale') == 'ar' ?  $client -> name_ar : $client -> name_en }} </option>
+                                            @endforeach
+                                        </select>
+                                        @error('client_id')
+                                        <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
                                 </div>
-                              <div class="form-group">
+                            </div>
+                            <div class="form-group">
                                 <div class="row">
                                     <div class="col-6">
                                         <label>{{ __('main.from_date') }}</label>
@@ -137,7 +137,7 @@
                                     </div>
 
                                 </div>
-                             </div>
+                            </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-6">
@@ -202,6 +202,43 @@
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-6">
+                                        <label>{{ __('main.side_cats') }}</label>
+                                        <input type="checkbox" name="is_category" id="is_category"/>
+                                        <select name="category_id" id="category_id" class="form-select @error('category_id') is-invalid @enderror">
+                                            <option selected value=""> choose...</option>
+                                            @foreach($categories as $cat)
+                                                <option value="{{$cat -> id}}">{{  Config::get('app.locale') == 'ar' ? $cat -> name_ar : $cat -> name_en }} </option>
+                                            @endforeach
+                                        </select>
+                                        @error('category_id')
+                                        <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="container">
+                                        <label>{{ __('main.side_items') }}</label>
+                                        <input type="checkbox" name="is_item" id="is_item"/>
+                                        <input type="text" name="item_id" id="item_id"
+                                               class="form-control @error('item_id') is-invalid @enderror"
+                                               placeholder="{{ __('main.item_auto_complete') }}" autofocus />
+                                        @error('item_id')
+                                        <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
                                         <label>{{ __('main.users') }}</label>
                                         <input type="checkbox" name="is_user" id="is_user"/>
                                         <select name="user_id" id="user_id" class="form-select">
@@ -226,13 +263,13 @@
 
                                 </div>
                             </div>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -278,6 +315,13 @@
         $('#is_user').prop('checked' , false);
         $('#user_id').attr('disabled' , true);
         $('#user_id').val('');
+        $('#is_category').prop('checked' , false);
+        $('#category_id').attr('disabled' , true);
+        $('#category_id').val('');
+        $('#is_item').prop('checked' , false);
+        $('#item_id').attr('disabled' , true);
+        $('#item_id').val('');
+
 
         $('#print_type').val(0);
 
@@ -313,6 +357,29 @@
             $('#user_id').attr('disabled' , !this.checked);
         });
 
+        $('#is_category').change(function (){
+            $('#category_id').attr('disabled' , !this.checked);
+        });
+
+        $('#is_item').change(function (){
+            $('#item_id').attr('disabled' , !this.checked);
+        });
+    });
+</script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js">
+</script>
+<script type="text/javascript">
+    var route = "{{ url('autocomplete-search') }}";
+    $('#item_id').typeahead({
+        source: function (query, process) {
+            return $.get(route, {
+                query: query
+            }, function (data) {
+                return process(data);
+            });
+        }
     });
 </script>
 
