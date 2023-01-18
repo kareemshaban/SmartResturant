@@ -18,6 +18,7 @@ class Bill extends Model
         'address',
         'driver_id',
         'table_id',
+        'hall_id',
         'delivery_service',
         'bill_date',
         'bill_number',

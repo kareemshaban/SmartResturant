@@ -224,7 +224,7 @@ function()
     Route::get('/checkShift', [App\Http\Controllers\DashboradController::class, 'checkShift'])->name('checkShift');
     Route::get('/getRecipitBillNo', [App\Http\Controllers\ReciptController::class, 'getRecipitBillNo'])->name('getRecipitBillNo');
     Route::get('/getExpense/{id}', [App\Http\Controllers\ExpensesTypeController::class, 'getExpense'])->name('getExpense');
-
+    Route::get('/gatHallTables/{id}', [App\Http\Controllers\HallController::class, 'gatHallTables'])->name('gatHallTables');
 
     Route::get('/printAction/{id}', [App\Http\Controllers\PosController::class, 'printAction'])->name('printAction');
     Route::get('/PrintActionKitchen/{id}', [App\Http\Controllers\PosController::class, 'PrintActionKitchen'])->name('PrintActionKitchen');
@@ -246,6 +246,29 @@ function()
     Route::get('/report_details', [App\Http\Controllers\ReportController::class, 'report_details'])->name('report_details');
     Route::post('/report_details', [App\Http\Controllers\ReportController::class, 'report_details_search'])->name('report_details');
     Route::get('/autocomplete-search', [App\Http\Controllers\ReportController::class, 'autocompleteSearch']);
+
+    Route::get('/report_sales_type', [App\Http\Controllers\ReportController::class, 'report_sales_type'])->name('report_sales_type');
+    Route::post('/report_sales_type', [App\Http\Controllers\ReportController::class, 'report_sales_type_search'])->name('report_sales_type');
+
+    Route::get('/report_daily_sales', [App\Http\Controllers\ReportController::class, 'report_daily_sales'])->name('report_daily_sales');
+    Route::post('/report_daily_sales', [App\Http\Controllers\ReportController::class, 'report_daily_sales_search'])->name('report_daily_sales');
+
+    Route::get('/report_period_sales', [App\Http\Controllers\ReportController::class, 'report_period_sales'])->name('report_period_sales');
+    Route::post('/report_period_sales', [App\Http\Controllers\ReportController::class, 'report_period_sales_search'])->name('report_period_sales');
+
+    Route::get('/report_expenses', [App\Http\Controllers\ReportController::class, 'report_expenses'])->name('report_expenses');
+    Route::post('/report_expenses', [App\Http\Controllers\ReportController::class, 'report_expenses_search'])->name('report_expenses');
+
+    Route::get('/report_client_account', [App\Http\Controllers\ReportController::class, 'report_client_account'])->name('report_client_account');
+    Route::post('/report_client_account', [App\Http\Controllers\ReportController::class, 'report_client_account_search'])->name('report_client_account');
+
+    Route::get('/report_total_transactions', [App\Http\Controllers\ReportController::class, 'report_total_transactions'])->name('report_total_transactions');
+    Route::post('/report_total_transactions', [App\Http\Controllers\ReportController::class, 'report_total_transactions_search'])->name('report_total_transactions');
+
+    Route::get('/report_box_transactions', [App\Http\Controllers\ReportController::class, 'report_box_transactions'])->name('report_box_transactions');
+    Route::post('/report_box_transactions', [App\Http\Controllers\ReportController::class, 'report_box_transactions_search'])->name('report_box_transactions');
+
+
        ////////////////////////////////////////////////////////////////////////////////////////////
     ///
     Route::get('clearSession/{key}', [App\Http\Controllers\HomeController::class, 'clearSession'])->name('clearSession');

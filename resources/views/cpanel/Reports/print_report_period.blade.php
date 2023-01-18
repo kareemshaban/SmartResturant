@@ -227,42 +227,70 @@
     </div><!--End InvoiceTop-->
 
     <div id="mid" class="info">
+        @if($report_type == 1)
         <table class="hedaer_table">
-            <thead>
+          <thead>
             <tr>
-                <th class="text-center tabletitle">رقم الفاتورة</th>
-                <th class="text-center tabletitle">التاريخ</th>
-                <th class="text-center tabletitle">إسم الصنف</th>
+                <th class="text-center tabletitle">اسم الصنف</th>
                 <th class="text-center tabletitle">الكمية</th>
-                <th class="text-center tabletitle">الإجمالي بالضريبة</th>
+                <th class="text-center tabletitle">الحجم</th>
+                <th class="text-center tabletitle">السعر</th>
+                <th class="text-center tabletitle">الضريبة</th>
+                <th class="text-center tabletitle">الإجمالي</th>
+                <th class="text-center tabletitle">الصافي</th>
+
             </tr>
-            </thead>
+          </thead>
             <tbody>
             <?php $sum_tot_Price = 0 ?>
-            @foreach($bills as $bill)
-                @foreach($bill -> details as $detail)
-                    @if($detail -> category_id == $category_id || $category_id == 0)
-                        @if($detail -> item_id == $item_id || $item_id == 0)
-                <tr>
-                    <td class="text-center">{{$bill -> bill_number}}</td>
-                    <td class="text-center">{{$bill -> bill_date}}</td>
-                    <td class="text-center">{{Config::get('app.locale') == 'ar' ? $detail -> items[0] -> item -> name_ar :  $detail -> items[0] -> item -> name_en }}</td>
-                    <td class="text-center">{{$detail -> qnt}}</td>
-                    <td class="text-center">{{$detail -> totalWithVat}}</td>
-                </tr>
-                    <?php $sum_tot_Price += $detail->totalWithVat ?>
-                    @endif
-                    @endif
-
-                @endforeach
-
-            @endforeach
-            <tr>
-                <td colspan="4" class="text-center tabletitle"> الإجمالي</td>
-                <td>{{$sum_tot_Price}}</td>
-            </tr>
+               @foreach($bills as $bill)
+                   <tr>
+                       <td class="text-center">{{Config::get('app.locale') == 'ar'? $bill -> item_name_ar : $bill -> item_name_en}}</td>
+                       <td class="text-center">{{$bill -> qnt}}</td>
+                       <td class="text-center">{{$bill -> label}}</td>
+                       <td class="text-center">{{$bill -> price}}</td>
+                       <td class="text-center">{{ $bill -> priceWithVat - $bill -> price}}</td>
+                       <td class="text-center">{{$bill -> total}}</td>
+                       <td class="text-center">{{$bill -> totalWithVat}}</td>
+                   </tr>
+                       <?php $sum_tot_Price += $bill->totalWithVat ?>
+               @endforeach
+               <tr>
+                   <td colspan="6" class="text-center tabletitle"> الإجمالي</td>
+                   <td>{{$sum_tot_Price}}</td>
+               </tr>
             </tbody>
         </table>
+        @endif
+
+            @if($report_type == 0)
+                <table class="hedaer_table">
+                    <thead>
+                    <tr>
+                        <th class="text-center tabletitle">الفئة</th>
+                        <th class="text-center tabletitle">الإجمالي</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php $sum_tot_Price = 0 ?>
+                    @foreach(Config::get('app.locale') == 'ar'? $arabic : $english as $category => $bill)
+                        @foreach($bill as $item )
+                        <tr>
+                            <td class="text-center">{{$category }}</td>
+                            <td class="text-center">{{$item}}</td>
+                        </tr>
+                        <?php $sum_tot_Price += $item ?>
+                        @endforeach
+                    @endforeach
+                    <tr>
+                        <td colspan="1" class="text-center tabletitle"> الإجمالي</td>
+                        <td>{{$sum_tot_Price}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            @endif
+
     </div><!--End Invoice Mid-->
 
     <div id="legalcopy">

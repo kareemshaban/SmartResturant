@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Hall;
+use App\Models\Table;
+use Facade\Ignition\Tabs\Tab;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -117,5 +119,10 @@ class HallController extends Controller
             $hall -> delete();
             return redirect()->route('halls')->with('success' , __('main.deleted'));
         }
+    }
+    public function gatHallTables($id){
+        $tables = Table::where('hall_id' , '=' , $id) -> get();
+        echo  json_encode($tables);
+        exit;
     }
 }

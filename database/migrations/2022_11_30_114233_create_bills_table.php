@@ -22,6 +22,8 @@ class CreateBillsTable extends Migration
             $table->string('address') ;
             $table->integer('driver_id') ->nullable();
             $table->integer('table_id');
+            $table->integer('hall_id');
+
             $table->decimal('delivery_service')  ->nullable();
             $table->dateTime('bill_date');
             $table->string('bill_number');

@@ -162,6 +162,7 @@ return [
     'priceWithAddValue' => 'السعر بالقيمة المضافة',
     'item_size_exsist' => 'لقد قمت بإدخال هذا الحجم للصنف من قبل',
     'label' => 'إسم مختصر',
+    'bill_type' => 'نوع الفاتورة',
     'bill_type1'=> 'دليفيري',
     'bill_type2' => 'تيك أوي',
     'bill_type3' => 'صالة' ,
@@ -303,7 +304,10 @@ return [
     'print_type1' => 'ورق رول 80 ميلي',
     'print_type2' => 'ورق رول 57 ميلي',
     'print_type3' => 'ورق A4',
-    'item_auto_complete' => 'ابحث بإسم الصنف او بكود الصنف'
+    'item_auto_complete' => 'ابحث بإسم الصنف او بكود الصنف',
+    'report_type' => 'نوع التقرير ',
+    'report_type1' => 'إجمالي',
+    'report_type2' => 'تفصيلي',
 
 
 

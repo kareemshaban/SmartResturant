@@ -163,6 +163,7 @@ return [
     'priceWithAddValue' => 'Price With Add Value',
     'item_size_exsist' => 'You Created this size for this item before',
     'label' => 'Label',
+    'bill_type' => 'Bill Type',
     'bill_type1'=> 'Delivery',
     'bill_type2' => 'Take Away',
     'bill_type3' => 'Dine In' ,
@@ -304,6 +305,10 @@ return [
     'print_type1' => 'Roll Paper 80 mm',
     'print_type2' => 'Roll Paper 57mm',
     'print_type3' => 'A4 Paper',
-    'item_auto_complete' => 'Search With Item Name Or Item Code'
+    'item_auto_complete' => 'Search With Item Name Or Item Code',
+    'print_type' => 'Print Type',
+    'report_type' => 'Report Type',
+    'report_type1' => 'Total',
+    'report_type2' => 'Details',
 
 ];

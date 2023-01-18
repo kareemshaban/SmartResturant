@@ -19,6 +19,7 @@ use ArPHP\I18N\Arabic;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 use Carbon\Carbon;
+use Facade\Ignition\Tabs\Tab;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -96,7 +97,13 @@ class PosController extends Controller
                     $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
                         -> where('state' , '=' , 0 )->get();
                     $shift_number = count($shift ) > 0 ? $shift[0] -> id : 0 ;
-
+                     $hall = 0 ;
+                     if($request->table_id){
+                         $table = Table::find($request -> table_id);
+                         $hall =  $table -> hall_id ;
+                     } else {
+                         $hall = 0 ;
+                     }
                     $id = Bill::create([
                         'identifier' => $uuid,
                         'billType' => $request->billType,
@@ -105,6 +112,7 @@ class PosController extends Controller
                         'address' => $request->address ? $request->address : '',
                         'driver_id' => $request->driver_id ? $request->driver_id : 0,
                         'table_id' => $request->table_id ? $request->table_id : 0,
+                        'hall_id' => $hall,
                         'delivery_service' => $request->billType == 1 ? ($request->delivery_service ? $request->delivery_service : 0) : 0,
                         'bill_date' => Carbon::parse($request->bill_date),
                         'bill_number' => $request->bill_number,

@@ -26,6 +26,8 @@ class CreateReciptsTable extends Migration
             $table->string('supplier_name_txt') ;
             $table->integer('tax_type') ;
             $table->text('notes') ;
+            $table->integer('shift_number') ;
+
             $table->timestamps();
         });
     }

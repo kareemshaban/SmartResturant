@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\ExpensesType;
 use App\Models\Recipt;
+use App\Models\Shift;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class ReciptController extends Controller
@@ -45,6 +47,10 @@ class ReciptController extends Controller
             'doc_date' => 'required',
             'amount' => 'required'
         ]);
+
+        $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
+            -> where('state' , '=' , 0 )->get();
+        $shift_number = count($shift ) > 0 ? $shift[0] -> id : 0 ;
         Recipt::create([
             'bill_number' => $request -> bill_number,
             'doc_type' => $request -> doc_type,
@@ -56,7 +62,8 @@ class ReciptController extends Controller
             'tax_number_txt' =>  $request -> tax_number_txt ? $request -> tax_number_txt : '',
             'supplier_name_txt' =>  $request -> supplier_name_txt ? $request -> supplier_name_txt : '',
             'tax_type' => $request -> tax_type,
-            'notes' => $request -> notes ? $request -> notes : ''
+            'notes' => $request -> notes ? $request -> notes : '',
+            'shift_number' => $shift_number
         ]);
 
         return redirect()->route('recipt')->with('success' , __('main.created'));

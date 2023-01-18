@@ -20,7 +20,8 @@ class Recipt extends Model
         'tax_number_txt',
         'supplier_name_txt',
         'tax_type',
-        'notes'
+        'notes',
+        'shift_number'
     ];
 
     public function doc()

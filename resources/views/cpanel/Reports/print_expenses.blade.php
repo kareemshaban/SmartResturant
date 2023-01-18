@@ -228,39 +228,39 @@
 
     <div id="mid" class="info">
         <table class="hedaer_table">
-            <thead>
+          <thead>
             <tr>
                 <th class="text-center tabletitle">رقم الفاتورة</th>
                 <th class="text-center tabletitle">التاريخ</th>
-                <th class="text-center tabletitle">إسم الصنف</th>
-                <th class="text-center tabletitle">الكمية</th>
+                <th class="text-center tabletitle">نوع المستند</th>
+                @if($paper_type == 2)
+                <th class="text-center tabletitle">اسم المورد</th>
+                <th class="text-center tabletitle">المبلغ</th>
+                <th class="text-center tabletitle">الضريبة</th>
+                @endif
                 <th class="text-center tabletitle">الإجمالي بالضريبة</th>
             </tr>
-            </thead>
+          </thead>
             <tbody>
             <?php $sum_tot_Price = 0 ?>
-            @foreach($bills as $bill)
-                @foreach($bill -> details as $detail)
-                    @if($detail -> category_id == $category_id || $category_id == 0)
-                        @if($detail -> item_id == $item_id || $item_id == 0)
-                <tr>
-                    <td class="text-center">{{$bill -> bill_number}}</td>
-                    <td class="text-center">{{$bill -> bill_date}}</td>
-                    <td class="text-center">{{Config::get('app.locale') == 'ar' ? $detail -> items[0] -> item -> name_ar :  $detail -> items[0] -> item -> name_en }}</td>
-                    <td class="text-center">{{$detail -> qnt}}</td>
-                    <td class="text-center">{{$detail -> totalWithVat}}</td>
-                </tr>
-                    <?php $sum_tot_Price += $detail->totalWithVat ?>
-                    @endif
-                    @endif
-
-                @endforeach
-
-            @endforeach
-            <tr>
-                <td colspan="4" class="text-center tabletitle"> الإجمالي</td>
-                <td>{{$sum_tot_Price}}</td>
-            </tr>
+               @foreach($bills as $bill)
+                   <tr>
+                     <td class="text-center">{{$bill -> bill_number}}</td>
+                       <td class="text-center">{{$bill -> doc_date}}</td>
+                       <td class="text-center">{{Config::get('app.locale') == 'ar' ? $bill -> doc -> name_ar : $bill -> doc -> name_en}}</td>
+                       @if($paper_type == 2)
+                       <td class="text-center">{{$bill -> supplier_name_txt}}</td>
+                       <td class="text-center">{{$bill -> amount}}</td>
+                       <td class="text-center">{{$bill -> tax}}</td>
+                       @endif
+                       <td class="text-center">{{$bill -> amount_with_tax}}</td>
+                   </tr>
+                       <?php $sum_tot_Price += $bill->amount_with_tax ?>
+               @endforeach
+               <tr>
+                   <td @if($paper_type == 2) colspan="6"  @else colspan="3" @endif  class="text-center tabletitle"> الإجمالي</td>
+                   <td>{{$sum_tot_Price}}</td>
+               </tr>
             </tbody>
         </table>
     </div><!--End Invoice Mid-->

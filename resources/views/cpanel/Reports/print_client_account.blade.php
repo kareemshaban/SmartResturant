@@ -228,39 +228,28 @@
 
     <div id="mid" class="info">
         <table class="hedaer_table">
-            <thead>
+          <thead>
             <tr>
-                <th class="text-center tabletitle">رقم الفاتورة</th>
-                <th class="text-center tabletitle">التاريخ</th>
-                <th class="text-center tabletitle">إسم الصنف</th>
-                <th class="text-center tabletitle">الكمية</th>
-                <th class="text-center tabletitle">الإجمالي بالضريبة</th>
+                <th class="text-center tabletitle">العميل</th>
+                <th class="text-center tabletitle">إجمالي الحساب</th>
+
             </tr>
-            </thead>
+          </thead>
             <tbody>
             <?php $sum_tot_Price = 0 ?>
-            @foreach($bills as $bill)
-                @foreach($bill -> details as $detail)
-                    @if($detail -> category_id == $category_id || $category_id == 0)
-                        @if($detail -> item_id == $item_id || $item_id == 0)
-                <tr>
-                    <td class="text-center">{{$bill -> bill_number}}</td>
-                    <td class="text-center">{{$bill -> bill_date}}</td>
-                    <td class="text-center">{{Config::get('app.locale') == 'ar' ? $detail -> items[0] -> item -> name_ar :  $detail -> items[0] -> item -> name_en }}</td>
-                    <td class="text-center">{{$detail -> qnt}}</td>
-                    <td class="text-center">{{$detail -> totalWithVat}}</td>
-                </tr>
-                    <?php $sum_tot_Price += $detail->totalWithVat ?>
-                    @endif
-                    @endif
-
-                @endforeach
-
+            @foreach(Config::get('app.locale') == 'ar'? $arabic : $english as $category => $bill)
+                @foreach($bill as $item )
+                   <tr>
+                       <td class="text-center">{{$category}}</td>
+                       <td class="text-center">{{$item}}</td>
+                   </tr>
+                       <?php $sum_tot_Price += $item ?>
+               @endforeach
             @endforeach
-            <tr>
-                <td colspan="4" class="text-center tabletitle"> الإجمالي</td>
-                <td>{{$sum_tot_Price}}</td>
-            </tr>
+               <tr>
+                   <td colspan="1" class="text-center tabletitle"> الإجمالي</td>
+                   <td>{{$sum_tot_Price}}</td>
+               </tr>
             </tbody>
         </table>
     </div><!--End Invoice Mid-->
