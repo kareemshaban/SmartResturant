@@ -159,11 +159,9 @@
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
                                                            href="{{route('report_box_transactions')}}">{{ __('main.report_box_movement') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="javascript:;">{{ __('main.report_tax_declaration_total') }}</a></li>
+                                                           href="{{route('report_tax_declaration')}}">{{ __('main.report_tax_declaration') }}</a></li>
                         <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="javascript:;">{{ __('main.report_tax_declaration_details') }}</a></li>
-                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="javascript:;">{{ __('main.report_tax') }}</a></li>
+                                                           href="{{route('report_tax')}}">{{ __('main.report_tax') }}</a></li>
 
 
 

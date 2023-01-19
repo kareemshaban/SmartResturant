@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
 use App\Models\Client;
 use App\Models\Country;
 use Illuminate\Database\QueryException;
@@ -154,14 +155,20 @@ class ClientController extends Controller
      */
     public function destroy( $id)
     {
-        $client = Client::find($id);
-        if($client){
-            try{
-               $client -> delete();
-               return redirect()->route('clients')->with('success' , __('main.deleted'));
-            }catch(QueryException  $ex){
-                return redirect()->route('clients')->with('error' , $ex->getMessage());
+        $bills = Bill::where('client_id' , '=' , $id) -> get();
+        if(count($bills) == 0){
+            $client = Client::find($id);
+            if($client){
+                try{
+                    $client -> delete();
+                    return redirect()->route('clients')->with('success' , __('main.deleted'));
+                }catch(QueryException  $ex){
+                    return redirect()->route('clients')->with('error' , $ex->getMessage());
+                }
             }
+        } else {
+            return redirect()->route('clients')->with('success' , __('main.can_not_delete'));
         }
+
     }
 }

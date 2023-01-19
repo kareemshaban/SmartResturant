@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ItemSizes;
 use App\Models\Size;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -111,10 +112,16 @@ class SizeController extends Controller
      */
     public function destroy($id)
     {
-        $size = Size::find($id);
-        if($size){
-            $size -> delete();
-            return redirect()->route('sizes')->with('success' , __('main.deleted'));
+        $itemSizes = ItemSizes::where('size_id' , '=' , $id) -> get();
+        if(count($itemSizes) == 0){
+            $size = Size::find($id);
+            if($size){
+                $size -> delete();
+                return redirect()->route('sizes')->with('success' , __('main.deleted'));
+            }
+        } else {
+            return redirect()->route('sizes')->with('success' , __('main.can_not_delete'));
         }
+
     }
 }

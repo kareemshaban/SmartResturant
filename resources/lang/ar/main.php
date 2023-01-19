@@ -290,7 +290,7 @@ return [
     'report_movements_total' => 'تقرير إجمالي الحركات' ,
     'report_clients_toatl_sales' => 'تقرير إجمالي مبيعات العملاء',
     'report_box_movement' => 'تقرير حركة صندوق',
-    'report_tax_declaration_total' => 'تقرير الإقرار الضريبي إجمالي' ,
+    'report_tax_declaration' => 'تقرير الإقرار الضريبي إجمالي' ,
     'report_tax_declaration_details' => 'تقرير الإقرار الضريبي تفصيلي' ,
     'report_tax' => 'تقرير الضرائب الإضاقية',
     'search_btn' => 'عرض النتائج',
@@ -308,6 +308,7 @@ return [
     'report_type' => 'نوع التقرير ',
     'report_type1' => 'إجمالي',
     'report_type2' => 'تفصيلي',
+    'can_not_delete' => 'عفوا لا يمكن الحذف بسبب الارتباط ببيانات اخري'
 
 
 

@@ -86,7 +86,7 @@
                             <label>{{ __('main.service') }}</label>
                             <input type="number" name="service" id="service"
                                    class="form-control @error('service') is-invalid @enderror"
-                                   placeholder="{{ __('main.service') }}" autofocus max="100"
+                                   placeholder="{{ __('main.service') }}" autofocus min="0" max="100"
                             value="{{$setting -> service}}"/>
                             @error('service')
                             <span class="invalid-feedback" role="alert">
@@ -98,7 +98,7 @@
                             <label>{{ __('main.tobacco_tax') }}</label>
                             <input type="number" name="tobacco_tax" id="tobacco_tax"
                                    class="form-control @error('tobacco_tax') is-invalid @enderror"
-                                   placeholder="{{ __('main.tobacco_tax') }}" autofocus max="100"
+                                   placeholder="{{ __('main.tobacco_tax') }}" autofocus min="0" max="100"
                                    value="{{$setting -> tobacco_tax}}"/>
                             @error('tobacco_tax')
                             <span class="invalid-feedback" role="alert">
@@ -111,7 +111,7 @@
                             <label>{{ __('main.receipt_tax') }}</label>
                             <input type="number" name="receipt_tax" id="receipt_tax"
                                    class="form-control @error('receipt_tax') is-invalid @enderror"
-                                   placeholder="{{ __('main.receipt_tax') }}" autofocus max="100"
+                                   placeholder="{{ __('main.receipt_tax') }}" autofocus min="0" max="100"
                                    value="{{$setting -> receipt_tax}}"/>
                             @error('receipt_tax')
                             <span class="invalid-feedback" role="alert">

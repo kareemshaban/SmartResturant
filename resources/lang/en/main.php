@@ -292,7 +292,7 @@ return [
     'report_movements_total' => 'Report Total Movements' ,
     'report_clients_toatl_sales' => 'Report clients Total Sales',
     'report_box_movement' => 'Report Box Movement',
-    'report_tax_declaration_total' => 'Report Tax Declaration Total' ,
+    'report_tax_declaration' => 'Report Tax Declaration ' ,
     'report_tax_declaration_details' => 'Report Tax Declaration Details' ,
     'report_tax' => 'Report Additional Tax',
     'search_btn' => 'Show Results',
@@ -310,5 +310,6 @@ return [
     'report_type' => 'Report Type',
     'report_type1' => 'Total',
     'report_type2' => 'Details',
+    'can_not_delete' => 'Sorry, it is not possible to delete due to association with other data'
 
 ];

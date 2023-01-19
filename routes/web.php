@@ -268,7 +268,11 @@ function()
     Route::get('/report_box_transactions', [App\Http\Controllers\ReportController::class, 'report_box_transactions'])->name('report_box_transactions');
     Route::post('/report_box_transactions', [App\Http\Controllers\ReportController::class, 'report_box_transactions_search'])->name('report_box_transactions');
 
+    Route::get('/report_tax_declaration', [App\Http\Controllers\ReportController::class, 'report_tax_declaration'])->name('report_tax_declaration');
+    Route::post('/report_tax_declaration', [App\Http\Controllers\ReportController::class, 'report_tax_declaration_search'])->name('report_tax_declaration');
 
+    Route::get('/report_tax', [App\Http\Controllers\ReportController::class, 'report_tax'])->name('report_tax');
+    Route::post('/report_tax', [App\Http\Controllers\ReportController::class, 'report_tax_search'])->name('report_tax');
        ////////////////////////////////////////////////////////////////////////////////////////////
     ///
     Route::get('clearSession/{key}', [App\Http\Controllers\HomeController::class, 'clearSession'])->name('clearSession');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Printer;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -119,10 +120,16 @@ class PrinterController extends Controller
      */
     public function destroy( $id)
     {
-        $printer = Printer::find($id);
-        if($printer) {
-            $printer -> delete();
-            return redirect()->route('printers')->with('success' , __('main.deleted'));
+        $categories = Category::where('printer' , '=' , $id) -> get();
+        if(count($categories) == 0){
+            $printer = Printer::find($id);
+            if($printer) {
+                $printer -> delete();
+                return redirect()->route('printers')->with('success' , __('main.deleted'));
+            }
+        } else {
+            return redirect()->route('printers')->with('success' , __('main.can_not_delete'));
         }
+
     }
 }

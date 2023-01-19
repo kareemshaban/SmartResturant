@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BillDetails;
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\ItemSizes;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -18,8 +20,8 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::with('cayegory') -> get();
-      
-        
+
+
         return view('cpanel.Items.index' , ['items' => $items]);
 
     }
@@ -65,15 +67,15 @@ class ItemController extends Controller
                     'description_ar' => $request -> description_ar,
                     'description_en' => $request -> description_en,
                     'img' => $imageName,
-                    'isAddValue' => $request -> isAddValue == 'on' ? 1 : null, 
+                    'isAddValue' => $request -> isAddValue == 'on' ? 1 : null,
                     'addValue' => $request -> addValue
 
                 ]);
                 return redirect()->route('items')->with('success' , __('main.created'));
               } catch(QueryException $ex){
                 return redirect()->route('items')->with('error' ,  $ex->getMessage());
-              } 
-               
+              }
+
 
         } else {
             return redirect()->route('createItem')->with('error' , __('main.img_big'));
@@ -101,7 +103,7 @@ class ItemController extends Controller
     public function edit( $id)
     {
         $item = Item::find($id);
-        
+
         if($item){
             $categories = Category::all();
             return view('cpanel.Items.edit' , ['item' => $item ,  'categories' => $categories]);
@@ -127,7 +129,7 @@ class ItemController extends Controller
                 } else {
                     return redirect()->route('createItem')->with('error' , __('main.img_big'));
                 }
-    
+
             } else {
                 $imageName  =  $item -> img ;
             }
@@ -149,14 +151,14 @@ class ItemController extends Controller
                    'description_ar' => $request -> description_ar,
                    'description_en' => $request -> description_en,
                    'img' => $imageName,
-                   'isAddValue' => $request -> isAddValue == 'on' ? 1 : null, 
+                   'isAddValue' => $request -> isAddValue == 'on' ? 1 : null,
                    'addValue' => $request -> addValue
 
                ]);
                return redirect()->route('items')->with('success' , __('main.updated'));
              } catch(QueryException $ex){
                return redirect()->route('items')->with('error' ,  $ex->getMessage());
-             } 
+             }
         }
 
     }
@@ -169,12 +171,19 @@ class ItemController extends Controller
      */
     public function destroy( $id)
     {
-        $item = Item::find($id);
-        if($item) {
-            $item -> delete();
-            return redirect()->route('items')->with('success' , __('main.deleted'));
+        $bills = BillDetails::where('item_id' , '=' , $id) -> get();
+        $itemSizes = ItemSizes::where('item_id' , '=' , $id) -> get();
+        if(count($bills) == 0 && count($itemSizes) == 0){
+            $item = Item::find($id);
+            if($item) {
+                $item -> delete();
+                return redirect()->route('items')->with('success' , __('main.deleted'));
 
 
+            }
+        } else {
+            return redirect()->route('items')->with('success' , __('main.can_not_delete'));
         }
+
     }
 }

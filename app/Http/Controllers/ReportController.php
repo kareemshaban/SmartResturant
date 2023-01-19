@@ -351,9 +351,74 @@ class ReportController extends Controller
             'is_to_time' => $request -> is_to_time ,   'to_time' => $request -> to_time , 'report_type' => $request -> report_type]);
     }
 
-    function sortByOrder($a, $b) {
-        return $a['date'] - $b['date'];
-    }
+   public function report_tax_declaration(){
+       return view('cpanel.Reports.report_tax_dclaration');
+   }
+   public function report_tax_declaration_search(Request $request){
+       $companyInfos = CompanyInfo::all();
+       $printSettings = ReportSetting::all();
+       $settings = Settings::all();
+       $bills = Bill::all();
+       $expenses = Recipt::all();
+
+       if($request -> has('is_from_date')) $bills = $bills -> where('bill_date' , '>=' , Carbon::parse($request -> from_date));
+       if($request -> has('is_to_date')) $bills = $bills -> where('bill_date' , '<=' , Carbon::parse($request -> to_date) -> addDay());
+
+       if($request -> has('is_from_date')) $expenses = $expenses -> where('doc_date' , '>=' , Carbon::parse($request -> from_date));
+       if($request -> has('is_to_date')) $expenses = $expenses -> where('doc_date' , '<=' , Carbon::parse($request -> to_date) -> addDay());
+
+
+           $cashs =  $bills -> map(function ($bill) {
+               return [
+                   'net' => $bill -> sum('net'),
+               ];
+           });
+           $cashs_tax =  $bills -> map(function ($bill) {
+               return [
+                   'tax' => $bill -> sum('vat'),
+               ];
+           });
+           $outs = $expenses -> map(function ($expense) {
+               return [
+                   'net' => $expense -> sum('amount_with_tax'),
+               ];
+           });
+           $outs_tax = $expenses -> map(function ($expense) {
+               return [
+                   'tax' => $expense -> sum('tax'),
+               ];
+           });
+
+           $out = (float) count($outs) > 0 ? $outs[0]['net'] : 0;
+           $cash = (float) count($cashs) > 0 ? $cashs[0]['net'] : 0;
+
+           $out_tax = (float) count($outs_tax) > 0 ? $outs_tax[0]['tax'] : 0;
+           $cash_tax = (float) count($cashs_tax) > 0 ? $cashs_tax[0]['tax'] : 0;
+
+
+           $net = $cash_tax - $out_tax ;
+           return view('cpanel.Reports.print_tax_declaration' , ['companyInfo' => $companyInfos[0] , 'printSetting' => $printSettings[0] ,
+               'cash' => $cash   , 'out' => $out , 'net' => $net , 'out_tax' => $out_tax , 'cash_tax' => $cash_tax ,  'paper_type' => $request -> print_type , 'is_from_time' => $request -> is_from_time ,   'from_time' => $request -> from_time ,
+               'is_to_time' => $request -> is_to_time ,   'to_time' => $request -> to_time , 'report_type' => $request -> report_type]);
+
+
+
+   }
+   public function report_tax(){
+       return view('cpanel.Reports.report_tax');
+   }
+   public function report_tax_search(Request $request){
+       $companyInfos = CompanyInfo::all();
+       $printSettings = ReportSetting::all();
+       $settings = Settings::all();
+       $bills = Bill::all();
+       if($request -> has('is_from_date')) $bills = $bills -> where('bill_date' , '>=' , Carbon::parse($request -> from_date));
+       if($request -> has('is_to_date')) $bills = $bills -> where('bill_date' , '<=' , Carbon::parse($request -> to_date) -> addDay());
+
+       return view('cpanel.Reports.print_tax_report' , ['companyInfo' => $companyInfos[0] , 'printSetting' => $printSettings[0] ,
+           'bills' => $bills  ,   'paper_type' => $request -> print_type , 'is_from_time' => $request -> is_from_time ,   'from_time' => $request -> from_time ,
+           'is_to_time' => $request -> is_to_time ,   'to_time' => $request -> to_time , 'report_type' => $request -> report_type]);
+   }
 
 
 }

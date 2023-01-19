@@ -50,9 +50,9 @@ class SettingsController extends Controller
     {
         $validated = $request->validate([
             'delivery_service' => 'required|numeric',
-            'service' => 'required|numeric|min:0:max:100',
-            'tobacco_tax' => 'required|numeric|min:0:max:100',
-            'receipt_tax' => 'required|numeric|min:0:max:100'
+            'service' => 'required|numeric|max:100',
+            'tobacco_tax' => 'required|numeric|max:100',
+            'receipt_tax' => 'required|numeric|max:100'
         ]);
 
         try {
@@ -105,9 +105,9 @@ class SettingsController extends Controller
         if($setting){
             $validated = $request->validate([
                 'delivery_service' => 'required|numeric',
-                'service' => 'required|numeric|min:0:max:100',
-                'tobacco_tax' => 'required|numeric|min:0:max:100',
-                'receipt_tax' => 'required|numeric|min:0:max:100'
+                'service' => 'required|numeric|max:100',
+                'tobacco_tax' => 'required|numeric|max:100',
+                'receipt_tax' => 'required|numeric|max:100'
             ]);
 
 

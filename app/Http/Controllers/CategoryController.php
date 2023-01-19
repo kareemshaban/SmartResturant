@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -63,8 +64,8 @@ class CategoryController extends Controller
             return redirect()->route('createCategory')->with('error' , __('main.img_big'));
 
         }
-        
-    
+
+
     }
 
     /**
@@ -112,10 +113,10 @@ class CategoryController extends Controller
                 } else {
                     return redirect()->route('createCategory')->with('error' , __('main.img_big'));
                 }
-    
+
             } else {
                 $imageName  =  $category -> img ;
-            } 
+            }
             $validated = $request->validate([
                 'name_ar' => ['required' , Rule::unique('categories')->ignore($id)],
                 'name_en' => ['required' , Rule::unique('categories')->ignore($id)],
@@ -129,12 +130,12 @@ class CategoryController extends Controller
             ]);
             return redirect()->route('categories')->with('success' , __('main.updated'));
 
-           
+
 
 
         }
-   
-    
+
+
     }
 
     /**
@@ -145,12 +146,18 @@ class CategoryController extends Controller
      */
     public function destroy( $id)
     {
-        $category = Category::find($id);
-        if($category){
-            $category -> delete();
-            return redirect()->route('categories')->with('success' , __('main.deleted'));
+        $items = Item::where('category_id' , '=' , $id) -> get();
+        if(count($items) == 0){
+            $category = Category::find($id);
+            if($category){
+                $category -> delete();
+                return redirect()->route('categories')->with('success' , __('main.deleted'));
 
+            }
+        } else {
+            return redirect()->route('categories')->with('success' , __('main.can_not_delete'));
         }
+
 
     }
 }

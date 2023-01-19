@@ -114,11 +114,17 @@ class HallController extends Controller
      */
     public function destroy( $id)
     {
-        $hall = Hall::find($id);
-        if($hall){
-            $hall -> delete();
-            return redirect()->route('halls')->with('success' , __('main.deleted'));
+        $tables = Table::where('hall_id' , '=' , $id) -> get();
+        if(count($tables) == 0){
+            $hall = Hall::find($id);
+            if($hall){
+                $hall -> delete();
+                return redirect()->route('halls')->with('success' , __('main.deleted'));
+            }
+        } else {
+            return redirect()->route('halls')->with('success' , __('main.can_not_delete'));
         }
+
     }
     public function gatHallTables($id){
         $tables = Table::where('hall_id' , '=' , $id) -> get();

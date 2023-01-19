@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ExpensesType;
+use App\Models\Recipt;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -16,7 +17,7 @@ class ExpensesTypeController extends Controller
     public function index()
     {
         $expenses = ExpensesType::all();
-        return view('cpanel.expenses.index' , ['expenses' => $expenses]);
+        return view('cpanel.Expenses.index' , ['expenses' => $expenses]);
     }
 
     /**
@@ -119,11 +120,17 @@ class ExpensesTypeController extends Controller
      */
     public function destroy($id)
     {
-        $expenses = ExpensesType::find($id);
-        if($expenses){
-            $expenses -> delete();
-            return redirect()->route('expenses_type')->with('success' , __('main.deleted'));
+        $bills = Recipt::where('doc_type' , '=' , $id) -> get();
+        if(count($bills) == 0){
+            $expenses = ExpensesType::find($id);
+            if($expenses){
+                $expenses -> delete();
+                return redirect()->route('expenses_type')->with('success' , __('main.deleted'));
+            }
+        } else {
+            return redirect()->route('expenses_type')->with('success' , __('main.can_not_delete'));
         }
+
     }
     public function getExpense($id){
         $expenses = ExpensesType::find($id);

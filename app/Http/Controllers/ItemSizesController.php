@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BillDetails;
 use App\Models\Item;
 use App\Models\ItemSizes;
 use App\Models\Size;
@@ -153,11 +154,18 @@ class ItemSizesController extends Controller
      */
     public function destroy( $id)
     {
-        $itemSize = ItemSizes::find($id);
-        if($itemSize){
-            $itemSize -> delete();
-            return redirect()->route('itemSizes' , $itemSize ->  item_id)->with('success' , __('main.deleted'));
+        $bills = BillDetails::where('item_size_id' , '=' , $id) -> get();
+        if(count($bills) == 0){
+            $itemSize = ItemSizes::find($id);
+            if($itemSize){
+                $itemSize -> delete();
+                return redirect()->route('itemSizes' , $itemSize ->  item_id)->with('success' , __('main.deleted'));
 
+            }
+        } else {
+            return redirect()->route('itemSizes')->with('success' , __('main.can_not_delete'));
         }
+
+
     }
 }

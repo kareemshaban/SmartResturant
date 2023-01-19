@@ -82,7 +82,7 @@
                                 <label>{{ __('main.hall') }}</label>
                                 <select class="custom-select mr-sm-2 @error('hall_id') is-invalid @enderror"
                                         name="hall_id" id="hall_id">
-                                    <option selected>Choose...</option>
+                                    <option selected value="">Choose...</option>
                                     @foreach ($halls as $item)
                                         <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
 
