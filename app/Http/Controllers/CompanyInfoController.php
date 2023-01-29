@@ -49,7 +49,8 @@ class CompanyInfoController extends Controller
                 'phone1' => $request -> phone1 ,
                 'phone2' => $request -> phone2 ,
                 'fax1' => $request -> fax1 ,
-                'fax2' => $request -> fax2
+                'fax2' => $request -> fax2,
+                'online_url' => $request -> online_url
             ]);
             return redirect()->route('company')->with('success' , __('main.created'));
         } catch(QueryException  $ex){
@@ -100,7 +101,8 @@ class CompanyInfoController extends Controller
                     'phone1' => $request -> phone1 ,
                     'phone2' => $request -> phone2 ,
                     'fax1' => $request -> fax1 ,
-                    'fax2' => $request -> fax2
+                    'fax2' => $request -> fax2,
+                    'online_url' => $request -> online_url
                 ]);
                 return redirect()->route('company')->with('success' , __('main.updated'));
             } catch(QueryException  $ex){

@@ -17,6 +17,7 @@ class CompanyInfo extends Model
         'phone1',
         'phone2',
         'fax1',
-        'fax2'
+        'fax2',
+        'online_url'
     ];
 }

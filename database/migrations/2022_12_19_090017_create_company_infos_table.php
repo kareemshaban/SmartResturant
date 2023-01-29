@@ -23,6 +23,8 @@ class CreateCompanyInfosTable extends Migration
             $table->string('phone2') -> nullable();
             $table->string('fax1') -> nullable();
             $table->string('fax2') -> nullable();
+            $table->string('online_url') -> nullable();
+
 
             $table->timestamps();
         });

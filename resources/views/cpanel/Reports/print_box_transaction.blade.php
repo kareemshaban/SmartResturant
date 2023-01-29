@@ -227,7 +227,7 @@
     </div><!--End InvoiceTop-->
 
     <div id="mid" class="info">
-        <table class="hedaer_table">
+        <table class="hedaer_table" >
           <thead>
             <tr>
                 <th class="text-center tabletitle">التاريخ</th>

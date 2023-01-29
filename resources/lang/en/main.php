@@ -310,6 +310,8 @@ return [
     'report_type' => 'Report Type',
     'report_type1' => 'Total',
     'report_type2' => 'Details',
-    'can_not_delete' => 'Sorry, it is not possible to delete due to association with other data'
+    'can_not_delete' => 'Sorry, it is not possible to delete due to association with other data',
+    'online_url' => 'Online Server Url',
+    'select_machine' => 'Select Machine'
 
 ];

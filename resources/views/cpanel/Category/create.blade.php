@@ -109,7 +109,7 @@
                                 name="printer" id="printer">
                                     <option selected value="0">Choose...</option>
                                    @foreach ($printers as $item)
-                                   <option value="{{$item -> name}}"> {{  $item -> name }}</option>
+                                   <option value="{{$item -> id}}"> {{  $item -> name }}</option>
 
                                    @endforeach
                                   </select>

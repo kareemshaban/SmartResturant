@@ -190,6 +190,23 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.online_url') }} </label>
+                                    <input type="text" name="online_url" id="online_url"
+                                           class="form-control @error('online_url') is-invalid @enderror"
+                                           placeholder="{{ __('main.online_url') }}" autofocus  value="{{$setting -> online_url }}"/>
+                                    @error('online_url')
+                                    <span class="invalid-feedback" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
 

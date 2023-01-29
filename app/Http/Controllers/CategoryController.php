@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Item;
+use App\Models\Printer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -27,7 +28,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $printers = [] ;
+        $printers = Printer::all() ;
         return view('cpanel.Category.create' , ['printers' => $printers]);
     }
 
@@ -87,9 +88,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        $printers = Printer::all() ;
         $category = Category::find($id);
         if($category){
-            $printers = [] ;
             return view('cpanel.Category.edit' , ['printers' => $printers , 'category' => $category]);
         }
     }

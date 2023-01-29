@@ -124,9 +124,9 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>{{ __('main.doc_date') }}</label>
-                                    <input type="datetime-local" name="doc_date" id="doc_date"
+                                    <input type="date" name="doc_date" id="doc_date"
                                            class="form-control @error('doc_date') is-invalid @enderror"
-                                           autofocus  value="{{$bill -> doc_date }}"/>
+                                           autofocus  value="{{  date('Y-m-d', strtotime($bill -> doc_date))    }}"/>
                                     @error('doc_date')
                                     <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -416,14 +416,12 @@
 
 </script>
 
+
 <script src="../../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="../../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../../cpanel/js/app-style-switcher.js"></script>
 <script src="../../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
 <script src="../../cpanel/js/waves.js"></script>
-<script src="../../cpanel/js/sidebarmenu.js"></script>
 <script src="../../cpanel/js/custom.js"></script>
-<script src="../../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-<script src="../../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-<script src="../../cpanel/js/pages/dashboards/dashboard1.js"></script>
+
 </body>

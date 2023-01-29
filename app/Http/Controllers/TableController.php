@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
 use App\Models\Hall;
 use App\Models\Table;
 use Illuminate\Http\Request;
@@ -118,9 +119,15 @@ class TableController extends Controller
     public function destroy( $id)
     {
         $table = Table::find($id);
-        if($table){
-            $table -> delete();
-            return redirect()->route('tables')->with('success' , __('main.delete'));
+        $bills = Bill::where('table_id' , '=' , $id) -> get();
+        if(count($bills) == 0){
+            if($table){
+                $table -> delete();
+                return redirect()->route('tables')->with('success' , __('main.delete'));
+            }
+        } else {
+            return redirect()->route('tables')->with('success' , __('main.can_not_delete'));
         }
+
     }
 }

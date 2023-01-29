@@ -107,7 +107,7 @@
                                 name="printer" id="printer">
                                   @if($category -> printer == 0)  <option selected value="0">Choose...</option> @endif
                                    @foreach ($printers as $item)
-                                   <option value="{{$item -> name}}"  @if ($category -> printer == $item -> name)
+                                   <option value="{{$item -> id}}"  @if ($category -> printer == $item -> id)
                                     selected
                                    @endif> {{  $item -> name }}</option>
 

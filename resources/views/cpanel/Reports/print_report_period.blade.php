@@ -226,7 +226,7 @@
         </label>
     </div><!--End InvoiceTop-->
 
-    <div id="mid" class="info">
+    <div id="mid" class="info" style="">
         @if($report_type == 1)
         <table class="hedaer_table">
           <thead>

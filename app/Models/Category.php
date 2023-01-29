@@ -22,4 +22,7 @@ class Category extends Model
     {
         return $this->hasMany(Item::class , 'category_id');
     }
+    public function printerr(){
+        return $this -> belongsTo(Printer::class , 'printer');
+    }
 }

@@ -98,7 +98,7 @@
                                         <td class="text-center">{{ $category->id }}</td>
                                         <td class="text-center">{{ $category->name_ar }}</td>
                                         <td class="text-center">{{ $category->name_en }}</td>
-                                        <td class="text-center">{{ $category->printer }}</td>
+                                        <td class="text-center">{{ $category-> printerr ? $category-> printerr -> name: '' }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('editCategory', $category->id) }}"> <button
                                                     type="button" class="btn btn-success"><i
