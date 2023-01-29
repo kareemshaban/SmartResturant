@@ -15,10 +15,10 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($type)
     {
         $clients = Client::all();
-        return view('cpanel.Client.index' , ['clients' => $clients]);
+        return view('cpanel.Client.index' , ['clients' => $clients , 'type' => $type]);
     }
 
     /**
@@ -26,9 +26,9 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type)
     {
-        return view ('cpanel.Client.create');
+        return view ('cpanel.Client.create' , ['type' => $type]);
     }
 
     /**

@@ -102,6 +102,8 @@ return [
     'required_note' => 'Please enter the mandatory fields followed by',
     'client_side' =>'Clients',
     'new_client' => 'Add New Client',
+    'new_supplier' => 'Add New Supplier',
+    'edit_supplier' => 'Edit Supplier Data',
     'edit_client' => 'Edit Client Data',
     'discount_type' => 'Discount Type',
     'discount_type1' => 'without discount',
@@ -312,6 +314,7 @@ return [
     'report_type2' => 'Details',
     'can_not_delete' => 'Sorry, it is not possible to delete due to association with other data',
     'online_url' => 'Online Server Url',
-    'select_machine' => 'Select Machine'
+    'select_machine' => 'Select Machine',
+    'supplier' => 'Suppliers'
 
 ];

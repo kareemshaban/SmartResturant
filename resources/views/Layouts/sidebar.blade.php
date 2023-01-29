@@ -60,9 +60,16 @@
 
                 <li class="sidebar-item">
                     <a @if ($slag == 3) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif
-                    href="{{ route('clients') }}" aria-expanded="false">
+                    href="{{ route('clients' , 0) }}" aria-expanded="false">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.client_side') }}</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a @if ($slag == 5) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif
+                    href="{{ route('clients' , 1) }}" aria-expanded="false">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span class="hide-menu">{{ __('main.supplier') }}</span>
                     </a>
                 </li>
 

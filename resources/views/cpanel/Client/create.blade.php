@@ -14,7 +14,7 @@
     <title>Smart Resturant</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <!-- Favicon icon -->
-      <link rel="shortcut icon" href="../images/favicon.png" type="">
+      <link rel="shortcut icon" href="../../images/favicon.png" type="">
     <!-- Custom CSS -->
     <!-- Custom CSS -->
 
@@ -26,13 +26,13 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
     <br>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
-    <link href="../cpanel/css/style.min.css" rel="stylesheet">
- <link href="../cpanel/css/style.css" rel="stylesheet">
+    <link href="../../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
+            src: url("../../fonts/ArbFONTS-The-Sans-Plain.otf");
+            src: url("../../fonts/ArbFONTS-The-Sans-Plain.otf");
             font-weight: normal;
             font-style: normal;
         }
@@ -77,9 +77,15 @@ h2 span {
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('Layouts.cheader')
-        @include('Layouts.subheader', [
+        @if($type == 0)
+            @include('Layouts.subheader', [
                 'pageTitle' => Config::get('app.locale') == 'ar' ? 'العملاء': 'Clients',
-        ])
+            ])
+            @elseif($type == 1)
+                @include('Layouts.subheader', [
+                'pageTitle' => Config::get('app.locale') == 'ar' ? 'الموردين': 'Suppliers',
+            ])
+            @endif
         <div class="container-fluid">
             <form class="center" method="POST" action="{{ route('storeClient') }}" enctype="multipart/form-data">
 
@@ -88,7 +94,7 @@ h2 span {
                     <!-- {{ csrf_field() }} -->
                     <div class="col-md-9 col-xl-9 form data-entry" >
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
-                            <h4 class="float-left pt-2">{{ __('main.new_client') }}
+                            <h4 class="float-left pt-2">{{ $type == 0 ?  __('main.new_client')  : __('main.new_supplier') }}
                             <br> <span style="    font-size: 9pt;
                             color: gray;">{{  __('main.required_note') }}</span> <span style="color:red; font-size:20px; font-weight:bold;">*</span>
                             </h4>
@@ -415,14 +421,14 @@ h2 span {
 
         }
       </script>
-    <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../cpanel/js/app-style-switcher.js"></script>
-    <script src="../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <script src="../cpanel/js/waves.js"></script>
-    <script src="../cpanel/js/sidebarmenu.js"></script>
-    <script src="../cpanel/js/custom.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
+    <script src="../../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../cpanel/js/app-style-switcher.js"></script>
+    <script src="../../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="../../cpanel/js/waves.js"></script>
+    <script src="../../cpanel/js/sidebarmenu.js"></script>
+    <script src="../../cpanel/js/custom.js"></script>
+    <script src="../../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="../../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../../cpanel/js/pages/dashboards/dashboard1.js"></script>
 </body>

@@ -12,7 +12,7 @@
     <meta name="robots" content="noindex,nofollow">
     <title>Smart Resturant</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
-      <link rel="shortcut icon" href="../images/favicon.png" type="">
+      <link rel="shortcut icon" href="../../images/favicon.png" type="">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
@@ -23,16 +23,16 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
     <br>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../../cpanel/css/bootstrap.css" />
 
-    <link href="../cpanel/css/style.min.css" rel="stylesheet">
- <link href="../cpanel/css/style.css" rel="stylesheet">
-    <link href="../cpanel/css/style.css" rel="stylesheet">
+    <link href="../../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../../cpanel/css/style.css" rel="stylesheet">
+    <link href="../../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
+            src: url("../../fonts/ArbFONTS-The-Sans-Plain.otf");
+            src: url("../../fonts/ArbFONTS-The-Sans-Plain.otf");
             font-weight: normal;
             font-style: normal;
         }
@@ -57,13 +57,20 @@
         @include('Layouts.sidebar', ['slag' => 3])
 
         <div class="page-wrapper">
+            @if($type == 0)
             @include('Layouts.subheader', [
                 'pageTitle' => Config::get('app.locale') == 'ar' ? 'العملاء': 'Clients',
             ])
+            @elseif($type == 1)
+                @include('Layouts.subheader', [
+                'pageTitle' => Config::get('app.locale') == 'ar' ? 'الموردين': 'Suppliers',
+            ])
+            
+            @endif
             <div class="container-fluid">
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
-                        <a href="{{ route('createClient') }}">
+                        <a href="{{ route('createClient' , $type) }}">
                             <button type="button" class="btn btn-labeled btn-primary "  >
                                 <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
 
@@ -124,16 +131,16 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 
 
-    <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../cpanel/js/app-style-switcher.js"></script>
-    <script src="../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <script src="../cpanel/js/waves.js"></script>
-    <script src="../cpanel/js/sidebarmenu.js"></script>
-    <script src="../cpanel/js/custom.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
+    <script src="../../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../cpanel/js/app-style-switcher.js"></script>
+    <script src="../../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="../../cpanel/js/waves.js"></script>
+    <script src="../../cpanel/js/sidebarmenu.js"></script>
+    <script src="../../cpanel/js/custom.js"></script>
+    <script src="../../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="../../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../../cpanel/js/pages/dashboards/dashboard1.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#table').DataTable();

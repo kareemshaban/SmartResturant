@@ -103,7 +103,9 @@ return [
     'required_note' => 'برجاء ادخال الحقول الإجبارية المتبوعة بعلامة ',
     'client_side' =>'العملاء',
     'new_client' => 'إضافة عميل جديد',
+    'new_supplier' => 'إضافة مورد جديد',
     'edit_client' => 'تعديل بيانات عميل',
+    'edit_supplier' => 'تعديل بيانات مورد',
     'discount_type' => 'نوع الخصم',
     'discount_type1' => 'بدون خصم',
     'discount_type2' => 'خصم نسبة',
@@ -310,7 +312,8 @@ return [
     'report_type2' => 'تفصيلي',
     'can_not_delete' => 'عفوا لا يمكن الحذف بسبب الارتباط ببيانات اخري',
     'online_url' => 'رابط السيرفر الخارجي',
-    'select_machine' => 'أختر ماكينة'
+    'select_machine' => 'أختر ماكينة',
+    'supplier' => 'الموردين'
 
 
 

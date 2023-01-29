@@ -77,9 +77,16 @@ h2 span {
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('Layouts.cheader')
+        @if( $client -> type  == 0 )
         @include('Layouts.subheader', [
                 'pageTitle' => Config::get('app.locale') == 'ar' ? 'العملاء': 'Clients',
         ])
+        @elseif( $client -> type  == 1 )
+        @include('Layouts.subheader', [
+                'pageTitle' => Config::get('app.locale') == 'ar' ? 'الموردين': 'Suppliers',
+        ])
+
+        @endif
         <div class="container-fluid">
             <form class="center" method="POST" action="{{ route('updateClient' , $client -> id) }}" enctype="multipart/form-data">
 
@@ -88,7 +95,7 @@ h2 span {
                     <!-- {{ csrf_field() }} -->
                     <div class="col-md-9 col-xl-9 form data-entry" >
                         <div class="card-header px-0 mt-2 bg-transparent clearfix">
-                            <h4 class="float-left pt-2">{{ __('main.edit_client') }}
+                            <h4 class="float-left pt-2">{{ $client -> type  == 0 ?  __('main.edit_client')  : __('main.edit_supplier') }}
                             <br> <span style="    font-size: 9pt;
                             color: gray;">{{  __('main.required_note') }}</span> <span style="color:red; font-size:20px; font-weight:bold;">*</span>
                             </h4>

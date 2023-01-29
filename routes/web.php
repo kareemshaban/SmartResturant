@@ -105,12 +105,15 @@ function()
     Route::post('/updateEmployee/{id}', [App\Http\Controllers\EmployeeController::class, 'update'])->name('updateEmployee');
     Route::get('/destroyEmployee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('destroyEmployee');
     //Clients routes
-    Route::get('/clients', [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
-    Route::get('/createClient', [App\Http\Controllers\ClientController::class, 'create'])->name('createClient');
+    Route::get('/clients/{type}', [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
+    Route::get('/createClient/{type}', [App\Http\Controllers\ClientController::class, 'create'])->name('createClient');
     Route::post('/storeClient', [App\Http\Controllers\ClientController::class, 'store'])->name('storeClient');
     Route::get('/editClient/{id}', [App\Http\Controllers\ClientController::class, 'edit'])->name('editClient');
     Route::post('/updateClient/{id}', [App\Http\Controllers\ClientController::class, 'update'])->name('updateClient');
     Route::get('/destroyClient/{id}', [App\Http\Controllers\ClientController::class, 'destroy'])->name('destroyClient');
+
+
+
     //Categories routes
     Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('categories');
     Route::get('/createCategory', [App\Http\Controllers\CategoryController::class, 'create'])->name('createCategory');
