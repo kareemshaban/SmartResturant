@@ -736,26 +736,7 @@
         </div>
     </div>
 </div>
-<input hidden="hidden" id="session">
-@if($id = Session::get('payed'))
-    <script>
-        var id = "{{ Session::get('payed')}}";
-            let url = "{{ route('printAction', ':id') }}";
-            url = url.replace(':id', id);
-            window.open(url,'_blank');
 
-        setTimeout(() =>{
-            url = "{{ route('PrintActionKitchen', ':id') }}";
-            url = url.replace(':id', id);
-            window.open(url,'_blank');
-        } , 1000);
-            setTimeout(() =>{
-                url = "{{ route('pos') }}";
-                document.location.href=url;
-            } , 1000);
-
-    </script>
-@endif
 
 <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../cpanel/js/app-style-switcher.js"></script>

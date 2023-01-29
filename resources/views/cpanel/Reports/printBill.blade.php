@@ -343,6 +343,8 @@
 <script type="text/javascript">
     try {
         this.print();
+      let   url = "{{ route('pos') }}";
+         document.location.href=url;
     } catch (e) {
 
     }

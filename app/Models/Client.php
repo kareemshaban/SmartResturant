@@ -29,7 +29,6 @@ class Client extends Model
         'oppening_balance',
         'limit_money', // 0 is open no limit
         'limit_days' // 0 is open no limit
-        
     ];
 
     public function City()
