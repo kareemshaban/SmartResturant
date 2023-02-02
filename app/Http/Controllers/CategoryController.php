@@ -18,7 +18,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('cpanel.Category.index' , ['categories' => $categories]);
+        $printers = Printer::all() ;
+        return view('cpanel.Category.index' , ['categories' => $categories , 'printers' => $printers]);
     }
 
     /**
@@ -40,33 +41,35 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->file('img')->getSize() / 1000 < 2000){
-            $validated = $request->validate([
-                'name_ar' => 'required|unique:categories',
-                'name_en' => 'required|unique:categories',
-                'img' => 'required'
-            ]);
+        if($request -> id == 0) {
+            if ($request->file('img')->getSize() / 1000 < 2000) {
+                $validated = $request->validate([
+                    'name_ar' => 'required|unique:categories',
+                    'name_en' => 'required|unique:categories',
+                    'img' => 'required'
+                ]);
 
-                $imageName = time().'.'.$request->img->extension();
+                $imageName = time() . '.' . $request->img->extension();
                 $request->img->move(('images/Category'), $imageName);
 
                 Category::create([
-                    'name_ar' => $request -> name_ar,
-                    'name_en' => $request -> name_en,
-                    'printer' => $request -> printer,
+                    'name_ar' => $request->name_ar,
+                    'name_en' => $request->name_en,
+                    'printer' => $request->printer,
                     'img' => $imageName,
 
                 ]);
-                return redirect()->route('categories')->with('success' , __('main.created'));
+                return redirect()->route('categories')->with('success', __('main.created'));
 
 
+            } else {
+                return redirect()->route('createCategory')->with('error', __('main.img_big'));
+
+            }
 
         } else {
-            return redirect()->route('createCategory')->with('error' , __('main.img_big'));
-
+            return  $this -> update($request , $request -> id);
         }
-
-
     }
 
     /**
@@ -160,5 +163,10 @@ class CategoryController extends Controller
         }
 
 
+    }
+    public function getCategory($id){
+        $category = Category::find($id);
+        echo json_encode($category);
+        exit();
     }
 }

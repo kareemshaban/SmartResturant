@@ -204,7 +204,7 @@
 
 
                         <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-warning ">
+                            <button type="button" class="btn btn-labeled btn-warning  print_btn">
                                 <span class="btn-label"><i class="fa fa-print"></i></span> {{__('main.print')}}
                             </button>
                         </div>
@@ -605,6 +605,69 @@
     </div>
 </div>
 
+<div class="modal fade" id="shortcutModal" tabindex="-1" role="dialog" aria-labelledby="shortcutModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="modal-title">{{__('main.shortcut')}}</label>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+                        style="color: red; font-size: 20px; font-weight: bold;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="smallBody">
+                <table style="width: 100%;" class="table table-bordered table-striped">
+                    <thead class="btn-primary">
+                    <tr>
+                        <th class="text-center">KEY</th>
+                        <th class="text-center">Function</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                    <td class="text-center">F9</td>
+                    <td class="text-center">{{__('main.pay_prep')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">F3</td>
+                        <td class="text-center">{{__('main.prepare')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">F6</td>
+                        <td class="text-center">{{__('main.pay')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">F2</td>
+                        <td class="text-center">{{__('main.print')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">F12</td>
+                        <td class="text-center">{{__('main.cancel_order')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">F11</td>
+                        <td class="text-center">{{__('main.tables')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">+</td>
+                        <td class="text-center">{{__('main.plus')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">-</td>
+                        <td class="text-center">{{__('main.mins')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">Del</td>
+                        <td class="text-center">{{__('main.del')}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 {{--    Payment  Modal   --}}
 <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
@@ -834,8 +897,12 @@
             }
         });
 
-        // const mediumButton = document.getElementById("mediumButton");
-        // mediumButton.style.display = "none";
+        $(".print_btn").click(function (){
+
+            PrintBill();
+        });
+
+
         let hall_data = document.getElementById("hall_data");
         hall_data.style.display = "none";
         details = [];
@@ -879,27 +946,7 @@
 
         $(document).on('click', '#mediumButton', function (event) {
             event.preventDefault();
-            let href = $(this).attr('data-attr');
-            $.ajax({
-                url: href,
-                beforeSend: function () {
-                    $('#loader').show();
-                },
-                // return the result
-                success: function (result) {
-                    $('#mediumModal').modal("show");
-                    //  $('#mediumBody').html(result).show();
-                },
-                complete: function () {
-                    $('#loader').hide();
-                },
-                error: function (jqXHR, testStatus, error) {
-                    console.log(error);
-                    alert("Page " + href + " cannot open. Error:" + error);
-                    $('#loader').hide();
-                },
-                timeout: 8000
-            })
+            openTables();
         });
 
         $(document).on('click', '.notAvailable', function (event) {
@@ -955,49 +1002,10 @@
         });
 
         $(document).on('click', '.paymentButton', function (event) {
-            if (Bill) {
-                if (Bill.payed == 0) {
-                    const local = document.getElementById("local").value;
-                    event.preventDefault();
-                    let href = $(this).attr('data-attr');
-                    $.ajax({
-                        url: href,
-                        beforeSend: function () {
-                            $('#loader').show();
-                        },
-                        // return the result
-                        success: function (result) {
-                            $('#paymentModal').modal("show");
-                            try {
-                                $('#smallModal').modal("hide");
-                            } catch (err) {
-                                console.log(err);
-                            }
-                            fillPaymentModal();
-
-                            //  $('#mediumBody').html(result).show();
-                        },
-                        complete: function () {
-                            $('#loader').hide();
-                        },
-                        error: function (jqXHR, testStatus, error) {
-                            console.log(error);
-                            alert("Page " + href + " cannot open. Error:" + error);
-                            $('#loader').hide();
-                        },
-                        timeout: 8000
-                    })
-                } else {
-                    // bill is payed
-                    alert($('<div>{{trans('main.bill_payed_alredy')}}</div>').text());
-                }
-            } else {
-                alert($('<div>{{trans('main.no_bill_found')}}</div>').text());
-            }
+            PayBillEvent();
         });
-    });
-    $(document).on('click', '#cancelOrder', function (event) {
-        if (Bill) {
+
+        $("#keyboard").click(function (){
             event.preventDefault();
             let href = $(this).attr('data-attr');
             $.ajax({
@@ -1007,7 +1015,8 @@
                 },
                 // return the result
                 success: function (result) {
-                    $('#confirmModal').modal("show");
+                    $('#shortcutModal').modal("show");
+                    //  $('#mediumBody').html(result).show();
                 },
                 complete: function () {
                     $('#loader').hide();
@@ -1019,9 +1028,43 @@
                 },
                 timeout: 8000
             })
-        } else {
-            alert($('<div>{{trans('main.no_bill_found')}}</div>').text());
-        }
+        });
+        $(document).keydown(function (event){
+            // event.preventDefault();
+            console.log(event.keyCode);
+            if (event.keyCode == 107) {
+                increaseQnt();
+            } else if(event.keyCode == 109){
+                decreaseQnt();
+            }
+            else if(event.keyCode == 46){
+                removeItem();
+            } else if(event.keyCode == 122){
+                openTables();
+            } else if(event.keyCode == 123){
+                cancekOrderEvent();
+            }
+            else if(event.keyCode == 113){
+                PrintBill();
+            }
+            else if(event.keyCode == 117){
+                PayBillEvent();
+            }
+            else if(event.keyCode == 114){
+                //sumbit
+                let form = document.getElementById("header-form");
+                form.submit();
+            }
+            else if(event.keyCode == 120){
+                //sumbit
+                let form = document.getElementById("header-form");
+                form.submit();
+            }
+        });
+    });
+    $(document).on('click', '#cancelOrder', function (event) {
+        event.preventDefault();
+        cancekOrderEvent();
     });
 
     $(document).on('click', '#searchBill', function (event) {
@@ -1046,6 +1089,80 @@
         });
     });
 
+    function cancekOrderEvent(){
+        if (Bill) {
+
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function () {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function (result) {
+                    $('#confirmModal').modal("show");
+                },
+                complete: function () {
+                    $('#loader').hide();
+                },
+                error: function (jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        } else {
+            alert($('<div>{{trans('main.no_bill_found')}}</div>').text());
+        }
+    }
+    function PrintBill(){
+        if (Bill){
+
+        } else {
+            alert('Please Select Bill First');
+        }
+    }
+    function PayBillEvent(){
+        if (Bill) {
+            if (Bill.payed == 0) {
+                const local = document.getElementById("local").value;
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function () {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function (result) {
+                        $('#paymentModal').modal("show");
+                        try {
+                            $('#smallModal').modal("hide");
+                        } catch (err) {
+                            console.log(err);
+                        }
+                        fillPaymentModal();
+
+                    },
+                    complete: function () {
+                        $('#loader').hide();
+                    },
+                    error: function (jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            } else {
+                // bill is payed
+                alert($('<div>{{trans('main.bill_payed_alredy')}}</div>').text());
+            }
+        } else {
+            alert($('<div>{{trans('main.no_bill_found')}}</div>').text());
+        }
+    }
     function cancelOrder() {
         let url = "{{ route('cancelOrder', ':id') }}";
         url = url.replace(':id', Bill.id);
@@ -1055,6 +1172,29 @@
         let url = "{{ route('printAction', ':id') }}";
         url = url.replace(':id',id);
         document.location.href = url;
+    }
+    function openTables(){
+        let href = $(this).attr('data-attr');
+        $.ajax({
+            url: href,
+            beforeSend: function () {
+                $('#loader').show();
+            },
+            // return the result
+            success: function (result) {
+                $('#mediumModal').modal("show");
+                //  $('#mediumBody').html(result).show();
+            },
+            complete: function () {
+                $('#loader').hide();
+            },
+            error: function (jqXHR, testStatus, error) {
+                console.log(error);
+                alert("Page " + href + " cannot open. Error:" + error);
+                $('#loader').hide();
+            },
+            timeout: 8000
+        })
     }
     function fillPaymentModal() {
         const local = document.getElementById("local").value;
@@ -1329,6 +1469,7 @@
         var cell12 = row.insertCell(12);
         var cell13 = row.insertCell(13);
         var cell14 = row.insertCell(14);
+        var cell15 = row.insertCell(15);
         cell2.hidden = true;
         cell3.hidden = true;
         cell4.hidden = true;
@@ -1338,7 +1479,7 @@
 
         cell12.hidden = true;
         cell14.hidden = true;
-
+        cell15.hidden = true;
 
         cell1.innerHTML = "";
         cell1.style.background = "#E8E8F2";
@@ -1356,6 +1497,8 @@
         cell11.innerHTML = item.sizes[0].price + '<input name="price[]" value="' + item.sizes[0].price + '" hidden>';
         cell12.innerHTML = item.sizes[0].price + '<input name="totalTable[]" value="' + item.sizes[0].price + '" hidden>';
         cell14.innerHTML = details[details.length - 1].item_size_id + '<input name="extra_item_id[]" value="' + details[details.length - 1].item_size_id + '" hidden>';
+        cell15.innerHTML = 0 + '<input name="category_id[]" value="'+item.category_id+'" hidden>';
+
         cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
         row.style.background = "cornflowerblue";
         row.style.color = "white";
@@ -1601,15 +1744,17 @@
                 break;
             }
         }
-        var idTd = target.getElementsByTagName("td")[3];
-        var id = idTd.innerHTML;
+        if(target) {
+            var idTd = target.getElementsByTagName("td")[3];
+            var id = idTd.innerHTML;
 
-        if (details.filter(c => c.item_size_id == id).length > 0) {
-            details.splice(details.indexOf(details.filter(c => c.item_size_id == id)[0]), 1);
+            if (details.filter(c => c.item_size_id == id).length > 0) {
+                details.splice(details.indexOf(details.filter(c => c.item_size_id == id)[0]), 1);
+            }
+            console.log(details);
+            table.deleteRow(target.rowIndex);
+            calculateTotal();
         }
-        console.log(details);
-        table.deleteRow(target.rowIndex);
-        calculateTotal();
     }
 
     function selectHall(element, id) {
@@ -1993,6 +2138,8 @@
             $('#smallModal').modal("hide");
         }
     }
+
+
 </script>
 
 </body>

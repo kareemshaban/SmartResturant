@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\ExpensesType;
 use App\Models\Recipt;
 use App\Models\Shift;
@@ -30,7 +31,8 @@ class ReciptController extends Controller
     public function create()
     {
         $expenses = ExpensesType::all();
-        return view('cpanel.Recipit.create' , ['expenses' => $expenses]);
+        $suppliers = Client::where('type' , '=' , 1) -> get();
+        return view('cpanel.Recipit.create' , ['expenses' => $expenses , 'suppliers' => $suppliers]);
     }
 
     /**
@@ -56,13 +58,13 @@ class ReciptController extends Controller
             'doc_type' => $request -> doc_type,
             'doc_date' => $request -> doc_date,
             'amount' => $request -> amount,
-            'amount_with_tax' =>  $request -> amount_with_tax ? $request -> amount_with_tax : 0,
+            'amount_with_tax' =>  $request -> amount_with_tax ??  0,
             'tax' =>  $request -> tax  ? $request -> tax : 0,
-            'bill_number_txt' =>  $request -> bill_number_txt ? $request -> bill_number_txt : '',
-            'tax_number_txt' =>  $request -> tax_number_txt ? $request -> tax_number_txt : '',
-            'supplier_name_txt' =>  $request -> supplier_name_txt ? $request -> supplier_name_txt : '',
+            'bill_number_txt' =>  $request -> bill_number_txt ?? '',
+            'tax_number_txt' =>  $request -> tax_number_txt ?? '',
+            'supplier_id' =>  $request -> supplier_id ?? 0 ,
             'tax_type' => $request -> tax_type,
-            'notes' => $request -> notes ? $request -> notes : '',
+            'notes' => $request -> notes ??'',
             'shift_number' => $shift_number
         ]);
 
@@ -124,7 +126,7 @@ class ReciptController extends Controller
                 'tax' =>  $request -> tax  ? $request -> tax : 0,
                 'bill_number_txt' =>  $request -> bill_number_txt ? $request -> bill_number_txt : '',
                 'tax_number_txt' =>  $request -> tax_number_txt ? $request -> tax_number_txt : '',
-                'supplier_name_txt' =>  $request -> supplier_name_txt ? $request -> supplier_name_txt : '',
+                'supplier_id' =>  $request -> supplier_id ?? 0,
                 'tax_type' => $request -> tax_type,
                 'notes' => $request -> notes ? $request -> notes : ''
             ]);

@@ -37,20 +37,24 @@ class SizeController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request -> id == 0) {
             $validated = $request->validate([
                 'name_ar' => 'required|unique:sizes',
                 'name_en' => 'required|unique:sizes',
                 'label' => 'required|unique:sizes'
             ]);
 
-        Size::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en,
-            'label' =>$request ->label,
+            Size::Create([
+                'name_ar' => $request->name_ar,
+                'name_en' => $request->name_en,
+                'label' => $request->label,
 
 
-        ]);
-        return redirect()->route('sizes')->with('success' , __('main.created'));
+            ]);
+            return redirect()->route('sizes')->with('success', __('main.created'));
+        } else {
+            return  $this -> update($request , $request -> id);
+        }
     }
 
     /**
@@ -123,5 +127,10 @@ class SizeController extends Controller
             return redirect()->route('sizes')->with('success' , __('main.can_not_delete'));
         }
 
+    }
+    public function getSize($id){
+        $size = Size::find($id);
+        echo json_encode($size);
+        exit();
     }
 }

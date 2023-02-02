@@ -129,6 +129,8 @@ function()
     Route::get('/editSize/{id}', [App\Http\Controllers\SizeController::class, 'edit'])->name('editSize');
     Route::post('/updateSize/{id}', [App\Http\Controllers\SizeController::class, 'update'])->name('updateSize');
     Route::get('/destroySize/{id}', [App\Http\Controllers\SizeController::class, 'destroy'])->name('destroySize');
+    Route::get('/getSize/{id}', [App\Http\Controllers\SizeController::class, 'getSize'])->name('getSize');
+
 
     //Items routes
     Route::get('/items', [App\Http\Controllers\ItemController::class, 'index'])->name('items');
@@ -137,6 +139,8 @@ function()
     Route::get('/editItem/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('editItem');
     Route::post('/updateItem/{id}', [App\Http\Controllers\ItemController::class, 'update'])->name('updateItem');
     Route::get('/destroyItem/{id}', [App\Http\Controllers\ItemController::class, 'destroy'])->name('destroyItem');
+    Route::get('/getItem/{id}', [App\Http\Controllers\ItemController::class, 'getItem'])->name('getItem');
+
 
     //ItemSizes routes
     Route::get('/itemSizes/{item}', [App\Http\Controllers\ItemSizesController::class, 'index'])->name('itemSizes');
@@ -145,6 +149,8 @@ function()
     Route::get('/editItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'edit'])->name('editItemSize');
     Route::post('/updateItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'update'])->name('updateItemSize');
     Route::get('/destroyItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'destroy'])->name('destroyItemSize');
+    Route::get('/getItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'getItemSize'])->name('getItemSize');
+
 
     //POS routes
     Route::get('/pos', [App\Http\Controllers\PosController::class, 'index'])->name('pos');
@@ -279,6 +285,11 @@ function()
        ////////////////////////////////////////////////////////////////////////////////////////////
     ///
     Route::get('clearSession/{key}', [App\Http\Controllers\HomeController::class, 'clearSession'])->name('clearSession');
+
+
+
+    Route::get('getCategory/{id}', [App\Http\Controllers\CategoryController::class, 'getCategory'])->name('getCategory');
+
 
 
 

@@ -62,11 +62,9 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
-                        <a href="{{ route('createSize') }}">
-                           <button type="button" class="btn btn-labeled btn-primary "  >
+                           <button id="createButton" type="button" class="btn btn-labeled btn-primary "  >
                                 <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
 
-                        </a>
 
                     </div>
 
@@ -96,13 +94,12 @@
                                         <td class="text-center">{{ $size->label }}</td>
 
                                         <td class="text-center">
-                                            <a href="{{ route('editSize', $size->id) }}"> <button
-                                                    type="button" class="btn btn-success"><i
-                                                        class="fas fa-edit"></i></button> </a>
-                                            <a onclick="return confirm('Are you sure?')"
-                                                href="{{ route('destroySize', $size->id) }} "> <button
-                                                    type="button" class="btn btn-danger"><i
-                                                        class="far fa-trash-alt"></i></button> </a>
+                                       <button value="{{$size -> id}}"
+                                                    type="button" class="btn btn-success editBtn"><i
+                                                        class="fas fa-edit"></i></button>
+                                             <button value="{{$size -> id}}"
+                                                    type="button" class="btn btn-danger deleteBtn"><i
+                                                        class="far fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -117,6 +114,8 @@
         </div>
 
     </div>
+    @include('cpanel.Size.create')
+    @include('deleteModal')
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
@@ -133,8 +132,129 @@
     <script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
+        var id = 0;
+        $(document).ready(function () {
+
             $('#table').DataTable();
+
+            $(document).on('click', '#createButton', function (event) {
+                id = 0;
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function () {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function (result) {
+                        $('#createModal').modal("show");
+                        $(".modal-body #name_ar").val("");
+                        $(".modal-body #name_en").val("");
+                        $(".modal-body #label").val("");
+                        $(".modal-body #id").val(0);
+                        $(".modal-body .form-header").html($('<div>{{trans('main.new_size')}}</div>').text());
+
+                    },
+                    complete: function () {
+                        $('#loader').hide();
+                    },
+                    error: function (jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            });
+            $(document).on('click', '.editBtn', function(event) {
+                id = event.currentTarget.value ;
+                console.log(id);
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    type:'get',
+                    url:'getSize' + '/' + id,
+                    dataType: 'json',
+
+                    success:function(response){
+                        console.log(response);
+                        if(response){
+                            let href = $(this).attr('data-attr');
+                            $.ajax({
+                                url: href,
+                                beforeSend: function() {
+                                    $('#loader').show();
+                                },
+                                // return the result
+                                success: function(result) {
+                                    $('#createModal').modal("show");
+                                    $(".modal-body #name_ar").val( response.name_ar );
+                                    $(".modal-body #name_en").val( response.name_en );
+                                    $(".modal-body #label").val(response.label);
+                                    $(".modal-body #id").val(response.id);
+                                    $(".modal-body .form-header").html($('<div>{{trans('main.edit_size')}}</div>').text());
+
+                                },
+                                complete: function() {
+                                    $('#loader').hide();
+                                },
+                                error: function(jqXHR, testStatus, error) {
+                                    console.log(error);
+                                    alert("Page " + href + " cannot open. Error:" + error);
+                                    $('#loader').hide();
+                                },
+                                timeout: 8000
+                            })
+                        } else {
+
+                        }
+                    }
+                });
+            });
+            $(document).on('click', '.deleteBtn', function(event) {
+                id = event.currentTarget.value ;
+                console.log(id);
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function() {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function(result) {
+                        $('#deleteModal').modal("show");
+                    },
+                    complete: function() {
+                        $('#loader').hide();
+                    },
+                    error: function(jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            });
+            $(document).on('click', '.btnConfirmDelete', function(event) {
+                console.log(id);
+                confirmDelete();
+            });
+            $(document).on('click', '.cancel-modal', function(event) {
+                $('#deleteModal').modal("hide");
+                console.log()
+                id = 0 ;
+            });
         });
+
+
+
+
+        function confirmDelete(){
+            let url = "{{ route('destroySize', ':id') }}";
+            url = url.replace(':id', id);
+            document.location.href=url;
+        }
     </script>
 </body>

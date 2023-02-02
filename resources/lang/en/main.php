@@ -315,6 +315,11 @@ return [
     'can_not_delete' => 'Sorry, it is not possible to delete due to association with other data',
     'online_url' => 'Online Server Url',
     'select_machine' => 'Select Machine',
-    'supplier' => 'Suppliers'
+    'supplier' => 'Suppliers',
+    'del' => 'Delete Item',
+    'plus' => 'Increase Qnt',
+    'mins' => 'Decrease Qnt',
+    'shortcut' => 'Shortcuts',
+    'delete_alert' => 'Do you Want to Delete This Data ?!',
 
 ];

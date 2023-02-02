@@ -247,10 +247,12 @@ h2 span {
                                 </div>
                                 <div class="col-4" id="show_supplier_name">
                                     <div class="form-group">
-                                        <label>{{ __('main.supplier_name_txt') }}</label>
-                                        <input type="text"  name="supplier_name_txt" id="supplier_name_txt"
-                                               class="form-control @error('supplier_name_txt') is-invalid @enderror"
-                                               placeholder="{{ __('main.supplier_name_txt') }}" autofocus />
+                                        <label>{{ __('main.supplier') }}</label>
+                                         <select class="form-select" id="supplier_id" name="supplier_id">
+                                             @foreach($suppliers as $supplier)
+                                                 <option value="{{$supplier -> id}}">{{$supplier -> name_ar}} </option>
+                                                 @endforeach
+                                         </select>
                                         @error('supplier_name_txt')
                                         <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

@@ -20,9 +20,9 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::with('cayegory') -> get();
+        $categories = Category::all();
 
-
-        return view('cpanel.Items.index' , ['items' => $items]);
+        return view('cpanel.Items.index' , ['items' => $items , 'categories' => $categories]);
 
     }
 
@@ -45,41 +45,45 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->file('img')->getSize() / 1000 < 2000){
-            $validated = $request->validate([
-                'code' => 'required|unique:items',
-                'name_ar' => 'required|unique:items',
-                'name_en' => 'required|unique:items',
-                'type' => 'required',
-                'category_id' => 'required',
-                'img' => 'required'
-            ]);
-
-                $imageName = time().'.'.$request->img->extension();
-                $request->img->move(('images/Item'), $imageName);
-              try{
-                 Item::create([
-                    'code' => $request -> code,
-                    'name_ar' => $request -> name_ar,
-                    'name_en' => $request -> name_en,
-                    'type' => $request -> type,
-                    'category_id' => $request -> category_id,
-                    'description_ar' => $request -> description_ar,
-                    'description_en' => $request -> description_en,
-                    'img' => $imageName,
-                    'isAddValue' => $request -> isAddValue == 'on' ? 1 : null,
-                    'addValue' => $request -> addValue
-
+        if($request -> id == 0) {
+            if ($request->file('img')->getSize() / 1000 < 2000) {
+                $validated = $request->validate([
+                    'code' => 'required|unique:items',
+                    'name_ar' => 'required|unique:items',
+                    'name_en' => 'required|unique:items',
+                    'type' => 'required',
+                    'category_id' => 'required',
+                    'img' => 'required'
                 ]);
-                return redirect()->route('items')->with('success' , __('main.created'));
-              } catch(QueryException $ex){
-                return redirect()->route('items')->with('error' ,  $ex->getMessage());
-              }
+
+                $imageName = time() . '.' . $request->img->extension();
+                $request->img->move(('images/Item'), $imageName);
+                try {
+                    Item::create([
+                        'code' => $request->code,
+                        'name_ar' => $request->name_ar,
+                        'name_en' => $request->name_en,
+                        'type' => $request->type,
+                        'category_id' => $request->category_id,
+                        'description_ar' => $request->description_ar,
+                        'description_en' => $request->description_en,
+                        'img' => $imageName,
+                        'isAddValue' => $request->isAddValue == 'on' ? 1 : null,
+                        'addValue' => $request->addValue
+
+                    ]);
+                    return redirect()->route('items')->with('success', __('main.created'));
+                } catch (QueryException $ex) {
+                    return redirect()->route('items')->with('error', $ex->getMessage());
+                }
 
 
+            } else {
+                return redirect()->route('createItem')->with('error', __('main.img_big'));
+
+            }
         } else {
-            return redirect()->route('createItem')->with('error' , __('main.img_big'));
-
+            return  $this -> update($request , $request-> id);
         }
     }
 
@@ -185,5 +189,10 @@ class ItemController extends Controller
             return redirect()->route('items')->with('success' , __('main.can_not_delete'));
         }
 
+    }
+    public function getItem($id){
+        $item = Item::find($id);
+        echo  json_encode($item);
+        exit();
     }
 }

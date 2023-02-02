@@ -25,14 +25,16 @@ class CreateClientsTable extends Migration
             $table->string('postal_code') ->nullable();
             $table->string('email') ->nullable();
             $table->integer('city_id') ->nullable();
-            $table->string('house_number') ->nullable();
-            $table->string('apartment_number') ->nullable();
+            $table->string('tax_number') ->nullable();
+            $table->string('registration_number') ->nullable();
             $table->string('region') ->nullable();
             $table->string('street') ->nullable();
             $table->string('address') ->nullable();
             $table->decimal('oppening_balance') ->nullable();
             $table->decimal('limit_money') ->nullable();
             $table->integer('limit_days') ->nullable();
+            $table->integer('type') ->default(0);
+
             $table->timestamps();
         });
     }

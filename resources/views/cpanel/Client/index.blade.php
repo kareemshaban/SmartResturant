@@ -65,7 +65,7 @@
                 @include('Layouts.subheader', [
                 'pageTitle' => Config::get('app.locale') == 'ar' ? 'الموردين': 'Suppliers',
             ])
-            
+
             @endif
             <div class="container-fluid">
                 <div class="row">
@@ -97,6 +97,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($clients as $item)
+                                    @if($item -> type == $type)
                                     <tr>
                                         <td class="text-center">{{ $loop->index + 1 }}</td>
                                         <td class="text-center">{{ $item->id }}</td>
@@ -114,6 +115,7 @@
                                                         class="far fa-trash-alt"></i></button> </a>
                                         </td>
                                     </tr>
+                                    @endif
                                 @endforeach
 
                             </tbody>

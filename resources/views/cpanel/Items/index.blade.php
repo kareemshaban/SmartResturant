@@ -62,11 +62,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
-                        <a href="{{ route('createItem') }}">
-                           <button type="button" class="btn btn-labeled btn-primary "  >
+                           <button id="createButton" type="button" class="btn btn-labeled btn-primary "  >
                                 <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
-
-                        </a>
 
                     </div>
 
@@ -103,18 +100,20 @@
                                             @else  {{ __('main.item_type3') }}
                                             @endif </td>
                                         <td class="text-center">
-                                            <a href="{{ route('editItem', $item->id) }}"> <button
-                                                    type="button" class="btn btn-success"><i
-                                                        class="fas fa-edit"></i></button> </a>
-                                            <a onclick="return confirm('Are you sure?')"
-                                                href="{{ route('destroyItem', $item->id) }} "> <button
-                                                    type="button" class="btn btn-danger"><i
-                                                        class="far fa-trash-alt"></i></button> </a>
+                                         <button
+                                                    type="button" class="btn btn-success editBtn" value="{{$item -> id}}"><i
+                                                        class="fas fa-edit"></i></button>
+                                        <button
+                                                    type="button" class="btn btn-danger deleteBtn" value="{{$item -> id}}"><i
+                                                        class="far fa-trash-alt"></i></button>
                                             <br>
                                             <br>
-                                            <a href="{{ route('itemSizes', $item->id) }}"> <button
+                                            <a href="{{route('itemSizes' , $item -> id)}}">
+                                                <button
                                                     type="button" class="btn btn-info">
-                                                   {{ __('main.item_sizes') }}</button> </a>
+                                                    {{ __('main.item_sizes') }}</button>
+                                            </a>
+
                                         </td>
                                     </tr>
                                 @endforeach
@@ -129,6 +128,8 @@
         </div>
 
     </div>
+    @include('cpanel.Items.create')
+    @include('deleteModal')
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
@@ -145,8 +146,151 @@
     <script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
     <script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
+        var id = 0;
+        $(document).ready(function () {
+
             $('#table').DataTable();
+
+            $(document).on('click', '#createButton', function (event) {
+                id = 0;
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function () {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function (result) {
+                        $('#createModal').modal("show");
+                        $(".modal-body #code").val("");
+                        $(".modal-body #type").val("");
+                        $(".modal-body #name_ar").val("");
+                        $(".modal-body #name_en").val("");
+                        $(".modal-body #category_id").val('');
+                        $(".modal-body #addValue").val(0);
+                        $(".modal-body #description_ar").val("");
+                        $(".modal-body #description_en").val("");
+                        $(".modal-body #isAddValue").prop('checked' , false);
+
+
+                        $(".modal-body .form-header").html($('<div>{{trans('main.new_item')}}</div>').text());
+
+
+
+                        $(".modal-body #profile-img-tag").attr('src', '../images/photo.png');
+
+                    },
+                    complete: function () {
+                        $('#loader').hide();
+                    },
+                    error: function (jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            });
+            $(document).on('click', '.editBtn', function(event) {
+                id = event.currentTarget.value ;
+                console.log(id);
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    type:'get',
+                    url:'getItem' + '/' + id,
+                    dataType: 'json',
+
+                    success:function(response){
+                        console.log(response);
+                        if(response){
+                            let href = $(this).attr('data-attr');
+                            $.ajax({
+                                url: href,
+                                beforeSend: function() {
+                                    $('#loader').show();
+                                },
+                                // return the result
+                                success: function(result) {
+                                    $('#createModal').modal("show");
+
+                                    var img =  '../images/Item/' + response.img ;
+                                    $('#createModal').modal("show");
+                                    $(".modal-body #code").val(response.code);
+                                    $(".modal-body #type").val(response.type);
+                                    $(".modal-body #name_ar").val(response.name_ar);
+                                    $(".modal-body #name_en").val(response.name_en);
+                                    $(".modal-body #category_id").val(response.category_id);
+                                    $(".modal-body #addValue").val(response.addValue);
+                                    $(".modal-body #description_ar").val(response.description_ar);
+                                    $(".modal-body #description_en").val(response.description_en);
+                                    $(".modal-body #isAddValue").prop('checked' , response.isAddValue);
+                                    $(".modal-body #id").val( response.id);
+
+                                    $(".modal-body .form-header").html($('<div>{{trans('main.edit_new')}}</div>').text());
+
+                                    $(".modal-body #profile-img-tag").attr('src', img);
+                                },
+                                complete: function() {
+                                    $('#loader').hide();
+                                },
+                                error: function(jqXHR, testStatus, error) {
+                                    console.log(error);
+                                    alert("Page " + href + " cannot open. Error:" + error);
+                                    $('#loader').hide();
+                                },
+                                timeout: 8000
+                            })
+                        } else {
+
+                        }
+                    }
+                });
+            });
+            $(document).on('click', '.deleteBtn', function(event) {
+                id = event.currentTarget.value ;
+                console.log(id);
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function() {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function(result) {
+                        $('#deleteModal').modal("show");
+                    },
+                    complete: function() {
+                        $('#loader').hide();
+                    },
+                    error: function(jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            });
+            $(document).on('click', '.btnConfirmDelete', function(event) {
+                console.log(id);
+                confirmDelete();
+            });
+            $(document).on('click', '.cancel-modal', function(event) {
+                $('#deleteModal').modal("hide");
+                console.log()
+                id = 0 ;
+            });
         });
+
+
+
+
+        function confirmDelete(){
+            let url = "{{ route('destroyItem', ':id') }}";
+            url = url.replace(':id', id);
+            document.location.href=url;
+        }
     </script>
 </body>

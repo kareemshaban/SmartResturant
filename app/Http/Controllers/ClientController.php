@@ -55,19 +55,20 @@ class ClientController extends Controller
                 'postal_code' => $request ->postal_code,
                 'email' => $request ->email,
                 'city_id' => $request ->city_id,
-                'house_number' => $request ->house_number ,
-                'apartment_number' => $request ->apartment_number,
+                'tax_number' => $request ->tax_number ,
+                'registration_number' => $request ->registration_number,
                 'region' => $request ->region,
                 'street' => $request ->street,
                 'address' => $request ->address ,
                 'oppening_balance' => $request ->oppening_balance,
                 'limit_money' => $request ->limit_money ,
                 'limit_days' => $request ->limit_days,
+                'type' => $request -> type
             ]);
 
-            return redirect()->route('clients')->with('success' , __('main.created'));
+            return redirect()->route('clients' , $request -> type)->with('success' , __('main.created'));
         } catch(QueryException  $ex){
-            return redirect()->route('clients')->with('error' , $ex->getMessage());
+            return redirect()->route('clients' , $request -> type)->with('error' , $ex->getMessage());
         }
 
     }
@@ -130,8 +131,8 @@ class ClientController extends Controller
                 'postal_code' => $request ->postal_code,
                 'email' => $request ->email,
                 'city_id' => $request ->city_id,
-                'house_number' => $request ->house_number ,
-                'apartment_number' => $request ->apartment_number,
+                'tax_number' => $request ->tax_number ,
+                'registration_number' => $request ->registration_number,
                 'region' => $request ->region,
                 'street' => $request ->street,
                 'address' => $request ->address ,
@@ -140,9 +141,9 @@ class ClientController extends Controller
                 'limit_days' => $request ->limit_days,
             ]);
 
-            return redirect()->route('clients')->with('success' , __('main.created'));
+            return redirect()->route('clients' , $request -> type)->with('success' , __('main.updated'));
         } catch(QueryException  $ex){
-            return redirect()->route('clients')->with('error' , $ex->getMessage());
+            return redirect()->route('clients' , $request -> type)->with('error' , $ex->getMessage());
         }
     }
     }
@@ -156,18 +157,19 @@ class ClientController extends Controller
     public function destroy( $id)
     {
         $bills = Bill::where('client_id' , '=' , $id) -> get();
+        $client = Client::find($id);
         if(count($bills) == 0){
-            $client = Client::find($id);
+
             if($client){
                 try{
                     $client -> delete();
-                    return redirect()->route('clients')->with('success' , __('main.deleted'));
+                    return redirect()->route('clients' , $client -> type)->with('success' , __('main.deleted'));
                 }catch(QueryException  $ex){
-                    return redirect()->route('clients')->with('error' , $ex->getMessage());
+                    return redirect()->route('clients' , $client -> type)->with('error' , $ex->getMessage());
                 }
             }
         } else {
-            return redirect()->route('clients')->with('success' , __('main.can_not_delete'));
+            return redirect()->route('clients' , $client -> type)->with('success' , __('main.can_not_delete'));
         }
 
     }

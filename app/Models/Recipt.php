@@ -18,7 +18,7 @@ class Recipt extends Model
         'tax',
         'bill_number_txt',
         'tax_number_txt',
-        'supplier_name_txt',
+        'supplier_id',
         'tax_type',
         'notes',
         'shift_number'

@@ -16,10 +16,12 @@ class ItemSizesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($item)
+    public function index($id)
     {
-        $sizes = ItemSizes::with('item' , 'size') -> where('item_id' , '=' , $item) -> get();
-        return view('cpanel.itemSizes.index' , ['sizes' => $sizes , 'item' => $item]) ;
+        $sizess = ItemSizes::with('item' , 'size') -> where('item_id' , '=' , $id) -> get();
+        $item = Item::find($id);
+        $sizes = Size::all();
+        return view('cpanel.itemSizes.index' , ['sizess' => $sizess , 'item' => $item , 'itemId' => $id ,  'sizes' => $sizes]) ;
 
     }
 
@@ -167,5 +169,10 @@ class ItemSizesController extends Controller
         }
 
 
+    }
+    public function getItemSize($id){
+        $itemSize = ItemSizes::find($id);
+        echo json_encode($itemSize);
+        exit();
     }
 }

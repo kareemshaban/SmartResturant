@@ -116,6 +116,7 @@ h2 span {
                                     class="form-control @error('name_ar') is-invalid @enderror arabic-input"
                                     placeholder="{{ __('main.name_ar_place') }}" autofocus
                                     value="{{ $client -> name_ar }}"/>
+                                <input type="hidden" id="type" name="type" value="{{$client -> type}}">
                                 @error('name_ar')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -326,7 +327,7 @@ h2 span {
 
                          </div>
 
-                         <div class="row">
+                         <div class="row type0">
                             <div class="col-6">
                              <div class="form-group">
                                  <label>{{ __('main.limit_money') }}</label>
@@ -359,7 +360,37 @@ h2 span {
 
 
                          </div>
+                        <div class="row type1">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.tax_number_txt') }}</label>
+                                    <input type="text" name="tax_number" id="tax_number"
+                                           class="form-control @error('tax_number') is-invalid @enderror"
+                                           placeholder="{{ __('main.tax_number_txt') }}" autofocus value="{{$client -> tax_number}}"/>
+                                    @error('tax_number')
+                                    <span class="invalid-feedback" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                     </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>{{ __('main.commerical_register') }}</label>
+                                    <input type="text" name="registration_number" id="registration_number"
+                                           class="form-control @error('registration_number') is-invalid @enderror"
+                                           placeholder="{{ __('main.commerical_register') }}" autofocus value="{{$client -> registration_number}}"/>
+                                    @error('registration_number')
+                                    <span class="invalid-feedback" role="alert">
+                                         <strong>{{ $message }}</strong>
+                                     </span>
+                                    @enderror
+                                </div>
 
+                            </div>
+
+
+                        </div>
 
 
 
@@ -392,6 +423,16 @@ h2 span {
 
     <script>
         $(document).ready(function() {
+
+            const type = document.getElementById('type').value ;
+            if(type == 0){
+                $(".type0").slideDown();
+                $(".type1").slideUp();
+            } else {
+                $(".type1").slideDown();
+                $(".type0").slideUp();
+            }
+
             discount_typeChange();
         });
 

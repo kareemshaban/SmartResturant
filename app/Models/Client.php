@@ -21,14 +21,15 @@ class Client extends Model
         'postal_code',
         'email',
         'city_id',
-        'house_number',
-        'apartment_number',
+        'tax_number',
+        'registration_number',
         'region',
         'street',
         'address',
         'oppening_balance',
         'limit_money', // 0 is open no limit
-        'limit_days' // 0 is open no limit
+        'limit_days', // 0 is open no limit
+        'type',
     ];
 
     public function City()

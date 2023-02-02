@@ -23,7 +23,7 @@ class CreateReciptsTable extends Migration
             $table->decimal('tax') ;
             $table->string('bill_number_txt') ;
             $table->string('tax_number_txt') ;
-            $table->string('supplier_name_txt') ;
+            $table->integer('supplier_id') ;
             $table->integer('tax_type') ;
             $table->text('notes') ;
             $table->integer('shift_number') ;
