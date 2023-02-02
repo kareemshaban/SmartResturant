@@ -7,7 +7,7 @@
                 </button>
             </div>
             <div class="modal-body" id="smallBody">
-                <img src="../assets/img/warning.png" class="alertImage">
+                <img src="../../assets/img/warning.png" class="alertImage">
                 <label class="alertTitle">{{__('main.delete_alert')}}</label>
                 <br> <label  class="alertSubTitle" id="modal_table_bill"></label>
                 <div class="row">

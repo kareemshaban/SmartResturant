@@ -2,48 +2,48 @@
 <html dir="ltr" lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords"
-          content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Ample admin lite dashboard bootstrap 5 dashboard template">
-    <meta name="description"
-          content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
-    <meta name="robots" content="noindex,nofollow">
-    <title>Smart Resturant</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/"/>
-    <link rel="shortcut icon" href="../images/favicon.png" type="">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords"
+    content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Ample admin lite dashboard bootstrap 5 dashboard template">
+<meta name="description"
+    content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
+<meta name="robots" content="noindex,nofollow">
+<title>Smart Resturant</title>
+<link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
+  <link rel="shortcut icon" href="../images/favicon.png" type="">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
-    <br>
-    <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css"/>
-
+    <br><script src = "http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer ></script>
+    <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css" />
 
     <link href="../cpanel/css/style.min.css" rel="stylesheet">
-    <link href="../cpanel/css/style.css" rel="stylesheet">
+ <link href="../cpanel/css/style.css" rel="stylesheet">
+<style>
+    @font-face {
+        font-family: 'icomoon';
+        src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
+        src: url("../fonts/ArbFONTS-The-Sans-Plain.otf") ;
+        font-weight: normal;
+        font-style: normal;
+      }
 
-    <link href="../cpanel/css/style.css" rel="stylesheet">
-    <style>
-        @font-face {
-            font-family: 'icomoon';
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            font-weight: normal;
-            font-style: normal;
-        }
+      *{
+        font-family: 'icomoon';
+      }
 
-        * {
-            font-family: 'icomoon';
-        }
+
+
     </style>
 </head>
+
 
 <body>
 
@@ -55,8 +55,8 @@
 </div>
 <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
      data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-    @include('Layouts.cheader')
-    @include('Layouts.sidebar', ['slag' => 2])
+        @include('Layouts.cheader')
+        @include('Layouts.sidebar' , ['slag' => 6])
 
     <div class="page-wrapper">
         @include('Layouts.subheader', [
@@ -126,26 +126,16 @@
 
 @include('cpanel.Category.create')
 @include('deleteModal')
+
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
-
-
-<script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../cpanel/js/app-style-switcher.js"></script>
-<script src="../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-<script src="../cpanel/js/waves.js"></script>
-<script src="../cpanel/js/sidebarmenu.js"></script>
-<script src="../cpanel/js/custom.js"></script>
-<script src="../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-<script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-<script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript">
     var id = 0;
     $(document).ready(function () {
 
-        $('#table').DataTable();
+  
 
         $(document).on('click', '#createButton', function (event) {
             id = 0;
@@ -275,7 +265,32 @@
         document.location.href=url;
     }
 </script>
+
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../cpanel/js/app-style-switcher.js"></script>
+    <script src="../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="../cpanel/js/waves.js"></script>
+    <script src="../cpanel/js/sidebarmenu.js"></script>
+    <script src="../cpanel/js/custom.js"></script>
+    <script src="../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
+    <script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table').DataTable();
+        });
+    </script>
+
 </body>
+
 
 
 

@@ -6,14 +6,14 @@
             <ul id="sidebarnav" style="padding-top: 30px; padding-left: 5px;">
                 <!-- User Profile-->
                 <li class="sidebar-item pt-2">
-                    <a @if ($slag == 1) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif
+                    <a @if ($slag == 1) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect" @endif
                     href="{{ route('home') }}" aria-expanded="false">
                         <i class="far fa-clock" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.side_dashborad') }}</span>
                     </a>
                 </li>
                 <li class="nav-item sidebar-item  has-submenu">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#">
+                    <a @if ($slag == 2) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link " @endif href="javascript:;">
                         <i class="fa fa-globe" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.side_basic') }}</span>
                     </a>
@@ -51,7 +51,7 @@
                     </ul>
                 </li>
                 <li class="sidebar-item">
-                    <a @if ($slag == 2) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif
+                    <a @if ($slag == 3) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link " @endif
                     href="{{ route('employees') }}" aria-expanded="false">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.side_employees') }}</span>
@@ -59,14 +59,14 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a @if ($slag == 3) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif
+                    <a @if ($slag == 4) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link " @endif
                     href="{{ route('clients' , 0) }}" aria-expanded="false">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.client_side') }}</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a @if ($slag == 5) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect waves-dark sidebar-link" @endif
+                    <a @if ($slag == 5) class="sidebar-link waves-effect waves-dark sidebar-link" @else  class="sidebar-link waves-effect" @endif
                     href="{{ route('clients' , 1) }}" aria-expanded="false">
                         <i class="fa fa-user" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.supplier') }}</span>
@@ -74,7 +74,7 @@
                 </li>
 
                 <li class="nav-item sidebar-item  has-submenu">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#">
+                <a @if ($slag == 6) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link sidebar-link " @endif href="javascript:;">
                         <i class="fa fa-coffee" aria-hidden="true"></i>
 
                         <span class="hide-menu">{{ __('main.side_items') }}</span>

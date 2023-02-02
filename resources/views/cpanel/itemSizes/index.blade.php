@@ -23,14 +23,15 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
     <br>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../../cpanel/css/bootstrap.css" />
 
     <link href="../../cpanel/css/style.min.css" rel="stylesheet">
+    <link href="../../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
+            src: url("../../fonts/ArbFONTS-The-Sans-Plain.otf");
+            src: url("../../fonts/ArbFONTS-The-Sans-Plain.otf");
             font-weight: normal;
             font-style: normal;
         }
@@ -52,7 +53,7 @@
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('Layouts.cheader')
-        @include('Layouts.sidebar', ['slag' => 2])
+        @include('Layouts.sidebar', ['slag' => 6])
 
         <div class="page-wrapper">
             @include('Layouts.subheader', [
@@ -131,9 +132,6 @@
     <script src="../../cpanel/js/waves.js"></script>
     <script src="../../cpanel/js/sidebarmenu.js"></script>
     <script src="../../cpanel/js/custom.js"></script>
-    <script src="../../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="../../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../../cpanel/js/pages/dashboards/dashboard1.js"></script>
     <script type="text/javascript">
         var id = 0;
         $(document).ready(function () {

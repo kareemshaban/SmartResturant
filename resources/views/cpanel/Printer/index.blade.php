@@ -55,7 +55,7 @@
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
     data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('Layouts.cheader')
-        @include('Layouts.sidebar' , ['slag' => 1])
+        @include('Layouts.sidebar' , ['slag' => 2])
 
         <div class="page-wrapper">
             @include('Layouts.subheader' , ['pageTitle' =>  Config::get('app.locale') == 'ar'? 'الطابعات' : 'Printers'])

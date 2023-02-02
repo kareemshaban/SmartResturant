@@ -46,6 +46,7 @@ class ItemSizesController extends Controller
      */
     public function store(Request $request)
     {
+        if($request -> id == 0){
         $validated = $request->validate([
             'item_id' => 'required',
             'size_id' => 'required',
@@ -78,6 +79,9 @@ class ItemSizesController extends Controller
         }  else {
             return redirect() -> back()->with('error', __('main.item_size_exsist') );
         }
+    } else {
+        return  $this -> update($request , $request -> id);
+    }
 
     }
 
