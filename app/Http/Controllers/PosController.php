@@ -404,7 +404,7 @@ class PosController extends Controller
 
             return view('cpanel.Reports.printBill', ['companyInfo' => $companyInfos[0] ,
             'printSetting' => $printSettings[0] , 'bill' => $bill , '$setting' => $settings[0] , 'client' => 1]);
-             
+
         }
 
     }
