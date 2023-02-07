@@ -53,7 +53,7 @@
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('Layouts.cheader')
-        @include('Layouts.sidebar', ['slag' => 2])
+        @include('Layouts.sidebar', ['slag' => 6])
 
         <div class="page-wrapper">
             @include('Layouts.subheader', [

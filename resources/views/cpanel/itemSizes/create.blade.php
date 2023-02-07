@@ -191,10 +191,4 @@
     }
 </script>
 
-<script src="../../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="../../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../cpanel/js/app-style-switcher.js"></script>
-<script src="../../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-<script src="../../cpanel/js/waves.js"></script>
-<script src="../../cpanel/js/sidebarmenu.js"></script>
-<script src="../../cpanel/js/custom.js"></script>
+

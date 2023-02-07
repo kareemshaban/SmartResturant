@@ -54,8 +54,12 @@
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('Layouts.cheader')
-        @include('Layouts.sidebar', ['slag' => 3])
+        @if($type == 0)
+        @include('Layouts.sidebar', ['slag' => 4])
 
+        @elseif($type == 1)
+        @include('Layouts.sidebar', ['slag' => 5])
+        @endif
         <div class="page-wrapper">
             @if($type == 0)
             @include('Layouts.subheader', [
