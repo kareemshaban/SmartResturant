@@ -84,15 +84,31 @@ class PosController extends Controller
         if(!$request -> identifier) {
 
                 $uuid = $this->unique_code(20);
-                $validated = $request->validate([
-                    'billType' => 'required',
-                    'bill_date' => 'required',
-                    'bill_number' => 'required|unique:bills',
-                    'total' => 'required',
-                    'vat' => 'required',
-                    'serviceVal' => 'required',
-                    'net' => 'required',
-                ]);
+                if($request -> billType == 3){
+                    $validated = $request->validate([
+                        'billType' => 'required',
+                        'bill_date' => 'required',
+                        'bill_number' => 'required|unique:bills',
+                        'total' => 'required',
+                        'vat' => 'required',
+                        'serviceVal' => 'required',
+                        'net' => 'required',
+                        'table_id' => 'required|numeric|min:1'
+                    ]);
+                } else {
+                    $validated = $request->validate([
+                        'billType' => 'required',
+                        'bill_date' => 'required',
+                        'bill_number' => 'required|unique:bills',
+                        'total' => 'required',
+                        'vat' => 'required',
+                        'serviceVal' => 'required',
+                        'net' => 'required',
+
+
+                    ]);
+                }
+
                 try {
                     $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
                         -> where('state' , '=' , 0 )->get();
@@ -136,8 +152,8 @@ class PosController extends Controller
                     ])->id;
                     $this->bookTable($request->table_id);
                     $this->storeDetails($uuid, $id, $request);
-                    return  $this -> PrintActionKitchen($id);
 
+                    return redirect()->route('pos')->with('success', __('main.bill_created'));
 
 
                 }
@@ -148,59 +164,8 @@ class PosController extends Controller
 
         }
         else {
-            $bills = Bill::where('identifier' , '=' , $request -> identifier) -> get() ;
-            if(count($bills)) {
-                $bill  = $bills[0] ;
-                try {
-                    $bill->update([
-                        'identifier' => $bill->identifier,
-                        'billType' => $request->billType,
-                        'client_id' => $request->client_id ? $request->client_id : $bill->driver_id,
-                        'phone' => $request->phone ? $request->phone : $bill->phone,
-                        'address' => $request->address ? $request->address : $bill->address,
-                        'driver_id' => $request->driver_id ? $request->driver_id : $bill->driver_id,
-                        'table_id' => $request->table_id ? $request->table_id : $bill->table_id,
-                        'delivery_service' => $request->billType == 1 ? ($request->delivery_service ? $request->delivery_service : 0) : 0,
-                        'bill_date' => Carbon::parse($request->bill_date),
-                        'bill_number' => $request->bill_number,
-                        'total' => $request->total,
-                        'vat' => $request->vat,
-                        'serviceVal' => $request->billType > 1 ? $request->serviceVal : 0,
-                        'discount' => $request->discount,
-                        'net' => $request->net,
-                        'user_id' => Auth::user()->id,
-                        'payed' => $bill->payed,
-                        'state' => 1,
-                        'client_name' => $request->client_name ? $bill->client_name : '',
-                        'driver_name' => $request->driver_name ? $bill->driver_name : '',
-                        'notes' => $request->notes ? $bill->notes : '',
-                        'cash' => $request->cash,
-                        'credit' => $request->credit,
-                        'bank' => $request->bank
 
-                    ]);
-                    $this->EmptyBillDetails($request->identifier);
-                    $this->storeDetails($bill -> identifier, $bill -> id, $request);
-                    $val = null;
-                    switch ($request->input('action')) {
-                        case 'pay_prepare':
-                            $val = 2;
-                            break;
-                        case 'prepare':
-                            $val = 1;
-                            break;
-                    }
-                    if ($val = 1)
-                        return redirect()->route('pos')->with('success', __('main.bill_updated'));
-                    else
-                        return redirect()->route('pos');
-
-
-                } catch (QueryException $ex) {
-
-                    return redirect()->route('pos')->with('error', $ex->getMessage());
-                }
-            }
+            return   $this -> update($request);
 
         }
         } else {
@@ -282,8 +247,8 @@ class PosController extends Controller
                 $this -> releaseTable($request -> modalTableId);
 
                   //Session::put('payed', $bill -> id);
-                return  $this -> PrintAction($bill -> id);
-                // return redirect()->route('pos')->with('success' ,  __('main.bill_payed'));
+              //  return  $this -> PrintAction($bill -> id);
+                 return redirect()->route('pos')->with('success' ,  __('main.bill_payed'));
             }catch(QueryException $ex){
 
                 return redirect()->route('pos')->with('error' ,  $ex->getMessage());
@@ -332,9 +297,54 @@ class PosController extends Controller
      * @param  \App\Models\cr  $cr
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, cr $cr)
+    public function update(Request $request)
     {
-        //
+        $bills = Bill::where('identifier' , '=' , $request -> identifier) -> get() ;
+            if(count($bills)) {
+                $bill  = $bills[0] ;
+                if(!$bill -> payed){
+                    try {
+                        $bill->update([
+                            'identifier' => $bill->identifier,
+                            'billType' => $request->billType,
+                            'client_id' => $request->client_id ? $request->client_id : $bill->driver_id,
+                            'phone' => $request->phone ? $request->phone : $bill->phone,
+                            'address' => $request->address ? $request->address : $bill->address,
+                            'driver_id' => $request->driver_id ? $request->driver_id : $bill->driver_id,
+                            'table_id' => $request->table_id ? $request->table_id : $bill->table_id,
+                            'delivery_service' => $request->billType == 1 ? ($request->delivery_service ? $request->delivery_service : 0) : 0,
+                            'bill_date' => Carbon::parse($request->bill_date),
+                            'bill_number' => $request->bill_number,
+                            'total' => $request->total,
+                            'vat' => $request->vat,
+                            'serviceVal' => $request->billType > 1 ? $request->serviceVal : 0,
+                            'discount' => $request->discount,
+                            'net' => $request->net,
+                            'user_id' => Auth::user()->id,
+                            'payed' => $bill->payed,
+                            'state' => 1,
+                            'client_name' => $request->client_name ? $bill->client_name : '',
+                            'driver_name' => $request->driver_name ? $bill->driver_name : '',
+                            'notes' => $request->notes ? $bill->notes : '',
+                            'cash' => $request->cash,
+                            'credit' => $request->credit,
+                            'bank' => $request->bank
+
+                        ]);
+                        $this->EmptyBillDetails($request->identifier);
+                        $this->storeDetails($bill -> identifier, $bill -> id, $request);
+                        return redirect()->route('pos')->with('success', __('main.bill_updated'));
+
+
+                    } catch (QueryException $ex) {
+
+                        return redirect()->route('pos')->with('error', $ex->getMessage());
+                    }
+                } else {
+                    return redirect()->route('pos')->with('error', __('main.can_not_edit_paid_bills'));
+                }
+
+            }
     }
 
     /**
@@ -366,6 +376,8 @@ class PosController extends Controller
             } else {
                 return redirect()->route('pos')->with('danger' , __('main.can_not_cancel'));
             }
+        } else {
+            return redirect()->route('pos')->with('danger' , __('main.can_not_edit_paid_bills'));
         }
     }
     public function getBillNo(){
@@ -417,9 +429,10 @@ class PosController extends Controller
 
         if(count($companyInfos) > 0 && count($printSettings) > 0 && count($settings) > 0 && $bill){
             //return  view('cpanel.Reports.printBill', ['companyInfo' => $companyInfos[0] , 'printSetting' => $printSettings[0] , 'bill' => $bill , '$setting' => $settings[0]]);
-            return view('cpanel.Reports.printBill', ['companyInfo' => $companyInfos[0] ,
+            $html =  view('cpanel.Reports.printBill', ['companyInfo' => $companyInfos[0] ,
                 'printSetting' => $printSettings[0] , 'bill' => $bill , '$setting' => $settings[0] , 'client' => 0]) ->render();
-        }
 
+            return $html ;
+        }
     }
 }

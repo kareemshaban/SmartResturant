@@ -21,13 +21,12 @@ class ShiftController extends Controller
         $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
             -> where('state' , '=' , 0 )->get();
         if(count($shift) == 0){
-            return view('cpanel.Shift.start' , ['user' => Auth::user() -> id , 'name' => Auth::user() -> name]);
+            $html = view('cpanel.Shift.start' , ['user' => Auth::user() -> id , 'name' => Auth::user() -> name]) -> render();
         }else {
-            return view('cpanel.Shift.end' , ['user' => Auth::user() -> id , 'name' => Auth::user() -> name ,
-                    'shift' => $shift[0] -> id]);
-
-
+            $html = view('cpanel.Shift.end' , ['user' => Auth::user() -> id , 'name' => Auth::user() -> name ,
+                    'shift' => $shift[0] -> id]) -> render();
         }
+        return $html ;
     }
 
     /**

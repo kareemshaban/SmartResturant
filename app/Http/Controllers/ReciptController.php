@@ -20,7 +20,9 @@ class ReciptController extends Controller
     public function index()
     {
         $bills = Recipt::with('doc') -> get();
-        return view('cpanel.Recipit.index' , ['bills' => $bills]);
+        $expenses = ExpensesType::all();
+        $suppliers = Client::where('type' , '=' , 1) -> get();
+        return view('cpanel.Recipit.index' , ['bills' => $bills , 'expenses' => $expenses , 'suppliers' => $suppliers ]);
     }
 
     /**
@@ -43,32 +45,37 @@ class ReciptController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'bill_number' => 'required|unique:recipts',
-            'doc_type' => 'required',
-            'doc_date' => 'required',
-            'amount' => 'required'
-        ]);
+        if($request -> id == 0) {
+            $validated = $request->validate([
+                'bill_number' => 'required|unique:recipts',
+                'doc_type' => 'required',
+                'doc_date' => 'required',
+                'amount' => 'required'
+            ]);
 
-        $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
-            -> where('state' , '=' , 0 )->get();
-        $shift_number = count($shift ) > 0 ? $shift[0] -> id : 0 ;
-        Recipt::create([
-            'bill_number' => $request -> bill_number,
-            'doc_type' => $request -> doc_type,
-            'doc_date' => $request -> doc_date,
-            'amount' => $request -> amount,
-            'amount_with_tax' =>  $request -> amount_with_tax ??  0,
-            'tax' =>  $request -> tax  ? $request -> tax : 0,
-            'bill_number_txt' =>  $request -> bill_number_txt ?? '',
-            'tax_number_txt' =>  $request -> tax_number_txt ?? '',
-            'supplier_id' =>  $request -> supplier_id ?? 0 ,
-            'tax_type' => $request -> tax_type,
-            'notes' => $request -> notes ??'',
-            'shift_number' => $shift_number
-        ]);
+            $shift = Shift::where('user_id', '=', Auth::user()->id)
+                ->where('state', '=', 0)->get();
+            $shift_number = count($shift) > 0 ? $shift[0]->id : 0;
+            Recipt::create([
+                'bill_number' => $request->bill_number,
+                'doc_type' => $request->doc_type,
+                'doc_date' => $request->doc_date,
+                'amount' => $request->amount,
+                'amount_with_tax' => $request->amount_with_tax ?? 0,
+                'tax' => $request->tax ? $request->tax : 0,
+                'bill_number_txt' => $request->bill_number_txt ?? '',
+                'tax_number_txt' => $request->tax_number_txt ?? '',
+                'supplier_id' => $request->supplier_id ?? 0,
+                'tax_type' => $request->tax_type,
+                'notes' => $request->notes ?? '',
+                'shift_number' => $shift_number
+            ]);
 
-        return redirect()->route('recipt')->with('success' , __('main.created'));
+            return redirect()->route('recipt')->with('success', __('main.created'));
+
+        } else {
+            return  $this -> update($request , $request -> id);
+        }
     }
 
     /**
@@ -77,9 +84,11 @@ class ReciptController extends Controller
      * @param  \App\Models\Recipt  $recipt
      * @return \Illuminate\Http\Response
      */
-    public function show(Recipt $recipt)
+    public function show($id)
     {
-        //
+        $recipt = Recipt::find($id);
+        echo json_encode($recipt);
+        exit();
     }
 
     /**

@@ -24,9 +24,8 @@
     <br>
     <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
     <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css" />
-
-    <link href="../cpanel/css/style.min.css" rel="stylesheet">
- <link href="../cpanel/css/style.css" rel="stylesheet">
+    <link href="../../cpanel/css/style.min.css" rel="stylesheet">
+ <link href="../../cpanel/css/style.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'icomoon';
@@ -53,7 +52,7 @@
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('Layouts.cheader')
-        @include('Layouts.sidebar', ['slag' => 2])
+        @include('Layouts.sidebar', ['slag' => 9])
 
         <div class="page-wrapper">
             @include('Layouts.subheader', [
@@ -62,11 +61,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
-                        <a href="{{ route('createRecipt') }}">
-                           <button type="button" class="btn btn-labeled btn-primary "  >
+                           <button type="button" class="btn btn-labeled btn-primary " id="createButton" >
                                 <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
-
-                        </a>
 
                     </div>
 
@@ -97,13 +93,13 @@
                                         <td class="text-center"> {{ $bill-> amount_with_tax}}   </td>
 
                                         <td class="text-center">
-                                            <a href="{{ route('editRecipt', $bill->id) }}"> <button
-                                                    type="button" class="btn btn-success"><i
-                                                        class="fas fa-edit"></i></button> </a>
-                                            <a onclick="return confirm('Are you sure?')"
-                                                href="{{ route('destroyRecipt', $bill->id) }} "> <button
-                                                    type="button" class="btn btn-danger"><i
-                                                        class="far fa-trash-alt"></i></button> </a>
+
+                                            <button
+                                                type="button" class="btn btn-success editBtn" value="{{$bill -> id}}"><i
+                                                    class="fas fa-edit"></i></button>
+                                            <button
+                                                type="button" class="btn btn-danger deleteBtn" value="{{$bill -> id}}"><i
+                                                    class="far fa-trash-alt"></i></button>
                                             <br>
                                             <br>
 
@@ -120,6 +116,9 @@
             </div>
         </div>
 
+        @include('cpanel.Recipit.create')
+        @include('deleteModal')
+
     </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
@@ -133,12 +132,220 @@
     <script src="../cpanel/js/waves.js"></script>
     <script src="../cpanel/js/sidebarmenu.js"></script>
     <script src="../cpanel/js/custom.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('#table').DataTable();
+
+
+            $(document).on('click', '#createButton', function (event) {
+                id = 0;
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function () {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function (result) {
+                        $('#createModal').modal("show");
+                        $(".modal-body #id").val(0);
+                        $(".modal-body #doc_type").val("");
+                        $(".modal-body #tax_type").val("");
+                        $(".modal-body #amount").val("");
+                        $(".modal-body #tax").val("");
+                        $(".modal-body #taxPer").val('');
+                        $(".modal-body #amount_with_tax").val('');
+                        $(".modal-body #bill_number_txt").val('');
+                        $(".modal-body #tax_number_txt").val('');
+                        $(".modal-body #supplier_id").val('');
+                        $(".modal-body .form-header").html($('<div>{{trans('main.new_recipit')}}</div>').text());
+
+                    },
+                    complete: function () {
+                        $('#loader').hide();
+                    },
+                    error: function (jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            });
+
+            $(document).on('click', '.editBtn', function(event) {
+                id = event.currentTarget.value ;
+                console.log(id);
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    type:'get',
+                    url:'getRecipit' + '/' + id,
+                    dataType: 'json',
+
+                    success:function(response){
+                        if(response){
+                            var now = new Date(response.doc_date);
+
+                            var day = ("0" + now.getDate()).slice(-2);
+                            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+                            var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+
+
+                            let href = $(this).attr('data-attr');
+                            $.ajax({
+                                url: href,
+                                beforeSend: function() {
+                                    $('#loader').show();
+                                },
+                                // return the result
+
+
+                                success: function(result) {
+                                    $('#createModal').modal("show");
+                                    $(".modal-body #bill_number").val(response.bill_number);
+                                    $(".modal-body #id").val(response.id);
+                                    $(".modal-body #doc_date").val(today);
+                                    $(".modal-body #doc_type").val(response.doc_type);
+                                    $(".modal-body #tax_type").val(response.tax_type);
+                                    $(".modal-body #amount").val(response.amount);
+                                    $(".modal-body #tax").val(response.tax);
+                                    $(".modal-body #taxPer").val((response.tax / response.amount) * 100);
+                                    $(".modal-body #amount_with_tax").val(response.amount_with_tax);
+                                    $(".modal-body #bill_number_txt").val(response.bill_number_txt);
+                                    $(".modal-body #tax_number_txt").val(response.tax_number_txt);
+                                    $(".modal-body #supplier_id").val(response.supplier_id);
+                                    $(".modal-body .form-header").html($('<div>{{trans('main.edit_recipit')}}</div>').text());
+
+                                    $.ajax({
+                                        type: 'get',
+                                        url: 'getExpense/' + response.doc_type,
+                                        dataType: 'json',
+                                        success: function (res) {
+                                            console.log(res);
+
+                                            if (res) {
+                                                if (res.show_bill_number == 0) {
+                                                    $(".modal-body #show_bill_number").slideUp();
+                                                } else {
+                                                    $(".modal-body #show_bill_number").slideDown();
+                                                }
+                                                if (res.show_supplier_name == 0) {
+                                                    $(".modal-body #show_supplier_name").slideUp();
+                                                } else {
+                                                    $(".modal-body #show_supplier_name").slideDown();
+                                                }
+                                                if (res.show_tax_number == 0) {
+                                                    $(".modal-body #show_tax_number").slideUp();
+                                                } else {
+                                                    $(".modal-body #show_tax_number").slideDown();
+                                                }
+
+                                            } else {
+                                                $("#show_bill_number").slideUp();
+                                                $("#show_supplier_name").slideUp();
+                                                $("#show_tax_number").slideUp();
+                                            }
+                                        }
+                                    });
+
+                                },
+                                complete: function() {
+                                    $('#loader').hide();
+                                },
+                                error: function(jqXHR, testStatus, error) {
+                                    console.log(error);
+                                    alert("Page " + href + " cannot open. Error:" + error);
+                                    $('#loader').hide();
+                                },
+                                timeout: 8000
+                            })
+                        } else {
+
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', '.deleteBtn', function(event) {
+                id = event.currentTarget.value ;
+                console.log(id);
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function() {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function(result) {
+                        $('#deleteModal').modal("show");
+                    },
+                    complete: function() {
+                        $('#loader').hide();
+                    },
+                    error: function(jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            });
+            $(document).on('click', '.btnConfirmDelete', function(event) {
+                console.log(id);
+                confirmDelete();
+            });
+            $(document).on('click', '.cancel-modal', function(event) {
+                $('#deleteModal').modal("hide");
+                console.log()
+                id = 0 ;
+            });
         });
+
+        function confirmDelete(){
+            let url = "{{ route('destroyRecipt', ':id') }}";
+            url = url.replace(':id', id);
+            document.location.href=url;
+        }
+
+
+        function getExpense(id){
+            console.log(id)
+            $.ajax({
+                type: 'get',
+                url: '/getExpense/' + id,
+                dataType: 'json',
+
+                success: function (response) {
+                    console.log(response);
+
+                    if (response) {
+                        if(response.show_bill_number == 0){
+                            $(".modal-body #show_bill_number").slideUp();
+                        }else {
+                            $(".modal-body #show_bill_number").slideDown();
+                        }
+                        if(response.show_supplier_name == 0){
+                            $(".modal-body #show_supplier_name").slideUp();
+                        } else {
+                            $(".modal-body #show_supplier_name").slideDown();
+                        }
+                        if(response.show_tax_number == 0){
+                            $(".modal-body #show_tax_number").slideUp();
+                        } else {
+                            $(".modal-body #show_tax_number").slideDown();
+                        }
+
+                    } else {
+                        $(".modal-body #show_bill_number").slideUp();
+                        $(".modal-body #show_supplier_name").slideUp();
+                        $(".modal-body #show_tax_number").slideUp();
+                    }
+                }
+            });
+        }
     </script>
 </body>

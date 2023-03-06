@@ -25,9 +25,11 @@ class SettingsController extends Controller
     {
         $settings = Settings::all();
         if(count($settings) > 0)
-            return view('cpanel.settings.edit' , ['setting' => $settings[0]]);
+            $html = view('cpanel.settings.edit' , ['setting' => $settings[0]]) -> render();
         else
-            return view('cpanel.settings.create');
+            $html = view('cpanel.settings.create') -> render();
+
+        return $html ;
     }
 
     /**
@@ -62,10 +64,10 @@ class SettingsController extends Controller
                 'tobacco_tax' => $request->tobacco_tax,
                 'receipt_tax' => $request->receipt_tax,
             ]);
-            return redirect()->route('tax-settings')->with('success' , __('main.created'));
+            return redirect() -> route('home')->with('success' , __('main.created'));
 
         } catch(QueryException $ex){
-            return redirect()->route('tax-settings')->with('error' ,  $ex->getMessage());
+            return redirect()->route('home')->with('error' ,  $ex->getMessage());
         }
 
     }
@@ -118,10 +120,10 @@ class SettingsController extends Controller
                     'tobacco_tax' => $request->tobacco_tax,
                     'receipt_tax' => $request->receipt_tax,
                 ]);
-                return redirect()->route('tax-settings')->with('success' , __('main.updated'));
+                return redirect()->route('home')->with('success' , __('main.updated'));
 
             } catch(QueryException $ex){
-                return redirect()->route('tax-settings')->with('error' ,  $ex->getMessage());
+                return redirect()->route('home')->with('error' ,  $ex->getMessage());
             }
         }
     }

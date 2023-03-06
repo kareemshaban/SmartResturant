@@ -21,6 +21,8 @@ class ItemSizesController extends Controller
         $sizess = ItemSizes::with('item' , 'size') -> where('item_id' , '=' , $id) -> get();
         $item = Item::find($id);
         $sizes = Size::all();
+
+
         return view('cpanel.itemSizes.index' , ['sizess' => $sizess , 'item' => $item , 'itemId' => $id ,  'sizes' => $sizes]) ;
 
     }

@@ -88,8 +88,8 @@
                                                            href="{{ route('items') }}">{{ __('main.menue_items') }}</a></li>
                     </ul>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('myShift') }}"
+                <li class="sidebar-item" onclick="showShift()">
+                    <a @if ($slag == 6) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link sidebar-link " @endif href="javascript:;"
                        aria-expanded="false">
                         <i class="fa fa-calendar" aria-hidden="true"></i>
                         <span class="hide-menu">{{ __('main.shifts') }}</span>
@@ -105,19 +105,34 @@
                     </a>
                 </li>
 
-                <li class="nav-item sidebar-item  has-submenu">
-                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#">
+                <li class="nav-item sidebar-item  has-submenu" >
+                    <a @if ($slag == 7) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link sidebar-link " @endif href="javascript:;">
                         <i class="fa fa-bookmark" aria-hidden="true"></i>
 
                         <span class="hide-menu">{{ __('main.settings') }}</span>
                     </a>
                     <ul class="submenu collapse">
-                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('tax-settings') }}">{{ __('main.tax_settings') }}</a></li>
-                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('report-settings') }}">{{ __('main.report_settings') }}</a></li>
-                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
-                                                           href="{{ route('company') }}">{{ __('main.company_info') }}</a></li>
+                        <li style="padding-left: 20px;" onclick="showTaxSettings()"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="javascript:;">{{ __('main.tax_settings') }}</a></li>
+                        <li style="padding-left: 20px;" onclick="showReportSettings()"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="javascript:;">{{ __('main.report_settings') }}</a></li>
+                        <li style="padding-left: 20px;" onclick="showComapnySettings()"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                           href="javascript:;">{{ __('main.company_info') }}</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="nav-item sidebar-item  has-submenu">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+
+                        <span class="hide-menu">{{ __('main.roles') }}</span>
+                    </a>
+                    <ul class="submenu collapse">
+                        <li style="padding-left: 20px;" ><a  @if ($slag == 10) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link sidebar-link " @endif
+                            href="{{ route('user_roles') }}">{{ __('main.user_roles') }}</a></li>
+
+
 
                     </ul>
                 </li>
@@ -129,9 +144,9 @@
                         <span class="hide-menu">{{ __('main.accountancy') }}</span>
                     </a>
                     <ul class="submenu collapse">
-                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        <li style="padding-left: 20px;" ><a  @if ($slag == 8) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link sidebar-link " @endif
                                                            href="{{ route('expenses_type') }}">{{ __('main.expenses_type') }}</a></li>
-                        <li style="padding-left: 20px;"><a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        <li style="padding-left: 20px;"><a  @if ($slag == 9) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link sidebar-link " @endif
                                                            href="{{ route('recipt') }}">{{ __('main.recipt') }}</a></li>
 
 
@@ -192,6 +207,49 @@
     </div>
     <!-- End Sidebar scroll-->
 </aside>
+
+<div class="show_modal">
+
+</div>
+
 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
     @csrf
 </form>
+
+<script>
+    function showShift() {
+        console.log('ss');
+        var route = '{{route('myShift')}}';
+
+        $.get( route, function( data ) {
+            $( ".show_modal" ).html( data );
+            $('#paymentsModal').modal('show');
+        });
+    }
+
+
+    function showTaxSettings() {
+        var route = '{{route('tax-settings')}}';
+
+        $.get( route, function( data ) {
+            $( ".show_modal" ).html( data );
+            $('#paymentsModal').modal('show');
+        });
+    }
+    function showReportSettings() {
+        var route = '{{route('report-settings')}}';
+
+        $.get( route, function( data ) {
+            $( ".show_modal" ).html( data );
+            $('#paymentsModal').modal('show');
+        });
+    }
+    function showComapnySettings() {
+        var route = '{{route('company')}}';
+
+        $.get( route, function( data ) {
+            $( ".show_modal" ).html( data );
+            $('#paymentsModal').modal('show');
+        });
+    }
+</script>

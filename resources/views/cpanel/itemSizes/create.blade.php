@@ -38,9 +38,9 @@
                                             <label>{{ __('main.isAddValue') }}</label>
 
                                             <input type="text" class="form-control" id="add" name="add"
-                                                   value="{{ $item -> addValue  }} %" disabled/>
+                                                   value="{{ $item -> addValue ?? 0  }}" readonly/>
                                             <input type="text" class="form-control" id="addValue"
-                                                   value="{{ $item -> addValue  }}" hidden/>
+                                                   value="{{ $item -> addValue ?? 0 }}" hidden/>
                                             <input type="text" class="form-control" id="id" name="id" hidden/>
                                         </div>
                                     </div>
@@ -104,8 +104,8 @@
                                             <input type="number" step="any" name="price" id="price"
                                                    class="form-control @error('price') is-invalid @enderror"
                                                    placeholder="{{ __('main.price') }}" autofocus
-                                                   onkeyup="getPriceWithAddValue()"
-                                                   onchange="getPriceWithAddValue()"/>
+                                                   onkeyup="getPriceWithAddValue(0)"
+                                                   onchange="getPriceWithAddValue(0)"/>
                                             @error('price')
                                             <span class="invalid-feedback" role="alert">
                                                <strong>{{ $message }}</strong>
@@ -118,7 +118,9 @@
                                             <input type="number" step="any" name="priceWithAddValue"
                                                    id="priceWithAddValue"
                                                    class="form-control @error('priceWithAddValue') is-invalid @enderror"
-                                                   placeholder="{{ __('main.priceWithAddValue') }}" autofocus readonly/>
+                                                   placeholder="{{ __('main.priceWithAddValue') }}" autofocus
+                                                   onkeyup="getPriceWithAddValue(1)"
+                                                   onchange="getPriceWithAddValue(1)"/>
                                             @error('priceWithAddValue')
                                             <span class="invalid-feedback" role="alert">
                                                <strong>{{ $message }}</strong>
@@ -162,19 +164,26 @@
 
     });
 
-    function getPriceWithAddValue() {
+    function getPriceWithAddValue(i) {
         let priceVal = 0, priceWithAddValueVal = 0, addValueVal = 0;
         let price = document.getElementById("price");
         let priceWithAddValue = document.getElementById("priceWithAddValue");
         let addValue = document.getElementById("addValue");
-        if (price && priceWithAddValue && addValue) {
-            priceVal = price.value;
-            addValueVal = (addValue.value / 100) * priceVal;
-            priceWithAddValueVal = Number(priceVal) + Number(addValueVal);
-            priceWithAddValue.value = priceWithAddValueVal;
-            console.log(addValueVal);
-            console.log(priceVal);
-        }
+
+            if (price && priceWithAddValue && addValue) {
+                if(i == 0) {
+                    priceVal = price.value;
+                    addValueVal = (addValue.value / 100) * priceVal;
+                    priceWithAddValueVal = Number(priceVal) + Number(addValueVal);
+                    priceWithAddValue.value = priceWithAddValueVal;
+                } else {
+                    priceWithAddValueVal = priceWithAddValue.value ;
+                    priceVal = priceWithAddValueVal / (1 + (addValue.value / 100));
+                    price.value = priceVal.toFixed(2) ;
+                }
+            }
+
+
     }
 
     function getLevel() {

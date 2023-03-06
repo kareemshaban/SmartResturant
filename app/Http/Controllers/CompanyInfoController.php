@@ -17,9 +17,10 @@ class CompanyInfoController extends Controller
     {
         $settings = CompanyInfo::all();
         if(count($settings) > 0)
-            return view('cpanel.company.edit' , ['setting' => $settings[0]]);
+            $html = view('cpanel.company.edit' , ['setting' => $settings[0]]);
         else
-            return view('cpanel.company.create');
+            $html = view('cpanel.company.create');
+        return  $html  ;
     }
 
     /**
@@ -52,9 +53,9 @@ class CompanyInfoController extends Controller
                 'fax2' => $request -> fax2,
                 'online_url' => $request -> online_url
             ]);
-            return redirect()->route('company')->with('success' , __('main.created'));
+            return redirect()->route('home')->with('success' , __('main.created'));
         } catch(QueryException  $ex){
-            return redirect()->route('company')->with('error' , $ex->getMessage());
+            return redirect()->route('home')->with('error' , $ex->getMessage());
         }
 
     }
@@ -104,9 +105,9 @@ class CompanyInfoController extends Controller
                     'fax2' => $request -> fax2,
                     'online_url' => $request -> online_url
                 ]);
-                return redirect()->route('company')->with('success' , __('main.updated'));
+                return redirect()->route('home')->with('success' , __('main.updated'));
             } catch(QueryException  $ex){
-                return redirect()->route('company')->with('error' , $ex->getMessage());
+                return redirect()->route('home')->with('error' , $ex->getMessage());
             }
         }
     }

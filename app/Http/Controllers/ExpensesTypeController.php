@@ -27,7 +27,7 @@ class ExpensesTypeController extends Controller
      */
     public function create()
     {
-        return view('cpanel.expenses.create');
+        return view('cpanel.expenses.create') -> render();
     }
 
     /**
@@ -38,22 +38,26 @@ class ExpensesTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:expenses_types',
-            'name_en' => 'required|unique:expenses_types',
-        ]);
+        if($request -> id == 0) {
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:expenses_types',
+                'name_en' => 'required|unique:expenses_types',
+            ]);
 
-        ExpensesType::create([
-            'name_ar' => $request -> name_ar,
-            'name_en' => $request -> name_en,
-            'description_ar' => $request -> description_ar ? $request -> description_ar : '',
-            'description_en' => $request -> description_en ? $request -> description_en : '',
-            'show_bill_number' =>  $request -> show_bill_number == 'on' ? 1 : 0,
-            'show_supplier_name' =>  $request -> show_supplier_name == 'on' ? 1 : 0,
-            'show_tax_number' =>  $request -> show_tax_number == 'on' ? 1 : 0,
-        ]);
+            ExpensesType::create([
+                'name_ar' => $request->name_ar,
+                'name_en' => $request->name_en,
+                'description_ar' => $request->description_ar ? $request->description_ar : '',
+                'description_en' => $request->description_en ? $request->description_en : '',
+                'show_bill_number' => $request->show_bill_number == 'on' ? 1 : 0,
+                'show_supplier_name' => $request->show_supplier_name == 'on' ? 1 : 0,
+                'show_tax_number' => $request->show_tax_number == 'on' ? 1 : 0,
+            ]);
 
-        return redirect()->route('expenses_type')->with('success' , __('main.created'));
+            return redirect()->route('expenses_type')->with('success', __('main.created'));
+        } else {
+            return  $this -> update($request , $request -> id);
+        }
     }
 
     /**
@@ -62,9 +66,11 @@ class ExpensesTypeController extends Controller
      * @param  \App\Models\ExpensesType  $expensesType
      * @return \Illuminate\Http\Response
      */
-    public function show(ExpensesType $expensesType)
+    public function show($id)
     {
-        //
+        $expense = ExpensesType::find($id);
+        echo json_encode($expense);
+        exit();
     }
 
     /**

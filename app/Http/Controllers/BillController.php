@@ -99,6 +99,13 @@ class BillController extends Controller
         echo json_encode ($bill);
         exit;
     }
+    public function getUnpaidBills(){
+        $bills = Bill::with('details.items.item', 'table.hall') -> with('details.items.size') ->
+        where('payed' , '=' , 0)
+            -> get() ;
+        $html = view('cpanel.pos.unPaidBills' , compact('bills')) -> render();
+        return $html ;
+    }
 
 
 }

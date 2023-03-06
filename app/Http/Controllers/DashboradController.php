@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
+use App\Models\BillDetails;
+use App\Models\Recipt;
 use App\Models\Shift;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Religions ;
 use App\Models\Departments ;
@@ -28,20 +32,34 @@ class DashboradController extends Controller
     }
 
     public function index(){
-//        $reportHtml = view('home', [])->render();
-//
-//        $arabic = new Arabic();
-//        $p = $arabic->arIdentify($reportHtml);
-//
-//        for ($i = count($p)-1; $i >= 0; $i-=2) {
-//            $utf8ar = $arabic->utf8Glyphs(substr($reportHtml, $p[$i-1], $p[$i] - $p[$i-1]));
-//            $reportHtml = substr_replace($reportHtml, $utf8ar, $p[$i-1], $p[$i] - $p[$i-1]);
-//        }
-//
-//        $pdf = PDF::loadHTML($reportHtml);
-//        return $pdf->download('purchase.pdf');
+        $sales_total = 0 ;
+        $sales_tax = 0 ;
+        $items_total = 0 ;
+        $total_expenses = 0 ;
+        $sales = Bill::all();
+        $expenses = Recipt::all();
+        $details = [] ;
+        foreach ($sales as $bill){
+            if(Carbon::parse($bill -> bill_date) -> format('d-m-y') == Carbon::now() -> format('d-m-y') ) {
+                $sales_total += $bill->total;
+                $sales_tax += $bill->vat;
+                $details = BillDetails::where('bill_id' , '=' , $bill -> id ) -> get();
+                foreach ($details as $detail){
+                    $items_total += $detail -> qnt ;
+                }
+                $details = [] ;
+            }
+        }
 
-        return view('home');
+
+
+        foreach ($expenses as $bill){
+            if(Carbon::parse($bill -> doc_date) -> format('d-m-y') == Carbon::now() -> format('d-m-y') ){
+                $total_expenses += $bill -> amount_with_tax ;
+            }
+
+        }
+        return view('home' , compact('sales_tax' , 'sales_total' , 'items_total' , 'total_expenses'));
 
     }
     public function checkShift(){

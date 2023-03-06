@@ -102,7 +102,7 @@ class SizeController extends Controller
            $size -> update([
             'name_ar' => $request ->name_ar,
             'name_en' => $request ->name_en,
-             'label'=> $request ->name_en
+             'label'=> $request ->label
            ]);
            return redirect()->route('sizes')->with('success' , __('main.updated'));
         }

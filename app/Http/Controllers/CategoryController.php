@@ -42,15 +42,23 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         if($request -> id == 0) {
-            if ($request->file('img')->getSize() / 1000 < 2000) {
+
                 $validated = $request->validate([
                     'name_ar' => 'required|unique:categories',
-                    'name_en' => 'required|unique:categories',
-                    'img' => 'required'
+                    'name_en' => 'required|unique:categories'
                 ]);
 
+            if($request -> has('img')){
+                if ($request->file('img')->getSize() / 1000 > 2000) {
+                    return redirect()->route('createCategory')->with('error', __('main.img_big'));
+                }
                 $imageName = time() . '.' . $request->img->extension();
                 $request->img->move(('images/Category'), $imageName);
+            } else {
+                $imageName = 'default_cat.png';
+            }
+
+
 
                 Category::create([
                     'name_ar' => $request->name_ar,
@@ -62,10 +70,7 @@ class CategoryController extends Controller
                 return redirect()->route('categories')->with('success', __('main.created'));
 
 
-            } else {
-                return redirect()->route('createCategory')->with('error', __('main.img_big'));
 
-            }
 
         } else {
             return  $this -> update($request , $request -> id);

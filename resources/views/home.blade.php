@@ -15,16 +15,17 @@
     <title>Smart Resturant</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
     <!-- Favicon icon -->
     <link rel="shortcut icon" href="../images/favicon.png" type="">
     <!-- Custom CSS -->
-    <link href="plugins/bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css">
     <!-- Custom CSS -->
 
 
+
+    <link id="pagestyle" href= "{{asset('assets/css/soft-ui-dashboard.css')}}" rel="stylesheet" />
     <link href="../cpanel/css/style.min.css" rel="stylesheet">
- <link href="../cpanel/css/style.css" rel="stylesheet">
 
     <link href="../cpanel/css/style.css" rel="stylesheet">
     <style>
@@ -39,6 +40,58 @@
         body {
             font-family: 'icomoon';
         }
+        .quick-button.small {
+            padding: 15px 0px 1px 0px;
+            font-size: 13px;
+            border-radius: 15px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+        .quick-button.small:hover{
+            transform: scale(1.1);
+        }
+        .quick-button {
+            margin-bottom: -1px;
+            padding: 30px 0px 10px 0px;
+            font-size: 15px;
+            display: block;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            opacity: 0.9;
+        }
+        .bblue {
+            background: #428BCA !important;
+        }.white {
+             color: white !important;
+         }
+        .bdarkGreen {
+            background: #78cd51 !important;
+        }
+        .blightOrange {
+            background: #fabb3d !important;
+        }.bred {
+             background: #ff5454 !important;
+         }
+        .bpink {
+            background: #e84c8a !important;
+        }
+        .bgrey {
+            background: #b2b8bd !important;
+        }
+        .blightBlue {
+            background: #5BC0DE !important;
+        }
+        .padding1010 {
+            padding: 10px;
+        }
+
+        .card{
+            box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05) !important;
+            border-radius: 15px !important;
+        }
+
+
     </style>
 </head>
 
@@ -57,14 +110,210 @@
         <div class="page-wrapper">
              @include('Layouts.subheader' , ['pageTitle' =>  Config::get('app.locale') == 'ar'? 'لوحة التحكم' : 'DashBoard'])
             <div class="container-fluid">
+                @include('flash-message')
 
-                <img src="../assets/img/dashboard.jpg" style="width: 100%; height: auto">
+                <div class="container-fluid py-4" style="min-height: 500px">
 
-                <div class="row">
-                    <div class="col-md-12 col-lg-12 col-sm-12" >
-                </div>
+
+                    <div class="row" style="margin-bottom: 15px;">
+                        <div class="col-lg-12">
+                            <div class="box" style="padding-bottom: 30px; width: 90%; margin: auto">
+                                <div class="box-header">
+                                    <h2 class="blue"><i class="fa fa-th" aria-hidden="true"></i><span class="break"></span>{{__('main.daily_total')}}
+                                    <label> </label> ( {{\Carbon\Carbon::now() -> format('d - m - Y')}} ) </h2>
+                                </div>
+                                <div class="box-content" style=" background: whitesmoke;">
+
+                                    <div class="row" style=" margin: 30px auto; width: 80% ;">
+                                        <div class="col-xl-6 col-sm-6 ">
+                                            <div class="card" style="height: 150px; ">
+                                                <div class="card-body p-3" style="display: flex; flex-direction: column; justify-content: center">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <div class="numbers">
+                                                                <p class="text-sm mb-0 text-capitalize font-weight-bold">{{__('main.total_sales')}}</p>
+                                                                <h5 class="font-weight-bolder mb-0">
+                                                                    {{$sales_total}}
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4 text-end">
+                                                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                                <i class="fa fa-shopping-cart text-lg opacity-10" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-sm-6">
+                                            <div class="card" style="height: 150px; ">
+                                                <div class="card-body p-3" style="display: flex; flex-direction: column; justify-content: center">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <div class="numbers">
+                                                                <p class="text-sm mb-0 text-capitalize font-weight-bold">{{__('main.total_tax')}}</p>
+                                                                <h5 class="font-weight-bolder mb-0">
+                                                                    {{$sales_tax}}
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4 text-end">
+                                                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                                <i class="fa fa-money text-lg opacity-10" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style=" margin: 30px auto; width: 80% ;">
+                                        <div class="col-xl-6 col-sm-6 ">
+                                            <div class="card" style="height: 150px; ">
+                                                <div class="card-body p-3" style="display: flex; flex-direction: column; justify-content: center">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <div class="numbers">
+                                                                <p class="text-sm mb-0 text-capitalize font-weight-bold">{{__('main.sold_item_total')}}</p>
+                                                                <h5 class="font-weight-bolder mb-0">
+                                                                    {{$items_total}}
+
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4 text-end">
+                                                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                                <i class="fa fa-calculator text-lg opacity-10" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-sm-6">
+                                            <div class="card" style="height: 150px; ">
+                                                <div class="card-body p-3" style="display: flex; flex-direction: column; justify-content: center">
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <div class="numbers">
+                                                                <p class="text-sm mb-0 text-capitalize font-weight-bold">{{__('main.expenses_total')}}</p>
+                                                                <h5 class="font-weight-bolder mb-0">
+                                                                  {{$total_expenses}}
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4 text-end">
+                                                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                                                <i class="fa fa-box-open text-lg opacity-10" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
+
+                    <div class="row" style="margin-bottom: 15px;">
+                        <div class="col-lg-12">
+                            <div class="box" style="padding-bottom: 30px; width: 90%; margin: auto">
+                                <div class="box-header">
+                                    <h2 class="blue"><i class="fa fa-th" aria-hidden="true"></i><span class="break"></span>روابط سريعة</h2>
+                                </div>
+                                <div class="box-content" style="display: flex;flex-flow: wrap; padding: 20px; background: whitesmoke;">
+                                    <div class="col-md-4 col-xs-4 padding1010">
+                                        <a class="bblue white quick-button small" href="{{route('items')}}">
+                                            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+
+                                            <p>{{__('main.menue_items')}}</p>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-4 col-xs-4 padding1010">
+                                        <a class="bdarkGreen white quick-button small" href="{{route('recipt')}}">
+                                            <i class="fa fa-box-open" aria-hidden="true"></i>
+
+                                            <p>{{__('main.recipt')}}</p>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-4 padding1010">
+                                        <a class="blightOrange white quick-button small" href="{{route('pos')}}">
+                                            <i class="fa fa-calculator" aria-hidden="true"></i>
+
+                                            <p> {{__('main.side_bill')}}</p>
+                                        </a>
+                                    </div>
+
+
+
+
+                                    <div class="col-md-4 col-xs-4 padding1010">
+                                        <a class="bred white quick-button small" href="{{route('halls')}}">
+                                            <i class="fa fa-home" aria-hidden="true"></i>
+
+                                            <p>{{__('main.halls')}}</p>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-4 padding1010">
+                                        <a class="bpink white quick-button small" href="{{route('tables')}}">
+                                            <i class="fa fa-table" aria-hidden="true"></i>
+
+                                            <p>{{__('main.tables')}}</p>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-4 padding1010">
+                                        <a class="bgrey white quick-button small" href="{{route('printers')}}">
+                                            <i class="fa fa-print" aria-hidden="true"></i>
+
+                                            <p>{{__('main.printers')}}</p>
+                                        </a>
+                                    </div>
+
+
+                                    <div class="col-md-4 col-xs-4 padding1010">
+                                        <a class="blightOrange white quick-button small" href="{{route('report_daily_sales')}}">
+                                            <i class="fa fa-print" aria-hidden="true"></i>
+
+                                            <p>{{__('main.report_daily_sales')}}</p>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-4 padding1010">
+                                        <a class="bred white quick-button small" href="{{route('report_box_transactions')}}">
+                                            <i class="fa fa-print" aria-hidden="true"></i>
+
+                                            <p>{{__('main.report_box_movement')}}</p>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-md-4 col-xs-4 padding1010">
+                                        <a class="bdarkGreen white quick-button small" href="{{route('report_total_transactions')}}">
+                                            <i class="fa fa-print" aria-hidden="true"></i>
+
+                                            <p>{{__('main.report_movements_total')}}</p>
+                                        </a>
+                                    </div>
+
+
+
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             @include('Layouts.cfooter')
@@ -166,7 +415,11 @@
                 </div>
             </div>
         </div>
+
+
+
     </div>
+
 
     <script type="text/javascript">
         let id = 0 ;
@@ -300,6 +553,13 @@
                   });
             });
 
+           $(document).on('click', '#myShift' , function (event){
+               showShift();
+           } );
+            $(document).on('click', '# tax-settings' , function (event){
+                showTaxSettings();
+            } );
+
 
 
 
@@ -360,6 +620,9 @@
                 timeout: 8000
             })
         }
+
+
+
     </script>
     <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -368,9 +631,6 @@
     <script src="../cpanel/js/waves.js"></script>
     <script src="../cpanel/js/sidebarmenu.js"></script>
     <script src="../cpanel/js/custom.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
 </body>
 
 </html>

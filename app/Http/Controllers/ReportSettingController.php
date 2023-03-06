@@ -19,9 +19,11 @@ class ReportSettingController extends Controller
     {
         $settings = ReportSetting::all();
         if(count($settings) > 0)
-            return view('cpanel.ReportSettings.edit' , ['setting' => $settings[0]]);
+            $html = view('cpanel.ReportSettings.edit' , ['setting' => $settings[0]]);
         else
-            return view('cpanel.ReportSettings.create');
+            $html = view('cpanel.ReportSettings.create');
+
+        return  $html  ;
     }
 
     /**
@@ -62,12 +64,12 @@ class ReportSettingController extends Controller
                 'logo' => $imageName,
 
             ]);
-            return redirect()->route('report-settings')->with('success' , __('main.created'));
+            return redirect()->route('home')->with('success' , __('main.created'));
 
 
 
         } else {
-            return redirect()->route('report-settings')->with('error' , __('main.img_big'));
+            return redirect()->route('home')->with('error' , __('main.img_big'));
 
         }
     }
@@ -111,7 +113,7 @@ class ReportSettingController extends Controller
                     $request->logo->move(('images/Company'), $imageName);
 
                 } else {
-                    return redirect()->route('report-settings')->with('error' , __('main.img_big'));
+                    return redirect()->route('home')->with('error' , __('main.img_big'));
                 }
 
             } else {
@@ -134,10 +136,10 @@ class ReportSettingController extends Controller
                     'footer_en' => $request -> footer_en,
                     'logo' => $imageName,
                 ]);
-                return redirect()->route('report-settings')->with('success' , __('main.updated'));
+                return redirect()->route('home')->with('success' , __('main.updated'));
 
             } catch(QueryException $ex){
-                return redirect()->route('report-settings')->with('error' ,  $ex->getMessage());
+                return redirect()->route('home')->with('error' ,  $ex->getMessage());
             }
         }
     }

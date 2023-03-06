@@ -30,7 +30,8 @@
                             <label>{{ __('main.code') }}</label>
                             <input type="text" name="code" id="code"
                                    class="form-control @error('code') is-invalid @enderror"
-                                   placeholder="{{ __('main.code') }}" autofocus/>
+                                   placeholder="{{ __('main.code') }}" autofocus />
+
                             <input type="hidden" name="id" id="id">
                             @error('code')
                             <span class="invalid-feedback" role="alert">
@@ -66,7 +67,7 @@
                             <label>{{ __('main.name_ar') }}</label>
                             <input type="text" name="name_ar" id="name_ar"
                                    class="form-control @error('name_ar') is-invalid @enderror arabic-input"
-                                   placeholder="{{ __('main.name_ar_place') }}" autofocus/>
+                                   placeholder="{{ __('main.name_ar_place') }}" autofocus  value="{{old('name_ar')}}" />
                             @error('name_ar')
                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

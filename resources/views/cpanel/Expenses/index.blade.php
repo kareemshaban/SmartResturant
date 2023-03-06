@@ -53,7 +53,7 @@
     <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
         data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
         @include('Layouts.cheader')
-        @include('Layouts.sidebar', ['slag' => 20])
+        @include('Layouts.sidebar', ['slag' => 8])
 
         <div class="page-wrapper">
             @include('Layouts.subheader', [
@@ -62,11 +62,10 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
-                        <a href="{{ route('createExpenses_type') }}">
-                           <button type="button" class="btn btn-labeled btn-primary "  >
+
+                           <button type="button" class="btn btn-labeled btn-primary "  id="createButton">
                                 <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
 
-                        </a>
 
                     </div>
 
@@ -86,23 +85,25 @@
                             </thead>
                             <tbody>
                                 @foreach ($expenses as $expense)
+                                    @if($expense -> id > 2)
                                     <tr>
                                         <td class="text-center">{{ $expense->index + 1 }}</td>
                                         <td class="text-center">{{ $expense->id }}</td>
                                         <td class="text-center">{{ $expense->name_ar }}</td>
                                         <td class="text-center">{{ $expense->name_en }}</td>
                                         <td class="text-center">
-                                            @if($expense -> id > 2)
-                                            <a href="{{ route('editExpenses_type', $expense->id) }}"> <button
-                                                    type="button" class="btn btn-success"><i
-                                                        class="fas fa-edit"></i></button> </a>
-                                            <a onclick="return confirm('Are you sure?')"
-                                                href="{{ route('destroyExpenses_type', $expense->id) }} "> <button
-                                                    type="button" class="btn btn-danger"><i
-                                                        class="far fa-trash-alt"></i></button> </a>
-                                            @endif
+
+                                            <button
+                                                type="button" class="btn btn-success editBtn" value="{{$expense -> id}}"><i
+                                                    class="fas fa-edit"></i></button>
+                                            <button
+                                                type="button" class="btn btn-danger deleteBtn" value="{{$expense -> id}}"><i
+                                                    class="far fa-trash-alt"></i></button>
+
+
                                         </td>
                                     </tr>
+                                    @endif
                                 @endforeach
 
                             </tbody>
@@ -113,7 +114,8 @@
                 </div>
             </div>
         </div>
-
+        @include('cpanel.Expenses.create')
+        @include('deleteModal')
     </div>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
@@ -133,6 +135,132 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#table').DataTable();
+
+            $(document).on('click', '#createButton', function (event) {
+                id = 0;
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function () {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function (result) {
+                        $('#createModal').modal("show");
+                        $(".modal-body #name_ar").val("");
+                        $(".modal-body #name_en").val("");
+                        $(".modal-body #id").val(0);
+                        $(".modal-body #description_ar").val("");
+                        $(".modal-body #description_en").val("");
+                        $(".modal-body #show_bill_number").prop('checked', false);
+                        $(".modal-body #show_supplier_name").prop('checked', false);
+                        $(".modal-body #show_tax_number").prop('checked', false);
+                        $(".modal-body .form-header").html($('<div>{{trans('main.new_expenses')}}</div>').text());
+
+                    },
+                    complete: function () {
+                        $('#loader').hide();
+                    },
+                    error: function (jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            });
+
+            $(document).on('click', '.editBtn', function(event) {
+                id = event.currentTarget.value ;
+                console.log(id);
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    type:'get',
+                    url:'getExpenses' + '/' + id,
+                    dataType: 'json',
+
+                    success:function(response){
+                        console.log(response);
+                        if(response){
+                            let href = $(this).attr('data-attr');
+                            $.ajax({
+                                url: href,
+                                beforeSend: function() {
+                                    $('#loader').show();
+                                },
+                                // return the result
+                                success: function(result) {
+                                    $('#createModal').modal("show");
+                                    $(".modal-body #name_ar").val(response.name_ar);
+                                    $(".modal-body #name_en").val(response.name_en);
+                                    $(".modal-body #id").val(response.id);
+                                    $(".modal-body #description_ar").val(response.description_ar);
+                                    $(".modal-body #description_en").val(response.description_en);
+                                    $(".modal-body #show_bill_number").prop( 'checked', response.show_bill_number == 0 ? false : true);
+                                    $(".modal-body #show_supplier_name").prop('checked', response.show_supplier_name == 0 ? false : true);
+                                    $(".modal-body #show_tax_number").prop('checked', response.show_tax_number == 0 ? false : true);
+                                    $(".modal-body .form-header").html($('<div>{{trans('main.edit_expenses')}}</div>').text());
+
+                                },
+                                complete: function() {
+                                    $('#loader').hide();
+                                },
+                                error: function(jqXHR, testStatus, error) {
+                                    console.log(error);
+                                    alert("Page " + href + " cannot open. Error:" + error);
+                                    $('#loader').hide();
+                                },
+                                timeout: 8000
+                            })
+                        } else {
+
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', '.deleteBtn', function(event) {
+                id = event.currentTarget.value ;
+                console.log(id);
+                event.preventDefault();
+                let href = $(this).attr('data-attr');
+                $.ajax({
+                    url: href,
+                    beforeSend: function() {
+                        $('#loader').show();
+                    },
+                    // return the result
+                    success: function(result) {
+                        $('#deleteModal').modal("show");
+                    },
+                    complete: function() {
+                        $('#loader').hide();
+                    },
+                    error: function(jqXHR, testStatus, error) {
+                        console.log(error);
+                        alert("Page " + href + " cannot open. Error:" + error);
+                        $('#loader').hide();
+                    },
+                    timeout: 8000
+                })
+            });
+            $(document).on('click', '.btnConfirmDelete', function(event) {
+                console.log(id);
+                confirmDelete();
+            });
+            $(document).on('click', '.cancel-modal', function(event) {
+                $('#deleteModal').modal("hide");
+                console.log()
+                id = 0 ;
+            });
         });
+
+        function confirmDelete(){
+            let url = "{{ route('destroyExpenses_type', ':id') }}";
+            url = url.replace(':id', id);
+            document.location.href=url;
+        }
     </script>
 </body>

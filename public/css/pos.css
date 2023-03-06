@@ -513,6 +513,7 @@ margin-right: 20px;
     border-top-left-radius: 15px;
     box-shadow: 0 27px 25px 0px darkgrey;
     border: outset 1px brown;
+    margin-bottom: 8px;
 }
 .item-img{
     width:70px;
@@ -656,6 +657,7 @@ margin-right: 20px;
     font-size: 15px;
     font-weight: bold;
     margin: 5px auto;
+    display: block;
 }
 .alertSubTitle{
     text-align: center;

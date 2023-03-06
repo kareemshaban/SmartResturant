@@ -214,6 +214,10 @@ function()
     Route::get('/editExpenses_type/{id}', [App\Http\Controllers\ExpensesTypeController::class, 'edit'])->name('editExpenses_type');
     Route::post('/updateExpenses_type/{id}', [App\Http\Controllers\ExpensesTypeController::class, 'update'])->name('updateExpenses_type');
     Route::get('/destroyExpenses_type/{id}', [App\Http\Controllers\ExpensesTypeController::class, 'destroy'])->name('destroyExpenses_type');
+    Route::get('/getExpenses/{id}', [App\Http\Controllers\ExpensesTypeController::class, 'show'])->name('getExpenses');
+
+
+
 
     Route::get('/recipt', [App\Http\Controllers\ReciptController::class, 'index'])->name('recipt');
     Route::get('/createRecipt', [App\Http\Controllers\ReciptController::class, 'create'])->name('createRecipt');
@@ -221,6 +225,8 @@ function()
     Route::get('/editRecipt/{id}', [App\Http\Controllers\ReciptController::class, 'edit'])->name('editRecipt');
     Route::post('/updateRecipt/{id}', [App\Http\Controllers\ReciptController::class, 'update'])->name('updateRecipt');
     Route::get('/destroyRecipt/{id}', [App\Http\Controllers\ReciptController::class, 'destroy'])->name('destroyRecipt');
+    Route::get('/getRecipit/{id}', [App\Http\Controllers\ReciptController::class, 'show'])->name('getRecipit');
+
 
     //ajax
     Route::get('/getClient/{id}', [App\Http\Controllers\ClientController::class, 'getClient'])->name('getClient');
@@ -287,9 +293,12 @@ function()
     Route::get('clearSession/{key}', [App\Http\Controllers\HomeController::class, 'clearSession'])->name('clearSession');
 
 
+    Route::get('user_roles', [App\Http\Controllers\UserRolsesController::class, 'index'])->name('user_roles');
+    Route::get('user_roles_get/{id}', [App\Http\Controllers\UserRolsesController::class, 'show'])->name('user_roles_get');
+    Route::post('user_roles_store', [App\Http\Controllers\UserRolsesController::class, 'store'])->name('user_roles_store');
 
     Route::get('getCategory/{id}', [App\Http\Controllers\CategoryController::class, 'getCategory'])->name('getCategory');
-
+    Route::get('getUnpaidBills', [App\Http\Controllers\BillController::class, 'getUnpaidBills'])->name('getUnpaidBills');
 
 
 

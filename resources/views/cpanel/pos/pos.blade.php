@@ -71,18 +71,21 @@
                     </div>
 
                     <div class="row mx-auto my-auto justify-content-center">
-                        <div id="recipeCarousel" class="carousel slide" data-ride="carousel" >
+                        <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
                             <div class="carousel-inner" role="listbox" style="    padding-right: 10px;
     padding-left: 10px;">
                                 @foreach ($categories  as $key => $category)
-                                    <div  @if($key == 0) class="carousel-item active" @else class="carousel-item" @endif >
+                                    <div @if($key == 0) class="carousel-item active"
+                                         @else class="carousel-item" @endif >
                                         <div class="col-lg-2">
-                                            <div class="movie-card m-1" onclick="selecCategory(this , {{$category -> id}} )">
+                                            <div class="movie-card m-1"
+                                                 onclick="selecCategory(this , {{$category -> id}} )">
                                                 <div class="movie-img">
-                                                    <img src="{{ asset('images/Category/' . $category->img) }}" class="img-fluid">
+                                                    <img src="{{ asset('images/Category/' . $category->img) }}"
+                                                         class="img-fluid">
                                                 </div>
                                                 <div class="movie-title">
-                                                        <p class="text-white text-sm-center font-small flex-center"> {{ Config::get('app.locale') == 'ar' ? $category -> name_ar : $category -> name_en }} </p>
+                                                    <p class="text-white text-sm-center font-small flex-center"> {{ Config::get('app.locale') == 'ar' ? $category -> name_ar : $category -> name_en }} </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -91,11 +94,14 @@
 
 
                             </div>
-                            <a class="carousel-control-prev bg-dark w-auto" href="javascript:;" role="button" data-slide="prev" onclick="$('#recipeCarousel').carousel('prev')">
+                            <a class="carousel-control-prev bg-dark w-auto"
+                               href="javascript:;" role="button" data-slide="prev"
+                               onclick="$('#recipeCarousel').carousel('prev')">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Previous</span>
                             </a>
-                            <a class="carousel-control-next bg-dark w-auto" href="javascript:;" role="button" data-slide="next" onclick="$('#recipeCarousel').carousel('next')">
+                            <a class="carousel-control-next bg-dark w-auto" href="javascript:;" role="button"
+                               data-slide="next" onclick="$('#recipeCarousel').carousel('next')">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="sr-only">Next</span>
                             </a>
@@ -123,11 +129,30 @@
                                                     class="item-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">{{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
                                                 <div class="row sizes">
                                                     @foreach($item -> sizes as $size)
-                                                        <div class="col-{{12 / count($item -> sizes)}} text-center"
-                                                             onclick="selecItemSize( {{$size}} , {{ $item}})">
-                                                            {{$size -> size -> label}}
-                                                        </div>
+                                                        @if($loop -> index == count($item -> sizes) - 1)
+                                                            @if(count($item -> sizes) == 5 )
+                                                                <div class="col-4 text-center"
+                                                                     onclick="selecItemSize( {{$size}} , {{ $item}})">
+                                                                    {{$size -> size -> label}}
+                                                                </div>
+                                                            @else
+                                                                <div
+                                                                    class="col-{{ count($item -> sizes) != 5 ? 12 / count($item -> sizes) : 12 / 6}} text-center"
+                                                                    onclick="selecItemSize( {{$size}} , {{ $item}})">
+                                                                    {{$size -> size -> label}}
+                                                                </div>
+                                                            @endif
+                                                        @else
+                                                            <div
+                                                                class="col-{{ count($item -> sizes) != 5 ? 12 / count($item -> sizes) : 12 / 6}} text-center"
+                                                                onclick="selecItemSize( {{$size}} , {{ $item}})">
+                                                                {{$size -> size -> label}}
+                                                            </div>
+                                                        @endif
                                                     @endforeach
+                                                    @if( count($item -> sizes) == 5)
+
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -150,7 +175,8 @@
                                                     <img src="{{ asset('images/Item/' . $item->img) }}"
                                                          class="img-fluid extra-img" alt="">
                                                     <label
-                                                        class="extra-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">{{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
+                                                        class="extra-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">
+                                                        {{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
 
                                                 </div>
                                             </div>
@@ -168,21 +194,21 @@
                 <div class="col-2">
                     <div class="row " data-aos="fade-up">
                         <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="submit" class="btn btn-labeled btn-success " name="action" form="header-form"
-                                    value="pay_prepare">
+                            <button type="button" class="btn btn-labeled btn-success" name="action" form="header-form"
+                                    value="pay_prepare" id="pay_prepare">
                                 <span class="btn-label"><i class="fa fa-check"></i></span>{{__('main.pay_prep')}}
                             </button>
                         </div>
 
                         <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-warning paymentButton">
+                            <button type="button" class="btn btn-labeled btn-warning paymentBillButton">
                                 <span class="btn-label"><i class="fa fa-dollar"></i></span>{{__('main.pay')}}</button>
                         </div>
 
 
                         <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="submit" class="btn btn-labeled btn-info " form="header-form" name="action"
-                                    value="prepare">
+                            <button type="button" class="btn btn-labeled btn-info " form="header-form" name="action"
+                                    value="prepare" id="prepare">
                                 <span class="btn-label"><i class="fa fa-shopping-bag"></i></span> {{__('main.prepare')}}
                             </button>
                         </div>
@@ -200,7 +226,6 @@
                             <button type="button" class="btn btn-labeled btn-danger " onclick="removeItem()">
                                 <span class="btn-label"><i class="fa fa-trash tools"></i></span></button>
                         </div>
-
 
 
                         <div class="col-lg-8 d-flex justify-content-center margin-content">
@@ -222,6 +247,13 @@
                         <div class="col-lg-8 d-flex justify-content-center margin-content">
                             <button type="button" class="btn btn-labeled btn-dark" id="mediumButton">
                                 <span class="btn-label"><i class="fa fa-cutlery"></i></span> {{   __('main.tables')}}
+                            </button>
+                        </div>
+
+                        <div class="col-lg-8 d-flex justify-content-center margin-content">
+                            <button type="button" class="btn btn-labeled btn-danger" id="unpaidBills">
+                                <span class="btn-label"><i
+                                        class="fa fa-calculator"></i></span> {{   __('main.unpaidBills')}}
                             </button>
                         </div>
 
@@ -257,8 +289,10 @@
                                                     name="client_id" id="client_id" onchange="selectClient()">
                                                     <option selected value="">Choose...</option>
                                                     @foreach($clients as $item)
+                                                        @if($item -> type == 0)
                                                         <option
                                                             value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+                                                        @endif
                                                     @endforeach
                                                 </select>
 
@@ -311,6 +345,8 @@
                                                 <input type="number" name="delivery_service" id="delivery_service"
                                                        class="form-control"
                                                        placeholder="{{ __('main.delivery_service') }}" autofocus
+                                                       onkeyup="calculateDeliveryService()"
+                                                       onchange="calculateDeliveryService()"
                                                 />
                                                 <input type="text"
                                                        class="form-control"
@@ -393,85 +429,161 @@
 
                                         </table>
                                     </div>
-                                    <div class="form-group row_border">
-                                        <div class="row justify-content-center">
-                                            <div class="col-4">
-                                                <label>{{ __('main.date') }}</label>
-                                                <input type="text"
-                                                       id="date" name="bill_date"
-                                                       class="form-control text-center"
-                                                       placeholder="{{ __('main.date') }}" autofocus
-                                                       value="{{\Carbon\Carbon::now()}}" readonly/>
-                                            </div>
-                                            <div class="col-4">
-                                                <label>{{ __('main.bill_no') }}</label>
-                                                <input type="text" id="bill_number" name="bill_number"
-                                                       class="form-control text-center"
-                                                       placeholder="{{ __('main.bill_no') }}" autofocus readonly/>
-                                                <input type="text" id="identifier" name="identifier"
-                                                       class="form-control text-center"
-                                                       placeholder="identifier" hidden=""/>
 
-                                            </div>
-                                        </div>
+
+                                    <div class="table-wrap-height">
+                                        <table id="totalls" class="table table-bordered "
+                                               style="width:100%; direction: rtl">
+                                            <tr>
+                                                <th> {{ __('main.date') }}</th>
+                                                <td colspan="3"><input type="text"
+                                                                       id="date" name="bill_date"
+                                                                       class="form-control text-center"
+                                                                       placeholder="{{ __('main.date') }}" autofocus
+                                                                       value="{{\Carbon\Carbon::now()}}" readonly/></td>
+                                            </tr>
+                                            <tr>
+                                                <th> {{ __('main.bill_no') }}</th>
+                                                <td colspan="3"><input type="text" id="bill_number" name="bill_number"
+                                                                       class="form-control text-center"
+                                                                       placeholder="{{ __('main.bill_no') }}" autofocus
+                                                                       readonly/>
+                                                    <input type="text" id="identifier" name="identifier"
+                                                           class="form-control text-center"
+                                                           placeholder="identifier" hidden=""/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th> {{ __('main.total') }}</th>
+                                                <td><input type="text"
+                                                           class="form-control text-center"
+                                                           id="total" name="total"
+                                                           autofocus readonly
+                                                           value="0"/>
+
+                                                </td>
+                                                <th> {{ __('main.Vat') }}</th>
+                                                <td><input type="text"
+                                                           class="form-control text-center" id="vat" name="vat"
+                                                           placeholder="{{ __('main.Vat') }}" autofocus readonly
+                                                           value="0"/>
+
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <th> {{ __('main.discount') }}</th>
+                                                <td><input type="text"
+                                                           class="form-control text-center"
+                                                           id="discount" name="discount"
+                                                           placeholder="{{ __('main.discount') }}" autofocus readonly
+                                                           value="0"/>
+
+                                                </td>
+                                                <th> {{ __('main.net') }}</th>
+                                                <td><input type="text"
+                                                           class="form-control text-center" id="net" name="net"
+                                                           placeholder="{{ __('main.net') }}" autofocus readonly
+                                                           value="0"/>
+                                                    <input type="text"
+                                                           class="form-control text-center" id="cash" name="cash"
+                                                           placeholder="{{ __('main.cash') }}" hidden value="0"/>
+                                                    <input type="text"
+                                                           class="form-control text-center" id="credit" name="credit"
+                                                           placeholder="{{ __('main.credit') }}" hidden value="0"/>
+                                                    <input type="text"
+                                                           class="form-control text-center" id="bank" name="bank"
+                                                           placeholder="{{ __('main.net') }}" hidden value="0"/>
+                                                    <input type="text"
+                                                           class="form-control text-center" id="serviceVal"
+                                                           name="serviceVal"
+                                                           placeholder="{{ __('main.service_val') }}" autofocus readonly
+                                                           value="0" hidden/>
+
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
+                                    {{--                                    <div hidden>--}}
+                                    {{--                                    <div class="form-group row_border">--}}
+                                    {{--                                        <div class="row justify-content-center">--}}
+                                    {{--                                            <div class="col-4">--}}
+                                    {{--                                                <label>{{ __('main.date') }}</label>--}}
+                                    {{--                                                <input type="text"--}}
+                                    {{--                                                       id="date" name="bill_date"--}}
+                                    {{--                                                       class="form-control text-center"--}}
+                                    {{--                                                       placeholder="{{ __('main.date') }}" autofocus--}}
+                                    {{--                                                       value="{{\Carbon\Carbon::now()}}" readonly/>--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                            <div class="col-4">--}}
+                                    {{--                                                <label>{{ __('main.bill_no') }}</label>--}}
+                                    {{--                                                <input type="text" id="bill_number" name="bill_number"--}}
+                                    {{--                                                       class="form-control text-center"--}}
+                                    {{--                                                       placeholder="{{ __('main.bill_no') }}" autofocus readonly/>--}}
+                                    {{--                                                <input type="text" id="identifier" name="identifier"--}}
+                                    {{--                                                       class="form-control text-center"--}}
+                                    {{--                                                       placeholder="identifier" hidden=""/>--}}
 
-                                    <div class="form-group row_border">
-                                        <div class="row justify-content-center">
-                                            <div class="col-4">
-                                                <label>{{ __('main.total') }}</label>
-                                                <input type="text"
-                                                       class="form-control text-center"
-                                                       id="total" name="total"
-                                                       placeholder="{{ __('main.date') }}" autofocus readonly
-                                                       value="0"/>
-                                            </div>
-                                            <div class="col-4">
-                                                <label>{{ __('main.Vat') }}</label>
-                                                <input type="text"
-                                                       class="form-control text-center" id="vat" name="vat"
-                                                       placeholder="{{ __('main.Vat') }}" autofocus readonly value="0"/>
-                                            </div>
-                                            <div class="col-4">
-                                                <label>{{ __('main.service_val') }}</label>
-                                                <input type="text"
-                                                       class="form-control text-center" id="serviceVal"
-                                                       name="serviceVal"
-                                                       placeholder="{{ __('main.service_val') }}" autofocus readonly
-                                                       value="0"/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {{--                                            </div>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </div>--}}
 
-                                    <div class="form-group row_border">
-                                        <div class="row justify-content-center">
-                                            <div class="col-4">
-                                                <label>{{ __('main.discount') }}</label>
-                                                <input type="text"
-                                                       class="form-control text-center"
-                                                       id="discount" name="discount"
-                                                       placeholder="{{ __('main.discount') }}" autofocus readonly
-                                                       value="0"/>
-                                            </div>
-                                            <div class="col-4">
-                                                <label>{{ __('main.net') }}</label>
-                                                <input type="text"
-                                                       class="form-control text-center" id="net" name="net"
-                                                       placeholder="{{ __('main.net') }}" autofocus readonly value="0"/>
-                                                <input type="text"
-                                                       class="form-control text-center" id="cash" name="cash"
-                                                       placeholder="{{ __('main.cash') }}" hidden value="0"/>
-                                                <input type="text"
-                                                       class="form-control text-center" id="credit" name="credit"
-                                                       placeholder="{{ __('main.credit') }}" hidden value="0"/>
-                                                <input type="text"
-                                                       class="form-control text-center" id="bank" name="bank"
-                                                       placeholder="{{ __('main.net') }}" hidden value="0"/>
+                                    {{--                                    <div class="form-group row_border">--}}
+                                    {{--                                        <div class="row justify-content-center">--}}
+                                    {{--                                            <div class="col-4">--}}
+                                    {{--                                                <label>{{ __('main.total') }}</label>--}}
+                                    {{--                                                <input type="text"--}}
+                                    {{--                                                       class="form-control text-center"--}}
+                                    {{--                                                       id="total" name="total"--}}
+                                    {{--                                                       placeholder="{{ __('main.date') }}" autofocus readonly--}}
+                                    {{--                                                       value="0"/>--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                            <div class="col-4">--}}
+                                    {{--                                                <label>{{ __('main.Vat') }}</label>--}}
+                                    {{--                                                <input type="text"--}}
+                                    {{--                                                       class="form-control text-center" id="vat" name="vat"--}}
+                                    {{--                                                       placeholder="{{ __('main.Vat') }}" autofocus readonly value="0"/>--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                            <div class="col-4">--}}
+                                    {{--                                                <label>{{ __('main.service_val') }}</label>--}}
+                                    {{--                                                <input type="text"--}}
+                                    {{--                                                       class="form-control text-center" id="serviceVal"--}}
+                                    {{--                                                       name="serviceVal"--}}
+                                    {{--                                                       placeholder="{{ __('main.service_val') }}" autofocus readonly--}}
+                                    {{--                                                       value="0"/>--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </div>--}}
 
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {{--                                    <div class="form-group row_border">--}}
+                                    {{--                                        <div class="row justify-content-center">--}}
+                                    {{--                                            <div class="col-4">--}}
+                                    {{--                                                <label>{{ __('main.discount') }}</label>--}}
+                                    {{--                                                <input type="text"--}}
+                                    {{--                                                       class="form-control text-center"--}}
+                                    {{--                                                       id="discount" name="discount"--}}
+                                    {{--                                                       placeholder="{{ __('main.discount') }}" autofocus readonly--}}
+                                    {{--                                                       value="0"/>--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                            <div class="col-4">--}}
+                                    {{--                                                <label>{{ __('main.net') }}</label>--}}
+                                    {{--                                                <input type="text"--}}
+                                    {{--                                                       class="form-control text-center" id="net" name="net"--}}
+                                    {{--                                                       placeholder="{{ __('main.net') }}" autofocus readonly value="0"/>--}}
+                                    {{--                                                <input type="text"--}}
+                                    {{--                                                       class="form-control text-center" id="cash" name="cash"--}}
+                                    {{--                                                       placeholder="{{ __('main.cash') }}" hidden value="0"/>--}}
+                                    {{--                                                <input type="text"--}}
+                                    {{--                                                       class="form-control text-center" id="credit" name="credit"--}}
+                                    {{--                                                       placeholder="{{ __('main.credit') }}" hidden value="0"/>--}}
+                                    {{--                                                <input type="text"--}}
+                                    {{--                                                       class="form-control text-center" id="bank" name="bank"--}}
+                                    {{--                                                       placeholder="{{ __('main.net') }}" hidden value="0"/>--}}
 
+                                    {{--                                            </div>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </div>--}}
+                                    {{--                                    </div>--}}
                                 </div>
                             </div>
                         </div>
@@ -546,7 +658,7 @@
 {{--    Confirmation  Modal   --}}
 <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
@@ -564,7 +676,7 @@
                             <span class="btn-label"><i class="fa fa-eye"></i></span>{{__('main.show_bill')}}</button>
                     </div>
                     <div class="col-6 text-center">
-                        <button type="button" class="btn btn-labeled btn-primary paymentButton">
+                        <button type="button" class="btn btn-labeled btn-primary paymentBillButton">
                             <span class="btn-label"><i class="fa fa-dollar"></i></span>{{__('main.pay')}}</button>
                     </div>
                 </div>
@@ -626,8 +738,8 @@
                     </thead>
                     <tbody>
                     <tr>
-                    <td class="text-center">F9</td>
-                    <td class="text-center">{{__('main.pay_prep')}}</td>
+                        <td class="text-center">F9</td>
+                        <td class="text-center">{{__('main.pay_prep')}}</td>
                     </tr>
                     <tr>
                         <td class="text-center">F3</td>
@@ -683,7 +795,7 @@
             </div>
             <div class="modal-body" id="paymentBody">
                 <form method="POST" action="{{ route('payBill') }}"
-                      enctype="multipart/form-data">
+                      enctype="multipart/form-data" id="payment-form">
                     @csrf
 
                     <div class="row">
@@ -735,7 +847,8 @@
                                 <input type="number" step="any" id="modalBillDiscountPer" name="modalBillDiscountPer"
                                        class="form-control" max="100"
                                        placeholder="{{ __('main.discount') }} %" onkeyup="calculateModalDiscount()"
-                                       onchange="calculateModalDiscount()"/>
+                                       onchange="calculateModalDiscount()" min="0" required
+                                       onblur="leaveModalDiscountPer()"/>
                             </div>
                         </div>
                         <div class="col-6">
@@ -745,7 +858,8 @@
                                 <input type="number" step="any" id="modalBillDiscount" name="modalBillDiscount"
                                        class="form-control"
                                        placeholder="{{ __('main.discount') }}" onkeyup="calculateModalDiscountPer()"
-                                       onchange="calculateModalDiscountPer()"/>
+                                       onchange="calculateModalDiscountPer()" min="0" required
+                                onblur="leaveModalDiscount()"/>
                             </div>
 
                         </div>
@@ -771,7 +885,7 @@
                                 </label>
                                 <input type="number" step="any" id="modalBillCash" name="modalBillCash"
                                        class="form-control"
-                                       placeholder="{{ __('main.cash') }}"/>
+                                       placeholder="{{ __('main.cash') }}" readonly/>
                             </div>
                         </div>
                         <div class="col-6">
@@ -780,7 +894,8 @@
                             <div class="form-group">
                                 <input type="number" step="any" id="modalBillCredit" name="modalBillCredit"
                                        class="form-control"
-                                       placeholder="{{ __('main.visa') }}"/>
+                                       placeholder="{{ __('main.visa') }}" min="0" required
+                                       onblur="leaveModalVisa()"/>
                             </div>
 
                         </div>
@@ -789,8 +904,8 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-6" style="display: block; margin: 20px auto; text-align: center;" >
-                            <button type="submit" class="btn btn-labeled btn-primary" >
+                        <div class="col-6" style="display: block; margin: 20px auto; text-align: center;">
+                            <button type="button"  id="modalPaySumbit" class="btn btn-labeled btn-primary">
                                 {{__('main.finish_bill')}}</button>
                         </div>
                     </div>
@@ -798,9 +913,13 @@
             </div>
         </div>
     </div>
+
+
 </div>
 
+<div class="show_modal">
 
+</div>
 <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="../cpanel/js/app-style-switcher.js"></script>
 <script src="../cpanel/js/waves.js"></script>
@@ -818,26 +937,201 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
-      function dismissPayment(){
 
 
-      }
     $(document).ready(function () {
 
-        $(".carousel").on("touchstart", function(event){
+        $(document).keypress(
+            function (event) {
+                if (event.which == '13') {
+                    event.preventDefault();
+                }
+            });
+
+        $('#pay_prepare').click(function () {
+
+            if(Bill == null) {
+                const bill_type = document.getElementById("bill_type").value;
+                if (bill_type == 3) {
+                    alert($('<div>{{trans('main.wrong_pay_prepare')}}</div>').text());
+                } else {
+                    let table_id = document.getElementById("table_id").value;
+                    if(table_id == 0){
+                        let form = document.getElementById("header-form");
+                        form.submit();
+
+                        $.ajax({
+                            type: 'get',
+                            url: 'getLastBill',
+                            dataType: 'json',
+
+                            success: function (response) {
+
+                                if (response) {
+
+                                    printKitchenAction(response.id);
+
+
+                                }
+                            }
+                        });
+                    } else {
+                        alert($('<div>{{trans('main.can_not_book_table')}}</div>').text());
+                    }
+
+
+
+                }
+            } else {
+                console.log(Bill);
+                alert($('<div>{{trans('main.can_not_edit_bill')}}</div>').text());
+            }
+        });
+
+        $('#prepare').click(function () {
+            if(Bill == null) {
+                let bill_type = document.getElementById("bill_type").value;
+                console.log(bill_type);
+                if (bill_type == 3) {
+                    const table_id = document.getElementById('table_id').value;
+                    if (table_id > 0) {
+                        let form = document.getElementById("header-form");
+                        form.submit();
+                        //last bill from ajax
+                        $.ajax({
+                            type: 'get',
+                            url: 'getLastBill',
+                            dataType: 'json',
+
+                            success: function (response) {
+                                console.log(response);
+                                if (response) {
+                                    printKitchenAction(response.id);
+
+                                }
+                            }
+                        });
+
+                    } else {
+                        alert($('<div>{{trans('main.table_required')}}</div>').text());
+                    }
+                } else {
+                    alert($('<div>{{trans('main.wrong_prepare')}}</div>').text());
+                }
+            } else {
+                if(Bill.billType == 3){
+                    if(!Bill.payed){
+                        const table_id = document.getElementById('table_id').value;
+                        if (table_id > 0) {
+                            let form = document.getElementById("header-form");
+                            form.submit();
+                            //last bill from ajax
+                            $.ajax({
+                                type: 'get',
+                                url: 'getLastBill',
+                                dataType: 'json',
+
+                                success: function (response) {
+                                    console.log(response);
+                                    if (response) {
+                                        printKitchenAction(response.id);
+
+                                    }
+                                }
+                            });
+
+                        } else {
+                            alert($('<div>{{trans('main.table_required')}}</div>').text());
+                        }
+                    } else {
+                        alert($('<div>{{trans('main.can_not_edit_paid_bills')}}</div>').text());
+                    }
+
+                } else {
+                    alert($('<div>{{trans('main.can_not_edit_bill')}}</div>').text());
+                }
+
+            }
+        });
+
+        $('#modalPaySumbit').click(function (){
+            let form = document.getElementById("payment-form");
+            form.submit();
+            //last bill from ajax
+            $.ajax({
+                type: 'get',
+                url: 'getLastBill',
+                dataType: 'json',
+
+                success: function (response) {
+                    console.log(response);
+                    if(response){
+                        printAction(response.id);
+
+                    }
+                }
+            });
+        })
+
+        $('#unpaidBills').click(function () {
+
+            showUnPaidBills();
+        });
+
+        $(document).on('click', '.unPaidPay', function (event) {
+            $('#paymentsModal').modal('hide');
+            $.ajax({
+                type: 'get',
+                url: 'searchBill' + '/' + this.value,
+                dataType: 'json',
+
+                success: function (response) {
+                    console.log(response);
+                    if (response[0]) {
+                        Bill = response[0];
+                        PayBillEvent();
+
+
+                    } else {
+                        alert($('<div>{{trans('main.no_search_result')}}</div>').text());
+                    }
+                }
+            });
+        });
+        $(document).on('click', '.unPaidShow', function (event) {
+            $('#paymentsModal').modal('hide');
+            $.ajax({
+                type: 'get',
+                url: 'searchBill' + '/' + this.value,
+                dataType: 'json',
+
+                success: function (response) {
+                    console.log(response);
+                    if (response[0]) {
+                        Bill = response[0];
+                        setBill();
+
+
+                    } else {
+                        alert($('<div>{{trans('main.no_search_result')}}</div>').text());
+                    }
+                }
+            });
+
+        });
+        $(".carousel").on("touchstart", function (event) {
 
             var yClick = event.originalEvent.touches[0].pageY;
-            $(this).one("touchmove", function(event){
+            $(this).one("touchmove", function (event) {
 
                 var yMove = event.originalEvent.touches[0].pageY;
-                if( Math.floor(yClick - yMove) > 1 ){
+                if (Math.floor(yClick - yMove) > 1) {
                     $(".carousel").carousel('next');
-                }
-                else if( Math.floor(yClick - yMove) < -1 ){
+                } else if (Math.floor(yClick - yMove) < -1) {
                     $(".carousel").carousel('prev');
                 }
             });
-            $(".carousel").on("touchend", function(){
+            $(".carousel").on("touchend", function () {
                 $(this).off("touchmove");
             });
         });
@@ -846,7 +1140,7 @@
             interval: false,
         });
 
-        $('.carousel .carousel-item').each(function(){
+        $('.carousel .carousel-item').each(function () {
             var minPerSlide = 6;
             var next = $(this).next();
             if (!next.length) {
@@ -854,8 +1148,8 @@
             }
             next.children(':first-child').clone().appendTo($(this));
 
-            for (var i=0;i<minPerSlide;i++) {
-                next=next.next();
+            for (var i = 0; i < minPerSlide; i++) {
+                next = next.next();
                 if (!next.length) {
                     next = $(this).siblings(':first');
                 }
@@ -865,39 +1159,9 @@
         });
 
 
-        $.ajax({
-            type: 'get',
-            url: 'getLastBill',
-            dataType: 'json',
-
-            success: function (response) {
-                console.log(response);
-
-                if (response) {
-
-                    if (response.billType == 1 || response.billType == 2) {
-                        if (response.payed == 0) {
-                            Bill = response;
-                            $('#paymentModal').modal("show");
-                               fillPaymentModal();
-                        } else {
-                            // Bill = response;
-                            // printAction(Bill.id)
-                            Bill = null;
-                        }
-
-                    } else {
-                        Bill = null;
-                    }
 
 
-                } else {
-                    Bill = null;
-                }
-            }
-        });
-
-        $(".print_btn").click(function (){
+        $(".print_btn").click(function () {
 
             PrintBill();
         });
@@ -1001,11 +1265,11 @@
 
         });
 
-        $(document).on('click', '.paymentButton', function (event) {
+        $(document).on('click', '.paymentBillButton', function (event) {
             PayBillEvent();
         });
 
-        $("#keyboard").click(function (){
+        $("#keyboard").click(function () {
             event.preventDefault();
             let href = $(this).attr('data-attr');
             $.ajax({
@@ -1029,33 +1293,28 @@
                 timeout: 8000
             })
         });
-        $(document).keydown(function (event){
+        $(document).keydown(function (event) {
             // event.preventDefault();
             console.log(event.keyCode);
             if (event.keyCode == 107) {
                 increaseQnt();
-            } else if(event.keyCode == 109){
+            } else if (event.keyCode == 109) {
                 decreaseQnt();
-            }
-            else if(event.keyCode == 46){
+            } else if (event.keyCode == 46) {
                 removeItem();
-            } else if(event.keyCode == 122){
+            } else if (event.keyCode == 122) {
                 openTables();
-            } else if(event.keyCode == 123){
+            } else if (event.keyCode == 123) {
                 cancekOrderEvent();
-            }
-            else if(event.keyCode == 113){
+            } else if (event.keyCode == 113) {
                 PrintBill();
-            }
-            else if(event.keyCode == 117){
+            } else if (event.keyCode == 117) {
                 PayBillEvent();
-            }
-            else if(event.keyCode == 114){
+            } else if (event.keyCode == 114) {
                 //sumbit
                 let form = document.getElementById("header-form");
                 form.submit();
-            }
-            else if(event.keyCode == 120){
+            } else if (event.keyCode == 120) {
                 //sumbit
                 let form = document.getElementById("header-form");
                 form.submit();
@@ -1089,41 +1348,56 @@
         });
     });
 
-    function cancekOrderEvent(){
+    function cancekOrderEvent() {
         if (Bill) {
-
-            let href = $(this).attr('data-attr');
-            $.ajax({
-                url: href,
-                beforeSend: function () {
-                    $('#loader').show();
-                },
-                // return the result
-                success: function (result) {
-                    $('#confirmModal').modal("show");
-                },
-                complete: function () {
-                    $('#loader').hide();
-                },
-                error: function (jqXHR, testStatus, error) {
-                    console.log(error);
-                    alert("Page " + href + " cannot open. Error:" + error);
-                    $('#loader').hide();
-                },
-                timeout: 8000
-            })
+           if(Bill.payed == 0) {
+               let href = $(this).attr('data-attr');
+               $.ajax({
+                   url: href,
+                   beforeSend: function () {
+                       $('#loader').show();
+                   },
+                   // return the result
+                   success: function (result) {
+                       $('#confirmModal').modal("show");
+                   },
+                   complete: function () {
+                       $('#loader').hide();
+                   },
+                   error: function (jqXHR, testStatus, error) {
+                       console.log(error);
+                       alert("Page " + href + " cannot open. Error:" + error);
+                       $('#loader').hide();
+                   },
+                   timeout: 8000
+               });
+           } else {
+               alert($('<div>{{trans('main.can_not_cancel_payed')}}</div>').text());
+           }
         } else {
             alert($('<div>{{trans('main.no_bill_found')}}</div>').text());
         }
     }
-    function PrintBill(){
-        if (Bill){
 
+    function PrintBill() {
+        if (Bill) {
+            printAction(Bill.id);
         } else {
             alert('Please Select Bill First');
         }
     }
-    function PayBillEvent(){
+
+    function showUnPaidBills() {
+        var route = '{{route('getUnpaidBills')}}';
+        $.get(route, function (data) {
+            console.log(data);
+            $(".show_modal").html(data);
+            $('#paymentsModal').modal('show');
+        });
+
+    }
+
+    function PayBillEvent() {
         if (Bill) {
             if (Bill.payed == 0) {
                 const local = document.getElementById("local").value;
@@ -1160,20 +1434,28 @@
                 alert($('<div>{{trans('main.bill_payed_alredy')}}</div>').text());
             }
         } else {
-            alert($('<div>{{trans('main.no_bill_found')}}</div>').text());
+            alert($('<div>{{trans('main.can_not_pay_before_save')}}</div>').text());
         }
     }
+
     function cancelOrder() {
         let url = "{{ route('cancelOrder', ':id') }}";
         url = url.replace(':id', Bill.id);
         document.location.href = url;
     }
+
     function printAction(id) {
         let url = "{{ route('printAction', ':id') }}";
-        url = url.replace(':id',id);
-        document.location.href = url;
+        url = url.replace(':id', id);
+        window.open(url, "_blank",);
     }
-    function openTables(){
+    function printKitchenAction(id) {
+        let url = "{{ route('PrintActionKitchen', ':id') }}";
+        url = url.replace(':id', id);
+       window.open(url, "_blank",);
+    }
+
+    function openTables() {
         let href = $(this).attr('data-attr');
         $.ajax({
             url: href,
@@ -1196,7 +1478,9 @@
             timeout: 8000
         })
     }
+
     function fillPaymentModal() {
+        console.log(Bill);
         const local = document.getElementById("local").value;
         const modalBillNo = document.getElementById('modalBillNo');
         const modalTableHall = document.getElementById('modalTableHall');
@@ -1230,6 +1514,35 @@
             modalBillCredit.value = Bill.credit;
 
         }
+
+        $('#modalBillCash').keyup(function () {
+            const total = document.getElementById('modalBillTotal').value;
+            const cash = document.getElementById('modalBillCash').value;
+            const visa = total - cash;
+            console.log(cash);
+            document.getElementById('modalBillCredit').value = visa;
+        });
+        $('#modalBillCash').change(function () {
+            const total = document.getElementById('modalBillTotal').value;
+            const cash = document.getElementById('modalBillCash').value;
+            const visa = total - cash;
+            console.log(cash);
+            document.getElementById('modalBillCredit').value = visa;
+        });
+
+
+        $('#modalBillCredit').keyup(function () {
+            const total = document.getElementById('modalBillNet').value;
+            const visa = document.getElementById('modalBillCredit').value;
+            const cash = total - visa;
+            document.getElementById('modalBillCash').value = cash;
+        });
+        $('#modalBillCredit').change(function () {
+            const total = document.getElementById('modalBillNet').value;
+            const visa = document.getElementById('modalBillCredit').value;
+            const cash = total - visa;
+            document.getElementById('modalBillCash').value = cash;
+        });
     }
 
     function calculateModalDiscount() {
@@ -1269,6 +1582,24 @@
         modalBillCredit.value = 0;
     }
 
+    function leaveModalDiscount(){
+        var modalBillDiscount = document.getElementById('modalBillDiscount');
+        if(!modalBillDiscount.value){
+            modalBillDiscount.value = 0 ;
+        }
+    }
+    function leaveModalDiscountPer(){
+        var modalBillDiscountPer = document.getElementById('modalBillDiscountPer');
+        if(!modalBillDiscountPer.value){
+            modalBillDiscountPer.value = 0 ;
+        }
+    }
+    function leaveModalVisa(){
+        var modalBillCredit = document.getElementById('modalBillCredit');
+        if(!modalBillCredit.value){
+            modalBillCredit.value = 0 ;
+        }
+    }
 
     function selecCategory(element, id) {
         const collection = document.getElementsByClassName("selected-cat");
@@ -1414,7 +1745,7 @@
         cell12.innerHTML = size.price + '<input name="totalTable[]" value="' + size.price + '" hidden>';
 
         cell14.innerHTML = 0 + '<input name="extra_item_id[]" value="0" hidden>';
-        cell15.innerHTML = 0 + '<input name="category_id[]" value="'+item.category_id+'" hidden>';
+        cell15.innerHTML = 0 + '<input name="category_id[]" value="' + item.category_id + '" hidden>';
 
         cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
     }
@@ -1497,7 +1828,7 @@
         cell11.innerHTML = item.sizes[0].price + '<input name="price[]" value="' + item.sizes[0].price + '" hidden>';
         cell12.innerHTML = item.sizes[0].price + '<input name="totalTable[]" value="' + item.sizes[0].price + '" hidden>';
         cell14.innerHTML = details[details.length - 1].item_size_id + '<input name="extra_item_id[]" value="' + details[details.length - 1].item_size_id + '" hidden>';
-        cell15.innerHTML = 0 + '<input name="category_id[]" value="'+item.category_id+'" hidden>';
+        cell15.innerHTML = 0 + '<input name="category_id[]" value="' + item.category_id + '" hidden>';
 
         cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
         row.style.background = "cornflowerblue";
@@ -1541,7 +1872,7 @@
         } else {
             driver_data.style.display = "none";
         }
-        if (i == 3 || i == 4) {
+        if (i == 3 ) {
             // mediumButton.style.display = "block";
             hall_data.style.display = "block";
         } else {
@@ -1623,7 +1954,10 @@
             service = 0;
             servicePer = 0;
         }
-        serviceVal.value = service;
+        if (!Bill) {
+            serviceVal.value = service;
+        }
+
         return service;
     }
 
@@ -1735,8 +2069,10 @@
         var tbodys = table.getElementsByTagName("tbody");
         var tbody = tbodys[0];
         var target;
+        var index = 0;
         var trs = tbody.getElementsByTagName("tr");
         for (let item of trs) {
+            index += 1;
             var td = item.getElementsByTagName("td")[13];
             var checkBox = td.getElementsByTagName("input")[0];
             if (checkBox.checked) {
@@ -1744,14 +2080,42 @@
                 break;
             }
         }
-        if(target) {
+        if (target) {
+            var ExtrasToBeDelete = [];
+            var targetTD = target.getElementsByTagName("td")[5];
+            var targetIsExtra = targetTD.getElementsByTagName("input")[0].value;
+            if (targetIsExtra == 0) {
+                //this is item look for exrtras
+                for (let item of trs) {
+                    if (item.rowIndex > index) {
+                        var td = item.getElementsByTagName("td")[5];
+                        var extra = td.getElementsByTagName("input")[0].value;
+                        if (extra == 1) {
+                            ExtrasToBeDelete.push(item);
+                            var idd = target.getElementsByTagName("td")[3].innerHTML;
+                            if (details.filter(c => c.item_size_id == idd).length > 0) {
+                                details.splice(details.indexOf(details.filter(c => c.item_size_id == idd)[0]), 1);
+                            }
+
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            for (let ex of ExtrasToBeDelete) {
+                table.deleteRow(ex.rowIndex);
+            }
+            console.log(ExtrasToBeDelete);
+            ExtrasToBeDelete = [];
             var idTd = target.getElementsByTagName("td")[3];
             var id = idTd.innerHTML;
 
             if (details.filter(c => c.item_size_id == id).length > 0) {
                 details.splice(details.indexOf(details.filter(c => c.item_size_id == id)[0]), 1);
             }
-            console.log(details);
+
             table.deleteRow(target.rowIndex);
             calculateTotal();
         }
@@ -1786,6 +2150,12 @@
         }
     }
 
+    function calculateDeliveryService() {
+        var value = document.getElementById('delivery_service').value;
+        document.getElementById('serviceVal').value = value;
+        calculateTotal();
+    }
+
     function selectTable(element, table) {
         if (table.available == 1) {
             // select table
@@ -1813,6 +2183,7 @@
                 table_id.value = 0;
                 table_name.value = "";
             }
+            console.log( table_id.value );
 
         } else {
             // table is not available
@@ -1832,10 +2203,19 @@
         const bill_number = document.getElementById("bill_number");
         const default_type = document.getElementById("default_type");
         let identifier = document.getElementById('identifier');
+
+        document.getElementById('cash').value = '0';
+        document.getElementById('credit').value = '0';
+        document.getElementById('bank').value = '0';
+        document.getElementById('serviceVal').value = '0';
+
         identifier.value = "";
         document.getElementById('val').value = '';
         document.getElementById('table_id').value = 0;
         details = [];
+        if (i == 1) {
+            Bill = null;
+        }
 
         let bill_type = document.getElementById("bill_type");
         bill_type.value = 1;
@@ -1857,8 +2237,11 @@
 
             success: function (response) {
                 if (response) {
-                    delivery_service.value = response.delivery_service;
-                    service.value = response.service;
+                    if (!Bill) {
+                        delivery_service.value = response.delivery_service;
+                        service.value = response.service;
+                    }
+
 
                 } else {
                     delivery_service.value = "";
@@ -1985,6 +2368,9 @@
         var cell12 = row.insertCell(12);
         var cell13 = row.insertCell(13);
         var cell14 = row.insertCell(14);
+        var cell15 = row.insertCell(14);
+
+
         cell2.hidden = true;
         cell3.hidden = true;
         cell4.hidden = true;
@@ -1993,6 +2379,7 @@
         cell11.hidden = true;
         cell12.hidden = true;
         cell14.hidden = true;
+        cell15.hidden = true;
 
         cell1.innerHTML = details.length;
         cell2.innerHTML = detail.items[0].item_id + '<input name="item_id[]" value="' + detail.items[0].item_id + '" hidden>';
@@ -2009,6 +2396,7 @@
         cell12.innerHTML = detail.total + '<input name="totalTable[]" value="' + detail.total + '" hidden>';
 
         cell14.innerHTML = 0 + '<input name="extra_item_id[]" value="0" hidden>';
+        cell15.innerHTML = 0 + '<input name="category_id[]" value="' + detail.category_id + '" hidden>';
         cell13.innerHTML = `<td><input type="checkbox" name="myTextEditBox" value="checked" onchange="rowCheckChange(this)"/> </td>`;
     }
 
@@ -2088,6 +2476,9 @@
             let credit = document.getElementById('credit');
             let bank = document.getElementById('bank');
             let identifier = document.getElementById('identifier');
+            let delivery_service = document.getElementById('delivery_service');
+
+            console.log(Bill.billType);
             identifier.value = Bill.identifier;
             bill_type.value = Bill.billType;
             if (Bill.billType == 1) {
@@ -2099,6 +2490,9 @@
             } else if (Bill.billType == 4) {
                 ele = document.getElementById("default_type4");
             }
+            if (ele.classList.contains('filter-active'))
+                ele.classList.remove('filter-active');
+            console.log(ele);
             selectBillType(ele, Bill.billType);
             client_id.value = Bill.client_id;
             phone.value = Bill.phone;
@@ -2118,12 +2512,19 @@
             bill_number.value = Bill.bill_number;
             total.value = Bill.total;
             vat.value = Bill.vat;
-            serviceVal.value = Bill.serviceVal;
+            if (Bill.billType > 1) {
+                serviceVal.value = Bill.serviceVal;
+            } else {
+                delivery_service.value = Bill.delivery_service;
+                serviceVal.value = Bill.delivery_service;
+            }
             discount.value = Bill.discount;
             net.value = Bill.net;
             cash.value = Bill.cash;
             credit.value = Bill.credit;
             bank.value = Bill.bank;
+
+
             for (let i = 0; i < Bill.details.length; i++) {
                 if (Bill.details[i].isExtra == 0) {
                     // AddItem

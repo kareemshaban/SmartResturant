@@ -25,7 +25,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $sales_total = 0 ;
+        $sales_tax = 0 ;
+        $purchase_total = 0 ;
+        $total_expenses = 0 ;
+      return view('home' , compact('sales_tax' , 'sales_total' , 'purchase_total' , 'total_expenses'));
+
+        return '' ;
     }
     public function getUser(){
         $user = Auth::user();

@@ -321,5 +321,22 @@ return [
     'mins' => 'Decrease Qnt',
     'shortcut' => 'Shortcuts',
     'delete_alert' => 'Do you Want to Delete This Data ?!',
-
+    'can_not_pay_before_save' => 'Sorry You Can not Pay before Prepare Order',
+    'daily_total' => 'Total reports of the day',
+    'total_sales' => 'Total Sales Without Tax',
+    'total_tax' => 'Total Sales Tax',
+    'sold_item_total' => 'The number of items sold',
+    'expenses_total' => 'Total Expenses',
+    'wrong_pay_prepare' => 'Sorry "Pay&prepare" is for take away , delivery or local orders . for hall orders you should use "prepare" operation',
+    'table_required' => 'Sorry, yoy can not preform a hall order without a table !',
+    'wrong_prepare' => 'Sorry "Prepare" operation is for hall orders only . for takeaway , delivery or local orders you can use  "Pay&prepare" operation',
+    'unpaidBills' => 'Unpaid Bills',
+    'can_not_edit_bill' => 'Sorry , Edit Invoices is not allowed',
+    'can_not_cancel_payed' => 'Sorry, a paid invoice request cannot be cancelled',
+    'roles' => 'Roles',
+    'user_roles' =>' Users Roles',
+    'menu' => 'Menu',
+    'has_role' => 'Has Access ?',
+    'can_not_book_table' => 'Sorry, it is only possible to book a table on a Hall  invoice',
+    'can_not_edit_paid_bills' => 'Sorry, paid invoices cannot be modified'
 ];

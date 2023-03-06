@@ -226,6 +226,11 @@
                                     $(".modal-body #description_ar").val(response.description_ar);
                                     $(".modal-body #description_en").val(response.description_en);
                                     $(".modal-body #isAddValue").prop('checked' , response.isAddValue);
+                                    if(response.isAddValue){
+                                        $(".modal-body #addValue").attr('disabled', false);
+                                    } else {
+                                        $(".modal-body #addValue").attr('disabled', true);
+                                    }
                                     $(".modal-body #id").val( response.id);
 
                                     $(".modal-body .form-header").html($('<div>{{trans('main.edit_new')}}</div>').text());

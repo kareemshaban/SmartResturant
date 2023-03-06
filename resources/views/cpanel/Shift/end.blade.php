@@ -1,133 +1,79 @@
-<!DOCTYPE html>
-<html dir="ltr" lang="en">
+<div class="modal fade" id="paymentsModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document" style="min-width: 700px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="modelTitle"> {{__('main.end_shift')}}</label>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+                        style="color: red; font-size: 20px; font-weight: bold;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="smallBody">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords"
-          content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Ample admin lite dashboard bootstrap 5 dashboard template">
-    <meta name="description"
-          content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
-    <meta name="robots" content="noindex,nofollow">
-    <title>Smart Resturant</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
-    <!-- Favicon icon -->
-      <link rel="shortcut icon" href="../images/favicon.png" type="">
-    <!-- Custom CSS -->
-    <!-- Custom CSS -->
+                <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+                     data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+                    <div class="container-fluid">
+                        @include('flash-message')
+                        <form class="center" method="POST" action="{{ route('endShift' , $shift) }}" enctype="multipart/form-data" >
 
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
-    <br><script src = "http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer ></script>
-    <link href="../cpanel/css/style.min.css" rel="stylesheet">
- <link href="../cpanel/css/style.css" rel="stylesheet">
-    <style>
-        @font-face {
-            font-family: 'icomoon';
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf") ;
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        *{
-            font-family: 'icomoon';
-        }
+                            <div class="row justify-content-center">
+                                @csrf <!-- {{ csrf_field() }} -->
+                                <div class="col-md-11 col-xl-11 data-entry" style="margin-top: 0 !important;">
+                                    <div class="card-header px-0 mt-2 bg-transparent clearfix">
+                                        <h4 class="float-left pt-2">{{__('main.end_shift')}}</h4>
+                                        <div class="float-right card-header-actions mr-1">
 
 
+                                            <button type="submit" class="btn btn-labeled btn-primary "  >
+                                                <span class="btn-label"><i class="fa fa-power-off"></i></span>{{__('main.end')}}</button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body px-0">
+                                        <div class="form-group">
+                                            <label>{{__('main.user')}}</label>
+                                            <input
+                                                type="text"
+                                                name="name_ar"
+                                                id="name_ar"
+                                                class="form-control"
+                                                value="{{$name}} -- {{ $user}}"
+                                                disabled
+                                                style="text-align: center"
+                                            />
+                                            <input
+                                                type="text"
+                                                name="user_id"
+                                                id="user_id"
+                                                class="form-control"
+                                                value="{{$user}}"
+                                                hidden
+                                            />
 
-    </style>
-</head>
+                                        </div>
 
-<body>
+                                        <div class="form-group">
+                                            <label>{{__('main.end_money')}}</label>
+                                            <input
+                                                type="number"
+                                                name="end_money"
+                                                id="end_money"
+                                                class="form-control"
+                                                placeholder="{{__('main.end_money')}}"
+                                                autofocus
+                                                step="any"
 
-<div class="preloader">
-    <div class="lds-ripple">
-        <div class="lds-pos"></div>
-        <div class="lds-pos"></div>
-    </div>
-</div>
+                                            />
+                                        </div>
 
-<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-     data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-    @include('Layouts.cheader')
-    @include('Layouts.subheader' , ['pageTitle' =>  Config::get('app.locale') == 'ar'? 'إنهاء شيفت' : 'End Shift'])
-    <div class="container-fluid">
-        @include('flash-message')
-        <form class="center" method="POST" action="{{ route('endShift' , $shift) }}" enctype="multipart/form-data" >
+                                    </div>
+                                </div>
 
-            <div class="row justify-content-center">
-                @csrf <!-- {{ csrf_field() }} -->
-                <div class="col-md-9 col-xl-7 data-entry">
-                    <div class="card-header px-0 mt-2 bg-transparent clearfix">
-                        <h4 class="float-left pt-2">{{__('main.end_shift')}}</h4>
-                        <div class="float-right card-header-actions mr-1">
-
-
-                            <button type="submit" class="btn btn-labeled btn-primary "  >
-                                <span class="btn-label"><i class="fa fa-power-off"></i></span>{{__('main.end')}}</button>
-                        </div>
-                    </div>
-                    <div class="card-body px-0">
-                        <div class="form-group">
-                            <label>{{__('main.user')}}</label>
-                            <input
-                                type="text"
-                                name="name_ar"
-                                id="name_ar"
-                                class="form-control"
-                                value="{{$name}} -- {{ $user}}"
-                                disabled
-                                style="text-align: center"
-                            />
-                            <input
-                                type="text"
-                                name="user_id"
-                                id="user_id"
-                                class="form-control"
-                                value="{{$user}}"
-                                hidden
-                            />
-
-                        </div>
-
-                        <div class="form-group">
-                            <label>{{__('main.end_money')}}</label>
-                            <input
-                                type="number"
-                                name="end_money"
-                                id="end_money"
-                                class="form-control"
-                                placeholder="{{__('main.end_money')}}"
-                                autofocus
-                                step="any"
-
-                            />
-                        </div>
-
+                            </div>
+                        </form>
                     </div>
                 </div>
-
             </div>
-        </form>
-
+        </div>
     </div>
-
-
-    <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../cpanel/js/app-style-switcher.js"></script>
-    <script src="../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <script src="../cpanel/js/waves.js"></script>
-    <script src="../cpanel/js/sidebarmenu.js"></script>
-    <script src="../cpanel/js/custom.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
-</body>
+</div>
