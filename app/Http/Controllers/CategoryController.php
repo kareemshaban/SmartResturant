@@ -50,7 +50,7 @@ class CategoryController extends Controller
 
             if($request -> has('img')){
                 if ($request->file('img')->getSize() / 1000 > 2000) {
-                    return redirect()->route('createCategory')->with('error', __('main.img_big'));
+                    return redirect()->route('items')->with('error', __('main.img_big'));
                 }
                 $imageName = time() . '.' . $request->img->extension();
                 $request->img->move(('images/Category'), $imageName);

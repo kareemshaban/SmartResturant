@@ -22,7 +22,8 @@ class Item extends Model
         'description_en',
         'img',
         'isAddValue',
-        'addValue'
+        'addValue',
+        'canPurshased'
     ];
 
     public function cayegory()

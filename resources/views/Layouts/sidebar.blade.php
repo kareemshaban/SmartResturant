@@ -104,6 +104,16 @@
                         <span class="hide-menu">{{ __('main.side_bill') }}</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a @if ($slag == 20) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link sidebar-link " @endif
+                    href="{{route('purchases')}}"
+                       aria-expanded="false">
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        <span class="hide-menu">{{ __('main.purchases') }}</span>
+                    </a>
+                </li>
+
+
 
                 <li class="nav-item sidebar-item  has-submenu" >
                     <a @if ($slag == 7) class="sidebar-link waves-effect waves-dark sidebar-link active" @else  class="sidebar-link waves-effect sidebar-link sidebar-link " @endif href="javascript:;">

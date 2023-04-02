@@ -113,6 +113,13 @@
                                                     type="button" class="btn btn-info">
                                                     {{ __('main.item_sizes') }}</button>
                                             </a>
+                                            @if($item -> type != 2)
+                                            <a href="{{route('itemMaterials' , $item -> id)}}">
+                                                <button
+                                                    type="button" class="btn btn-warning">
+                                                    {{ __('main.itemMaterials') }}</button>
+                                            </a>
+                                                @endif
 
                                         </td>
                                     </tr>
@@ -172,6 +179,8 @@
                         $(".modal-body #description_ar").val("");
                         $(".modal-body #description_en").val("");
                         $(".modal-body #isAddValue").prop('checked' , false);
+                        $(".modal-body #isAddValue").prop('canPurshased' , false);
+
 
 
                         $(".modal-body .form-header").html($('<div>{{trans('main.new_item')}}</div>').text());
@@ -226,6 +235,8 @@
                                     $(".modal-body #description_ar").val(response.description_ar);
                                     $(".modal-body #description_en").val(response.description_en);
                                     $(".modal-body #isAddValue").prop('checked' , response.isAddValue);
+                                    $(".modal-body #canPurshased").prop('checked' , response.canPurshased);
+
                                     if(response.isAddValue){
                                         $(".modal-body #addValue").attr('disabled', false);
                                     } else {

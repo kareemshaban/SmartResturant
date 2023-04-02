@@ -12,15 +12,15 @@ class ItemSizes extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'id',
-        'item_id',
-        'size_id',
-        'level',
-        'transformFactor',
-        'price',
-        'priceWithAddValue'
-    ];
+        protected $fillable = [
+            'id',
+            'item_id',
+            'size_id',
+            'level',
+            'transformFactor',
+            'price',
+            'priceWithAddValue'
+        ];
 
     public function item()
     {

@@ -336,7 +336,26 @@ return [
     'menu' => 'القائمة',
     'has_role' => 'لديه صلاحية ؟',
     'can_not_book_table' => 'عفوا لا يمكن حجز طاولة إلا في فاتورة من نوع صالة',
-    'can_not_edit_paid_bills' => 'عفوا لا يمكن تعديل الفواتير المدفوعة'
+    'can_not_edit_paid_bills' => 'عفوا لا يمكن تعديل الفواتير المدفوعة',
+    'canPurshased' => 'يمكن  شراءه',
+    'itemMaterials' => 'المواد الخام',
+    'material' => 'الخام',
+    'new_material' => 'إضافة خام جديد',
+    'edit_material' => 'تعديل بيانات خام',
+    'purchases' => 'فاتورة المشتريات',
+    'bill_date' => 'تاريخ الفاتورة',
+    'bill_number' => 'رقم الفاتورة',
+    'customer' => 'المورد',
+    'paid' => 'المدفوع',
+    'remain' => 'المتبقي',
+    'InvoiceType' => 'نوع الفاتورة',
+    'add_item_hint' => 'أضف الصنف إلي الفاتورة (البحث بكود الصنف او إسمه)',
+    'items' => 'أصناف الفاتورة',
+    'item_name_code' => 'كود و إسم الصنف',
+    'price_without_tax' => 'السعر بدون الضريبة',
+    'price_with_tax' => 'السعر شامل الضريبة',
+    'total_without_tax' => 'الإجمالي بدون ضريبة',
+    'notes' => 'ملاحظات'
 
 
 

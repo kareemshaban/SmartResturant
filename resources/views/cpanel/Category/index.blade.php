@@ -94,7 +94,7 @@
                                 <td class="text-center">{{ $loop->index + 1 }}</td>
                                 <td class="text-center">{{ $category->id }}</td>
                                 <td class="text-center">
-                                    <img src="{{ asset('images/Category/' . $category->img) }}" height=50 width=50
+                                    <img src="{{asset('images/Category/' . $category->img) }}" height=50 width=50
                                          alt="category image">
                                 </td>
 
@@ -135,7 +135,7 @@
     var id = 0;
     $(document).ready(function () {
 
-  
+
 
         $(document).on('click', '#createButton', function (event) {
             id = 0;

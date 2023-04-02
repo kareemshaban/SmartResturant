@@ -131,6 +131,16 @@
                 </div>
 
                 <div class="form-group">
+                    <div class="col-6">
+                        <label>{{ __('main.canPurshased') }}</label>
+
+                        <input class="form-control-cehck  @error('canPurshased') is-invalid @enderror" type="checkbox"
+                               id="canPurshased" name="canPurshased" >
+
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label>{{ __('main.description_ar') }}</label>
                     <textarea type="text" name="description_ar" id="description_ar"
                               class="form-control @error('description_ar') is-invalid @enderror"

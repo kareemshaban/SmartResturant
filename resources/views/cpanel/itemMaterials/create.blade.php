@@ -3,13 +3,13 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <label class="modelTitle"> {{__('main.item_sizes')}}</label>
+                <label class="modelTitle"> {{__('main.itemMaterials')}}</label>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" id="paymentBody">
-                <form class="center" method="POST" action="{{ route('storeItemSize') }}" enctype="multipart/form-data">
+                <form class="center" method="POST" action="{{ route('storeItemMaterial') }}" enctype="multipart/form-data">
 
                     <div class="row justify-content-center">
                         @csrf
@@ -23,7 +23,6 @@
                                                 class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}</button>
                                 </div>
                             </div>
-                            @include('flash-message')
 
                             <div class="card-body px-0">
                                 <div class="form-group">
@@ -35,10 +34,27 @@
                                                    disabled/>
                                         </div>
                                         <div class="col-6">
+                                            <label>{{ __('main.material') }}</label>
+                                            <select class="custom-select mr-sm-2 @error('material_id') is-invalid @enderror"
+                                                    name="material_id" id="material_id" >
+                                                <option selected value="">Choose...</option>
+                                                @foreach ($materials as $item)
+                                                    <option
+                                                        value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+
+                                                @endforeach
+                                            </select>
+                                            @error('material_id')
+                                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                            @enderror
+                                        </div>
+                                        <div class="col-6" hidden>
                                             <label>{{ __('main.isAddValue') }}</label>
 
                                             <input type="text" class="form-control" id="add" name="add"
-                                                   value="{{ $item -> addValue ?? 0  }}" readonly/>
+                                                   value="{{ $item -> addValue ?? 0  }}" readonly />
                                             <input type="text" class="form-control" id="addValue"
                                                    value="{{ $item -> addValue ?? 0 }}" hidden/>
                                             <input type="text" class="form-control" id="id" name="id" hidden/>
@@ -49,26 +65,41 @@
 
 
                                 <div class="form-group">
-                                    <label>{{ __('main.size') }}</label>
-                                    <select class="custom-select mr-sm-2 @error('size_id') is-invalid @enderror"
-                                            name="size_id" id="size_id" onchange="getLevel()">
-                                        <option selected value="">Choose...</option>
-                                        @foreach ($sizes as $item)
-                                            <option
-                                                value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+                                    <div class="row">
 
-                                        @endforeach
-                                    </select>
-                                    <input type="text" name="item_id" id="item_id" hidden
-                                           value="{{ $itemId }}"/>
-                                    @error('size_id')
-                                    <span class="invalid-feedback" role="alert">
+                                        <div class="col-6">
+                                            <label>{{ __('main.size') }}</label>
+                                            <select class="custom-select mr-sm-2 @error('size_id') is-invalid @enderror"
+                                                    name="size_id" id="size_id" onchange="getLevel()">
+                                                <option selected value="">Choose...</option>
+
+                                            </select>
+                                            <input type="text" name="item_id" id="item_id" hidden
+                                                   value="{{ $itemId }}"/>
+                                            @error('size_id')
+                                            <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                    @enderror
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>{{ __('main.quantity') }}</label>
+                                            <input type="number" name="qnt" id="qnt" step="any"
+                                                   class="form-control @error('qnt') is-invalid @enderror"
+                                                   placeholder="{{ __('main.quantity') }}" autofocus />
+                                            @error('qnt')
+                                            <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                            @enderror
+                                        </div>
+
+                                    </div>
+
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group" hidden>
                                     <div class="row">
                                         <div class="col-6">
                                             <label>{{ __('main.level') }}</label>
@@ -81,7 +112,7 @@
                                         </span>
                                             @enderror
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6" >
                                             <label>{{ __('main.transform') }}</label>
                                             <input type="number" step="any" name="transformFactor" id="transformFactor"
                                                    class="form-control @error('transformFactor') is-invalid @enderror"
@@ -97,7 +128,7 @@
 
 
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" hidden>
                                     <div class="row">
                                         <div class="col-6">
                                             <label>{{ __('main.price') }}</label>
@@ -145,13 +176,47 @@
 
             </div>
         </div>
-
+  <input type="hidden" value="{{Config::get('app.locale') == 'ar' ? 'ar' : 'en'}}" id="local">
     </div>
 </div>
 
 <script type="text/javascript">
 
     $(document).ready(function () {
+        $("#material_id").val("");
+
+        $("#material_id").change(function (){
+            console.log(this.value);
+            if(this.value != ''){
+                var local = document.getElementById('local').value ;
+                $.ajax({
+                    type:'get',
+                    url:'/getMaterialSizes' + '/' + this.value,
+                    dataType: 'json',
+
+                    success:function(response){
+                        console.log(response);
+                        if(response){
+                            $("#size_id option[value !='']").remove();
+                            for(let i = 0 ; i < response.length ; i++){
+                                $('#size_id').append($('<option>', {
+                                    value: response[i].id,
+                                    text:  local == 'ar' ? response[i].name_ar : response[i].name_en
+                                }));
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+            } else {
+                $("#size_id option[value !='']").remove();
+            }
+
+
+        });
+
+
         let price = document.getElementById("price");
         let priceWithAddValue = document.getElementById("priceWithAddValue");
         if (price) {

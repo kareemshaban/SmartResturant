@@ -152,6 +152,16 @@ function()
     Route::get('/getItemSize/{id}', [App\Http\Controllers\ItemSizesController::class, 'getItemSize'])->name('getItemSize');
 
 
+    Route::get('/itemMaterials/{item}', [App\Http\Controllers\ItemMaterialController::class, 'index'])->name('itemMaterials');
+    Route::get('/createItemMaterial/{item}', [App\Http\Controllers\ItemMaterialController::class, 'create'])->name('createItemMaterial');
+    Route::post('/storeItemMaterial', [App\Http\Controllers\ItemMaterialController::class, 'store'])->name('storeItemMaterial');
+    Route::get('/getMaterialSizes/{id}', [App\Http\Controllers\ItemMaterialController::class, 'getMaterialSizes'])->name('getMaterialSizes');
+
+
+
+
+
+
     //POS routes
     Route::get('/pos', [App\Http\Controllers\PosController::class, 'index'])->name('pos');
     Route::post('/storeBill', [App\Http\Controllers\PosController::class, 'store'])->name('storeBill');
@@ -299,6 +309,18 @@ function()
 
     Route::get('getCategory/{id}', [App\Http\Controllers\CategoryController::class, 'getCategory'])->name('getCategory');
     Route::get('getUnpaidBills', [App\Http\Controllers\BillController::class, 'getUnpaidBills'])->name('getUnpaidBills');
+
+
+
+
+    Route::get('/purchases', [App\Http\Controllers\PurchaseController::class, 'index'])->name('purchases');
+    Route::get('/create_purchase', [App\Http\Controllers\PurchaseController::class, 'create'])->name('create_purchase');
+    Route::post('/store_purchase', [App\Http\Controllers\PurchaseController::class, 'store'])->name('store_purchase');
+    Route::get('/get_purchase_number', [App\Http\Controllers\PurchaseController::class, 'getNo'])->name('get_purchase_number');
+
+
+
+
 
 
 

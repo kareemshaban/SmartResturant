@@ -6,6 +6,7 @@ use App\Models\BillDetails;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemSizes;
+use App\Models\WarehouseProducts;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -46,20 +47,28 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         if($request -> id == 0) {
-            if ($request->file('img')->getSize() / 1000 < 2000) {
-                $validated = $request->validate([
-                    'code' => 'required|unique:items',
-                    'name_ar' => 'required|unique:items',
-                    'name_en' => 'required|unique:items',
-                    'type' => 'required',
-                    'category_id' => 'required',
-                    'img' => 'required'
-                ]);
+            $validated = $request->validate([
+                'code' => 'required|unique:items',
+                'name_ar' => 'required|unique:items',
+                'name_en' => 'required|unique:items',
+                'type' => 'required',
+                'category_id' => 'required',
+            ]);
 
-                $imageName = time() . '.' . $request->img->extension();
-                $request->img->move(('images/Item'), $imageName);
+            if($request -> has('img')) {
+
+                if ($request->file('img')->getSize() / 1000 > 2000) {
+                    return redirect()->route('createCategory')->with('error', __('main.img_big'));
+                }
+                    $imageName = time() . '.' . $request->img->extension();
+                    $request->img->move(('images/Item'), $imageName);
+
+            } else {
+            $imageName = 'default_item.png';
+        }
+
                 try {
-                    Item::create([
+                 $item_id =   Item::create([
                         'code' => $request->code,
                         'name_ar' => $request->name_ar,
                         'name_en' => $request->name_en,
@@ -69,19 +78,29 @@ class ItemController extends Controller
                         'description_en' => $request->description_en,
                         'img' => $imageName,
                         'isAddValue' => $request->isAddValue == 'on' ? 1 : null,
-                        'addValue' => $request->addValue
+                        'addValue' => $request->addValue,
+                        'canPurshased' => $request -> canPurshased == 'on' ? 1 : 0
 
-                    ]);
+                    ]) -> id;
+
+                    if($request -> canPurshased == 'on'){
+                        //create warehouse product item
+                        WarehouseProducts::create([
+                            'warehouse_id' => 1,
+                            'product_id' => $item_id,
+                            'cost' => 0,
+                            'quantity' => 0
+                        ]);
+                    }
+
+
                     return redirect()->route('items')->with('success', __('main.created'));
                 } catch (QueryException $ex) {
                     return redirect()->route('items')->with('error', $ex->getMessage());
                 }
 
 
-            } else {
-                return redirect()->route('createItem')->with('error', __('main.img_big'));
 
-            }
         } else {
             return  $this -> update($request , $request-> id);
         }
@@ -156,7 +175,8 @@ class ItemController extends Controller
                    'description_en' => $request -> description_en,
                    'img' => $imageName,
                    'isAddValue' => $request -> isAddValue == 'on' ? 1 : null,
-                   'addValue' => $request -> addValue
+                   'addValue' => $request -> addValue,
+                    'canPurshased' => $request -> canPurshased == 'on' ? 1 : 0
 
                ]);
                return redirect()->route('items')->with('success' , __('main.updated'));
@@ -180,6 +200,10 @@ class ItemController extends Controller
         if(count($bills) == 0 && count($itemSizes) == 0){
             $item = Item::find($id);
             if($item) {
+                $warehouseProducts = WarehouseProducts::where('product_id', '=', $id)->get();
+                foreach ($warehouseProducts as $wpro){
+                    $wpro -> delete();
+                }
                 $item -> delete();
                 return redirect()->route('items')->with('success' , __('main.deleted'));
 

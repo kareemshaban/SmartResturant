@@ -152,7 +152,7 @@
                         $('#createModal').modal("show");
                         $(".modal-body #size_id").val("");
                         $(".modal-body #level").val('');
-                        $(".modal-body #transformFactor").val(0);
+                        $(".modal-body #transformFactor").val(1);
                         $(".modal-body #price").val("");
                         $(".modal-body #priceWithAddValue").val("");
                         $(".modal-body #id").val(0);

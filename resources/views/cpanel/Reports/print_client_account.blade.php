@@ -236,7 +236,7 @@
             </tr>
           </thead>
             <tbody>
-            <?php $sum_tot_Price = 0 ?>
+                <?php $sum_tot_Price = 0 ?>
             @foreach(Config::get('app.locale') == 'ar'? $arabic : $english as $category => $bill)
                 @foreach($bill as $item )
                    <tr>
