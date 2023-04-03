@@ -219,4 +219,32 @@ class ItemController extends Controller
         echo  json_encode($item);
         exit();
     }
+
+    public function getProduct($code)
+    {
+        $single = $this->getSingleProduct($code);
+
+        if($single){
+            echo response()->json([$single]);
+            exit;
+        }else{
+            $product = Item::with('sizes.size')
+                ->where('code' , 'like' , '%'.$code.'%')
+                ->orWhere('name_ar','like' , '%'.$code.'%')
+                ->orWhere('name_en','like' , '%'.$code.'%')
+                ->limit(5)
+                -> get();
+            echo json_encode ($product);
+            exit;
+        }
+
+    }
+
+    private function getSingleProduct($code){
+        return Item::with('sizes.size')
+            ->where('code' , '=' , $code)
+            ->orWhere('name_ar','=' , $code)
+            ->orWhere('name_en','=' , $code)
+            -> get()->first();
+    }
 }

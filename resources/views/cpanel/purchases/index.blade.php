@@ -100,7 +100,7 @@
                                         <td class="text-center">{{$process->id}}</td>
                                         <td class="text-center">{{$process->date}}</td>
                                         <td class="text-center">{{$process->invoice_no}}</td>
-                                        <td class="text-center">{{ Config::get('app.locale') == 'ar' ? $process->customer_name_ar : $process->customer_name_en}}</td>
+                                    <td class="text-center">{{ Config::get('app.locale') == 'ar' ? $process->customer_name_ar : $process->customer_name_en}}</td>
                                         <td class="text-center">{{$process->total}}</td>
                                         <td class="text-center">{{$process->tax}}</td>
                                         <td class="text-center">{{$process->discount}}</td>
@@ -109,7 +109,7 @@
                                         <td class="text-center">{{$process->net - $process->paid}}</td>
                                         <td class="text-center">
                                             @if($process->net > 0)
-                                                <span class="badge bg-success">{{__('main.purchase')}}</span>
+                                                <span class="badge bg-success">{{__('main.purchases')}}</span>
                                             @else
                                                 <span class="badge bg-danger">{{__('main.return_purchase')}}</span>
                                             @endif
@@ -118,7 +118,7 @@
                                             <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton"
                                                data-bs-toggle="dropdown" aria-expanded="false">
                                                 <span class="badge bg-primary cursor-pointer">
-                                                    <i class="fa fa-caret-down" style="padding-left: 10px;padding-right: 10px"></i>{{__('main.actions')}}</span>
+                                                    <i class="fa fa-caret-down" style="padding-left: 10px;padding-right: 10px"></i>{{__('main.operations')}}</span>
                                             </a>
                                             <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton" style="overflow-y: hidden !important;">
                                                 <li class="mb-2">
@@ -150,20 +150,7 @@
 
                                                     @endif
                                                 </li>
-                                               @if($process -> net > 0)
-                                                <li class="mb-2">
-                                                    <a class="dropdown-item border-radius-md"
-                                                       href="{{route('return_purchase',$process->id)}}">
-                                                        <div class="d-flex py-1">
-                                                            <div class="d-flex flex-column justify-content-center">
-                                                                <h6 class="text-sm font-weight-normal mb-1">
-                                                                    <span class="font-weight-bold">{{__('main.return_purchase')}}</span>
-                                                                </h6>
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-                                                @endif
+
 
                                                 <li class="mb-2">
                                                     <a class="dropdown-item border-radius-md"
@@ -344,6 +331,12 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
+
+<script src="../assets/js/core/popper.min.js"></script>
+<script src="../assets/js/core/bootstrap.min.js"></script>
+<script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+
 </body>
 
 </html>

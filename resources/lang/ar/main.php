@@ -355,7 +355,11 @@ return [
     'price_without_tax' => 'السعر بدون الضريبة',
     'price_with_tax' => 'السعر شامل الضريبة',
     'total_without_tax' => 'الإجمالي بدون ضريبة',
-    'notes' => 'ملاحظات'
+    'notes' => 'ملاحظات',
+    'view_payments' => 'عرض المدفوعات',
+    'add_payment' => 'إضافة مدفوعات',
+    'preview' => 'معاينة',
+
 
 
 

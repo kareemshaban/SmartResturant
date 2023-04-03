@@ -356,5 +356,8 @@ return [
     'price_without_tax' => 'Price Without Tax',
     'price_with_tax' => 'Price With Tax',
     'total_without_tax' => 'Total Without Tax',
-    'notes' => 'Notes'
+     'notes' => 'Notes',
+    'view_payments' => 'View Payments',
+    'add_payment' => 'Add Payment',
+    'preview' => 'Preview',
 ];

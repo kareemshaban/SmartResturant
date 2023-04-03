@@ -317,6 +317,7 @@ function()
     Route::get('/create_purchase', [App\Http\Controllers\PurchaseController::class, 'create'])->name('create_purchase');
     Route::post('/store_purchase', [App\Http\Controllers\PurchaseController::class, 'store'])->name('store_purchase');
     Route::get('/get_purchase_number', [App\Http\Controllers\PurchaseController::class, 'getNo'])->name('get_purchase_number');
+    Route::get('/getProduct/{code}', [App\Http\Controllers\ItemController::class, 'getProduct'])->name('getProduct');
 
 
 

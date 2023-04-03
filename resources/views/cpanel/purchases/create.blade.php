@@ -191,10 +191,9 @@
                                             <thead>
                                             <tr>
                                                 <th class="text-center">{{__('main.item_name_code')}}</th>
-                                                <th class="col-md-2 text-center">{{__('main.price_without_tax')}}</th>
-                                                <th class="col-md-2 text-center">{{__('main.price_with_tax')}}</th>
+                                                <th class="text-center">{{__('main.size')}}</th>
+                                                <th class="col-md-2 text-center">{{__('main.price')}}</th>
                                                 <th class="col-md-1 text-center">{{__('main.quantity')}} </th>
-                                                <th class="col-md-2 text-center">{{__('main.total_without_tax')}}</th>
                                                 <th class="col-md-2 text-center">{{__('main.tax')}}</th>
                                                 <th class="col-md-2 text-center">{{__('main.net')}}</th>
                                                 <th class="text-center">
@@ -258,14 +257,7 @@
                         </div>
 
 
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <input type="submit" class="btn btn-primary" id="primary" tabindex="-1"
-                                   style="width: 150px;
-margin: 30px auto;" value="{{__('main.save_btn')}}"></input>
 
-                        </div>
-                    </div>
                     </div>
 
                 </div>
@@ -301,6 +293,7 @@ margin: 30px auto;" value="{{__('main.save_btn')}}"></input>
             </div>
         </div>
     </div>
+    <input type="hidden" id="local" value="{{Config::get('app.locale') == 'ar' ? 'ar' : 'en'}}">
 </div>
 <script type="text/javascript">
 
@@ -310,6 +303,9 @@ margin: 30px auto;" value="{{__('main.save_btn')}}"></input>
 
     $(document).ready(function () {
 
+        document.getElementById('net').value = "0";
+        document.getElementById('remain').value = "0";
+        document.getElementById('paid').value = "0";
         var now = new Date();
         now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
 
@@ -356,9 +352,25 @@ margin: 30px auto;" value="{{__('main.save_btn')}}"></input>
             suggestionItems = {};
         });
 
+        $('#paid').change(function (){
+            calculateRemain(this.value);
+        });
+        $('#paid').keyup(function (){
+            calculateRemain(this.value);
+        });
+
+
+
+
+
     });
 
-
+    function calculateRemain(val){
+        var net = document.getElementById('net').value ;
+        var paid = val ;
+        var remain = net - paid ;
+        document.getElementById('remain').value = remain;
+    }
     function getBillNo() {
 
         let bill_number = document.getElementById('bill_number');
@@ -391,7 +403,10 @@ margin: 30px auto;" value="{{__('main.save_btn')}}"></input>
                 if (response) {
                     if (response.length == 1) {
                         //addItemToTable
-                        addItemToTable(response[0]);
+                        if(response[0].canPurshased == 1){
+                            addItemToTable(response[0]);
+                        }
+
                     } else if (response.length > 1) {
                         showSuggestions(response);
                     } else if (response.id) {
@@ -412,10 +427,16 @@ margin: 30px auto;" value="{{__('main.save_btn')}}"></input>
 
     function showSuggestions(response) {
 
+        var local = document.getElementById('local').value ;
+
         $data = '';
         $.each(response, function (i, item) {
-            suggestionItems[item.id] = item;
-            $data += '<li class="select_product" data-item-id="' + item.id + '">' + item.name + '</li>';
+            if(item.canPurshased == 1){
+                var name = local == 'ar' ? item.name_ar : item.name_en ;
+                suggestionItems[item.id] = item;
+                $data += '<li class="select_product" data-item-id="' + item.id + '">' + name + '</li>';
+            }
+
         });
         document.getElementById('products_suggestions').innerHTML = $data;
 
@@ -453,31 +474,20 @@ margin: 30px auto;" value="{{__('main.save_btn')}}"></input>
         if (sItems[item.id]) {
             sItems[item.id].qnt = sItems[item.id].qnt + 1;
         } else {
-            var price = item.cost;
-            var taxType = item.tax_method;
-            var taxRate = item.tax_rate == 1 ? 0 : 15;
+            var price = 0;
             var itemTax = 0;
             var priceWithoutTax = 0;
             var priceWithTax = 0;
             var itemQnt = 1;
-
-            if (taxType == 1) {
-                //included
-                priceWithTax = price;
-                priceWithoutTax = (price / (1 + (taxRate / 100)));
-                itemTax = priceWithTax - priceWithoutTax;
-            } else {
-                //excluded
-                itemTax = price * (taxRate / 100);
-                priceWithoutTax = price;
-                priceWithTax = price + itemTax;
-            }
 
             sItems[item.id] = item;
             sItems[item.id].price_with_tax = priceWithTax;
             sItems[item.id].price_withoute_tax = priceWithoutTax;
             sItems[item.id].item_tax = itemTax;
             sItems[item.id].qnt = 1;
+            sItems[item.id].unit_id = '';
+            sItems[item.id].sizes = item.sizes ;
+            console.log(sItems[item.id].sizes);
 
         }
         count++;
@@ -524,19 +534,27 @@ margin: 30px auto;" value="{{__('main.save_btn')}}"></input>
                 return;
             }
 
-            var newQty = parseFloat($(this).val()),
-                item_id = row.attr('data-item-id');
-
-
-            var item_tax = sItems[item_id].item_tax;
-            var priceWithTax = newQty;
-            if (item_tax > 0) {
-                priceWithTax = newQty * 1.15;
-                item_tax = newQty * 0.15;
+            var item_id = row.attr('data-item-id');
+            var item_size_id = this.value ;
+            var price = 0 ;
+            var priceWithTax = 0 ;
+            var tax = 0 ;
+            console.log(sItems[item_id].sizes , item_size_id);
+            for (let i = 0 ; i < sItems[item_id].sizes.length ; i++){
+                if(sItems[item_id].sizes[i].id == item_size_id){
+                    price = sItems[item_id].sizes[i].price ;
+                    priceWithTax = sItems[item_id].sizes[i].priceWithAddValue;
+                    break;
+                }
             }
-            sItems[item_id].price_withoute_tax = newQty;
-            sItems[item_id].price_with_tax = priceWithTax;
-            sItems[item_id].item_tax = item_tax;
+
+
+
+            var newPrice = parseFloat($(this).val());
+            tax = priceWithTax - price ;
+            sItems[item_id].price_withoute_tax = newPrice;
+            sItems[item_id].price_with_tax = (newPrice + tax);
+            sItems[item_id].item_tax = tax;
             loadItems();
 
         });
@@ -545,30 +563,31 @@ margin: 30px auto;" value="{{__('main.save_btn')}}"></input>
         .on('focus', '.iPriceWTax', function () {
             old_row_w_price = $(this).val();
         })
-        .on('change', '.iPriceWTax', function () {
+        .on('change', '.iUnit', function () {
             var row = $(this).closest('tr');
-            if (!is_numeric($(this).val()) || parseFloat($(this).val()) < 0) {
-                $(this).val(old_row_w_price);
-                alert('wrong value');
-                return;
+           var item_id = row.attr('data-item-id');
+           var item_size_id = this.value ;
+           var price = 0 ;
+           var priceWithTax = 0 ;
+           var tax = 0 ;
+            console.log(sItems[item_id].sizes , item_size_id);
+            for (let i = 0 ; i < sItems[item_id].sizes.length ; i++){
+                if(sItems[item_id].sizes[i].id == item_size_id){
+                    price = sItems[item_id].sizes[i].price ;
+                    priceWithTax = sItems[item_id].sizes[i].priceWithAddValue;
+                    break;
+                }
             }
 
-            var newQty = parseFloat($(this).val()),
-                item_id = row.attr('data-item-id');
-
-            var item_tax = sItems[item_id].item_tax;
-            var priceWithoutTax = newQty;
-            if (item_tax > 0) {
-                priceWithoutTax = newQty / 1.15;
-                item_tax = priceWithoutTax * 0.15;
-            }
-            sItems[item_id].price_withoute_tax = priceWithoutTax;
-            sItems[item_id].price_with_tax = newQty;
-            sItems[item_id].item_tax = item_tax;
-            loadItems();
+            tax = priceWithTax - price ;
+            sItems[item_id].price_with_tax = priceWithTax;
+            sItems[item_id].price_withoute_tax = price;
+            sItems[item_id].item_tax = tax;
+            sItems[item_id].unit_id = item_size_id ;
+            console.log(sItems[item_id]);
+             loadItems();
 
         });
-
 
     function is_numeric(mixed_var) {
         var whitespace = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000';
@@ -582,25 +601,60 @@ margin: 30px auto;" value="{{__('main.save_btn')}}"></input>
     function loadItems() {
 
         var total = 0;
+        var net = 0 ;
+        var index = 0 ;
+        var local = document.getElementById('local').value ;
         $('#sTable tbody').empty();
         $.each(sItems, function (i, item) {
-            console.log(item);
-
-            var newTr = $('<tr data-item-id="' + item.id + '">');
-            var tr_html = '<td><input type="hidden" name="product_id[]" value="' + item.id + '"> <span>' + item.name + '---' + (item.code) + '</span> </td>';
-            tr_html += '<td><input type="text" class="form-control iPrice" name="price_without_tax[]" value="' + item.price_withoute_tax.toFixed(2) + '"></td>';
-            tr_html += '<td><input type="text" class="form-control iPriceWTax" name="price_with_tax[]" value="' + item.price_with_tax.toFixed(2) + '"></td>';
-            tr_html += '<td><input type="text" class="form-control iQuantity" name="qnt[]" value="' + item.qnt.toFixed(2) + '"></td>';
-            tr_html += '<td><input type="text" readonly="readonly" class="form-control" name="total[]" value="' + (item.price_withoute_tax * item.qnt).toFixed(2) + '"></td>';
-            tr_html += '<td><input type="text" readonly="readonly" class="form-control" name="tax[]" value="' + (item.item_tax * item.qnt).toFixed(2) + '"></td>';
-            tr_html += '<td><input type="text" readonly="readonly" class="form-control" name="net[]" value="' + (item.price_with_tax * item.qnt).toFixed(2) + '"></td>';
-            tr_html += `<td>      <button type="button" class="btn btn-labeled btn-danger deleteBtn " value=" '+item.id+' ">
+            console.log(item.item_tax);
+             var name = '' ;
+             name =  local == 'ar' ?  item.name_ar : item.name_en ;
+            var newTr = $('<tr data-item-id="' + item.id + '"  id="' + item.id + '">');
+            var tr_html = '<td style="width: 20%;" class="text-center"><input type="hidden" name="product_id[]" value="' + item.id + '"> <span>' + name + '---' + (item.code) + '</span> </td>';
+            tr_html += `<td style="width: 10%;" class="text-center"> </td>`
+            tr_html += '<td style="width: 10%;" class="text-center"><input type="text" class="form-control iPrice" name="price[]" value="' +  Number(item.price_withoute_tax).toFixed(2) + '"></td>';
+            tr_html += '<td style="width: 10%;" class="text-center"><input type="text" class="form-control iQuantity" name="qnt[]" value="' + item.qnt.toFixed(2) + '"></td>';
+            tr_html += '<td style="width: 10%;" class="text-center"><input type="text" readonly="readonly" class="form-control" name="tax[]" value="' + (item.item_tax * item.qnt).toFixed(2) + '"></td>';
+            tr_html += '<td style="width: 10%;" class="text-center"><input type="text" readonly="readonly" class="form-control" name="net[]" value="' + (item.price_with_tax * item.qnt).toFixed(2) + '"></td>';
+            tr_html += `<td style="width: 10%;" class="text-center">      <button type="button" class="btn btn-labeled btn-danger deleteBtn " value=" '+item.id+' ">
                                             <span class="btn-label" style="margin-right: 10px;"><i class="fa fa-trash"></i></span></button> </td>`;
+
             total += (item.price_with_tax * item.qnt);
             newTr.html(tr_html);
             newTr.appendTo('#sTable');
+            var selectList = document.createElement("select");
+            selectList.setAttribute("id", "unit_id[]");
+            selectList.setAttribute("name", "unit_id[]");
+            selectList.classList.add('form-select')  ;
+            selectList.classList.add('iUnit')  ;
+            var option0 = document.createElement("option");
+            option0.setAttribute("value", '');
+            option0.text = 'choose';
+            selectList.appendChild(option0);
+            for (var j = 0; j < item.sizes.length; j++) {
+                var option = document.createElement("option");
+                option.setAttribute("value", item.sizes[j].id);
+                option.text = local == 'ar' ? item.sizes[j].size.name_ar : item.sizes[j].size.name_en;
+                if(item.sizes[j].id == item.unit_id){
+                    option.selected = true ;
+                }
+
+                selectList.appendChild(option);
+            }
+            console.log(item.sizes);
+            var sTable =  document.getElementById('sTable') ;
+            console.log(sTable);
+            var body = sTable.getElementsByTagName('tbody')[0];
+            console.log(body);
+            var tr = body.getElementsByTagName('tr')[index];
+            console.log(tr);
+             var cell = tr.getElementsByTagName('td')[1];
+            console.log(cell);
+            cell.appendChild(selectList);
+            index ++ ;
         });
-        document.getElementById('total-text').innerHTML = total;
+        document.getElementById('net').value = total ;
+        document.getElementById('remain').value = total ;
     }
 </script>
 
