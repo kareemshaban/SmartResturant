@@ -58,7 +58,7 @@ class PosController extends Controller
             }
 
         } else {
-            return redirect() -> route('myShift' )->with('success', __('main.no_open_shift'));
+            return redirect() -> route('home' )->with('success', __('main.no_open_shift'));
         }
 
     }

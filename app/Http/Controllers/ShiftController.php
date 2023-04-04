@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bill;
+use App\Models\Payment;
+use App\Models\Recipt;
 use App\Models\Shift;
 use App\Models\Size;
 use Carbon\Carbon;
@@ -23,8 +26,23 @@ class ShiftController extends Controller
         if(count($shift) == 0){
             $html = view('cpanel.Shift.start' , ['user' => Auth::user() -> id , 'name' => Auth::user() -> name]) -> render();
         }else {
+            $sales = Bill::where('shift_number' , $shift[0] -> id ) -> get();
+            $payments = Payment::where('shift_number' ,$shift[0] -> id ) -> get();
+            $recipts = Recipt::where('shift_number' ,$shift[0] -> id ) -> get();
+
+            $net = 0 ;
+            foreach ($sales as $sale){
+                $net +=  $sale -> net ;
+            }
+            foreach ($payments as $payment){
+                $net -=  $payment -> amount ;
+            }
+            foreach ($recipts as $recipt){
+                $net -=  $recipt -> amount_with_tax ;
+            }
+
             $html = view('cpanel.Shift.end' , ['user' => Auth::user() -> id , 'name' => Auth::user() -> name ,
-                    'shift' => $shift[0] -> id]) -> render();
+                    'shift' => $shift[0] -> id , 'start_money' => $shift[0] -> start_money , 'net' => $net]) -> render();
         }
         return $html ;
     }

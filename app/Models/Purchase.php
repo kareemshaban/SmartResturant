@@ -23,6 +23,7 @@ class Purchase extends Model
         'purchase_status',
          'payment_status',
          'created_by',
-        'returned_bill_id'
+        'returned_bill_id',
+        'shift_number'
     ];
 }

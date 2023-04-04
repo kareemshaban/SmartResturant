@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\ItemMaterial;
 use App\Models\Purchase;
 use App\Models\PurchaseDetails;
+use App\Models\Shift;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,10 @@ class PurchaseController extends SiteController
         $siteController = new SiteController();
         $products = array();
         $qntProducts = array();
+
+        $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
+            -> where('state' , '=' , 0 )->get();
+        $shift_number = count($shift ) > 0 ? $shift[0] -> id : 0 ;
         foreach ($request->product_id as $index=>$id){
             $productDetails = Item::find($id);
             $product = [
@@ -96,7 +101,8 @@ class PurchaseController extends SiteController
             'paid' => $request -> paid,
             'purchase_status' => 'completed',
             'payment_status' =>$request -> remain > 0 ? 'not_paid' : 'paid',
-            'created_by' => Auth::id()
+            'created_by' => Auth::id(),
+            'shift_number' => $shift_number
         ]);
 
         foreach ($products as $product){

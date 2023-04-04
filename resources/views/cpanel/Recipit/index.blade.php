@@ -78,7 +78,7 @@
                                     <th class="text-center">{{ __('main.doc_number') }}</th>
                                     <th class="text-center">{{ __('main.doc_type') }}</th>
                                     <th class="text-center">{{ __('main.amount') }}</th>
-                                    <th class="text-center">{{ __('main.amount_tax') }}</th>
+                                    <th class="text-center">{{ __('main.net') }}</th>
                                     <th class="text-center">{{ __('main.operations') }}</th>
                                 </tr>
                             </thead>

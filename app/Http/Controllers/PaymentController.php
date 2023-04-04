@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePaymentRequest;
 use App\Models\Payment;
 use App\Models\Purchase;
+use App\Models\Shift;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,6 +46,9 @@ class PaymentController extends Controller
             $net = $net*-1;
         }
 
+        $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
+            -> where('state' , '=' , 0 )->get();
+        $shift_number = count($shift ) > 0 ? $shift[0] -> id : 0 ;
         $payment = Payment::create([
             'date' => $request->date,
             'sale_id' => null,
@@ -53,7 +57,8 @@ class PaymentController extends Controller
             'amount' => $amount,
             'paid_by' => $request->paid_by,
             'remain' => $net - $request->amount,
-            'user_id' => Auth::user() ? Auth::id() : 0
+            'user_id' => Auth::user() ? Auth::id() : 0,
+            'shift_number' => $shift_number
         ]);
 
 

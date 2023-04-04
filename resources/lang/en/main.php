@@ -161,7 +161,7 @@ return [
 
     'end_shift' => 'End Shift',
     'end' => 'End Now',
-    'end_money' => 'Ending Money',
+    'end_money' => 'Shift Remaining Money ',
     'priceWithAddValue' => 'Price With Add Value',
     'item_size_exsist' => 'You Created this size for this item before',
     'label' => 'Label',

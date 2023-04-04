@@ -239,7 +239,7 @@
                                     <label>{{ __('main.paid') }} <span
                                             style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
                                     <input type="number" id="paid" name="paid"
-                                           class="form-control" placeholder="0"
+                                           class="form-control" placeholder="0" readonly
                                     />
                                 </div>
                             </div>
