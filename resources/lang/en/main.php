@@ -360,4 +360,6 @@ return [
     'view_payments' => 'View Payments',
     'add_payment' => 'Add Payment',
     'preview' => 'Preview',
+    'from' => 'Supplier Data',
+    'paid_by' => 'Paid By'
 ];

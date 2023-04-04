@@ -267,40 +267,40 @@
     });
 
     function confirmDelete(){
-        {{--let url = "{{ route('delete_purchase', ':id') }}";--}}
-        {{--url = url.replace(':id', id);--}}
-        {{--document.location.href=url;--}}
+        let url = "{{ route('delete_purchase', ':id') }}";
+        url = url.replace(':id', id);
+        document.location.href=url;
     }
 
     function showPayments(id) {
-        {{--var route = '{{route('purchases_payments',":id")}}';--}}
-        {{--route = route.replace(":id",id);--}}
+        var route = '{{route('purchases_payments',":id")}}';
+        route = route.replace(":id",id);
 
-        {{--$.get( route, function( data ) {--}}
-        {{--    $( ".show_modal" ).html( data );--}}
-        {{--    $('#paymentsModal').modal('show');--}}
-        {{--});--}}
+        $.get( route, function( data ) {
+            $( ".show_modal" ).html( data );
+            $('#paymentsModal').modal('show');
+        });
     }
 
     function addPayments(id) {
-        {{--var route = '{{route('add_purchases_payments',":id")}}';--}}
-        {{--route = route.replace(":id",id);--}}
+        var route = '{{route('add_purchases_payments',":id")}}';
+        route = route.replace(":id",id);
 
-        {{--$.get( route, function( data ) {--}}
-        {{--    $( ".show_modal" ).html( data );--}}
-        {{--    $('#paymentsModal').modal('show');--}}
-        {{--});--}}
+        $.get( route, function( data ) {
+            $( ".show_modal" ).html( data );
+            $('#paymentsModal').modal('show');
+        });
     }
 
     function view_purchase(id) {
-        {{--console.log(id);--}}
-        {{--var route = '{{route('preview_purchase',":id")}}';--}}
-        {{--route = route.replace(":id",id);--}}
+        console.log(id);
+        var route = '{{route('preview_purchase',":id")}}';
+        route = route.replace(":id",id);
 
-        {{--$.get( route, function( data ) {--}}
-        {{--    $( ".show_modal" ).html( data );--}}
-        {{--    $('#paymentsModal').modal('show');--}}
-        {{--});--}}
+        $.get( route, function( data ) {
+            $( ".show_modal" ).html( data );
+            $('#paymentsModal').modal('show');
+        });
     }
 
 </script>

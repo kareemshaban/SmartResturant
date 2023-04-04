@@ -15,7 +15,7 @@
                             <th>{{__('main.paid_by')}}</th>
                             <th>{{__('main.amount')}}</th>
                             <th>{{__('main.user')}}</th>
-                            <th>{{__('main.actions')}}</th>
+                            <th>{{__('main.operations')}}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,7 +23,7 @@
                             <tr>
                                 <td>{{$payment->date}}</td>
                                 <td>{{$payment->paid_by}}</td>
-                                <td>{{$payment->amount}} <span>{{$setting ->currency -> symbol}}</span></td>
+                                <td>{{$payment->amount}} </td>
                                 <td>{{$payment->user -> name}}</td>
                                 <td>
                                     <a href="{{route('delete_purchases_payments',$payment->id)}}">

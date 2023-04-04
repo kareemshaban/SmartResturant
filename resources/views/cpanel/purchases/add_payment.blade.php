@@ -40,9 +40,8 @@ style="width: 100%;">
                             <div class="form-group">
                                 <label>{{ __('main.paid_by') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
                                 <select name="paid_by" class="form-control" id="paid_by">
-                                    <option value="cc">{{__('main.CC')}}</option>
-                                    <option value="cash">{{__('main.Cash')}}</option>
-                                    <option value="transfer_net">{{__('main.Transfer_Net')}}</option>
+                                    <option value="cash">{{__('main.cash')}}</option>
+                                    <option value="visa">{{__('main.visa')}}</option>
                                 </select>
                             </div>
                         </div>

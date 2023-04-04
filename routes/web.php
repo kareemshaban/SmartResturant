@@ -318,6 +318,17 @@ function()
     Route::post('/store_purchase', [App\Http\Controllers\PurchaseController::class, 'store'])->name('store_purchase');
     Route::get('/get_purchase_number', [App\Http\Controllers\PurchaseController::class, 'getNo'])->name('get_purchase_number');
     Route::get('/getProduct/{code}', [App\Http\Controllers\ItemController::class, 'getProduct'])->name('getProduct');
+    Route::get('/preview_purchase/{id}', [App\Http\Controllers\PurchaseController::class, 'show'])->name('preview_purchase');
+    Route::get('/delete_purchase/{id}', [App\Http\Controllers\PurchaseController::class, 'destroy'])->name('delete_purchase');
+
+
+    Route::get('/purchases_payments/{id}', [App\Http\Controllers\PaymentController::class, 'getPurchasesPayments'])->name('purchases_payments');
+    Route::get('/purchases/delete_purchases_payments/{id}',[\App\Http\Controllers\PaymentController::class,'deletePurchasesPayment'])->name('delete_purchases_payments');
+    Route::get('/purchases/add_purchases_payments/{id}',[\App\Http\Controllers\PaymentController::class,'addPurchasesPayment'])->name('add_purchases_payments');
+    Route::post('/purchases/store_purchases_payments/{id}',[\App\Http\Controllers\PaymentController::class,'storePurchasesPayment'])->name('store_purchases_payments');
+
+
+
 
 
 

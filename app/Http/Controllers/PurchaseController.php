@@ -42,7 +42,7 @@ class PurchaseController extends SiteController
     }
 
     public function store(Request $request){
-
+       //return $request ;
         $total = 0;
         $tax = 0;
         $net = 0;
@@ -89,7 +89,7 @@ class PurchaseController extends SiteController
             'total' => $total,
             'discount' => 0,
             'tax' => $tax,
-            'net' => $net,
+            'net' => $request -> net,
             'paid' => $request -> paid,
             'purchase_status' => 'completed',
             'payment_status' =>$request -> remain > 0 ? 'not_paid' : 'paid',
@@ -111,5 +111,77 @@ class PurchaseController extends SiteController
 
 
         return redirect()->route('purchases');
+    }
+    public function show($id){
+        $datas = DB::table('purchases')
+            ->join('clients','purchases.customer_id','=','clients.id')
+            ->select('purchases.*','clients.name_ar as customer_name_ar' ,  'clients.name_en as customer_name_en')
+            ->where('purchases.id' , '=' , $id) -> get();
+        if(count($datas)){
+            $data = $datas[0];
+            $details = DB::table('purchase_details')
+                -> join('items' , 'purchase_details.product_id' , '=' , 'items.id')
+                -> select('purchase_details.*' , 'items.code' , 'items.name_ar' , 'items.name_en')
+                ->where('purchase_details.purchase_id' , '=' , $id)-> get();
+            // return  $details ;
+
+
+            $vendor = Client::find($data->customer_id);
+
+            return view('cpanel.purchases.view',compact('data' , 'details','vendor'))->render();
+        }
+    }
+
+    public function destroy($id)
+    {
+        $purchase = Purchase::find($id);
+        $item = new Item();
+        $qntProducts = array();
+        $siteController = new SiteController();
+        $net = 0 ;
+        if($purchase){
+            $details = PurchaseDetails::where('purchase_id' , '=' , $id) -> get();
+            foreach ($details as $detail){
+                $item = new Item();
+                $item -> product_id = $detail -> product_id;
+                $item -> quantity = $detail-> quantity  * -1;
+                $item -> warehouse_id = $detail->warehouse_id ;
+                $qntProducts[] = $item ;
+                $net +=$detail->net;
+                $detail -> delete();
+            }
+            $returns = Purchase::where('returned_bill_id' , '=' , $id) -> get();
+            foreach ($returns as $return){
+                $details = PurchaseDetails::where('purchase_id' , '=' , $return -> id) -> get();
+                foreach ($details as $detail){
+                    $item = new Item();
+                    $item -> product_id = $detail -> product_id;
+                    $item -> quantity = $detail-> quantity  * -1;
+                    $item -> warehouse_id = $detail->warehouse_id ;
+                    $qntProducts[] = $item ;
+                    $net +=$detail->net;
+                    $detail -> delete();
+                }
+                $return -> delete();
+            }
+
+            $siteController->syncQnt($qntProducts,null , false);
+            $clientController = new ClientMoneyController();
+            $clientController->syncMoney($purchase->customer_id,0,$net*-1);
+
+
+
+            $vendorMovementController = new VendorMovementController();
+            $vendorMovementController->removePurchaseMovement($purchase->id);
+
+            $paymentController = new PaymentController();
+            $paymentController->deleteAllPurchasePayments($purchase->id);
+
+            $purchase -> delete();
+
+
+            return redirect()->route('purchases')->with('success' ,  __('main.deleted'));
+
+        }
     }
 }
