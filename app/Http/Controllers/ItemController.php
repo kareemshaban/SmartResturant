@@ -9,6 +9,7 @@ use App\Models\ItemSizes;
 use App\Models\WarehouseProducts;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class ItemController extends Controller
@@ -21,6 +22,18 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::with('cayegory') -> get();
+        foreach ($items as $item){
+            $warehouseProduct = WarehouseProducts::query()
+                ->where('product_id',$item -> id)
+                ->where('warehouse_id',1)
+                ->get()->first();
+            if($warehouseProduct){
+                $item -> qnt = $warehouseProduct ->quantity ;
+            }else{
+                $item -> qnt  = 0 ;
+            }
+        }
+
         $categories = Category::all();
 
         return view('cpanel.Items.index' , ['items' => $items , 'categories' => $categories]);

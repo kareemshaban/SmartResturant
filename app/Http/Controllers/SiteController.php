@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ItemMaterial;
 use App\Models\WarehouseProducts;
 use Illuminate\Http\Request;
 
@@ -57,6 +58,26 @@ class SiteController extends Controller
 
             }
         }
+
+    }
+
+
+    public function POSSyncQnt($item_id , $item_qnt){
+        $materials = ItemMaterial::where('item_id' , '=' , $item_id) -> get();
+            foreach ($materials as $material){
+                $warehouseProduct = WarehouseProducts::query()
+                    ->where('product_id', '=' ,$material -> material_id)
+                    ->get()->first();
+
+                if($warehouseProduct){
+                    $warehouseProduct->update([
+                        'quantity' => $warehouseProduct->quantity - ( $material->qnt * $item_qnt)
+                    ]);
+                }
+
+            }
+
+
 
     }
 }

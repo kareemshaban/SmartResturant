@@ -81,6 +81,7 @@
                                     <th class="text-center">{{ __('main.name_ar') }}</th>
                                     <th class="text-center">{{ __('main.name_en') }}</th>
                                     <th class="text-center">{{ __('main.item_type') }}</th>
+                                    <th class="text-center">{{ __('main.quantity') }}</th>
                                     <th class="text-center">{{ __('main.operations') }}</th>
                                 </tr>
                             </thead>
@@ -99,6 +100,8 @@
                                         <td class="text-center">@if ($item -> type == 0){{__('main.item_type1')}} @elseif ($item -> type == 1) {{  __('main.item_type2')   }}
                                             @else  {{ __('main.item_type3') }}
                                             @endif </td>
+
+                                        <td class="text-center"> {{$item -> type != 2 ? 0 : $item -> qnt}}    </td>
                                         <td class="text-center">
                                          <button
                                                     type="button" class="btn btn-success editBtn" value="{{$item -> id}}"><i

@@ -62,9 +62,10 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col4 text-left" style="margin: 10px;">
+                        @if($item -> type != 2 || count($sizess) ==0)
                            <button id="createButton" type="button" class="btn btn-labeled btn-primary "  >
                                 <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
-
+                        @endif
 
                     </div>
 

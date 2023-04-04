@@ -11,10 +11,12 @@ use App\Models\CompanyInfo;
 use App\Models\Employee;
 use App\Models\Hall;
 use App\Models\Item;
+use App\Models\ItemMaterial;
 use App\Models\ReportSetting;
 use App\Models\Settings;
 use App\Models\Shift;
 use App\Models\Table;
+use App\Models\WarehouseProducts;
 use ArPHP\I18N\Arabic;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -174,7 +176,7 @@ class PosController extends Controller
     }
     public function storeDetails($identifier , $id , $request){
 
-
+        $siteController = new SiteController();
         for($i = 0 ; $i < count($request -> item_id) ; $i++ ){
          $details_id =   BillDetails::create([
                'identifier' => $identifier,
@@ -193,6 +195,9 @@ class PosController extends Controller
                 'notes' => "",
                 'txt_holder' => "",
             ]) -> id;
+
+
+            $siteController ->  POSSyncQnt($request -> item_id[$i] , $request -> qnt[$i]);
 
             BillDetailsItems::create([
                     'bill_details_id' => $details_id ,

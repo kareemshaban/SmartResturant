@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Item;
+use App\Models\ItemMaterial;
 use App\Models\Purchase;
 use App\Models\PurchaseDetails;
 use Illuminate\Http\Request;
@@ -43,10 +44,12 @@ class PurchaseController extends SiteController
 
     public function store(Request $request){
        //return $request ;
+
+
         $total = 0;
         $tax = 0;
         $net = 0;
-
+        $siteController = new SiteController();
         $products = array();
         $qntProducts = array();
         foreach ($request->product_id as $index=>$id){
@@ -78,7 +81,7 @@ class PurchaseController extends SiteController
 
         }
 
-        //  return $products ;
+
         $purchase = Purchase::create([
             'date' => $request->bill_date,
             'invoice_no' => $request-> bill_number,
@@ -101,7 +104,7 @@ class PurchaseController extends SiteController
             PurchaseDetails::create($product);
         }
 
-        $siteController = new SiteController();
+
         $siteController ->  syncQnt($qntProducts,null , false);
         $clientController = new ClientMoneyController();
         $clientController->syncMoney($request->customer_id,0,$net);

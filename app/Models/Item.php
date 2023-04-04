@@ -23,7 +23,11 @@ class Item extends Model
         'img',
         'isAddValue',
         'addValue',
-        'canPurshased'
+        'canPurshased',
+        'qnt',
+        'product_id',
+        'quantity',
+        'warehouse_id'
     ];
 
     public function cayegory()
@@ -35,6 +39,8 @@ class Item extends Model
     {
         return $this->hasMany(ItemSizes::class , 'item_id');
     }
+
+
 
 
 }
