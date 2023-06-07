@@ -11,9 +11,11 @@ use App\Models\Jobs;
 use App\Models\MaritalStatus;
 use App\Models\Nationality;
 use App\Models\Religions;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeController extends Controller
 {
@@ -24,7 +26,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::with('Job') -> get();
+        $employees = Employee::with('Job')
+            ->where('id' , '>' , 1)
+            -> get();
 
         return view ('cpanel.Employee.index' , ['employees' => $employees   ]);
     }
@@ -66,11 +70,12 @@ class EmployeeController extends Controller
         $validated = $request->validate([
             'name_ar' => 'required',
             'name_en' => 'required',
-             'job_id' =>'required'
+             'job_id' =>'required',
+            'salary' => 'required'
         ]);
 
         try{
-            Employee::create([
+            $id =   Employee::create([
                 'name_ar' => $request ->name_ar,
                 'name_en' => $request ->name_en,
                 'department_id' => $request ->department_id,
@@ -91,7 +96,13 @@ class EmployeeController extends Controller
                 'postal_code' => $request ->postal_code,
                 'fax_number' => $request ->fax_number,
                 'address' => $request ->address,
-            ]);
+                'salary' => $request -> salary
+            ]) -> id;
+
+
+            if($request -> user_code && $request -> user_password){
+                 $this -> createUser($request , $id);
+            }
 
             return redirect()->route('employees')->with('success' , __('main.created'));
         } catch(QueryException  $ex){
@@ -106,6 +117,15 @@ class EmployeeController extends Controller
 
     }
 
+    public function createUser($request , $id){
+        User::create([
+            'name' => $request -> name_ar,
+            'email' => $request -> user_code . '@restaurant.com',
+            'password' => Hash::make($request -> user_password),
+            'employee_id' => $id,
+            'type' => $request -> type
+        ]);
+    }
     /**
      * Display the specified resource.
      *
@@ -167,7 +187,8 @@ class EmployeeController extends Controller
         $validated = $request->validate([
             'name_ar' => 'required',
             'name_en' => 'required',
-             'job_id' =>'required'
+             'job_id' =>'required',
+            'salary' => 'required'
         ]);
 
         try{
@@ -192,6 +213,7 @@ class EmployeeController extends Controller
                 'postal_code' => $request ->postal_code,
                 'fax_number' => $request ->fax_number,
                 'address' => $request ->address,
+                'salary' => $request -> salary
             ]);
 
             return redirect()->route('employees')->with('success' , __('main.updated'));

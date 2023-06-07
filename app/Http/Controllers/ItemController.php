@@ -6,6 +6,7 @@ use App\Models\BillDetails;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\ItemSizes;
+use App\Models\Settings;
 use App\Models\WarehouseProducts;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -35,8 +36,9 @@ class ItemController extends Controller
         }
 
         $categories = Category::all();
+        $setting = Settings::all() -> first();
 
-        return view('cpanel.Items.index' , ['items' => $items , 'categories' => $categories]);
+        return view('cpanel.Items.index' , ['items' => $items , 'categories' => $categories , 'setting' => $setting]);
 
     }
 
@@ -107,7 +109,7 @@ class ItemController extends Controller
                     }
 
 
-                    return redirect()->route('items')->with('success', __('main.created'));
+                    return redirect()->route('itemSizes' , $item_id)->with('res', $item_id);
                 } catch (QueryException $ex) {
                     return redirect()->route('items')->with('error', $ex->getMessage());
                 }
@@ -238,7 +240,8 @@ class ItemController extends Controller
         $single = $this->getSingleProduct($code);
 
         if($single){
-            echo response()->json([$single]);
+            $product = $single ;
+            echo json_encode ($product);
             exit;
         }else{
             $product = Item::with('sizes.size')
@@ -259,5 +262,10 @@ class ItemController extends Controller
             ->orWhere('name_ar','=' , $code)
             ->orWhere('name_en','=' , $code)
             -> get()->first();
+    }
+    public function getPurchasesItems(){
+         $items = Item::where('canPurshased' , '=' , 1) -> get();
+        $html = view('cpanel.purchases.Items' , compact('items')) -> render();
+        return $html ;
     }
 }

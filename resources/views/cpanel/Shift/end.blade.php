@@ -4,8 +4,7 @@
         <div class="modal-content">
             <div class="modal-header not-print" >
                 <label class="modelTitle"> {{__('main.end_shift')}}</label>
-         
-                <button class="btn btn-info not-print" style="width: 150px" onclick="print_modal()"> <i class="fa fa-print " ></i> Print</button>
+
 
             </div>
             <div class="modal-body" id="smallBody">
@@ -20,12 +19,15 @@
                                 @csrf <!-- {{ csrf_field() }} -->
                                 <div class="col-md-11 col-xl-11 data-entry" style="margin-top: 0 !important;">
                                     <div class="card-header px-0 mt-2 bg-transparent clearfix">
-                                        <h4 class="float-left pt-2 not-print">{{__('main.end_shift')}}</h4>
+
                                         <div class="float-right card-header-actions mr-1">
 
 
-                                            <button type="submit" class="btn btn-labeled btn-primary not-print"  >
+                                            <button type="button" class="btn btn-labeled btn-primary not-print"  id="submit_btn">
                                                 <span class="btn-label"><i class="fa fa-power-off"></i></span>{{__('main.end')}}</button>
+
+                                            <button class="btn btn-info not-print" type="button" style="width: 150px"  id="print_btn">  <i class="fa fa-print " ></i>{{__('main.end_print')}} </button>
+
                                         </div>
                                     </div>
                                     <div class="card-body px-0">
@@ -88,7 +90,7 @@
                                         </div>
 
 
-
+<input type="hidden" value="0" id="print" name="print">
                                     </div>
                                 </div>
 
@@ -102,7 +104,16 @@
 </div>
 <script>
     $(document).ready(function() {
+       $(document).on('click' , '#submit_btn' , function (){
+           $('#print').val(0);
+           document.getElementById('myForm').submit();
 
+
+       });
+        $(document).on('click' , '#print_btn' , function (){
+            $('#print').val(1);
+            document.getElementById('myForm').submit();
+        });
     });
     function print_modal(){
         const originalHTML = document.body.innerHTML;

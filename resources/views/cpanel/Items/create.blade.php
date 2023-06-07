@@ -19,7 +19,7 @@
                 <h4 class="float-left pt-2 form-header">{{ __('main.new_item') }}</h4>
                 <div class="float-right card-header-actions mr-1">
                     <button type="submit" class="btn btn-labeled btn-primary ">
-                        <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}
+                        <span class="btn-label"><i class="fa fa-forward"></i></span>{{__('main.next_btn')}}
                     </button>
                 </div>
             </div>
@@ -27,10 +27,11 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-6">
-                            <label>{{ __('main.code') }}</label>
+                            <label>{{ __('main.code') }} <span
+                                    style="color:red;">*</span></label>
                             <input type="text" name="code" id="code"
                                    class="form-control @error('code') is-invalid @enderror"
-                                   placeholder="{{ __('main.code') }}" autofocus />
+                                   placeholder="{{ __('main.code') }}" autofocus required />
 
                             <input type="hidden" name="id" id="id">
                             @error('code')
@@ -40,9 +41,10 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <label>{{ __('main.item_type') }}</label>
+                            <label>{{ __('main.item_type') }} <span
+                                    style="color:red;">*</span></label>
                             <select class="custom-select mr-sm-2 @error('type') is-invalid @enderror"
-                                    name="type" id="type">
+                                    name="type" id="type" required>
                                 <option selected value="">Choose...</option>
 
                                 <option value="0"> {{__('main.item_type1') }}</option>
@@ -64,8 +66,9 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-6">
-                            <label>{{ __('main.name_ar') }}</label>
-                            <input type="text" name="name_ar" id="name_ar"
+                            <label>{{ __('main.name_ar') }} <span
+                                    style="color:red;">*</span></label>
+                            <input type="text" name="name_ar" id="name_ar" required
                                    class="form-control @error('name_ar') is-invalid @enderror arabic-input"
                                    placeholder="{{ __('main.name_ar_place') }}" autofocus  value="{{old('name_ar')}}" />
                             @error('name_ar')
@@ -75,10 +78,11 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <label>{{ __('main.name_en') }}</label>
+                            <label>{{ __('main.name_en') }} <span
+                                    style="color:red;">*</span></label>
                             <input type="text" name="name_en" id="name_en"
                                    class="form-control @error('name_en') is-invalid @enderror"
-                                   placeholder="{{ __('main.name_en_place') }}" autofocus/>
+                                   placeholder="{{ __('main.name_en_place') }}" autofocus required/>
                             @error('name_en')
                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -93,10 +97,11 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-6">
-                            <label>{{ __('main.item_category') }}</label>
+                            <label>{{ __('main.item_category') }} <span
+                                    style="color:red;">*</span></label>
 
                             <select class="custom-select mr-sm-2 @error('category_id') is-invalid @enderror"
-                                    name="category_id" id="category_id">
+                                    name="category_id" id="category_id" required>
                                 <option selected value="">Choose...</option>
                                 @foreach ($categories as $item)
                                     <option value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ?
@@ -114,10 +119,10 @@
                             <label>{{ __('main.isAddValue') }}</label>
 
                             <input class="form-control-cehck  @error('isAddValue') is-invalid @enderror" type="checkbox"
-                                   id="isAddValue" name="isAddValue" onchange="addValueChange()">
+                                   id="isAddValue" name="isAddValue" onchange="addValueChange()" >
                             <input type="number" name="addValue" id="addValue"
                                    class="form-control @error('addValue') is-invalid @enderror"
-                                   placeholder="{{ __('main.addValue') }}" autofocus disabled/>
+                                   placeholder="{{ __('main.addValue') }}" autofocus  disabled />
 
                             @error('isAddValue')
                             <span class="invalid-feedback" role="alert">
@@ -140,30 +145,38 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>{{ __('main.description_ar') }}</label>
-                    <textarea type="text" name="description_ar" id="description_ar"
-                              class="form-control @error('description_ar') is-invalid @enderror"
-                              placeholder="{{ __('main.description_ar') }}" autofocus></textarea>
-                    @error('description_ar')
-                    <span class="invalid-feedback" role="alert">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>{{ __('main.description_ar') }}</label>
+                            <textarea type="text" name="description_ar" id="description_ar"
+                                      class="form-control @error('description_ar') is-invalid @enderror"
+                                      placeholder="{{ __('main.description_ar') }}" autofocus></textarea>
+                            @error('description_ar')
+                            <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                    @enderror
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>{{ __('main.description_en') }}</label>
+                            <textarea type="text" name="description_en" id="description_en"
+                                      class="form-control @error('description_en') is-invalid @enderror"
+                                      placeholder="{{ __('main.description_en') }}" autofocus></textarea>
+                            @error('description_en')
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
 
 
-                <div class="form-group">
-                    <label>{{ __('main.description_en') }}</label>
-                    <textarea type="text" name="description_en" id="description_en"
-                              class="form-control @error('description_en') is-invalid @enderror"
-                              placeholder="{{ __('main.description_en') }}" autofocus></textarea>
-                    @error('description_en')
-                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                    @enderror
-                </div>
+
+
 
 
                 <div class="form-group">
@@ -175,8 +188,7 @@
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="img" name="img"
                                        accept="image/png, image/jpeg" >
-                                <label class="custom-file-label" for="img" id="path">{{__('main.img_choose')}} <span
-                                        style="color:red;">*</span></label>
+                                <label class="custom-file-label" for="img" id="path">{{__('main.img_choose')}} </label>
                             </div>
                             <br> <span style="font-size: 9pt ; color:gray;">{{ __('main.img_hint') }}</span>
 
@@ -227,11 +239,34 @@
 
 <script>
     $(document).ready(function () {
-        var discount_inp = document.getElementById("isAddValue");
-        var discount_label = document.getElementById("addValue");
+        var isAddValue = document.getElementById("isAddValue");
+        var addValue = document.getElementById("addValue");
+        $.ajax({
+            type: 'get',
+            url: 'getVats',
+            dataType: 'json',
+            success: function (response) {
+                console.log(response.items_tax);
+                if (response) {
+                    if(response.items_tax == 0){
+                        isAddValue.checked = false;
+                        addValue.disabled = true;
+                        addValue.value = "0";
+                    } else {
+                        isAddValue.checked = true;
+                        addValue.disabled = false;
+                        addValue.value =  response.items_tax;
+                    }
+                } else {
+                    isAddValue.checked = false;
+                    addValue.disabled = true;
+                    addValue.value = "0";
+                }
+            }
+        });
 
-        discount_inp.checked = false;
-        addValue_inp.disabled = true;
+        //
+
     });
 
     function addValueChange() {

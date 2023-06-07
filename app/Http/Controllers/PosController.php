@@ -39,6 +39,7 @@ class PosController extends Controller
         $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
             -> where('state' , '=' , 0 )->get();
 
+
         if(count($shift) > 0 ){
             if(Auth::user() -> machine_id > 0){
                 $categories = Category::with('items.sizes') -> get();
@@ -46,13 +47,14 @@ class PosController extends Controller
                 $clients = Client::all();
                 $employees = Employee::all();
                 $halls = Hall::all();
+
                 $tables = Table::with('hall') -> get();
                 $setting = null ;
 
 
                 return view('cpanel.pos.pos' , ['categories' => $categories ,
                     'items' => $items , 'clients' => $clients , 'employees' => $employees ,
-                    'halls' => $halls , 'tables' => $tables ]);
+                    'halls' => $halls , 'tables' => $tables  ]);
             } else {
                 return redirect() -> route('home' );
             }
@@ -194,10 +196,11 @@ class PosController extends Controller
                 'extra_item_id' => $request -> extra_item_id[$i],
                 'notes' => "",
                 'txt_holder' => "",
+                 'payed' => 0
             ]) -> id;
 
 
-            $siteController ->  POSSyncQnt($request -> item_id[$i] , $request -> qnt[$i]);
+            $siteController ->  POSSyncQnt($request -> item_id[$i] , $request -> qnt[$i] , -1);
 
             BillDetailsItems::create([
                     'bill_details_id' => $details_id ,
@@ -250,6 +253,14 @@ class PosController extends Controller
                 ]);
 
                 $this -> releaseTable($request -> modalTableId);
+                $details = BillDetails::where('bill_id' , '=' , $request -> modalBillId) -> get();
+                foreach ($details as $detail){
+                    $detail -> update ([
+                        'payed' => 1
+                    ]) ;
+                }
+
+
 
                   //Session::put('payed', $bill -> id);
               //  return  $this -> PrintAction($bill -> id);
@@ -360,30 +371,7 @@ class PosController extends Controller
      */
     public function destroy( $id)
     {
-        $bill = Bill::find($id);
-        if($bill){
-            if($bill -> payed == 0){
-                $details = BillDetails::all() -> where('identifier' , '=' , $bill -> identifier);
-                foreach ($details as $detail){
-                    $detailItems = BillDetailsItems::all() -> where('bill_details_id ' , '=' , $detail -> id);
-                    foreach ($detailItems as $item){
-                        $item -> delete();
-                    }
-                    $detail -> delete();
-                }
-                if($bill -> table_id > 0){
-                    $this -> releaseTable($bill -> table_id );
-                }
-                $bill -> delete();
 
-                return redirect()->route('pos')->with('success' , __('main.bill_deleted'));
-
-            } else {
-                return redirect()->route('pos')->with('danger' , __('main.can_not_cancel'));
-            }
-        } else {
-            return redirect()->route('pos')->with('danger' , __('main.can_not_edit_paid_bills'));
-        }
     }
     public function getBillNo(){
         $bills = Bill::orderBy('id', 'ASC')->get();
@@ -440,4 +428,31 @@ class PosController extends Controller
             return $html ;
         }
     }
+
+
+    public function DeleteBill($id){
+        $bill = Bill::find($id);
+        $siteController = new SiteController();
+        if($bill){
+            $details = BillDetails::where('id' , '=' , $bill -> id) -> get();
+             $this -> releaseTable($bill -> table_id);
+
+             foreach ($details  as $detail){
+                 $siteController ->  POSSyncQnt($detail -> item_id , $detail -> qnt , 1);
+                 $detail -> delete();
+             }
+            $bill -> delete();
+            return redirect()->route('pos')->with('success' , __('main.bill_deleted_admin'));
+
+        }
+    }
+    public function CancelOrder($id){
+        $bill = Bill::find($id);
+        if($bill){
+            $bill -> state = 3 ;
+            $bill -> update();
+            return redirect()->route('pos')->with('success' , __('main.bill_deleted'));
+        }
+    }
+
 }

@@ -204,8 +204,8 @@
         <img src="{{ url('/images/Company/' . $printSetting->logo) }}" class="clientlogo">
         <label class="info">{{$companyInfo -> name_ar}} <br>
             {{$companyInfo -> fax1}} : <span>  {{__('س.ج')}}    </span>
-            <br> {{$companyInfo -> fax2}} : <span>    ر . ض  </span>
-            {!! $printSetting -> header_ar !!}
+            <br> {{$companyInfo -> fax2}} : <span>    ر . ض  </span> <br>
+            {!! $printSetting -> bill_header_ar !!}
         </label>
     </div><!--End InvoiceTop-->
 
@@ -222,7 +222,7 @@
             <h2 class="text-center"> المطبخ</h2>
         @endif
 
-        <table class="hedaer_table">
+        <table class="hedaer_table" style="direction: rtl;">
             <tr>
                 <td class="tabletitle">الوقت</td>
                 <td>{{\Illuminate\Support\Carbon::now()}}</td>
@@ -263,7 +263,7 @@
     <div id="bot">
 
         <div id="table" class="hedaer_table">
-            <table>
+            <table style="direction: rtl;">
                 <tr >
                     <td class="tabletitle"> الصنف</td>
                     @if($client == 0)
@@ -302,7 +302,7 @@
 
             </table>
             @if($client == 1)
-            <table class="hedaer_table">
+            <table class="hedaer_table" style="direction: rtl;">
                 <tr>
                     <td class="tabletitle">الإجمالي قبل الضريبة</td>
                     <td>{{$bill -> total}}</td>
@@ -337,7 +337,7 @@
         <label class="user">CASHIER : {{\Illuminate\Support\Facades\Auth::user() -> name}}</label>
     </div><!--End InvoiceBot-->
     <div id="legalcopy">
-        {!! $printSetting -> footer_ar !!}
+        {!! $printSetting -> bill_footer_ar !!}
     </div>
 </div><!--End Invoice-->
 <script type="text/javascript">

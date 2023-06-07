@@ -90,9 +90,9 @@
  ])
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-
+        <h4   @if(Config::get('app.locale') == 'ar' ) class="text-right" @else  class="text-left" @endif style=" color: gray; margin-right: 15px; margin-left: 15px;">{{__('main.items_modal_title')}}</h4>
         <form method="POST" action="{{ route('store_purchase') }}"
-              enctype="multipart/form-data">
+              enctype="multipart/form-data" id="my_form">
             @csrf
             <!-- {{ csrf_field() }} -->
             <div class="row justify-content-center" style="padding-bottom: 50px;">
@@ -104,7 +104,7 @@
                                 style="color:red; font-size:20px; font-weight:bold;">*</span>
                         </h4>
                         <div class="float-right card-header-actions mr-1">
-                            <button type="submit" class="btn btn-labeled btn-primary ">
+                            <button type="button" class="btn btn-labeled btn-primary " id="submit_btn">
                                 <span class="btn-label"><i class="fa fa-check-circle"></i></span>{{__('main.save_btn')}}
                             </button>
                         </div>
@@ -122,10 +122,10 @@
                         </div>
                         <div class="col-4">
                             <div class="form-group">
-                                <label>{{ __('main.bill_date') }} <span
+                                <label>{{ __('main.date') }} <span
                                         style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
                                 <input type="datetime-local" id="bill_date" name="bill_date"
-                                       class="form-control"
+                                       class="form-control" required
                                 />
                             </div>
                         </div>
@@ -135,8 +135,8 @@
                                 <label>{{ __('main.supplier') }} <span
                                         style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
                                 <select class="form-select"
-                                        name="customer_id" id="customer_id">
-                                    <option value="0" selected>Choose...</option>
+                                        name="customer_id" id="customer_id" required>
+                                    <option value="" selected>Choose...</option>
                                     @foreach ($customers as $item)
                                         <option value="{{$item -> id}}"> {{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</option>
 
@@ -182,7 +182,8 @@
 
                             <div class="card mb-4">
                                 <div class="card-header pb-0">
-                                    <h4 class="table-label text-center">{{__('main.items')}} </h4>
+                                    <h4 class="table-label text-center" >{{__('main.items')}} <span
+                                            style="color:red; font-size:20px; font-weight:bold;">*</span></h4>
                                 </div>
 
                                 <div class="card-body px-0 pt-0 pb-2">
@@ -217,8 +218,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label>{{ __('main.notes') }} <span
-                                        style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                <label>{{ __('main.notes') }}  </label>
                                 <textarea name="notes" id="notes" rows="3" placeholder="{{ __('main.notes') }}"
                                           class="form-control-lg" style="width: 100%"></textarea>
                             </div>
@@ -266,7 +266,9 @@
 
     </div>
 </div>
+<div class="show_modal">
 
+</div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel"
      aria-hidden="true">
@@ -344,6 +346,31 @@
             loadItems();
         });
 
+        $(document).on('click', '.selectItem', function (event) {
+            var code = event.target.value ;
+             searchProduct(code);
+            $('#ItemsModal').modal('hide');
+        });
+
+
+        $(document).on('click', '#submit_btn', function (event) {
+           var form = document.getElementById('my_form');
+           var subblier = document.getElementById('customer_id').value ;
+           if(subblier != ''){
+               var trs =  $('#sTable tr').length;
+               if(trs > 1) {
+                   form.submit();
+               } else {
+                   alert('Please Add at least one item !');
+               }
+           } else {
+               alert('Please Select Supplier !');
+           }
+
+        });
+
+
+
         $(document).on('click', '.select_product', function () {
             var row = $(this).closest('li');
             var item_id = row.attr('data-item-id');
@@ -360,7 +387,12 @@
         });
 
 
-
+        $(document).keydown(function (event) {
+            if (event.keyCode == 114) {
+                event.preventDefault();
+                showPurchasedItems();
+            }
+        });
 
 
     });
@@ -394,13 +426,14 @@
     function searchProduct(code) {
         $.ajax({
             type: 'get',
-            url: 'getProduct' + '/' + code,
+            url: '/getProduct' + '/' + code,
             dataType: 'json',
 
             success: function (response) {
-
+                console.log(response);
                 document.getElementById('products_suggestions').innerHTML = '';
                 if (response) {
+
                     if (response.length == 1) {
                         //addItemToTable
                         if(response[0].canPurshased == 1){
@@ -410,7 +443,7 @@
                     } else if (response.length > 1) {
                         showSuggestions(response);
                     } else if (response.id) {
-                        //showSuggestions(response);
+                        addItemToTable(response);
                     } else {
                         //showNotFoundAlert
                         openDialog();
@@ -421,6 +454,9 @@
                     openDialog();
                     document.getElementById('add_item').value = '';
                 }
+            },
+            error: function (err){
+                console.log(err);
             }
         });
     }
@@ -467,6 +503,7 @@
     }
 
     function addItemToTable(item) {
+        console.log(item);
         if (count == 1) {
             sItems = {};
         }
@@ -655,6 +692,16 @@
         });
         document.getElementById('net').value = total ;
         document.getElementById('remain').value = total ;
+    }
+
+    function showPurchasedItems() {
+        var route = '{{route('getPurchasesItems')}}';
+        $.get(route, function (data) {
+            $('#ItemsModal').modal('hide');
+            $(".show_modal").html(data);
+            $('#ItemsModal').modal('show');
+        });
+
     }
 </script>
 

@@ -27,11 +27,12 @@ class PurchaseController extends SiteController
     {
 
         $customers = Client::where('type' , '=' , 1) -> get();
-        return view('cpanel.purchases.create',compact('customers' ));
+        $items = Item::all();
+        return view('cpanel.purchases.create',compact('customers' , 'items' ));
     }
 
     public function getNo(){
-        $bills = Purchase::where('warehouse_id' , '=' , 0) -> orderBy('id', 'ASC')->get();
+        $bills = Purchase::where('warehouse_id' , '=' , 1) -> orderBy('id', 'ASC')->get();
         if(count($bills) > 0){
             $id = $bills[count($bills) -1] -> id ;
         } else

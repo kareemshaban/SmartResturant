@@ -32,34 +32,37 @@ class DashboradController extends Controller
     }
 
     public function index(){
-        $sales_total = 0 ;
-        $sales_tax = 0 ;
-        $items_total = 0 ;
-        $total_expenses = 0 ;
-        $sales = Bill::all();
-        $expenses = Recipt::all();
-        $details = [] ;
-        foreach ($sales as $bill){
-            if(Carbon::parse($bill -> bill_date) -> format('d-m-y') == Carbon::now() -> format('d-m-y') ) {
-                $sales_total += $bill->total;
-                $sales_tax += $bill->vat;
-                $details = BillDetails::where('bill_id' , '=' , $bill -> id ) -> get();
-                foreach ($details as $detail){
-                    $items_total += $detail -> qnt ;
+        if(Auth::user() -> type == 1) {
+            $sales_total = 0;
+            $sales_count = 0 ;
+            $sales_tax = 0;
+            $items_total = 0;
+            $total_expenses = 0;
+            $expenses_count = 0 ;
+            $sales = Bill::all();
+            $expenses = Recipt::all();
+            foreach ($sales as $bill) {
+                if (Carbon::parse($bill->bill_date)->format('d-m-y') == Carbon::now()->format('d-m-y')) {
+                    $sales_total += $bill->total;
+                    $sales_count += 1 ;
+                    $sales_tax += $bill->vat;
+                    $details = BillDetails::where('bill_id', '=', $bill->id)->get();
+                    foreach ($details as $detail) {
+                        $items_total += $detail->qnt;
+                    }
                 }
-                $details = [] ;
             }
-        }
+            foreach ($expenses as $bill) {
+                if (Carbon::parse($bill->doc_date)->format('d-m-y') == Carbon::now()->format('d-m-y')) {
+                    $total_expenses += $bill->amount_with_tax;
+                    $expenses_count += 1 ;
+                }
 
-
-
-        foreach ($expenses as $bill){
-            if(Carbon::parse($bill -> doc_date) -> format('d-m-y') == Carbon::now() -> format('d-m-y') ){
-                $total_expenses += $bill -> amount_with_tax ;
             }
-
+            return view('home', compact('sales_tax', 'sales_total', 'items_total', 'total_expenses' , 'sales_count' , 'expenses_count'));
+        } else {
+            return view('home_cashier');
         }
-        return view('home' , compact('sales_tax' , 'sales_total' , 'items_total' , 'total_expenses'));
 
     }
     public function checkShift(){

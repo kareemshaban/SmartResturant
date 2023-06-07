@@ -13,6 +13,7 @@
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
@@ -28,8 +29,9 @@
 <main class="main-content  mt-0">
     <section>
         <div class="page-header min-vh-75">
-            @include('flash-message')
+
             <div class="container">
+
                 <div class="row">
                     <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
                         <div class="card card-plain mt-8">
@@ -38,12 +40,15 @@
                                 <p class="mb-0" style="color: gray;">Enter your email and password to sign in</p>
                             </div>
                             <div class="card-body">
-                                <form method="POST" action="{{ route('login') }}">
+                                @include('flash-message')
+                                <form method="POST" action="{{ route('login') }}" id="my_form">
                                     @csrf
-                                    <label>Email</label>
+                                    <label>User Code</label>
                                     <div class="mb-3">
-                                        <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon"
-                                               id="email" name="email">
+                                        <input type="text" class="form-control" placeholder="User Code" aria-label="User code" aria-describedby="email-addon"
+                                               id="code" name="code" >
+                                        <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon"
+                                               id="email" name="email" hidden>
                                     </div>
                                     <label>Password</label>
                                     <div class="mb-3">
@@ -55,7 +60,7 @@
                                         <label class="form-check-label" for="rememberMe">Remember me</label>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
+                                        <button type="button" id="login_btn" class="btn bg-gradient-info w-100 mt-4 mb-0">Sign in</button>
                                     </div>
                                 </form>
                             </div>
@@ -130,6 +135,18 @@
         </div>
     </div>
 </footer>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#login_btn', function(event) {
+            var code = document.getElementById('code').value ;
+            document.getElementById('email').value = code + '@restaurant.com';
+
+            document.getElementById('my_form').submit();
+        });
+
+    });
+</script>
 <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
 <!--   Core JS Files   -->
 <script src="../assets/js/core/popper.min.js"></script>
@@ -144,6 +161,8 @@
         }
         Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+
+
 </script>
 <!-- Github buttons -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>

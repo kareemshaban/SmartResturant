@@ -119,7 +119,7 @@
                                             style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
                                     <input type="text" name="name_ar" id="name_ar"
                                            class="form-control @error('name_ar') is-invalid @enderror arabic-input"
-                                           placeholder="{{ __('main.name_ar_place') }}" autofocus/>
+                                           placeholder="{{ __('main.name_ar_place') }}" autofocus required/>
                                     <input type="hidden" id="type" name="type" value="{{$type}}">
 
                                     @error('name_ar')
@@ -135,7 +135,7 @@
                                             style="color:red; font-size:20px; font-weight:bold;">*</span></label>
                                     <input type="text" name="name_en" id="name_en"
                                            class="form-control @error('name_en') is-invalid @enderror"
-                                           placeholder="{{ __('main.name_en_place') }}" autofocus/>
+                                           placeholder="{{ __('main.name_en_place') }}" autofocus required/>
                                     @error('name_en')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

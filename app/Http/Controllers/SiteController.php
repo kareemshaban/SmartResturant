@@ -62,7 +62,7 @@ class SiteController extends Controller
     }
 
 
-    public function POSSyncQnt($item_id , $item_qnt){
+    public function POSSyncQnt($item_id , $item_qnt , $direction){
         $materials = ItemMaterial::where('item_id' , '=' , $item_id) -> get();
             foreach ($materials as $material){
                 $warehouseProduct = WarehouseProducts::query()
@@ -70,9 +70,16 @@ class SiteController extends Controller
                     ->get()->first();
 
                 if($warehouseProduct){
-                    $warehouseProduct->update([
-                        'quantity' => $warehouseProduct->quantity - ( $material->qnt * $item_qnt)
-                    ]);
+                    if($direction < 0){
+                        $warehouseProduct->update([
+                            'quantity' => $warehouseProduct->quantity - ( $material->qnt * $item_qnt)
+                        ]);
+                    } else if ($direction > 0){
+                        $warehouseProduct->update([
+                            'quantity' => $warehouseProduct->quantity + ( $material->qnt * $item_qnt)
+                        ]);
+                    }
+
                 }
 
             }

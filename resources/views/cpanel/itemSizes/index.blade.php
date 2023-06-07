@@ -55,7 +55,7 @@
         @include('Layouts.cheader')
         @include('Layouts.sidebar', ['slag' => 6])
 
-        <div class="page-wrapper">
+        <div class="page-wrapper" @if(Config::get('app.locale') == 'ar') style="margin-right: 250px; margin-left:0px;" @endif>
             @include('Layouts.subheader', [
                 'pageTitle' => Config::get('app.locale') == 'ar' ? 'أحجام الصنف': 'Item Sizes',
             ])
@@ -133,45 +133,63 @@
     <script src="../../cpanel/js/waves.js"></script>
     <script src="../../cpanel/js/sidebarmenu.js"></script>
     <script src="../../cpanel/js/custom.js"></script>
+
+    @if(!empty(Session::get('res')) )
+        <script>
+            $(function() {
+                sessionStorage.removeItem('res');
+                openCreateModal();
+            });
+        </script>
+    @endif
+
     <script type="text/javascript">
+
+        function openCreateModal(){
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function () {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function (result) {
+                    $('#createModal').modal("show");
+                    $(".modal-body #size_id").val("");
+                    $(".modal-body #level").val('');
+                    $(".modal-body #transformFactor").val(1);
+                    $(".modal-body #price").val("");
+                    $(".modal-body #priceWithAddValue").val("");
+                    $(".modal-body #id").val(0);
+
+                    $(".modal-body .form-header").html($('<div>{{trans('main.new_size')}}</div>').text());
+
+
+                },
+                complete: function () {
+                    $('#loader').hide();
+                },
+                error: function (jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        }
         var id = 0;
         $(document).ready(function () {
+
+
+
+
 
             $('#table').DataTable();
 
             $(document).on('click', '#createButton', function (event) {
                 id = 0;
                 event.preventDefault();
-                let href = $(this).attr('data-attr');
-                $.ajax({
-                    url: href,
-                    beforeSend: function () {
-                        $('#loader').show();
-                    },
-                    // return the result
-                    success: function (result) {
-                        $('#createModal').modal("show");
-                        $(".modal-body #size_id").val("");
-                        $(".modal-body #level").val('');
-                        $(".modal-body #transformFactor").val(1);
-                        $(".modal-body #price").val("");
-                        $(".modal-body #priceWithAddValue").val("");
-                        $(".modal-body #id").val(0);
-
-                        $(".modal-body .form-header").html($('<div>{{trans('main.new_size')}}</div>').text());
-
-
-                    },
-                    complete: function () {
-                        $('#loader').hide();
-                    },
-                    error: function (jqXHR, testStatus, error) {
-                        console.log(error);
-                        alert("Page " + href + " cannot open. Error:" + error);
-                        $('#loader').hide();
-                    },
-                    timeout: 8000
-                })
+                openCreateModal();
             });
             $(document).on('click', '.editBtn', function(event) {
                 id = event.currentTarget.value ;

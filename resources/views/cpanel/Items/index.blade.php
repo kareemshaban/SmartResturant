@@ -55,7 +55,7 @@
         @include('Layouts.cheader')
         @include('Layouts.sidebar', ['slag' => 6])
 
-        <div class="page-wrapper">
+        <div class="page-wrapper" @if(Config::get('app.locale') == 'ar') style="margin-right: 250px; margin-left:0px;" @endif>
             @include('Layouts.subheader', [
                 'pageTitle' => Config::get('app.locale') == 'ar' ? 'الأصناف والإضافات': 'Items & Extras',
             ])
@@ -178,10 +178,10 @@
                         $(".modal-body #name_ar").val("");
                         $(".modal-body #name_en").val("");
                         $(".modal-body #category_id").val('');
-                        $(".modal-body #addValue").val(0);
+                       // $(".modal-body #addValue").val(0);
                         $(".modal-body #description_ar").val("");
                         $(".modal-body #description_en").val("");
-                        $(".modal-body #isAddValue").prop('checked' , false);
+                     //   $(".modal-body #isAddValue").prop('checked' , false);
                         $(".modal-body #isAddValue").prop('canPurshased' , false);
 
 

@@ -291,6 +291,7 @@ return [
     'report_period_sales' => 'Report Period Sales',
     'report_expense_recipt' =>'Report Expense Receipt',
     'report_client_movements' => 'Report Client Movements',
+    'report_supplier_movements' => 'Report Supplier Movements',
     'report_movements_total' => 'Report Total Movements' ,
     'report_clients_toatl_sales' => 'Report clients Total Sales',
     'report_box_movement' => 'Report Box Movement',
@@ -361,5 +362,37 @@ return [
     'add_payment' => 'Add Payment',
     'preview' => 'Preview',
     'from' => 'Supplier Data',
-    'paid_by' => 'Paid By'
+    'paid_by' => 'Paid By',
+    'tax_after_discount' => 'Tax After Discount',
+    'purchase_report' => 'Report Period Purchase',
+    'stock_report' => 'Item Stock Report',
+    'payment_report' => 'Supplier vouchers report',
+    'salary' => 'ٍٍSalary',
+    'user_access' => 'User Access Data',
+    'bill_header_ar' => 'Arabic Invoice Header Text',
+    'bill_header_en' => 'English Invoice Header Text',
+    'bill_footer_ar' => 'Arabic  Invoice Footer Text',
+    'bill_footer_en' => 'English Invoice  Footer Text',
+    'def_bill_type' => 'Default Bill Type',
+    'items_tax' => 'Items Tax',
+    'items_modal_title' => 'You can Search for Items , Press F3',
+    'user_type' => 'User Type',
+    'user_type1' => 'Admin',
+    'user_type2' => 'Cashier',
+    'calculator' => 'Calculator',
+    'end_print' => 'End & Print',
+    'next_btn' => 'Next',
+    'bill_deleted_admin' => 'Bill Deleted Successfully',
+    'pay_partial' => 'Partial pay',
+    'bill_details' => 'Bill Details',
+    'payed' => 'Payed',
+    'yes' => 'Yes',
+    'no' => 'No',
+    'bill_payed_partial' => 'Part of the bill has been paid successfully',
+    'sales_count' => 'Sales Count',
+    'expenses_count' => 'Recipt Bill Count'
+
+
+
+
 ];

@@ -54,7 +54,7 @@
     @include('Layouts.sidebar', ['slag' => 20])
     <!-- Navbar -->
     <!-- End Navbar -->
-    <div class="page-wrapper">
+    <div class="page-wrapper" @if(Config::get('app.locale') == 'ar') style="margin-right: 250px; margin-left:0px;" @endif>
         @include('Layouts.subheader', [
             'pageTitle' => Config::get('app.locale') == 'ar' ? 'قائمة فواتير المشتريات ': 'Purchases Invoices List',
         ])

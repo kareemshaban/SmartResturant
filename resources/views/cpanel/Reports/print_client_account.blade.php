@@ -69,7 +69,7 @@
             box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
             padding: 2mm;
             margin: 0 auto;
-            width: 210mm;
+            width: 148mm;
             background: #FFF;
             border: solid 1px black;
         }

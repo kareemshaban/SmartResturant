@@ -2,7 +2,7 @@
     <div class="container-fluid" @if ( Config::get('app.locale') == 'ar') style="direction: rtl"
          @else style="direction: ltr;" @endif>
       <div class="row">
-          <div class="col-4">
+          <div class="col-6">
               <a class="navbar-brand" href="{{route('home')}}">
                 <span style="
                 font-family: 'Dancing Script', cursive !important; font-weight: bold; color: red">
@@ -25,9 +25,12 @@
               <img
                   src="../assets/img/keyboard.png" style="    width: 50px;
                             margin-left: 30px; margin-right:30px;" id="keyboard">
+              <img
+                  src="../assets/img/gear.png" style="    width: 40px;
+                            margin-left: 30px; margin-right:30px;" id="gear">
 
           </div>
-          <div class="col-4">
+          <div class="col-3">
               <a class="navbar-brand" href="{{route('pos')}}">
                 <span style="
                 font-family: 'Dancing Script', cursive !important; font-weight: bold;">
@@ -35,7 +38,7 @@
                 </span>
               </a>
           </div>
-          <div class="col-4">
+          <div class="col-3">
               <form class="d-flex">
                   <input class="form-control me-2" type="search" placeholder="{{__('main.search_by_bill_number')}}"
                          aria-label="Search" name="val" id="val">

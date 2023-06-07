@@ -54,7 +54,8 @@ class SettingsController extends Controller
             'delivery_service' => 'required|numeric',
             'service' => 'required|numeric|max:100',
             'tobacco_tax' => 'required|numeric|max:100',
-            'receipt_tax' => 'required|numeric|max:100'
+            'receipt_tax' => 'required|numeric|max:100',
+            'items_tax' => 'required|numeric|max:100'
         ]);
 
         try {
@@ -63,6 +64,7 @@ class SettingsController extends Controller
                 'service' => $request->service,
                 'tobacco_tax' => $request->tobacco_tax,
                 'receipt_tax' => $request->receipt_tax,
+                'items_tax' => $request->items_tax,
             ]);
             return redirect() -> route('home')->with('success' , __('main.created'));
 
@@ -109,7 +111,8 @@ class SettingsController extends Controller
                 'delivery_service' => 'required|numeric',
                 'service' => 'required|numeric|max:100',
                 'tobacco_tax' => 'required|numeric|max:100',
-                'receipt_tax' => 'required|numeric|max:100'
+                'receipt_tax' => 'required|numeric|max:100',
+                'items_tax' => 'required|numeric|max:100'
             ]);
 
 
@@ -119,6 +122,7 @@ class SettingsController extends Controller
                     'service' => $request->service,
                     'tobacco_tax' => $request->tobacco_tax,
                     'receipt_tax' => $request->receipt_tax,
+                    'items_tax' => $request->items_tax,
                 ]);
                 return redirect()->route('home')->with('success' , __('main.updated'));
 
@@ -146,5 +150,15 @@ class SettingsController extends Controller
         else
             echo json_encode (null);
         exit;
+    }
+
+    public function setBillType(Request $request){
+        $setting = Settings::all() -> first();
+        if($setting){
+            $setting -> bill_type = $request -> def_bill_type ;
+            $setting -> update();
+            return redirect()->route('pos')->with('success' , __('main.updated'));
+        }
+
     }
 }

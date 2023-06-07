@@ -18,6 +18,8 @@
                         <th>{{__('main.date')}}</th>
                         <th>{{__('main.bill_no')}}</th>
                         <th>{{__('main.total')}}</th>
+                        <th>{{__('main.paid')}}</th>
+                        <th>{{__('main.remain')}}</th>
                         <th>{{__('main.operations')}}</th>
                     </tr>
                     </thead>
@@ -27,6 +29,8 @@
                             <td>{{$bill->bill_date}}</td>
                             <td>{{$bill->bill_number}}</td>
                             <td>{{$bill->net}} </td>
+                            <td>{{  $bill->cash + $bill->credit}} </td>
+                            <td>{{  $bill->net - $bill->cash + $bill->credit}} </td>
                             <td>
                                 <button type="button" class="btn btn-labeled btn-primary unPaidPay" value="{{$bill -> bill_number}}" hidden>
                                     <span class="btn-label"><i class="fa fa-dollar"></i></span>{{__('main.pay')}}</button>

@@ -28,37 +28,99 @@
                                     </div>
                                 </div>
                                 <div class="card-body px-0">
-                                    <div class="form-group">
 
-                                        <label><strong>{{__('main.header_ar')}}</strong></label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
 
-                                        <textarea class="wysihtml5 form-control" name="header_ar" placeholder="{{__('main.header_ar')}}" rows="3">{!! $setting -> header_ar !!} </textarea>
+                                                <label><strong>{{__('main.header_ar')}}</strong></label>
 
+                                                <textarea class="wysihtml5 form-control" name="header_ar" placeholder="{{__('main.header_ar')}}" rows="3">{!! $setting -> header_ar !!} </textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label><strong>{{__('main.header_en')}}</strong></label>
+
+                                                <textarea class="wysihtml5 form-control" name="header_en" placeholder="{{__('main.header_en')}}" rows="3"> {!! $setting -> header_en !!} </textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label><strong>{{__('main.footer_ar')}}</strong></label>
+
+                                                <textarea class="wysihtml5 form-control" name="footer_ar" placeholder="{{__('main.footer_ar')}}" rows="3"> {!! $setting -> footer_ar !!} </textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label><strong>{{__('main.footer_en')}}</strong></label>
+
+                                                <textarea class="wysihtml5 form-control" name="footer_en" placeholder="{{__('main.footer_ar')}}" rows="3">{!! $setting -> footer_ar !!}  </textarea>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label><strong>{{__('main.bill_header_ar')}}</strong></label>
+
+                                                <textarea class="wysihtml5 form-control" name="bill_header_ar"
+                                                          placeholder="{{__('main.bill_header_ar')}}"
+                                                          rows="3">{!! $setting -> bill_header_ar !!} </textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label><strong>{{__('main.bill_header_en')}}</strong></label>
+
+                                                <textarea class="wysihtml5 form-control" name="bill_header_en"
+                                                          placeholder="{{__('main.bill_header_en')}}"
+                                                          rows="3"> {!! $setting -> bill_header_en !!}</textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label><strong>{{__('main.bill_footer_ar')}}</strong></label>
+
+                                                <textarea class="wysihtml5 form-control" name="bill_footer_ar"
+                                                          placeholder="{{__('main.bill_footer_ar')}}"
+                                                          rows="3"> {!! $setting -> bill_footer_ar !!}</textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+
+                                                <label><strong>{{__('main.bill_footer_en')}}</strong></label>
+
+                                                <textarea class="wysihtml5 form-control" name="bill_footer_en"
+                                                          placeholder="{{__('main.bill_footer_en')}}"
+                                                          rows="3">{!! $setting -> bill_footer_en !!} </textarea>
+
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="form-group">
 
-                                        <label><strong>{{__('main.header_en')}}</strong></label>
 
-                                        <textarea class="wysihtml5 form-control" name="header_en" placeholder="{{__('main.header_en')}}" rows="3"> {!! $setting -> header_en !!} </textarea>
 
-                                    </div>
 
-                                    <div class="form-group">
 
-                                        <label><strong>{{__('main.footer_ar')}}</strong></label>
 
-                                        <textarea class="wysihtml5 form-control" name="footer_ar" placeholder="{{__('main.footer_ar')}}" rows="3"> {!! $setting -> footer_ar !!} </textarea>
 
-                                    </div>
 
-                                    <div class="form-group">
-
-                                        <label><strong>{{__('main.footer_en')}}</strong></label>
-
-                                        <textarea class="wysihtml5 form-control" name="footer_en" placeholder="{{__('main.footer_ar')}}" rows="3">{!! $setting -> footer_ar !!}  </textarea>
-
-                                    </div>
 
                                     <div class="form-group">
                                         <label>{{ __('main.img') }}  <span style="color:red;">*</span></label>

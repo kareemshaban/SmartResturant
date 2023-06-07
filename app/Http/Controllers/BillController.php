@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\BillDetails;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
-class BillController extends Controller
+class BillController extends PosController
 {
     /**
      * Display a listing of the resource.
@@ -45,7 +46,7 @@ class BillController extends Controller
      * @param  \App\Models\Bill  $bill
      * @return \Illuminate\Http\Response
      */
-    public function show(Bill $bill)
+    public function show($id)
     {
         //
     }
@@ -56,7 +57,7 @@ class BillController extends Controller
      * @param  \App\Models\Bill  $bill
      * @return \Illuminate\Http\Response
      */
-    public function edit(Bill $bill)
+    public function edit($id)
     {
         //
     }
@@ -68,7 +69,7 @@ class BillController extends Controller
      * @param  \App\Models\Bill  $bill
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bill $bill)
+    public function update(Request $request)
     {
         //
     }
@@ -79,7 +80,7 @@ class BillController extends Controller
      * @param  \App\Models\Bill  $bill
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Bill $bill)
+    public function destroy($id)
     {
         //
     }
@@ -106,6 +107,53 @@ class BillController extends Controller
         $html = view('cpanel.pos.unPaidBills' , compact('bills')) -> render();
         return $html ;
     }
+    public function partialPayment($id){
+        $bill = Bill::with('details.items.item', 'table.hall') -> with('details.items.size') ->
+        find($id);
+        $html = view('cpanel.pos.partialPayment' , compact('bill')) -> render();
+        return $html ;
+    }
+
+    public function partialPaymentAction(Request $request){
+        $validated = $request->validate([
+            'modalBillId2' => 'required',
+            'modalTableId2' => 'required',
+            'modalBillNet2' => 'required',
+            'modalBillCash2' => 'required',
+            'modalBillCredit2' => 'required'
+        ]);
+
+        $bill = Bill::find($request -> modalBillId2);
+        if($bill){
+            $totalPayment = $bill -> cash + $bill -> credit + $request->modalBillCash2 + $request->modalBillCredit2 ;
+
+            $bill->update([
+                'cash' => $request->modalBillCash2,
+                'credit' => $request->modalBillCredit2,
+                'payed' => ($totalPayment == $bill -> net),
+                'state' => ($totalPayment == $bill -> net) ? 2 : 1
+            ]);
+
+            if($totalPayment == $bill -> net){
+                $this -> releaseTable($request -> modalTableId2);
+            }
+            for($i = 0 ; $i < count($request -> select) ; $i++){
+                $detail = BillDetails::find($request -> select[$i]);
+                if($detail){
+                    $detail -> update ([
+                        'payed' => 1
+                    ]) ;
+                }
+            }
+
+            return redirect()->route('pos')->with('success' ,  __('main.bill_payed'));
+
+
+        }
+
+    }
+
+
 
 
 }

@@ -54,7 +54,7 @@
         @include('Layouts.cheader')
         @include('Layouts.sidebar', ['slag' => 9])
 
-        <div class="page-wrapper">
+        <div class="page-wrapper" @if(Config::get('app.locale') == 'ar') style="margin-right: 250px; margin-left:0px;" @endif>
             @include('Layouts.subheader', [
                 'pageTitle' => Config::get('app.locale') == 'ar' ? 'مستند صرف صندوق ': 'Cash Out Document',
             ])

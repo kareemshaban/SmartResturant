@@ -45,7 +45,11 @@
 
     <link rel="stylesheet" href="../css/pos.css">
 
-
+    <style>
+        .btn {
+            font-size: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -64,77 +68,165 @@
     <div class="viewed">
         @include('flash-message')
         <div class="container page ">
-            <div class="row">
-                <div class="col-7 menue">
-                    <div class="bbb_viewed_title_container">
-                        <h3 class="bbb_viewed_title">{{ __('main.item_category') }}</h3>
-                    </div>
+            <div class="row " data-aos="fade-up" style="margin: 0; width: 100%" id="controls">
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-success" name="action" form="header-form"
+                            value="pay_prepare" id="pay_prepare">
+                        <span class="btn-label"><i class="fa fa-check"></i></span> <br>{{__('main.pay_prep') . ' (F9)'}}
+                    </button>
+                </div>
 
-                    <div class="row mx-auto my-auto justify-content-center">
-                        <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner" role="listbox" style="    padding-right: 10px;
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-warning paymentBillButton">
+                        <span class="btn-label"><i class="fa fa-dollar"></i></span>  <br> {{__('main.pay')  . ' (F6)' }}</button>
+                </div>
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-secondary" id="partialPayment">
+                        <span class="btn-label"><i class="fa fa-dollar"></i></span>  <br> {{__('main.pay_partial')  . ' (F7)' }}</button>
+                </div>
+
+
+
+
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-info " form="header-form" name="action"
+                            value="prepare" id="prepare">
+                        <span class="btn-label"><i class="fa fa-shopping-bag"></i></span>  <br> {{__('main.prepare')  . ' (F3)'}}
+                    </button>
+                </div>
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-primary " onclick="increaseQnt()">
+                        <span class="btn-label"><i class="fa fa-plus-circle tools"></i> </span></button>
+                </div>
+
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-dark " onclick="decreaseQnt()">
+                        <span class="btn-label"><i class="fa fa-minus-circle tools"></i></span></button>
+                </div>
+
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-danger " onclick="removeItem()">
+                        <span class="btn-label"><i class="fa fa-trash tools"></i></span></button>
+                </div>
+
+
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-warning  print_btn">
+                        <span class="btn-label"><i class="fa fa-print"></i></span>  <br> {{__('main.print') . ' (F2)' }}
+                    </button>
+                </div>
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-danger " id="cancelOrder">
+                        <span class="btn-label"><i class="fa fa-remove"></i></span>  <br>{{__('main.cancel_order')  . ' (F12)' }}
+                    </button>
+                </div>
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-info" onclick="refresh(1)">
+                        <span class="btn-label"><i class="fa fa-refresh"></i></span>  <br>{{__('main.refresh' ) . ' (F5)'}}
+                    </button>
+                </div>
+
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-dark" id="mediumButton">
+                        <span class="btn-label"><i class="fa fa-cutlery"></i></span>  <br> {{   __('main.tables')   . ' (F11)' }}
+                    </button>
+                </div>
+
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-danger" id="unpaidBills">
+                                <span class="btn-label"><i
+                                        class="fa fa-calculator"></i></span>  <br> {{   __('main.unpaidBills' ) . ' (F8)'}}
+                    </button>
+                </div>
+                @if(\Illuminate\Support\Facades\Auth::user() -> email == '0000@restaurant.com')
+                <div class="col-lg-1 d-flex justify-content-center margin-content">
+                    <button type="button" class="btn btn-labeled btn-danger" id="deleteBill">
+                                <span class="btn-label"><i
+                                        class="fa fa-trash"></i></span> {{   __('main.delete')}}
+                    </button>
+                </div>
+                @endif
+
+            </div>
+            <div class="row">
+                <div class="col-8 ">
+                    <div class="menue">
+                        <div class="bbb_viewed_title_container">
+                            <h3 class="bbb_viewed_title">{{ __('main.item_category') }}</h3>
+                        </div>
+
+                        <div class="row mx-auto my-auto justify-content-center">
+                            <div id="recipeCarousel" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner" role="listbox" style="    padding-right: 10px;
     padding-left: 10px;">
-                                @foreach ($categories  as $key => $category)
-                                    <div @if($key == 0) class="carousel-item active"
-                                         @else class="carousel-item" @endif >
-                                        <div class="col-lg-2">
-                                            <div class="movie-card m-1"
-                                                 onclick="selecCategory(this , {{$category -> id}} )">
-                                                <div class="movie-img">
-                                                    <img src="{{ asset('images/Category/' . $category->img) }}"
-                                                         class="img-fluid">
-                                                </div>
-                                                <div class="movie-title">
-                                                    <p class="text-white text-sm-center font-small flex-center"> {{ Config::get('app.locale') == 'ar' ? $category -> name_ar : $category -> name_en }} </p>
+                                    @foreach ($categories  as $key => $category)
+                                        <div @if($key == 0) class="carousel-item active"
+                                             @else class="carousel-item" @endif >
+                                            <div class="col-lg-2">
+                                                <div class="movie-card m-1"
+                                                     onclick="selecCategory(this , {{$category -> id}} )">
+                                                    <div class="movie-img">
+                                                        <img src="{{ asset('images/Category/' . $category->img) }}"
+                                                             class="img-fluid">
+                                                    </div>
+                                                    <div class="movie-title">
+                                                        <p class="text-white text-sm-center font-small flex-center"> {{ Config::get('app.locale') == 'ar' ? $category -> name_ar : $category -> name_en }} </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
 
 
+                                </div>
+                                <a class="carousel-control-prev bg-dark w-auto"
+                                   href="javascript:;" role="button" data-slide="prev"
+                                   onclick="$('#recipeCarousel').carousel('prev')">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next bg-dark w-auto" href="javascript:;" role="button"
+                                   data-slide="next" onclick="$('#recipeCarousel').carousel('next')">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
                             </div>
-                            <a class="carousel-control-prev bg-dark w-auto"
-                               href="javascript:;" role="button" data-slide="prev"
-                               onclick="$('#recipeCarousel').carousel('prev')">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next bg-dark w-auto" href="javascript:;" role="button"
-                               data-slide="next" onclick="$('#recipeCarousel').carousel('next')">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
                         </div>
-                    </div>
 
 
-                    <div class="bbb_viewed_title_container">
-                        <h3 class="bbb_viewed_title">{{__('main.menue_items')}}</h3>
+                        <div class="bbb_viewed_title_container">
+                            <h3 class="bbb_viewed_title">{{__('main.menue_items')}}</h3>
 
-                    </div>
-                    <div class="row" style="min-height: 300px;">
-                        <div class="col-8" style="padding: 0;">
-                            <div class="row portfolio-container"
-                                 style="margin: 10px; display: flex;align-items: center;" data-aos="fade-up"
-                                 data-aos-delay="100">
-                                @foreach($items as $item)
-                                    @if($item -> type == 0 && count($item -> sizes) > 0)
-                                        <div
-                                            class="col-lg-4 col-md-6 portfolio-item  item-div .{{$item -> category_id}}">
-                                            <div class="portfolio-wrap item-parent">
-                                                <img src="{{ asset('images/Item/' . $item->img) }}"
-                                                     class="img-fluid item-img" alt="">
-                                                <label
-                                                    class="item-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">{{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
-                                                <div class="row sizes">
-                                                    @foreach($item -> sizes as $size)
-                                                        @if($loop -> index == count($item -> sizes) - 1)
-                                                            @if(count($item -> sizes) == 5 )
-                                                                <div class="col-4 text-center"
-                                                                     onclick="selecItemSize( {{$size}} , {{ $item}})">
-                                                                    {{$size -> size -> label}}
-                                                                </div>
+                        </div>
+                        <div class="row" style="min-height: 300px;">
+                            <div class="col-8" style="padding: 0;">
+                                <div class="row portfolio-container"
+                                     style="margin: 10px; display: flex;align-items: center;" data-aos="fade-up"
+                                     data-aos-delay="100">
+                                    @foreach($items as $item)
+                                        @if($item -> type == 0 && count($item -> sizes) > 0)
+                                            <div
+                                                class="col-lg-4 col-md-6 portfolio-item  item-div .{{$item -> category_id}}">
+                                                <div class="portfolio-wrap item-parent">
+                                                    <img src="{{ asset('images/Item/' . $item->img) }}"
+                                                         class="img-fluid item-img" alt="">
+                                                    <label
+                                                        class="item-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">{{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
+                                                    <div class="row sizes">
+                                                        @foreach($item -> sizes as $size)
+                                                            @if($loop -> index == count($item -> sizes) - 1)
+                                                                @if(count($item -> sizes) == 5 )
+                                                                    <div class="col-4 text-center"
+                                                                         onclick="selecItemSize( {{$size}} , {{ $item}})">
+                                                                        {{$size -> size -> label}}
+                                                                    </div>
+                                                                @else
+                                                                    <div
+                                                                        class="col-{{ count($item -> sizes) != 5 ? 12 / count($item -> sizes) : 12 / 6}} text-center"
+                                                                        onclick="selecItemSize( {{$size}} , {{ $item}})">
+                                                                        {{$size -> size -> label}}
+                                                                    </div>
+                                                                @endif
                                                             @else
                                                                 <div
                                                                     class="col-{{ count($item -> sizes) != 5 ? 12 / count($item -> sizes) : 12 / 6}} text-center"
@@ -142,454 +234,307 @@
                                                                     {{$size -> size -> label}}
                                                                 </div>
                                                             @endif
-                                                        @else
-                                                            <div
-                                                                class="col-{{ count($item -> sizes) != 5 ? 12 / count($item -> sizes) : 12 / 6}} text-center"
-                                                                onclick="selecItemSize( {{$size}} , {{ $item}})">
-                                                                {{$size -> size -> label}}
-                                                            </div>
+                                                        @endforeach
+                                                        @if( count($item -> sizes) == 5)
+
                                                         @endif
-                                                    @endforeach
-                                                    @if( count($item -> sizes) == 5)
-
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="col-4" style="padding: 0;     border-left: solid 2px gray;">
-                            <div class="row portfolio-container"
-                                 style="margin: 10px; display: flex;align-items: center;" data-aos="fade-up"
-                                 data-aos-delay="100">
-
-                                @foreach($items as $item)
-                                    @if($item -> type == 1 )
-                                        @if( count($item -> sizes) > 0)
-                                            <div
-                                                class="col-lg-6 col-md-6 portfolio-item  item-div .{{$item -> category_id}} ">
-                                                <div class="portfolio-wrap item-parent extra"
-                                                     onclick="selectExtra({{ $item}})">
-                                                    <img src="{{ asset('images/Item/' . $item->img) }}"
-                                                         class="img-fluid extra-img" alt="">
-                                                    <label
-                                                        class="extra-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">
-                                                        {{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
-
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endif
-                                    @endif
-                                @endforeach
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="col-4" style="padding: 0;     border-left: solid 2px gray;">
+                                <div class="row portfolio-container"
+                                     style="margin: 10px; display: flex;align-items: center;" data-aos="fade-up"
+                                     data-aos-delay="100">
 
+                                    @foreach($items as $item)
+                                        @if($item -> type == 1 )
+                                            @if( count($item -> sizes) > 0)
+                                                <div
+                                                    class="col-lg-6 col-md-6 portfolio-item  item-div .{{$item -> category_id}} ">
+                                                    <div class="portfolio-wrap item-parent extra"
+                                                         onclick="selectExtra({{ $item}})">
+                                                        <img src="{{ asset('images/Item/' . $item->img) }}"
+                                                             class="img-fluid extra-img" alt="">
+                                                        <label
+                                                            class="extra-name {{ Config::get('app.locale') == 'ar' ?  'name_ar' : 'name_en' }}">
+                                                            {{ Config::get('app.locale') == 'ar' ? $item -> name_ar : $item -> name_en}}</label>
+
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @endforeach
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="col-4 ">
+                    <h2 class="text-center btn-danger" id="canceled_bill" > فاتورة ملغاة</h2>
+                    <div class="menue" id="bill">
+                        <div class="row" data-aos="fade-up" >
+                            <div class="col-lg-12 d-flex justify-content-center">
+                                <ul id="portfolio-flters">
+                                    <li class="filter-active" onclick="selectBillType(this , 1)"
+                                        id="default_type">{{__('main.bill_type1')}}</li>
+                                    <li onclick="selectBillType(this , 2)" id="default_type2">{{__('main.bill_type2')}}</li>
+                                    <li onclick="selectBillType(this , 3)" id="default_type3">{{__('main.bill_type3')}}</li>
+                                    <li onclick="selectBillType(this , 4)" id="default_type4">{{__('main.bill_type4')}}</li>
+                                </ul>
                             </div>
                         </div>
+                        <form class="center" method="POST" action="{{ route('storeBill') }}"
+                              enctype="multipart/form-data" id="header-form">
+                            @csrf
+                            <!-- {{ csrf_field() }} -->
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12 d-flex justify-content-center">
+                                    <div class="card-body px-0" style="margin: 0 ; padding: 0;">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label>{{ __('main.client') }}</label>
+                                                    <select
+                                                        class="custom-select mr-sm-2 @error('client_id') is-invalid @enderror"
+                                                        name="client_id" id="client_id" onchange="selectClient()">
+                                                        <option selected value="">Choose...</option>
+                                                        @foreach($clients as $item)
+                                                            @if($item -> type == 0)
+                                                                <option
+                                                                    value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
 
-                    </div>
-
-
-                </div>
-                <div class="col-2">
-                    <div class="row " data-aos="fade-up">
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-success" name="action" form="header-form"
-                                    value="pay_prepare" id="pay_prepare">
-                                <span class="btn-label"><i class="fa fa-check"></i></span>{{__('main.pay_prep')}}
-                            </button>
-                        </div>
-
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-warning paymentBillButton">
-                                <span class="btn-label"><i class="fa fa-dollar"></i></span>{{__('main.pay')}}</button>
-                        </div>
-
-
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-info " form="header-form" name="action"
-                                    value="prepare" id="prepare">
-                                <span class="btn-label"><i class="fa fa-shopping-bag"></i></span> {{__('main.prepare')}}
-                            </button>
-                        </div>
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-primary " onclick="increaseQnt()">
-                                <span class="btn-label"><i class="fa fa-plus-circle tools"></i> </span></button>
-                        </div>
-
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-dark " onclick="decreaseQnt()">
-                                <span class="btn-label"><i class="fa fa-minus-circle tools"></i></span></button>
-                        </div>
-
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-danger " onclick="removeItem()">
-                                <span class="btn-label"><i class="fa fa-trash tools"></i></span></button>
-                        </div>
-
-
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-warning  print_btn">
-                                <span class="btn-label"><i class="fa fa-print"></i></span> {{__('main.print')}}
-                            </button>
-                        </div>
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-danger " id="cancelOrder">
-                                <span class="btn-label"><i class="fa fa-remove"></i></span>{{__('main.cancel_order')}}
-                            </button>
-                        </div>
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-info" onclick="refresh(1)">
-                                <span class="btn-label"><i class="fa fa-refresh"></i></span>{{__('main.refresh')}}
-                            </button>
-                        </div>
-
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-dark" id="mediumButton">
-                                <span class="btn-label"><i class="fa fa-cutlery"></i></span> {{   __('main.tables')}}
-                            </button>
-                        </div>
-
-                        <div class="col-lg-8 d-flex justify-content-center margin-content">
-                            <button type="button" class="btn btn-labeled btn-danger" id="unpaidBills">
-                                <span class="btn-label"><i
-                                        class="fa fa-calculator"></i></span> {{   __('main.unpaidBills')}}
-                            </button>
-                        </div>
-
-
-                    </div>
-
-                </div>
-                <div class="col-3 menue">
-                    <div class="row" data-aos="fade-up">
-                        <div class="col-lg-12 d-flex justify-content-center">
-                            <ul id="portfolio-flters">
-                                <li class="filter-active" onclick="selectBillType(this , 1)"
-                                    id="default_type">{{__('main.bill_type1')}}</li>
-                                <li onclick="selectBillType(this , 2)" id="default_type2">{{__('main.bill_type2')}}</li>
-                                <li onclick="selectBillType(this , 3)" id="default_type3">{{__('main.bill_type3')}}</li>
-                                <li onclick="selectBillType(this , 4)" id="default_type4">{{__('main.bill_type4')}}</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <form class="center" method="POST" action="{{ route('storeBill') }}"
-                          enctype="multipart/form-data" id="header-form">
-                        @csrf
-                        <!-- {{ csrf_field() }} -->
-                        <div class="row justify-content-center">
-                            <div class="col-lg-12 d-flex justify-content-center">
-                                <div class="card-body px-0" style="margin: 0 ; padding: 0;">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <label>{{ __('main.client') }}</label>
-                                                <select
-                                                    class="custom-select mr-sm-2 @error('client_id') is-invalid @enderror"
-                                                    name="client_id" id="client_id" onchange="selectClient()">
-                                                    <option selected value="">Choose...</option>
-                                                    @foreach($clients as $item)
-                                                        @if($item -> type == 0)
-                                                        <option
-                                                            value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
-
-                                                @error('client_id')
-                                                <span class="invalid-feedback" role="alert">
+                                                    @error('client_id')
+                                                    <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                                @enderror
-                                            </div>
-                                            <div class="col-6">
-                                                <label>{{ __('main.phone') }}</label>
-                                                <input type="text"
-                                                       class="form-control"
-                                                       id="phone" name="phone"
-                                                       placeholder="{{ __('main.phone') }}" autofocus/>
-                                                <input type="text"
-                                                       class="form-control"
-                                                       id="client_name" name="client_name" hidden/>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-6">
+                                                    <label>{{ __('main.phone') }}</label>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="phone" name="phone"
+                                                           placeholder="{{ __('main.phone') }}" autofocus/>
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="client_name" name="client_name" hidden/>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>{{ __('main.address') }}</label>
-                                        <input type="text" name="address" id="address"
-                                               class="form-control"
-                                               placeholder="{{ __('main.address') }}" autofocus/>
-                                    </div>
-                                    <div class="form-group" id="driver_data">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <label>{{ __('main.driver') }}</label>
-                                                <select
-                                                    class="custom-select mr-sm-2 @error('driver_id') is-invalid @enderror"
-                                                    name="driver_id" id="driver_id" onchange="selectDriver()">
-                                                    <option selected value="">Choose...</option>
-                                                    @foreach($employees as $item)
-                                                        <option
-                                                            value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
-                                                    @endforeach
-                                                </select>
+                                        <div class="form-group">
+                                            <label>{{ __('main.address') }}</label>
+                                            <input type="text" name="address" id="address"
+                                                   class="form-control"
+                                                   placeholder="{{ __('main.address') }}" autofocus/>
+                                        </div>
+                                        <div class="form-group" id="driver_data">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label>{{ __('main.driver') }}</label>
+                                                    <select
+                                                        class="custom-select mr-sm-2 @error('driver_id') is-invalid @enderror"
+                                                        name="driver_id" id="driver_id" onchange="selectDriver()">
+                                                        <option selected value="">Choose...</option>
+                                                        @foreach($employees as $item)
+                                                            <option
+                                                                value="{{$item -> id}}"> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
+                                                        @endforeach
+                                                    </select>
 
-                                                @error('driver_id')
-                                                <span class="invalid-feedback" role="alert">
+                                                    @error('driver_id')
+                                                    <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                                @enderror
-                                            </div>
-                                            <div class="col-6">
-                                                <label>{{ __('main.delivery_service') }}</label>
-                                                <input type="number" name="delivery_service" id="delivery_service"
-                                                       class="form-control"
-                                                       placeholder="{{ __('main.delivery_service') }}" autofocus
-                                                       onkeyup="calculateDeliveryService()"
-                                                       onchange="calculateDeliveryService()"
-                                                />
-                                                <input type="text"
-                                                       class="form-control"
-                                                       id="driver_name" name="driver_name" hidden/>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-6">
+                                                    <label>{{ __('main.delivery_service') }}</label>
+                                                    <input type="number" name="delivery_service" id="delivery_service"
+                                                           class="form-control"
+                                                           placeholder="{{ __('main.delivery_service') }}" autofocus
+                                                           onkeyup="calculateDeliveryService()"
+                                                           onchange="calculateDeliveryService()"
+                                                    />
+                                                    <input type="text"
+                                                           class="form-control"
+                                                           id="driver_name" name="driver_name" hidden/>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group" id="hall_data">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <label>{{ __('main.table') }}</label>
+                                        <div class="form-group" id="hall_data">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label>{{ __('main.table') }}</label>
 
-                                                <input type="text"
-                                                       class="form-control text-center @error('table_id') is-invalid @enderror"
-                                                       id="table_name" name="table_name" readonly
-                                                       style="font-size: 14px;"/>
-                                                <input type="text"
-                                                       class="form-control text-center" id="table_id" name="table_id"
-                                                       hidden/>
+                                                    <input type="text"
+                                                           class="form-control text-center @error('table_id') is-invalid @enderror"
+                                                           id="table_name" name="table_name" readonly
+                                                           style="font-size: 14px;"/>
+                                                    <input type="text"
+                                                           class="form-control text-center" id="table_id" name="table_id"
+                                                           hidden/>
 
-                                                @error('table_id')
-                                                <span class="invalid-feedback" role="alert">
+                                                    @error('table_id')
+                                                    <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
-                                                @enderror
-                                            </div>
-                                            <div class="col-6">
-                                                <label>{{ __('main.service') }}</label>
-                                                <input type="number" name="service" id="service"
-                                                       class="form-control"
-                                                       placeholder="{{ __('main.service') }}" readonly
-                                                />
+                                                    @enderror
+                                                </div>
+                                                <div class="col-6">
+                                                    <label>{{ __('main.service') }}</label>
+                                                    <input type="number" name="service" id="service"
+                                                           class="form-control"
+                                                           placeholder="{{ __('main.service') }}" readonly
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="form-group last-form">
-                                        <input id="bill_type" name="billType" hidden type="text">
-                                    </div>
+                                        <div class="form-group last-form">
+                                            <input id="bill_type" name="billType" hidden type="text">
+                                        </div>
 
+
+                                    </div>
 
                                 </div>
 
                             </div>
 
-                        </div>
+                            <div class="table-responsive">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-12 d-flex justify-content-center">
+                                        <div class="card-body px-0" style="margin: 0 ; padding: 0;">
+                                            <div class="table-wrap-height">
+                                                <table id="details" class="table table-bordered " style="width:100%; direction: rtl">
+                                                    <thead class="thead-dark">
+                                                    <tr>
+                                                        <th class="text-center">#</th>
+                                                        <th class="text-center" hidden>item_id</th>
+                                                        <th class="text-center" hidden>size_id</th>
+                                                        <th class="text-center" hidden>item_size_id</th>
+                                                        <th class="text-center" hidden>details_id</th>
+                                                        <th class="text-center" hidden>isExtra</th>
+                                                        <th class="text-center">{{ __('main.item') }}</th>
+                                                        <th class="text-center">{{ __('main.size') }}</th>
+                                                        <th class="text-center">{{ __('main.quantity') }}</th>
+                                                        <th class="text-center">{{ __('main.price') }}</th>
+                                                        <th class="text-center">{{ __('main.total') }}</th>
+                                                        <th class="text-center" hidden>price without vat</th>
+                                                        <th class="text-center" hidden>total without vat</th>
+                                                        <th class="text-center">{{ __('main.select') }}</th>
+                                                        <th class="text-center" hidden>extraitemId</th>
+                                                        <th class="text-center" hidden>category_id</th>
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="details-body">
 
 
-                        <div class="row justify-content-center">
-                            <div class="col-lg-12 d-flex justify-content-center">
-                                <div class="card-body px-0" style="margin: 0 ; padding: 0;">
-                                    <div class="table-wrap-height">
-                                        <table id="details" class="table table-bordered " style="width:100%">
-                                            <thead class="thead-dark">
-                                            <tr>
-                                                <th class="text-center">#</th>
-                                                <th class="text-center" hidden>item_id</th>
-                                                <th class="text-center" hidden>size_id</th>
-                                                <th class="text-center" hidden>item_size_id</th>
-                                                <th class="text-center" hidden>details_id</th>
-                                                <th class="text-center" hidden>isExtra</th>
-                                                <th class="text-center">{{ __('main.item') }}</th>
-                                                <th class="text-center">{{ __('main.size') }}</th>
-                                                <th class="text-center">{{ __('main.quantity') }}</th>
-                                                <th class="text-center">{{ __('main.price') }}</th>
-                                                <th class="text-center">{{ __('main.total') }}</th>
-                                                <th class="text-center" hidden>price without vat</th>
-                                                <th class="text-center" hidden>total without vat</th>
-                                                <th class="text-center">{{ __('main.select') }}</th>
-                                                <th class="text-center" hidden>extraitemId</th>
-                                                <th class="text-center" hidden>category_id</th>
-
-                                            </tr>
-                                            </thead>
-                                            <tbody id="details-body">
+                                                    </tbody>
 
 
-                                            </tbody>
+                                                </table>
+                                            </div>
 
 
-                                        </table>
+                                            <div class="table-wrap-height">
+                                                <table id="totalls" class="table table-bordered "
+                                                       style="width:100%; direction: rtl">
+                                                    <tr>
+                                                        <th> {{ __('main.date') }}</th>
+                                                        <td colspan="3"><input type="text"
+                                                                               id="date" name="bill_date"
+                                                                               class="form-control text-center"
+                                                                               placeholder="{{ __('main.date') }}" autofocus
+                                                                               value="{{\Carbon\Carbon::now()}}" readonly/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th> {{ __('main.bill_no') }}</th>
+                                                        <td colspan="3"><input type="text" id="bill_number" name="bill_number"
+                                                                               class="form-control text-center"
+                                                                               placeholder="{{ __('main.bill_no') }}" autofocus
+                                                                               readonly/>
+                                                            <input type="text" id="identifier" name="identifier"
+                                                                   class="form-control text-center"
+                                                                   placeholder="identifier" hidden=""/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th> {{ __('main.total') }}</th>
+                                                        <td><input type="text"
+                                                                   class="form-control text-center"
+                                                                   id="total" name="total"
+                                                                   autofocus readonly
+                                                                   value="0"/>
+
+                                                        </td>
+                                                        <th> {{ __('main.Vat') }}</th>
+                                                        <td><input type="text"
+                                                                   class="form-control text-center" id="vat" name="vat"
+                                                                   placeholder="{{ __('main.Vat') }}" autofocus readonly
+                                                                   value="0"/>
+
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <th> {{ __('main.discount') }}</th>
+                                                        <td><input type="text"
+                                                                   class="form-control text-center"
+                                                                   id="discount" name="discount"
+                                                                   placeholder="{{ __('main.discount') }}" autofocus readonly
+                                                                   value="0"/>
+
+                                                        </td>
+                                                        <th> {{ __('main.net') }}</th>
+                                                        <td><input type="text"
+                                                                   class="form-control text-center" id="net" name="net"
+                                                                   placeholder="{{ __('main.net') }}" autofocus readonly
+                                                                   value="0"/>
+                                                            <input type="text"
+                                                                   class="form-control text-center" id="cash" name="cash"
+                                                                   placeholder="{{ __('main.cash') }}" hidden value="0"/>
+                                                            <input type="text"
+                                                                   class="form-control text-center" id="credit" name="credit"
+                                                                   placeholder="{{ __('main.credit') }}" hidden value="0"/>
+                                                            <input type="text"
+                                                                   class="form-control text-center" id="bank" name="bank"
+                                                                   placeholder="{{ __('main.net') }}" hidden value="0"/>
+                                                            <input type="text"
+                                                                   class="form-control text-center" id="serviceVal"
+                                                                   name="serviceVal"
+                                                                   placeholder="{{ __('main.service_val') }}" autofocus readonly
+                                                                   value="0" hidden/>
+
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                        </div>
                                     </div>
-
-
-                                    <div class="table-wrap-height">
-                                        <table id="totalls" class="table table-bordered "
-                                               style="width:100%; direction: rtl">
-                                            <tr>
-                                                <th> {{ __('main.date') }}</th>
-                                                <td colspan="3"><input type="text"
-                                                                       id="date" name="bill_date"
-                                                                       class="form-control text-center"
-                                                                       placeholder="{{ __('main.date') }}" autofocus
-                                                                       value="{{\Carbon\Carbon::now()}}" readonly/></td>
-                                            </tr>
-                                            <tr>
-                                                <th> {{ __('main.bill_no') }}</th>
-                                                <td colspan="3"><input type="text" id="bill_number" name="bill_number"
-                                                                       class="form-control text-center"
-                                                                       placeholder="{{ __('main.bill_no') }}" autofocus
-                                                                       readonly/>
-                                                    <input type="text" id="identifier" name="identifier"
-                                                           class="form-control text-center"
-                                                           placeholder="identifier" hidden=""/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th> {{ __('main.total') }}</th>
-                                                <td><input type="text"
-                                                           class="form-control text-center"
-                                                           id="total" name="total"
-                                                           autofocus readonly
-                                                           value="0"/>
-
-                                                </td>
-                                                <th> {{ __('main.Vat') }}</th>
-                                                <td><input type="text"
-                                                           class="form-control text-center" id="vat" name="vat"
-                                                           placeholder="{{ __('main.Vat') }}" autofocus readonly
-                                                           value="0"/>
-
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <th> {{ __('main.discount') }}</th>
-                                                <td><input type="text"
-                                                           class="form-control text-center"
-                                                           id="discount" name="discount"
-                                                           placeholder="{{ __('main.discount') }}" autofocus readonly
-                                                           value="0"/>
-
-                                                </td>
-                                                <th> {{ __('main.net') }}</th>
-                                                <td><input type="text"
-                                                           class="form-control text-center" id="net" name="net"
-                                                           placeholder="{{ __('main.net') }}" autofocus readonly
-                                                           value="0"/>
-                                                    <input type="text"
-                                                           class="form-control text-center" id="cash" name="cash"
-                                                           placeholder="{{ __('main.cash') }}" hidden value="0"/>
-                                                    <input type="text"
-                                                           class="form-control text-center" id="credit" name="credit"
-                                                           placeholder="{{ __('main.credit') }}" hidden value="0"/>
-                                                    <input type="text"
-                                                           class="form-control text-center" id="bank" name="bank"
-                                                           placeholder="{{ __('main.net') }}" hidden value="0"/>
-                                                    <input type="text"
-                                                           class="form-control text-center" id="serviceVal"
-                                                           name="serviceVal"
-                                                           placeholder="{{ __('main.service_val') }}" autofocus readonly
-                                                           value="0" hidden/>
-
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    {{--                                    <div hidden>--}}
-                                    {{--                                    <div class="form-group row_border">--}}
-                                    {{--                                        <div class="row justify-content-center">--}}
-                                    {{--                                            <div class="col-4">--}}
-                                    {{--                                                <label>{{ __('main.date') }}</label>--}}
-                                    {{--                                                <input type="text"--}}
-                                    {{--                                                       id="date" name="bill_date"--}}
-                                    {{--                                                       class="form-control text-center"--}}
-                                    {{--                                                       placeholder="{{ __('main.date') }}" autofocus--}}
-                                    {{--                                                       value="{{\Carbon\Carbon::now()}}" readonly/>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                            <div class="col-4">--}}
-                                    {{--                                                <label>{{ __('main.bill_no') }}</label>--}}
-                                    {{--                                                <input type="text" id="bill_number" name="bill_number"--}}
-                                    {{--                                                       class="form-control text-center"--}}
-                                    {{--                                                       placeholder="{{ __('main.bill_no') }}" autofocus readonly/>--}}
-                                    {{--                                                <input type="text" id="identifier" name="identifier"--}}
-                                    {{--                                                       class="form-control text-center"--}}
-                                    {{--                                                       placeholder="identifier" hidden=""/>--}}
-
-                                    {{--                                            </div>--}}
-                                    {{--                                        </div>--}}
-                                    {{--                                    </div>--}}
-
-                                    {{--                                    <div class="form-group row_border">--}}
-                                    {{--                                        <div class="row justify-content-center">--}}
-                                    {{--                                            <div class="col-4">--}}
-                                    {{--                                                <label>{{ __('main.total') }}</label>--}}
-                                    {{--                                                <input type="text"--}}
-                                    {{--                                                       class="form-control text-center"--}}
-                                    {{--                                                       id="total" name="total"--}}
-                                    {{--                                                       placeholder="{{ __('main.date') }}" autofocus readonly--}}
-                                    {{--                                                       value="0"/>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                            <div class="col-4">--}}
-                                    {{--                                                <label>{{ __('main.Vat') }}</label>--}}
-                                    {{--                                                <input type="text"--}}
-                                    {{--                                                       class="form-control text-center" id="vat" name="vat"--}}
-                                    {{--                                                       placeholder="{{ __('main.Vat') }}" autofocus readonly value="0"/>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                            <div class="col-4">--}}
-                                    {{--                                                <label>{{ __('main.service_val') }}</label>--}}
-                                    {{--                                                <input type="text"--}}
-                                    {{--                                                       class="form-control text-center" id="serviceVal"--}}
-                                    {{--                                                       name="serviceVal"--}}
-                                    {{--                                                       placeholder="{{ __('main.service_val') }}" autofocus readonly--}}
-                                    {{--                                                       value="0"/>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                        </div>--}}
-                                    {{--                                    </div>--}}
-
-                                    {{--                                    <div class="form-group row_border">--}}
-                                    {{--                                        <div class="row justify-content-center">--}}
-                                    {{--                                            <div class="col-4">--}}
-                                    {{--                                                <label>{{ __('main.discount') }}</label>--}}
-                                    {{--                                                <input type="text"--}}
-                                    {{--                                                       class="form-control text-center"--}}
-                                    {{--                                                       id="discount" name="discount"--}}
-                                    {{--                                                       placeholder="{{ __('main.discount') }}" autofocus readonly--}}
-                                    {{--                                                       value="0"/>--}}
-                                    {{--                                            </div>--}}
-                                    {{--                                            <div class="col-4">--}}
-                                    {{--                                                <label>{{ __('main.net') }}</label>--}}
-                                    {{--                                                <input type="text"--}}
-                                    {{--                                                       class="form-control text-center" id="net" name="net"--}}
-                                    {{--                                                       placeholder="{{ __('main.net') }}" autofocus readonly value="0"/>--}}
-                                    {{--                                                <input type="text"--}}
-                                    {{--                                                       class="form-control text-center" id="cash" name="cash"--}}
-                                    {{--                                                       placeholder="{{ __('main.cash') }}" hidden value="0"/>--}}
-                                    {{--                                                <input type="text"--}}
-                                    {{--                                                       class="form-control text-center" id="credit" name="credit"--}}
-                                    {{--                                                       placeholder="{{ __('main.credit') }}" hidden value="0"/>--}}
-                                    {{--                                                <input type="text"--}}
-                                    {{--                                                       class="form-control text-center" id="bank" name="bank"--}}
-                                    {{--                                                       placeholder="{{ __('main.net') }}" hidden value="0"/>--}}
-
-                                    {{--                                            </div>--}}
-                                    {{--                                        </div>--}}
-                                    {{--                                    </div>--}}
-                                    {{--                                    </div>--}}
                                 </div>
                             </div>
-                        </div>
 
 
-                    </form>
+
+                        </form>
+                    </div>
+
                 </div>
 
             </div>
@@ -613,6 +558,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <input type="hidden" id="hall0" name="hall0" value="{{ count($halls) > 0 ? $halls[0] -> id : 0}}">
             <div class="modal-body" id="mediumBody">
                 <div class="container">
                     <div class="row" data-aos="fade-up">
@@ -701,6 +647,39 @@
                 <br> <label class="alertSubTitle" id="modal_table_bill"></label>
                 <div class="row">
                     <div class="col-6 text-center">
+                        <button type="button" class="btn btn-labeled btn-warning" onclick="DeleteBillAction()">
+                            <span class="btn-label" style="margin-right: 10px"><i
+                                    class="fa fa-check"></i></span>{{__('main.confirm_btn')}}</button>
+                    </div>
+                    <div class="col-6 text-center">
+                        <button type="button" class="btn btn-labeled btn-primary" data-bs-dismiss="modal"
+                                aria-label="Close">
+                            <span class="btn-label" style="margin-right: 10px"><i
+                                    class="fa fa-close"></i></span>{{__('main.cancel_btn')}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="confirmModal2" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+                        style="color: red; font-size: 20px; font-weight: bold;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="smallBody">
+                <img src="../../images/warning.png" class="alertImage">
+                <label class="alertTitle">{{__('main.cancel_order_title')}}</label>
+                <br> <label class="alertSubTitle" id="modal_table_bill"></label>
+                <div class="row">
+                    <div class="col-6 text-center">
                         <button type="button" class="btn btn-labeled btn-warning" onclick="cancelOrder()">
                             <span class="btn-label" style="margin-right: 10px"><i
                                     class="fa fa-check"></i></span>{{__('main.confirm_btn')}}</button>
@@ -716,6 +695,53 @@
         </div>
     </div>
 </div>
+
+
+
+<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label class="modal-title">{{__('main.settings')}}</label>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"
+                        style="color: red; font-size: 20px; font-weight: bold;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="smallBody">
+                <form class="center" method="POST" action="{{ route('store_bill_type') }}"
+                      enctype="multipart/form-data" >
+                    @csrf
+                    <!-- {{ csrf_field() }} -->
+                <div class="row" style="margin-bottom: 30px;">
+
+
+                 <div class="form-group">
+                     <label>{{ __('main.def_bill_type') }}</label>
+                     <select class="custom-select mr-sm-2" name="def_bill_type" id="def_bill_type" >
+                         <option selected value="">Choose...</option>
+                         <option  value="1">{{__('main.bill_type1')}}</option>
+                         <option  value="2">{{__('main.bill_type2')}}</option>
+                         <option  value="3">{{__('main.bill_type3')}}</option>
+                         <option  value="4">{{__('main.bill_type4')}}</option>
+                     </select>
+                 </div>
+                </div>
+
+                <div class="row text-center" style="display: flex;justify-content: center;">
+                    <div class="col-6 text-center">
+                        <button type="submit" class="btn btn-labeled btn-warning" >
+                            <span class="btn-label" style="margin-right: 10px"><i
+                                    class="fa fa-check"></i></span>{{__('main.save_btn')}}</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="shortcutModal" tabindex="-1" role="dialog" aria-labelledby="shortcutModalLabel"
      aria-hidden="true">
@@ -784,7 +810,7 @@
 {{--    Payment  Modal   --}}
 <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <label class="modelTitle"> {{__('main.payment_header')}}</label>
@@ -828,7 +854,7 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-6 " style="display: block; margin: auto">
+                        <div class="col-4 " >
                             <div class="form-group">
                                 <label>{{ __('main.total') }} <span
                                         style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
@@ -837,6 +863,25 @@
                                        placeholder="{{ __('main.total') }}" readonly/>
                             </div>
                         </div>
+                        <div class="col-4 " >
+                            <div class="form-group">
+                                <label>{{ __('main.tax') }} <span
+                                        style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                <input type="text" id="modalBillTax" name="modalBillTax"
+                                       class="form-control"
+                                       placeholder="{{ __('main.tax') }}" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-4 " >
+                            <div class="form-group">
+                                <label>{{ __('main.service_val') }} / {{__('main.delivery_service')}} <span
+                                        style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                <input type="text" id="modalBillService" name="modalBillService"
+                                       class="form-control"
+                                       placeholder="{{ __('main.tax') }}" readonly/>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div class="row">
@@ -867,13 +912,31 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-6 " style="display: block; margin: auto">
+                        <div class="col-4 ">
                             <div class="form-group">
                                 <label>{{ __('main.net') }} <span
                                         style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
                                 <input type="text" id="modalBillNet" name="modalBillNet"
                                        class="form-control"
                                        placeholder="{{ __('main.net') }}" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-4 ">
+                            <div class="form-group">
+                                <label>{{ __('main.paid') }} <span
+                                        style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                <input type="text" id="modalBillpaid" name="modalBillpaid"
+                                       class="form-control"
+                                       placeholder="{{ __('main.paid') }}" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-4 ">
+                            <div class="form-group">
+                                <label>{{ __('main.tax_after_discount') }} <span
+                                        style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
+                                <input type="text" id="modalBillNetTax" name="modalBillNetTax"
+                                       class="form-control"
+                                       placeholder="{{ __('main.tax_after_discount') }}" readonly/>
                             </div>
                         </div>
                     </div>
@@ -940,7 +1003,7 @@
 
 
     $(document).ready(function () {
-
+        $("#canceled_bill").hide();
         $(document).keypress(
             function (event) {
                 if (event.which == '13') {
@@ -985,6 +1048,37 @@
             } else {
                 console.log(Bill);
                 alert($('<div>{{trans('main.can_not_edit_bill')}}</div>').text());
+            }
+        });
+
+        $(document).on('click' , '#deleteBill' , function (){
+            if (Bill) {
+                if(Bill.payed == 0) {
+                    let href = $(this).attr('data-attr');
+                    $.ajax({
+                        url: href,
+                        beforeSend: function () {
+                            $('#loader').show();
+                        },
+                        // return the result
+                        success: function (result) {
+                            $('#confirmModal').modal("show");
+                        },
+                        complete: function () {
+                            $('#loader').hide();
+                        },
+                        error: function (jqXHR, testStatus, error) {
+                            console.log(error);
+                            alert("Page " + href + " cannot open. Error:" + error);
+                            $('#loader').hide();
+                        },
+                        timeout: 8000
+                    });
+                } else {
+                    alert($('<div>{{trans('main.can_not_cancel_payed')}}</div>').text());
+                }
+            } else {
+                alert($('<div>{{trans('main.no_bill_found')}}</div>').text());
             }
         });
 
@@ -1268,6 +1362,13 @@
         $(document).on('click', '.paymentBillButton', function (event) {
             PayBillEvent();
         });
+        $(document).on('click', '#partialPayment', function (event) {
+            partialPayment();
+        });
+
+
+
+
 
         $("#keyboard").click(function () {
             event.preventDefault();
@@ -1293,6 +1394,32 @@
                 timeout: 8000
             })
         });
+
+        $("#gear").click(function () {
+            event.preventDefault();
+            let href = $(this).attr('data-attr');
+            $.ajax({
+                url: href,
+                beforeSend: function () {
+                    $('#loader').show();
+                },
+                // return the result
+                success: function (result) {
+                    $('#settingsModal').modal("show");
+                    //  $('#mediumBody').html(result).show();
+                },
+                complete: function () {
+                    $('#loader').hide();
+                },
+                error: function (jqXHR, testStatus, error) {
+                    console.log(error);
+                    alert("Page " + href + " cannot open. Error:" + error);
+                    $('#loader').hide();
+                },
+                timeout: 8000
+            })
+        });
+
         $(document).keydown(function (event) {
             // event.preventDefault();
             console.log(event.keyCode);
@@ -1310,7 +1437,18 @@
                 PrintBill();
             } else if (event.keyCode == 117) {
                 PayBillEvent();
-            } else if (event.keyCode == 114) {
+            } else if (event.keyCode == 118) {
+                event.preventDefault();
+                partialPayment();
+            } else if (event.keyCode == 119) {
+                event.preventDefault();
+               showUnPaidBills();
+            }
+            else if (event.keyCode == 116) {
+                event.preventDefault();
+                refresh(1);
+            }
+            else if (event.keyCode == 114) {
                 //sumbit
                 let form = document.getElementById("header-form");
                 form.submit();
@@ -1359,7 +1497,7 @@
                    },
                    // return the result
                    success: function (result) {
-                       $('#confirmModal').modal("show");
+                       $('#confirmModal2').modal("show");
                    },
                    complete: function () {
                        $('#loader').hide();
@@ -1400,6 +1538,7 @@
     function PayBillEvent() {
         if (Bill) {
             if (Bill.payed == 0) {
+
                 const local = document.getElementById("local").value;
                 event.preventDefault();
                 let href = $(this).attr('data-attr');
@@ -1438,8 +1577,34 @@
         }
     }
 
+    function partialPayment(){
+        if (Bill) {
+            if (Bill.payed == 0) {
+
+                var route = '{{route('partialPayment' , ':id')}}';
+                route = route.replace(':id', Bill.id);
+                $.get(route, function (data) {
+                    $(".show_modal").html(data);
+                    $('#paymentsModal').modal('show');
+                });
+            }else {
+                // bill is payed
+                alert($('<div>{{trans('main.bill_payed_alredy')}}</div>').text());
+            }
+        } else {
+            alert($('<div>{{trans('main.can_not_pay_before_save')}}</div>').text());
+        }
+    }
+
+
+
     function cancelOrder() {
         let url = "{{ route('cancelOrder', ':id') }}";
+        url = url.replace(':id', Bill.id);
+        document.location.href = url;
+    }
+    function DeleteBillAction() {
+        let url = "{{ route('delteBill', ':id') }}";
         url = url.replace(':id', Bill.id);
         document.location.href = url;
     }
@@ -1464,7 +1629,13 @@
             },
             // return the result
             success: function (result) {
-                $('#mediumModal').modal("show");
+                $('#mediumModal').modal( {backdrop: 'static', keyboard: false});
+                $('#mediumModal').modal( 'show');
+             //   $(".modal-body #modal-flters li:first-child");
+
+
+                const hall0 = document.getElementById('hall0').value ;
+                selectHall($(".modal-body #modal-flters li:first-child").get(0) , hall0);
                 //  $('#mediumBody').html(result).show();
             },
             complete: function () {
@@ -1480,7 +1651,7 @@
     }
 
     function fillPaymentModal() {
-        console.log(Bill);
+
         const local = document.getElementById("local").value;
         const modalBillNo = document.getElementById('modalBillNo');
         const modalTableHall = document.getElementById('modalTableHall');
@@ -1492,6 +1663,10 @@
         const modalBillCash = document.getElementById('modalBillCash');
         const modalBillCredit = document.getElementById('modalBillCredit');
         const modalBillId = document.getElementById('modalBillId');
+        const modalBillTax = document.getElementById('modalBillTax');
+        const modalBillService = document.getElementById('modalBillService');
+        const modalBillpaid = document.getElementById('modalBillpaid');
+
 
 
         if (Bill) {
@@ -1505,13 +1680,47 @@
                 modalTableId.value = 0;
             }
 
-            var per = (Bill.discount / (Number(Bill.net) + Number(Bill.discount))) * 100;
-            modalBillTotal.value = Bill.net;
-            modalBillDiscountPer.value = per;
-            modalBillDiscount.value = Bill.discount;
-            modalBillNet.value = Bill.net;
-            modalBillCash.value = Bill.cash == 0 ? Bill.net : Bill.cash;
-            modalBillCredit.value = Bill.credit;
+            var selected = new Array();
+            $('#details input[type="checkbox"]:checked').each(function() {
+                selected.push($(this).closest("tr")[0].cells[10].children[0].value);
+            });
+
+         if(true){
+             var per = (Bill.discount / (Number(Bill.net) + Number(Bill.discount))) * 100;
+             modalBillTotal.value = Bill.total ;
+             modalBillTax.value = Bill.vat;
+
+             if (Bill.billType > 1) {
+                 modalBillService.value = Bill.serviceVal;
+             } else {
+                 modalBillService.value = Bill.delivery_service;
+
+             }
+
+             modalBillDiscountPer.value = per;
+             modalBillDiscount.value = Bill.discount;
+             modalBillNet.value = Bill.net;
+             modalBillpaid.value = ( Number (Bill.cash) + Number(Bill.credit));
+             modalBillCash.value =  Number(Bill.net)  -  ( Number (Bill.cash) + Number(Bill.credit)) ;
+             modalBillCredit.value = 0;
+         } else {
+             // const net = selected.reduce(( partialSum,  a) =>  Number(partialSum)  + Number(a) , 0);
+             // const vat = Bill.total / Bill.vat ;
+             // const total = net(1 + (vat / 100)) ;
+             // modalBillDiscountPer.value = 0;
+             // modalBillDiscount.value = 0;
+             // modalBillNet.value = net;
+             // modalBillCash.value = net ;
+             // modalBillCredit.value = 0;
+             // modalBillTotal.value = total ;
+             // modalBillTax.value = Number(net)  - Number(total) ;
+             //
+             //
+             // console.log(net);
+
+         }
+
+
 
         }
 
@@ -1533,14 +1742,16 @@
 
         $('#modalBillCredit').keyup(function () {
             const total = document.getElementById('modalBillNet').value;
+            const paid = document.getElementById('modalBillpaid').value;
             const visa = document.getElementById('modalBillCredit').value;
-            const cash = total - visa;
+            const cash = Number(total) - Number(paid) - Number(visa);
             document.getElementById('modalBillCash').value = cash;
         });
         $('#modalBillCredit').change(function () {
             const total = document.getElementById('modalBillNet').value;
+            const paid = document.getElementById('modalBillpaid').value;
             const visa = document.getElementById('modalBillCredit').value;
-            const cash = total - visa;
+            const cash = Number(total) - Number(paid) - Number(visa);
             document.getElementById('modalBillCash').value = cash;
         });
     }
@@ -1552,15 +1763,27 @@
         const modalBillNet = document.getElementById('modalBillNet');
         const modalBillCash = document.getElementById('modalBillCash');
         const modalBillCredit = document.getElementById('modalBillCredit');
+        const modalBillTax = document.getElementById('modalBillTax');
+        const modalBillService = document.getElementById('modalBillService');
+        const modalBillNetTax = document.getElementById('modalBillNetTax');
+
 
         var total = modalBillTotal.value;
+        var vat = modalBillTax.value;
+        var service = modalBillService.value ;
+
+        total = Number(total ) + Number(vat) + Number(service);
         var per = modalBillDiscountPer.value;
         var discount = total * (per / 100);
         var net = Number(total) - Number(discount);
+        var vatAfter = 0;
+        vatAfter = vat - (vat * (per / 100)) ;
+
         modalBillDiscount.value = discount.toFixed("2");
         modalBillNet.value = net.toFixed("2");
         modalBillCash.value = net.toFixed("2");
         modalBillCredit.value = 0;
+        modalBillNetTax.value = vatAfter ;
     }
 
     function calculateModalDiscountPer() {
@@ -1570,16 +1793,30 @@
         const modalBillNet = document.getElementById('modalBillNet');
         const modalBillCash = document.getElementById('modalBillCash');
         const modalBillCredit = document.getElementById('modalBillCredit');
+        const modalBillTax = document.getElementById('modalBillTax');
+        const modalBillService = document.getElementById('modalBillService');
+        const modalBillNetTax = document.getElementById('modalBillNetTax');
+
 
         var total = modalBillTotal.value;
         var discount = modalBillDiscount.value;
+        var vat = modalBillTax.value;
+        var service = modalBillService.value ;
+
+        total = Number(total ) + Number(vat) + Number(service);
+
 
         var per = (discount / total) * 100;
         var net = Number(total) - Number(discount);
+
+        var vatAfter = 0;
+        vatAfter = vat - (vat * (per / 100)) ;
+
         modalBillDiscountPer.value = per.toFixed("2");
         modalBillNet.value = net.toFixed("2");
         modalBillCash.value = net.toFixed("2");
         modalBillCredit.value = 0;
+        modalBillNetTax.value = vatAfter ;
     }
 
     function leaveModalDiscount(){
@@ -2123,7 +2360,6 @@
 
     function selectHall(element, id) {
 
-        console.log(id);
         const collection = document.getElementsByClassName("model-filter-active");
         let add = 0;
         if (element.classList.contains("model-filter-active")) {
@@ -2189,6 +2425,8 @@
             // table is not available
             //alert($('<div>{{trans('main.table_not_available')}}</div>').text());
         }
+
+        $('#mediumModal').modal( 'hide');
     }
 
     function refresh(i) {
@@ -2219,9 +2457,7 @@
 
         let bill_type = document.getElementById("bill_type");
         bill_type.value = 1;
-        if (default_type.className.indexOf("filter-active") == -1) {
-            selectBillType(default_type, 1);
-        }
+
 
         client_id.selectedIndex = "0";
         table_name.value = "";
@@ -2229,7 +2465,7 @@
         phone.value = "";
         address.value = "";
         driver_id.selectedIndex = "0";
-
+         var ele ;
         $.ajax({
             type: 'get',
             url: 'getVats',
@@ -2237,6 +2473,26 @@
 
             success: function (response) {
                 if (response) {
+                    console.log(response);
+
+                    if(!Bill) {
+                        if (response.bill_type == 1) {
+                            ele = document.getElementById("default_type");
+                        } else if (response.bill_type == 2) {
+                            ele = document.getElementById("default_type2");
+                        } else if (response.bill_type == 3) {
+                            ele = document.getElementById("default_type3");
+                        } else if (response.bill_type == 4) {
+                            ele = document.getElementById("default_type4");
+                        }
+                        if (ele.classList.contains('filter-active'))
+                            ele.classList.remove('filter-active');
+
+                        selectBillType(ele, response.bill_type);
+
+                    }
+
+
                     if (!Bill) {
                         delivery_service.value = response.delivery_service;
                         service.value = response.service;
@@ -2244,6 +2500,10 @@
 
 
                 } else {
+                    if (default_type.className.indexOf("filter-active") == -1) {
+                        selectBillType(default_type, response.bill_type);
+                    }
+
                     delivery_service.value = "";
                     service.value = "";
                 }
@@ -2456,7 +2716,18 @@
     function setBill() {
         refresh(0);
         if (Bill) {
-            var ele = null;
+
+            if(Bill.state == 3){
+                $("#canceled_bill").show();
+                $('#controls .btn').attr('disabled' , true);
+
+            } else {
+                $("#canceled_bill").hide();
+                $('#controls .btn').attr('disabled' , false);
+            }
+
+
+            var elem = null;
 
             let bill_type = document.getElementById("bill_type");
             let client_id = document.getElementById('client_id');
@@ -2482,18 +2753,19 @@
             identifier.value = Bill.identifier;
             bill_type.value = Bill.billType;
             if (Bill.billType == 1) {
-                ele = document.getElementById("default_type");
+                elem = document.getElementById("default_type");
             } else if (Bill.billType == 2) {
-                ele = document.getElementById("default_type2");
+                elem = document.getElementById("default_type2");
             } else if (Bill.billType == 3) {
-                ele = document.getElementById("default_type3");
+                elem = document.getElementById("default_type3");
             } else if (Bill.billType == 4) {
-                ele = document.getElementById("default_type4");
+                elem = document.getElementById("default_type4");
             }
-            if (ele.classList.contains('filter-active'))
-                ele.classList.remove('filter-active');
-            console.log(ele);
-            selectBillType(ele, Bill.billType);
+            if (elem.classList.contains('filter-active'))
+                elem.classList.remove('filter-active');
+            console.log(Bill.billType);
+            selectBillType(elem, Bill.billType);
+
             client_id.value = Bill.client_id;
             phone.value = Bill.phone;
             address.value = Bill.address;

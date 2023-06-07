@@ -19,9 +19,9 @@ class ReportSettingController extends Controller
     {
         $settings = ReportSetting::all();
         if(count($settings) > 0)
-            $html = view('cpanel.ReportSettings.edit' , ['setting' => $settings[0]]);
+            $html = view('cpanel.ReportSettings.edit' , ['setting' => $settings[0]]) -> render();
         else
-            $html = view('cpanel.ReportSettings.create');
+            $html = view('cpanel.ReportSettings.create') -> render();
 
         return  $html  ;
     }
@@ -61,6 +61,10 @@ class ReportSettingController extends Controller
                 'header_en' => $request -> header_en,
                 'footer_ar' => $request -> footer_ar,
                 'footer_en' => $request -> footer_en,
+                'bill_header_ar' => $request -> bill_header_ar,
+                'bill_header_en' => $request -> bill_header_en,
+                'bill_footer_ar' => $request -> bill_footer_ar,
+                'bill_footer_en' => $request -> bill_footer_en,
                 'logo' => $imageName,
 
             ]);
@@ -134,6 +138,10 @@ class ReportSettingController extends Controller
                     'header_en' => $request -> header_en,
                     'footer_ar' => $request -> footer_ar,
                     'footer_en' => $request -> footer_en,
+                    'bill_header_ar' => $request -> bill_header_ar,
+                    'bill_header_en' => $request -> bill_header_en,
+                    'bill_footer_ar' => $request -> bill_footer_ar,
+                    'bill_footer_en' => $request -> bill_footer_en,
                     'logo' => $imageName,
                 ]);
                 return redirect()->route('home')->with('success' , __('main.updated'));

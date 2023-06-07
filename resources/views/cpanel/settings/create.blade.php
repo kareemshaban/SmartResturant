@@ -30,51 +30,82 @@
                                     </div>
                                 </div>
                                 <div class="card-body px-0">
-                                    <div class="form-group">
-                                        <label>{{ __('main.delivery_service') }}</label>
-                                        <input type="number" name="delivery_service" id="delivery_service"
-                                               class="form-control @error('delivery_service') is-invalid @enderror"
-                                               placeholder="{{ __('main.delivery_service') }}" autofocus/>
-                                        @error('delivery_service')
-                                        <span class="invalid-feedback" role="alert">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>{{ __('main.delivery_service') }}</label>
+                                                <input type="number" name="delivery_service" id="delivery_service"
+                                                       class="form-control @error('delivery_service') is-invalid @enderror"
+                                                       placeholder="{{ __('main.delivery_service') }}" autofocus/>
+                                                @error('delivery_service')
+                                                <span class="invalid-feedback" role="alert">
                                            <strong>{{ $message }}</strong>
                                     </span>
-                                        @enderror
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>{{ __('main.service') }}</label>
+                                                <input type="number" name="service" id="service"
+                                                       class="form-control @error('service') is-invalid @enderror"
+                                                       placeholder="{{ __('main.service') }}" autofocus min="0" max="100"/>
+                                                @error('service')
+                                                <span class="invalid-feedback" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>{{ __('main.service') }}</label>
-                                        <input type="number" name="service" id="service"
-                                               class="form-control @error('service') is-invalid @enderror"
-                                               placeholder="{{ __('main.service') }}" autofocus min="0" max="100"/>
-                                        @error('service')
-                                        <span class="invalid-feedback" role="alert">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>{{ __('main.tobacco_tax') }}</label>
+                                                <input type="number" name="tobacco_tax" id="tobacco_tax"
+                                                       class="form-control @error('tobacco_tax') is-invalid @enderror"
+                                                       placeholder="{{ __('main.tobacco_tax') }}" autofocus min="0" max="100"/>
+                                                @error('tobacco_tax')
+                                                <span class="invalid-feedback" role="alert">
                                            <strong>{{ $message }}</strong>
                                     </span>
-                                        @enderror
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>{{ __('main.receipt_tax') }}</label>
+                                                <input type="number" name="receipt_tax" id="receipt_tax"
+                                                       class="form-control @error('receipt_tax') is-invalid @enderror"
+                                                       placeholder="{{ __('main.receipt_tax') }}" autofocus min="0" max="100"/>
+                                                @error('receipt_tax')
+                                                <span class="invalid-feedback" role="alert">
+                                           <strong>{{ $message }}</strong>
+                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>{{ __('main.tobacco_tax') }}</label>
-                                        <input type="number" name="tobacco_tax" id="tobacco_tax"
-                                               class="form-control @error('tobacco_tax') is-invalid @enderror"
-                                               placeholder="{{ __('main.tobacco_tax') }}" autofocus min="0" max="100"/>
-                                        @error('tobacco_tax')
-                                        <span class="invalid-feedback" role="alert">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label>{{ __('main.items_tax') }}</label>
+                                                <input type="number" name="items_tax" id="items_tax"
+                                                       class="form-control @error('items_tax') is-invalid @enderror"
+                                                       placeholder="{{ __('main.items_tax') }}" autofocus min="0" max="100"/>
+                                                @error('items_tax')
+                                                <span class="invalid-feedback" role="alert">
                                            <strong>{{ $message }}</strong>
                                     </span>
-                                        @enderror
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label>{{ __('main.receipt_tax') }}</label>
-                                        <input type="number" name="receipt_tax" id="receipt_tax"
-                                               class="form-control @error('receipt_tax') is-invalid @enderror"
-                                               placeholder="{{ __('main.receipt_tax') }}" autofocus min="0" max="100"/>
-                                        @error('receipt_tax')
-                                        <span class="invalid-feedback" role="alert">
-                                           <strong>{{ $message }}</strong>
-                                    </span>
-                                        @enderror
-                                    </div>
+
+
+
+
 
 
                                 </div>

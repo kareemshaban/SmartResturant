@@ -31,7 +31,6 @@ class HomeController extends Controller
         $total_expenses = 0 ;
       return view('home' , compact('sales_tax' , 'sales_total' , 'purchase_total' , 'total_expenses'));
 
-        return '' ;
     }
     public function getUser(){
         $user = Auth::user();

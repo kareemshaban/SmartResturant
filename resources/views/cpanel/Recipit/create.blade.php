@@ -29,7 +29,8 @@
 
                     <div class="col-6">
                         <div class="form-group">
-                            <label>{{ __('main.doc_number') }}</label>
+                            <label>{{ __('main.doc_number') }} <span
+                                    style="color:red;">*</span></label>
                             <input type="text" name="bill_number" id="bill_number"
                                    class="form-control @error('bill_number') is-invalid @enderror"
                                    placeholder="{{ __('main.doc_number') }}" autofocus readonly/>
@@ -43,10 +44,11 @@
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label>{{ __('main.doc_date') }}</label>
+                            <label>{{ __('main.doc_date') }} <span
+                                    style="color:red;">*</span></label>
                             <input type="date" name="doc_date" id="doc_date"
                                    class="form-control @error('doc_date') is-invalid @enderror"
-                                   autofocus/>
+                                   autofocus required/>
                             @error('doc_date')
                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -59,9 +61,10 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
-                            <label>{{ __('main.doc_type') }}</label>
+                            <label>{{ __('main.doc_type') }} <span
+                                    style="color:red;">*</span></label>
                             <select class="custom-select mr-sm-2 @error('doc_type') is-invalid @enderror"
-                                    name="doc_type" id="doc_type">
+                                    name="doc_type" id="doc_type" required>
                                 <option selected value="">Choose...</option>
                                 @foreach ($expenses as $item)
                                     <option
@@ -78,9 +81,10 @@
                     </div>
                     <div class="col-6">
                         <div class="form-group">
-                            <label>{{ __('main.tax_type') }}</label>
+                            <label>{{ __('main.tax_type') }} <span
+                                    style="color:red;">*</span></label>
                             <select class="custom-select mr-sm-2 @error('tax_type') is-invalid @enderror"
-                                    name="tax_type" id="tax_type">
+                                    name="tax_type" id="tax_type" required>
                                 <option selected value="">Choose...</option>
                                 <option value="1">{{__('main.tax_type1')}}</option>
                                 <option value="2">{{__('main.tax_type2')}}</option>
@@ -98,10 +102,11 @@
                 <div class="row">
                     <div class="col-4">
                         <div class="form-group">
-                            <label>{{ __('main.amount') }}</label>
+                            <label>{{ __('main.amount') }} <span
+                                    style="color:red;">*</span></label>
                             <input type="number" step="any" name="amount" id="amount"
                                    class="form-control @error('amount') is-invalid @enderror"
-                                   placeholder="{{ __('main.amount') }}" autofocus onkeyup="amountChange(this)"/>
+                                   placeholder="{{ __('main.amount') }}" autofocus onkeyup="amountChange(this)" required/>
                             @error('amount')
                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -127,11 +132,12 @@
                     </div>
                     <div class="col-4">
                         <div class="form-group">
-                            <label>{{ __('main.amount_tax') }}</label>
+                            <label>{{ __('main.net') }} <span
+                                    style="color:red;">*</span></label>
                             <input type="number" step="any" name="amount_with_tax" id="amount_with_tax"
                                    class="form-control @error('amount_with_tax') is-invalid @enderror"
                                    placeholder="{{ __('main.amount_tax') }}" autofocus  onkeyup="amountWithVatChange(this)"
-                            onchange="amountWithVatChange(this)"/>
+                            onchange="amountWithVatChange(this)" required/>
                             @error('amount_with_tax')
                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -185,6 +191,14 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-12">
+                    <div class="form-group">
+                        <label>{{ __('main.notes') }}</label>
+                        <textarea class="form-control" name="notes" id="notes" placeholder="Enter notes"></textarea>
+                    </div>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -242,7 +256,7 @@
             var tax = document.getElementById('tax');
 
             if (this.value == 1 || !this.value) {
-                tax.value = "";
+                tax.value = "0";
                 var amount = document.getElementById('amount').value;
                 document.getElementById('amount_with_tax').value = amount;
             } else {

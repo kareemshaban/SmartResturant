@@ -60,7 +60,7 @@
         @elseif($type == 1)
         @include('Layouts.sidebar', ['slag' => 5])
         @endif
-        <div class="page-wrapper">
+        <div class="page-wrapper" @if(Config::get('app.locale') == 'ar') style="margin-right: 250px; margin-left:0px;" @endif>
             @if($type == 0)
             @include('Layouts.subheader', [
                 'pageTitle' => Config::get('app.locale') == 'ar' ? 'العملاء': 'Clients',

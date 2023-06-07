@@ -259,6 +259,15 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>{{ __('main.amount_tax') }}</label>
+                                    <textarea class="form-control" name="notes" id="notes" placeholder="Enter notes">{{$bill -> notes}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
 
 
                     </div>

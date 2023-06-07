@@ -17,9 +17,9 @@ class CompanyInfoController extends Controller
     {
         $settings = CompanyInfo::all();
         if(count($settings) > 0)
-            $html = view('cpanel.company.edit' , ['setting' => $settings[0]]);
+            $html = view('cpanel.company.edit' , ['setting' => $settings[0]]) -> render();
         else
-            $html = view('cpanel.company.create');
+            $html = view('cpanel.company.create') -> render();
         return  $html  ;
     }
 

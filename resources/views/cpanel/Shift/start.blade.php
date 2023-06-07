@@ -62,6 +62,8 @@
                                                 placeholder="{{__('main.start_money')}}"
                                                 autofocus
                                                 step="any"
+                                                required
+                                                min="0"
 
                                             />
                                         </div>

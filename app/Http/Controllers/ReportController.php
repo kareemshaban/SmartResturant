@@ -9,11 +9,14 @@ use App\Models\CompanyInfo;
 use App\Models\ExpensesType;
 use App\Models\Hall;
 use App\Models\Item;
+use App\Models\ItemSizes;
 use App\Models\Machine;
+use App\Models\Payment;
 use App\Models\Recipt;
 use App\Models\ReportSetting;
 use App\Models\Settings;
 use App\Models\Shift;
+use App\Models\Size;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -213,7 +216,7 @@ class ReportController extends Controller
     }
 
     public function report_client_account(){
-        $clients = Client::all();
+        $clients = Client::where('type' , '=' , 0) -> get();
         return view('cpanel.Reports.report_client_account'  , compact('clients'));
     }
 
@@ -248,6 +251,51 @@ class ReportController extends Controller
 
 
     }
+
+    public function report_supplier_account(){
+        $clients = Client::where('type' , '=' , 1) -> get();
+        return view('cpanel.Reports.report_supplier_account'  , compact('clients'));
+    }
+
+    public function report_supplier_account_search(Request  $request){
+        $companyInfos = CompanyInfo::all();
+        $printSettings = ReportSetting::all();
+        $settings = Settings::all();
+        $bills = DB::table('purchases') -> join('clients' , 'purchases.customer_id' , '=' , 'clients.id')
+            ->join('payments' , 'purchases.id' , '=' , 'payments.purchase_id')
+            -> select('purchases.*' , 'clients.name_ar as client_name_ar' , 'clients.name_en as client_name_en' ,
+            'payments.amount as paid_amount') -> get();
+        if($request -> has('is_from_date')) $bills = $bills -> where('date' , '>=' , Carbon::parse($request -> from_date));
+        if($request -> has('is_to_date')) $bills = $bills -> where('date' , '<=' , Carbon::parse($request -> to_date) -> addDay());
+        if($request -> has('is_client')) $bills = $bills -> where('customer_id' , '=' , $request -> client);
+
+
+
+
+
+        $arabic  = $bills -> groupBy('client_name_ar' );
+        $english = $bills -> groupBy('client_name_en' );
+
+        $english =  $english -> map(function ($bill) {
+            return [
+                'net' => $bill -> sum('net') - $bill -> sum('paid_amount') ,
+            ];
+        });
+        $arabic =  $arabic -> map(function ($bill) {
+            return [
+                'net' => $bill -> sum('net') - $bill -> sum('paid_amount'),
+            ];
+        });
+
+        return view('cpanel.Reports.print_supplier_account' , ['companyInfo' => $companyInfos[0] , 'printSetting' => $printSettings[0] ,
+            'arabic' => $arabic   , 'english' => $english ,  'paper_type' => $request -> print_type , 'is_from_time' => $request -> is_from_time ,   'from_time' => $request -> from_time ,
+            'is_to_time' => $request -> is_to_time ,   'to_time' => $request -> to_time , 'report_type' => $request -> report_type]);
+
+
+    }
+
+
+
     public function report_total_transactions(){
         return view('cpanel.Reports.report_total_transactions' );
     }
@@ -419,6 +467,96 @@ class ReportController extends Controller
            'bills' => $bills  ,   'paper_type' => $request -> print_type , 'is_from_time' => $request -> is_from_time ,   'from_time' => $request -> from_time ,
            'is_to_time' => $request -> is_to_time ,   'to_time' => $request -> to_time , 'report_type' => $request -> report_type]);
    }
+
+
+    public function purchase_report(){
+        $items = Item::where('canPurshased' , '=' , 1) -> get();
+        return view('cpanel.Reports.report_period_purchase'  , compact('items'));
+    }
+    public function  purchase_report_search(Request $request){
+        $companyInfos = CompanyInfo::all();
+        $printSettings = ReportSetting::all();
+        $settings = Settings::all();
+        $bills = DB::table('purchase_details')-> join('purchases' , 'purchases.id' , '=' , 'purchase_details.purchase_id')
+            -> join('items' , 'purchase_details.product_id' , '=' , 'items.id')
+            -> join('item_sizes' , 'purchase_details.unit_id' , '=' , 'item_sizes.id')
+            -> select('purchase_details.*' ,
+                'items.name_ar as item_name_ar' , 'items.name_en as item_name_en' , 'item_sizes.size_id as size'  ) -> get();
+
+        foreach ($bills as $bill){
+            $size = Size::find($bill -> size);
+            if($size){
+                $bill -> unit_ar = $size -> name_ar ;
+                $bill -> unit_en = $size -> name_en ;
+            }
+        }
+
+
+        if($request -> has('is_category')) $bills = $bills -> where('category_id' , '=' , $request -> category);
+        if($request -> has('is_from_date')) $bills = $bills -> where('bill_date' , '>=' , Carbon::parse($request -> from_date));
+        if($request -> has('is_to_date')) $bills = $bills -> where('bill_date' , '<=' , Carbon::parse($request -> to_date) -> addDay());
+
+        if($request -> report_type == 0){
+            // total
+            $arabic  = $bills -> groupBy('item_name_ar' );
+            $english = $bills -> groupBy('item_name_en' );
+            $english =  $english -> map(function ($bill) {
+                return [
+                    'net' => $bill -> sum('net'),
+
+                ];
+            });
+            $arabic =  $arabic -> map(function ($bill) {
+                return [
+                    'net' => $bill -> sum('net'),
+
+                ];
+            });
+            return view('cpanel.Reports.print_report_period_purchase' , ['companyInfo' => $companyInfos[0] , 'printSetting' => $printSettings[0] ,
+                'arabic' => $arabic  , 'english' => $english , 'paper_type' => $request -> print_type , 'is_from_time' => $request -> is_from_time ,   'from_time' => $request -> from_time ,
+                'is_to_time' => $request -> is_to_time ,   'to_time' => $request -> to_time , 'report_type' => $request -> report_type]);
+        } else {
+            //return $bills ;
+            return view('cpanel.Reports.print_report_period_purchase' , ['companyInfo' => $companyInfos[0] , 'printSetting' => $printSettings[0] ,
+                'bills' => $bills   , 'paper_type' => $request -> print_type , 'is_from_time' => $request -> is_from_time ,   'from_time' => $request -> from_time ,
+                'is_to_time' => $request -> is_to_time ,   'to_time' => $request -> to_time , 'report_type' => $request -> report_type]);
+        }
+
+    }
+
+
+    public function stock_report(){
+        $items = Item::where('canPurshased' , '=' , 1) -> get();
+        return view('cpanel.Reports.report_stock'  , compact('items'));
+    }
+    public function stock_report_search(Request $request){
+        $companyInfos = CompanyInfo::all();
+        $printSettings = ReportSetting::all();
+        $settings = Settings::all();
+
+        $items = DB::table('warehouse_products') -> join('items' , 'warehouse_products.product_id' , '=' , 'items.id')
+            ->select('warehouse_products.quantity' , 'items.name_ar' , 'items.name_en' , 'items.id') ->get();
+
+        foreach ($items as $item){
+            $itemSizes = ItemSizes::where('item_id' , '=' , $item -> id) -> get();
+            if(count($itemSizes) > 0){
+                $size = Size::find($itemSizes[0] -> size_id) ;
+                $item -> unit_ar = $size -> name_ar ;
+                $item -> unit_en = $size -> name_en ;
+            }
+        }
+
+
+        if($request -> has('is_category')) $bills = $items -> where('product_id' , '=' , $request -> category);
+
+
+
+
+        return view('cpanel.Reports.print_stock_report' , ['companyInfo' => $companyInfos[0] , 'printSetting' => $printSettings[0] ,
+            'paper_type' => $request -> print_type , 'items' => $items]);
+
+    }
+
 
 
 }

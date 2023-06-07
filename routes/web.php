@@ -166,7 +166,10 @@ function()
     Route::get('/pos', [App\Http\Controllers\PosController::class, 'index'])->name('pos');
     Route::post('/storeBill', [App\Http\Controllers\PosController::class, 'store'])->name('storeBill');
     Route::post('/payBill', [App\Http\Controllers\PosController::class, 'payBill'])->name('payBill');
-    Route::get('/cancelOrder/{id}', [App\Http\Controllers\PosController::class, 'destroy'])->name('cancelOrder');
+    Route::get('/cancelOrder/{id}', [App\Http\Controllers\PosController::class, 'CancelOrder'])->name('cancelOrder');
+    Route::get('/delteBill/{id}', [App\Http\Controllers\PosController::class, 'DeleteBill'])->name('delteBill');
+    Route::get('partialPayment/{id}', [App\Http\Controllers\BillController::class, 'partialPayment'])->name('partialPayment');
+    Route::post('partialPaymentAction', [App\Http\Controllers\BillController::class, 'partialPaymentAction'])->name('partialPaymentAction');
 
 
 
@@ -287,6 +290,18 @@ function()
     Route::get('/report_client_account', [App\Http\Controllers\ReportController::class, 'report_client_account'])->name('report_client_account');
     Route::post('/report_client_account', [App\Http\Controllers\ReportController::class, 'report_client_account_search'])->name('report_client_account');
 
+    Route::get('/report_supplier_account', [App\Http\Controllers\ReportController::class, 'report_supplier_account'])->name('report_supplier_account');
+    Route::post('/report_supplier_account', [App\Http\Controllers\ReportController::class, 'report_supplier_account_search'])->name('report_supplier_account');
+
+
+    Route::get('/purchase_report', [App\Http\Controllers\ReportController::class, 'purchase_report'])->name('purchase_report');
+    Route::post('/purchase_report', [App\Http\Controllers\ReportController::class, 'purchase_report_search'])->name('purchase_report');
+
+
+    Route::get('/stock_report', [App\Http\Controllers\ReportController::class, 'stock_report'])->name('stock_report');
+    Route::post('/stock_report', [App\Http\Controllers\ReportController::class, 'stock_report_search'])->name('stock_report');
+
+
     Route::get('/report_total_transactions', [App\Http\Controllers\ReportController::class, 'report_total_transactions'])->name('report_total_transactions');
     Route::post('/report_total_transactions', [App\Http\Controllers\ReportController::class, 'report_total_transactions_search'])->name('report_total_transactions');
 
@@ -313,6 +328,7 @@ function()
 
 
 
+
     Route::get('/purchases', [App\Http\Controllers\PurchaseController::class, 'index'])->name('purchases');
     Route::get('/create_purchase', [App\Http\Controllers\PurchaseController::class, 'create'])->name('create_purchase');
     Route::post('/store_purchase', [App\Http\Controllers\PurchaseController::class, 'store'])->name('store_purchase');
@@ -326,6 +342,11 @@ function()
     Route::get('/purchases/delete_purchases_payments/{id}',[\App\Http\Controllers\PaymentController::class,'deletePurchasesPayment'])->name('delete_purchases_payments');
     Route::get('/purchases/add_purchases_payments/{id}',[\App\Http\Controllers\PaymentController::class,'addPurchasesPayment'])->name('add_purchases_payments');
     Route::post('/purchases/store_purchases_payments/{id}',[\App\Http\Controllers\PaymentController::class,'storePurchasesPayment'])->name('store_purchases_payments');
+
+    Route::post('/store_bill_type', [App\Http\Controllers\SettingsController::class, 'setBillType'])->name('store_bill_type');
+
+
+    Route::get('getPurchasesItems', [App\Http\Controllers\ItemController::class, 'getPurchasesItems'])->name('getPurchasesItems');
 
 
 

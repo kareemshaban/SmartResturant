@@ -25,7 +25,8 @@ class BillDetails extends Model
         'isExtra',
         'extra_item_id',
         'notes',
-        'txt_holder'
+        'txt_holder',
+        'payed'
     ];
 
     public function bill()

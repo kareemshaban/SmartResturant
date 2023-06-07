@@ -10415,6 +10415,7 @@ File: scss
     font-size: 15px;
     font-weight: bold;
     margin: 5px auto;
+    display: block;
 }
 .alertSubTitle{
     text-align: center;

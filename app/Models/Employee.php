@@ -42,8 +42,11 @@ class Employee extends Model
         'postal_code',
         'fax_number',
         'address',
-        
+        'salary'
+
     ];
+
+
 
     public function Department()
     {

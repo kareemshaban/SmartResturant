@@ -27,10 +27,11 @@
                             </div>
                             <div class="card-body px-0">
                                 <div class="form-group">
-                                    <label>{{ __('main.name_ar') }}</label>
+                                    <label>{{ __('main.name_ar') }} <span
+                                            style="color:red;">*</span></label>
                                     <input type="text" name="name_ar" id="name_ar"
                                            class="form-control @error('name_ar') is-invalid @enderror"
-                                           placeholder="{{ __('main.name_ar_place') }}" autofocus/>
+                                           placeholder="{{ __('main.name_ar_place') }}" autofocus required/>
                                     <input type="hidden" name="id" id="id">
                                     @error('name_ar')
                                     <span class="invalid-feedback" role="alert">
@@ -40,11 +41,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    div
-                                    <label>{{ __('main.name_en') }}</label>
+                                    <label>{{ __('main.name_en') }} <span
+                                            style="color:red;">*</span></label>
                                     <input type="text" name="name_en" id="name_en"
                                            class="form-control @error('name_en') is-invalid @enderror"
-                                           placeholder="{{ __('main.name_en_place') }}" autofocus/>
+                                           placeholder="{{ __('main.name_en_place') }}" autofocus required/>
                                     @error('name_en')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -53,11 +54,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>{{ __('main.printer_hnt') }}</label>
+                                    <label>{{ __('main.printer_hnt') }} </label>
 
                                     <select class="custom-select mr-sm-2 @error('printer') is-invalid @enderror"
                                             id="inlineFormCustomSelect"
-                                            name="printer" id="printer">
+                                            name="printer" id="printer" >
                                         <option selected value="0">Choose...</option>
                                         @foreach ($printers as $item)
                                             <option value="{{$item -> id}}"> {{  $item -> name }}</option>
@@ -81,8 +82,7 @@
                                                 <input type="file" class="custom-file-input" id="img" name="img"
                                                        accept="image/png, image/jpeg" >
                                                 <label class="custom-file-label" for="img"
-                                                       id="path">{{__('main.img_choose')}} <span
-                                                        style="color:red;">*</span></label>
+                                                       id="path">{{__('main.img_choose')}} </label>
                                             </div>
                                             <br> <span
                                                 style="font-size: 9pt ; color:gray;">{{ __('main.img_hint') }}</span>

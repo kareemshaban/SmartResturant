@@ -54,7 +54,7 @@
 
 <div class="alert alert-danger" style="text-align: center;">
 
-	<button type="button" class="close" data-bs-dismiss="alert" style="float: left;">>×</button>
+	<button type="button" class="close" data-bs-dismiss="alert" style="float: left;">×</button>
 
 	Please check the form below for errors
 

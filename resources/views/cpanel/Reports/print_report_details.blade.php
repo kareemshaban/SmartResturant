@@ -246,7 +246,7 @@
                 <tr>
                     <td class="text-center">{{$bill -> bill_number}}</td>
                     <td class="text-center">{{$bill -> bill_date}}</td>
-                    <td class="text-center">{{Config::get('app.locale') == 'ar' ? $detail -> items[0] -> item -> name_ar :  $detail -> items[0] -> item -> name_en }}</td>
+                    <td class="text-center">{{  count($detail -> items) > 0 ? (Config::get('app.locale') == 'ar' ? $detail -> items[0]  -> item -> name_ar :  $detail -> items[0] -> item -> name_en)  : '--'  }}</td>
                     <td class="text-center">{{$detail -> qnt}}</td>
                     <td class="text-center">{{$detail -> totalWithVat}}</td>
                 </tr>

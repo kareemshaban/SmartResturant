@@ -75,10 +75,11 @@
                         </div>
                         <div class="card-body px-0">
                             <div class="form-group">
-                                <label>{{ __('main.name_ar') }}</label>
+                                <label>{{ __('main.name_ar') }} <span
+                                        style="color:red;">*</span></label>
                                 <input type="text" name="name_ar" id="name_ar"
                                     class="form-control @error('name_ar') is-invalid @enderror"
-                                    placeholder="{{ __('main.name_ar_place') }}" autofocus
+                                    placeholder="{{ __('main.name_ar_place') }}" autofocus required
                                     value="{{ $size->name_ar }}" />
                                 @error('name_ar')
                                     <span class="invalid-feedback" role="alert">
@@ -88,10 +89,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label>{{ __('main.name_en') }}</label>
+                                <label>{{ __('main.name_en') }} <span
+                                        style="color:red;">*</span></label>
                                 <input type="text" name="name_en" id="name_en"
                                     class="form-control @error('name_en') is-invalid @enderror"
-                                    placeholder="{{ __('main.name_en_place') }}" autofocus
+                                    placeholder="{{ __('main.name_en_place') }}" autofocus required
                                     value="{{ $size->name_en }}" />
                                 @error('name_en')
                                     <span class="invalid-feedback" role="alert">

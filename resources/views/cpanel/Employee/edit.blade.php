@@ -107,7 +107,7 @@ h2 span {
                             <div class="form-group">
                                 <label>{{ __('main.name_ar') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span> </label>
                                 <input type="text" name="name_ar" id="name_ar"
-                                    class="form-control @error('name_ar') is-invalid @enderror arabic-input"
+                                    class="form-control @error('name_ar') is-invalid @enderror arabic-input" required
                                     placeholder="{{ __('main.name_ar_place') }}" autofocus value="{{ $employee -> name_ar }}" />
                                 @error('name_ar')
                                     <span class="invalid-feedback" role="alert">
@@ -119,7 +119,7 @@ h2 span {
                            <div class="col-6">
                             <div class="form-group">
                                 <label>{{ __('main.name_en') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span></label>
-                                <input type="text" name="name_en" id="name_en"
+                                <input type="text" name="name_en" id="name_en" required
                                     class="form-control @error('name_en') is-invalid @enderror"
                                     placeholder="{{ __('main.name_en_place') }}" autofocus  value="{{ $employee -> name_en }}"/>
                                 @error('name_en')
@@ -133,7 +133,7 @@ h2 span {
 
 
                         </div>
-                        <div class="row">
+                        <div class="row" hidden>
                             <div class="col-6">
                              <div class="form-group">
                                 <label>{{ __('main.religion') }}</label>
@@ -176,7 +176,7 @@ h2 span {
                          </div>
 
 
-                        </div>
+
                         <div class="row">
                             <div class="col-6">
                              <div class="form-group">
@@ -249,7 +249,7 @@ h2 span {
                                </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" hidden>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>{{ __('main.birth_date') }}</label>
@@ -306,7 +306,7 @@ h2 span {
                             <div class="col-6">
                              <div class="form-group">
                                 <label>{{ __('main.job') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span></label>
-                                <select class="custom-select mr-sm-2 @error('job_id') is-invalid @enderror" id="inlineFormCustomSelect"
+                                <select class="custom-select mr-sm-2 @error('job_id') is-invalid @enderror" required
                                 name="job_id" id="job_id">
                                    @foreach ($jobs as $item)
                                    <option value="{{$item -> id}}" @if($employee -> job_id == $item -> id) selected @endif> {{ ( Config::get('app.locale') == 'ar') ? $item -> name_ar : $item -> name_en  }}</option>
@@ -325,7 +325,7 @@ h2 span {
 
                          </div>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                              <div class="form-group">
                                  <label>{{ __('main.work_hour') }}</label>
                                  <input type="number" name="work_hours" id="work_hours"
@@ -338,7 +338,7 @@ h2 span {
                                  @enderror
                              </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                              <div class="form-group">
                                  <label>{{ __('main.work_off') }}</label>
                                  <input type="text" name="week_off_days" id="week_off_days"
@@ -350,6 +350,19 @@ h2 span {
                                      </span>
                                  @enderror
                              </div>
+
+                            </div>
+
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label>{{ __('main.salary') }} <span style="color:red; font-size:20px; font-weight:bold;">*</span></label>
+                                    <input class="form-control" type="number" id="salary" name="salary" required value="{{$employee -> salary}}">
+                                    @error('salary')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
 
                             </div>
 
@@ -391,7 +404,7 @@ h2 span {
 
 
                          </div>
-                         <div class="row">
+                         <div class="row" hidden>
                             <div class="col-6">
                              <div class="form-group">
                                  <label>{{ __('main.email_title') }}</label>
@@ -422,7 +435,7 @@ h2 span {
 
 
                          </div>
-                         <div class="row">
+                         <div class="row" hidden>
                             <div class="col-6">
                              <div class="form-group">
                                  <label>{{ __('main.fax') }}</label>

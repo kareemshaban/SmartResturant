@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\CompanyInfo;
 use App\Models\Payment;
 use App\Models\Recipt;
+use App\Models\ReportSetting;
+use App\Models\Settings;
 use App\Models\Shift;
 use App\Models\Size;
 use Carbon\Carbon;
@@ -118,12 +121,31 @@ class ShiftController extends Controller
                 'end_money' => 'required'
             ]);
 
-            $shift -> update([
+             $shift -> update([
                'end_at' => Carbon::now(),
                'state' => 1 ,
                 'end_money' => $request -> end_money
             ]);
-            return redirect() -> route('home');
+            $shift = Shift::find($id);
+
+            if($request -> print == 0){
+                return redirect() -> route('home');
+            } else {
+                return  $this -> printShift($shift);
+            }
+
+        }
+    }
+
+    public function printShift($shift){
+        $companyInfos = CompanyInfo::all();
+        $printSettings = ReportSetting::all();
+        $settings = Settings::all();
+        if(count($companyInfos) > 0 && count($printSettings) > 0 && count($settings) > 0 && $shift){
+
+            return view('cpanel.Reports.printShift', ['companyInfo' => $companyInfos[0] ,
+                'printSetting' => $printSettings[0] , 'shift' => $shift , '$setting' => $settings[0] , 'client' => 1]);
+
         }
     }
 

@@ -14,6 +14,8 @@ class Settings extends Model
         'delivery_service',
         'service',
         'tobacco_tax',
-        'receipt_tax'
+        'receipt_tax',
+        'bill_type',
+        'items_tax'
         ];
 }

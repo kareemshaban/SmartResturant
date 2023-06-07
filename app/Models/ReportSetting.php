@@ -14,6 +14,10 @@ class ReportSetting extends Model
         'header_en',
         'footer_ar',
         'footer_en',
-        'logo'
+        'logo',
+        'bill_header_ar',
+        'bill_header_en',
+        'bill_footer_ar',
+        'bill_footer_en',
     ];
 }
