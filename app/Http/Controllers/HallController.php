@@ -40,19 +40,24 @@ class HallController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:halls',
-            'name_en' => 'required|unique:halls'
-        ]);
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:halls',
+                'name_en' => 'required|unique:halls'
+            ]);
 
-        Hall::create([
-            'name_ar' => $request -> name_ar,
-            'name_en' => $request -> name_en,
-            'details_ar' => $request -> details_ar,
-            'details_en' => $request -> details_en,
-        ]);
+            Hall::create([
+                'name_ar' => $request -> name_ar,
+                'name_en' => $request -> name_en,
+                'details_ar' => $request -> details_ar,
+                'details_en' => $request -> details_en,
+            ]);
 
-        return redirect()->route('halls')->with('success' , __('main.created'));
+            return redirect()->route('halls')->with('success' , __('main.created'));
+        } else {
+            return $this -> update($request , $request -> id);
+        }
+
     }
 
     /**

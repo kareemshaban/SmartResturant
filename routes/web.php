@@ -34,13 +34,22 @@ function()
     Route::get('/editReligion/{id}', [App\Http\Controllers\DashboradController::class, 'editReligion'])->name('editReligion');
     Route::post('/updateReligion/{id}', [App\Http\Controllers\DashboradController::class, 'updateReligion'])->name('updateReligion');
     Route::get('/destroyReligion/{id}', [App\Http\Controllers\DashboradController::class, 'destroyReligion'])->name('destroyReligion');
-   //departments routes
+    Route::get('/getReligion/{id}', [App\Http\Controllers\DashboradController::class, 'getReligion'])->name('getReligion');
+
+
+    //departments routes
     Route::get('/departments', [App\Http\Controllers\DashboradController::class, 'departments'])->name('departments');
     Route::get('/createDepartment', [App\Http\Controllers\DashboradController::class, 'createDepartment'])->name('createDepartment');
     Route::post('/storeDepartment', [App\Http\Controllers\DashboradController::class, 'storeDepartment'])->name('storeDepartment');
     Route::get('/editDepartment/{id}', [App\Http\Controllers\DashboradController::class, 'editDepartment'])->name('editDepartment');
     Route::post('/updateDepartment/{id}', [App\Http\Controllers\DashboradController::class, 'updateDepartment'])->name('updateDepartment');
     Route::get('/destroyDepartment/{id}', [App\Http\Controllers\DashboradController::class, 'destroyDepartment'])->name('destroyDepartment');
+
+    Route::get('/getDepartment/{id}', [App\Http\Controllers\DashboradController::class, 'getDepartment'])->name('getDepartment');
+
+
+
+
     //genders routes
     Route::get('/genders', [App\Http\Controllers\DashboradController::class, 'genders'])->name('genders');
     Route::get('/createGender', [App\Http\Controllers\DashboradController::class, 'createGender'])->name('createGender');
@@ -48,6 +57,9 @@ function()
     Route::get('/editGender/{id}', [App\Http\Controllers\DashboradController::class, 'editGender'])->name('editGender');
     Route::post('/updateGender/{id}', [App\Http\Controllers\DashboradController::class, 'updateGender'])->name('updateGender');
     Route::get('/destroyGender/{id}', [App\Http\Controllers\DashboradController::class, 'destroyGender'])->name('destroyGender');
+    Route::get('/getGender/{id}', [App\Http\Controllers\DashboradController::class, 'getGender'])->name('getGender');
+
+
     //nationalties routes
     Route::get('/nationalties', [App\Http\Controllers\DashboradController::class, 'nationalties'])->name('nationalties');
     Route::get('/createNationality', [App\Http\Controllers\DashboradController::class, 'createNationality'])->name('createNationality');
@@ -55,6 +67,10 @@ function()
     Route::get('/editNationality/{id}', [App\Http\Controllers\DashboradController::class, 'editNationality'])->name('editNationality');
     Route::post('/updateNationality/{id}', [App\Http\Controllers\DashboradController::class, 'updateNationality'])->name('updateNationality');
     Route::get('/destroyNationality/{id}', [App\Http\Controllers\DashboradController::class, 'destroyNationality'])->name('destroyNationality');
+    Route::get('/getNationality/{id}', [App\Http\Controllers\DashboradController::class, 'getNationality'])->name('getNationality');
+
+
+
     //nationalties routes
     Route::get('/maritalStatus', [App\Http\Controllers\DashboradController::class, 'maritalStatus'])->name('maritalStatus');
     Route::get('/createMaritalStatus', [App\Http\Controllers\DashboradController::class, 'createMaritalStatus'])->name('createMaritalStatus');
@@ -62,6 +78,11 @@ function()
     Route::get('/editMaritalStatus/{id}', [App\Http\Controllers\DashboradController::class, 'editMaritalStatus'])->name('editMaritalStatus');
     Route::post('/updateMaritalStatus/{id}', [App\Http\Controllers\DashboradController::class, 'updateMaritalStatus'])->name('updateMaritalStatus');
     Route::get('/destroyMaritalStatus/{id}', [App\Http\Controllers\DashboradController::class, 'destroyMaritalStatus'])->name('destroyMaritalStatus');
+    Route::get('/getMartial/{id}', [App\Http\Controllers\DashboradController::class, 'getMartial'])->name('getMartial');
+
+
+
+
     //jobs routes
     Route::get('/jobs', [App\Http\Controllers\DashboradController::class, 'jobs'])->name('jobs');
     Route::get('/createJob', [App\Http\Controllers\DashboradController::class, 'createJob'])->name('createJob');
@@ -69,6 +90,7 @@ function()
     Route::get('/editJob/{id}', [App\Http\Controllers\DashboradController::class, 'editJob'])->name('editJob');
     Route::post('/updateJob/{id}', [App\Http\Controllers\DashboradController::class, 'updateJob'])->name('updateJob');
     Route::get('/destroyJob/{id}', [App\Http\Controllers\DashboradController::class, 'destroyJob'])->name('destroyJob');
+    Route::get('/getJob/{id}', [App\Http\Controllers\DashboradController::class, 'getJob'])->name('getJob');
     //Education routes
     Route::get('/educations', [App\Http\Controllers\DashboradController::class, 'educations'])->name('educations');
     Route::get('/createEducation', [App\Http\Controllers\DashboradController::class, 'createEducation'])->name('createEducation');
@@ -76,6 +98,8 @@ function()
     Route::get('/editEducation/{id}', [App\Http\Controllers\DashboradController::class, 'editEducation'])->name('editEducation');
     Route::post('/updateEducation/{id}', [App\Http\Controllers\DashboradController::class, 'updateEducation'])->name('updateEducation');
     Route::get('/destroyEducation/{id}', [App\Http\Controllers\DashboradController::class, 'destroyEducation'])->name('destroyEducation');
+    Route::get('/getEducation/{id}', [App\Http\Controllers\DashboradController::class, 'getEducation'])->name('getEducation');
+
     //Countries routes
     Route::get('/countries', [App\Http\Controllers\DashboradController::class, 'countries'])->name('countries');
     Route::get('/createCountry', [App\Http\Controllers\DashboradController::class, 'createCountry'])->name('createCountry');
@@ -83,6 +107,10 @@ function()
     Route::get('/editCountry/{id}', [App\Http\Controllers\DashboradController::class, 'editCountry'])->name('editCountry');
     Route::post('/updateCountry/{id}', [App\Http\Controllers\DashboradController::class, 'updateCountry'])->name('updateCountry');
     Route::get('/destroyCountry/{id}', [App\Http\Controllers\DashboradController::class, 'destroyCountry'])->name('destroyCountry');
+    Route::get('/getCountry/{id}', [App\Http\Controllers\DashboradController::class, 'getCountry'])->name('getCountry');
+
+
+
     //Governorates routes
     Route::get('/governorates', [App\Http\Controllers\DashboradController::class, 'governorates'])->name('governorates');
     Route::get('/createGovernorate', [App\Http\Controllers\DashboradController::class, 'createGovernorate'])->name('createGovernorate');
@@ -90,6 +118,9 @@ function()
     Route::get('/editGovernorate/{id}', [App\Http\Controllers\DashboradController::class, 'editGovernorate'])->name('editGovernorate');
     Route::post('/updateGovernorate/{id}', [App\Http\Controllers\DashboradController::class, 'updateGovernorate'])->name('updateGovernorate');
     Route::get('/destroyGovernorate/{id}', [App\Http\Controllers\DashboradController::class, 'destroyGovernorate'])->name('destroyGovernorate');
+    Route::get('/getGovernorate/{id}', [App\Http\Controllers\DashboradController::class, 'getGovernorate'])->name('getGovernorate');
+
+
     //Cities routes
     Route::get('/cities', [App\Http\Controllers\DashboradController::class, 'cities'])->name('cities');
     Route::get('/createCity', [App\Http\Controllers\DashboradController::class, 'createCity'])->name('createCity');
@@ -97,6 +128,8 @@ function()
     Route::get('/editCity/{id}', [App\Http\Controllers\DashboradController::class, 'editCity'])->name('editCity');
     Route::post('/updateCity/{id}', [App\Http\Controllers\DashboradController::class, 'updateCity'])->name('updateCity');
     Route::get('/destroyCity/{id}', [App\Http\Controllers\DashboradController::class, 'destroyCity'])->name('destroyCity');
+    Route::get('/getCity/{id}', [App\Http\Controllers\DashboradController::class, 'getCity'])->name('getCity');
+
     //Employee routes
     Route::get('/employees', [App\Http\Controllers\EmployeeController::class, 'index'])->name('employees');
     Route::get('/createEmployee', [App\Http\Controllers\EmployeeController::class, 'create'])->name('createEmployee');
@@ -105,6 +138,8 @@ function()
     Route::post('/updateEmployee/{id}', [App\Http\Controllers\EmployeeController::class, 'update'])->name('updateEmployee');
     Route::get('/destroyEmployee/{id}', [App\Http\Controllers\EmployeeController::class, 'destroy'])->name('destroyEmployee');
     //Clients routes
+
+
     Route::get('/clients/{type}', [App\Http\Controllers\ClientController::class, 'index'])->name('clients');
     Route::get('/createClient/{type}', [App\Http\Controllers\ClientController::class, 'create'])->name('createClient');
     Route::post('/storeClient', [App\Http\Controllers\ClientController::class, 'store'])->name('storeClient');
@@ -156,6 +191,10 @@ function()
     Route::get('/createItemMaterial/{item}', [App\Http\Controllers\ItemMaterialController::class, 'create'])->name('createItemMaterial');
     Route::post('/storeItemMaterial', [App\Http\Controllers\ItemMaterialController::class, 'store'])->name('storeItemMaterial');
     Route::get('/getMaterialSizes/{id}', [App\Http\Controllers\ItemMaterialController::class, 'getMaterialSizes'])->name('getMaterialSizes');
+    Route::get('/destroyItemMaterial/{id}', [App\Http\Controllers\ItemMaterialController::class, 'destroy'])->name('destroyItemMaterial');
+    Route::get('/getItemMaterial/{id}', [App\Http\Controllers\ItemMaterialController::class, 'show'])->name('getItemMaterial');
+
+
 
 
 
@@ -164,7 +203,11 @@ function()
 
     //POS routes
     Route::get('/pos', [App\Http\Controllers\PosController::class, 'index'])->name('pos');
+    Route::get('/newPos', [App\Http\Controllers\PosController::class, 'index2'])->name('newPos');
+
+
     Route::post('/storeBill', [App\Http\Controllers\PosController::class, 'store'])->name('storeBill');
+
     Route::post('/payBill', [App\Http\Controllers\PosController::class, 'payBill'])->name('payBill');
     Route::get('/cancelOrder/{id}', [App\Http\Controllers\PosController::class, 'CancelOrder'])->name('cancelOrder');
     Route::get('/delteBill/{id}', [App\Http\Controllers\PosController::class, 'DeleteBill'])->name('delteBill');
@@ -195,7 +238,7 @@ function()
     Route::get('/editTable/{id}', [App\Http\Controllers\TableController::class, 'edit'])->name('editTable');
     Route::post('/updateTable/{id}', [App\Http\Controllers\TableController::class, 'update'])->name('updateTable');
     Route::get('/destroyTable/{id}', [App\Http\Controllers\TableController::class, 'destroy'])->name('destroyTable');
-
+    Route::get('/getTable/{id}', [App\Http\Controllers\TableController::class, 'getTable'])->name('getTable');
    // printers routes
 
     //tables routes
@@ -205,6 +248,10 @@ function()
     Route::get('/editPrinter/{id}', [App\Http\Controllers\PrinterController::class, 'edit'])->name('editPrinter');
     Route::post('/updatePrinter/{id}', [App\Http\Controllers\PrinterController::class, 'update'])->name('updatePrinter');
     Route::get('/destroyPrinter/{id}', [App\Http\Controllers\PrinterController::class, 'destroy'])->name('destroyPrinter');
+    Route::get('/destroyPrinter/{id}', [App\Http\Controllers\PrinterController::class, 'destroy'])->name('destroyPrinter');
+    Route::get('/getPrinter/{id}', [App\Http\Controllers\PrinterController::class, 'getPrinter'])->name('getPrinter');
+
+
 
     //settings routes
     Route::get('/tax-settings', [App\Http\Controllers\SettingsController::class, 'index'])->name('tax-settings');

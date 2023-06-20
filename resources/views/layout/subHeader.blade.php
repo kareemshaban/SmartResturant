@@ -79,29 +79,14 @@
                         <a class="dropdown-item" href="javascript:void(0)"
                         ><i class="mdi mdi-account me-1 ms-1"></i> My Profile</a
                         >
-                        <a class="dropdown-item" href="javascript:void(0)"
-                        ><i class="mdi mdi-wallet me-1 ms-1"></i> My Balance</a
-                        >
-                        <a class="dropdown-item" href="javascript:void(0)"
-                        ><i class="mdi mdi-email me-1 ms-1"></i> Inbox</a
-                        >
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)"
-                        ><i class="mdi mdi-settings me-1 ms-1"></i> Account
-                            Setting</a
-                        >
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="javascript:void(0)"
+                        <a class="dropdown-item"  href="{{route('logout')}}"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"  data-toggle="tooltip" title="" data-original-title="Logout"
                         ><i class="fa fa-power-off me-1 ms-1"></i> Logout</a
                         >
                         <div class="dropdown-divider"></div>
-                        <div class="ps-4 p-10">
-                            <a
-                                href="javascript:void(0)"
-                                class="btn btn-sm btn-success btn-rounded text-white"
-                            >View Profile</a
-                            >
-                        </div>
+
                     </ul>
                 </li>
 
@@ -135,7 +120,7 @@
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold">Arabic | اللغة العربية</span>
+                                            <span class="font-weight-bold" style="margin: 5px">Arabic | اللغة العربية</span>
                                         </h6>
                                     </div>
                                 </div>
@@ -149,7 +134,7 @@
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
-                                            <span class="font-weight-bold">English | اللغة الإنجليزية</span>
+                                            <span class="font-weight-bold" style="margin: 5px">English | اللغة الإنجليزية</span>
                                         </h6>
                                     </div>
                                 </div>

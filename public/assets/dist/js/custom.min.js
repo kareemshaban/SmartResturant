@@ -70,9 +70,7 @@ $(function () {
   // ==============================================================
   // Perfact scrollbar
   // ==============================================================
-  $(".message-center, .customizer-body, .scrollable").perfectScrollbar({
-    wheelPropagation: !0,
-  });
+
 
   /*var ps = new PerfectScrollbar('.message-body');
     var ps = new PerfectScrollbar('.notifications');

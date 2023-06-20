@@ -65,6 +65,38 @@ class PosController extends Controller
 
     }
 
+    public function index2()
+    {
+        $shift = Shift::where('user_id' , '=' , Auth::user() -> id)
+            -> where('state' , '=' , 0 )->get();
+
+
+        if(count($shift) > 0 ){
+            if(Auth::user() -> machine_id > 0){
+                $categories = Category::with('items.sizes') -> get();
+                $items = Item::with('sizes.size' ,'cayegory' ) -> get();
+                $clients = Client::all();
+                $employees = Employee::all();
+                $halls = Hall::all();
+
+                $tables = Table::with('hall') -> get();
+                $setting = null ;
+
+
+                return view('cpanel.newPos.pos' , ['categories' => $categories ,
+                    'items' => $items , 'clients' => $clients , 'employees' => $employees ,
+                    'halls' => $halls , 'tables' => $tables  ]);
+            } else {
+                return redirect() -> route('home' )->with('success', __('main.no_open_shift'));
+            }
+
+        } else {
+            return redirect() -> route('home' )->with('success', __('main.no_open_shift'));
+        }
+
+    }
+
+
     /**
      * Show the form for creating a new resource.
      *

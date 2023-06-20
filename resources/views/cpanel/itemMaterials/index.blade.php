@@ -1,134 +1,103 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords"
-          content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Ample admin lite dashboard bootstrap 5 dashboard template">
-    <meta name="description"
-          content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
-    <meta name="robots" content="noindex,nofollow">
-    <title>Smart Resturant</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
-    <link rel="icon" type="image/png" sizes="16x16" href="../../cpanel/plugins/images/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+@include('layout.header')
 
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
-    <br>
-    <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="../../cpanel/css/bootstrap.css" />
-
-    <link href="../../cpanel/css/style.min.css" rel="stylesheet">
-    <link href="../../cpanel/css/style.css" rel="stylesheet">
-    <style>
-        @font-face {
-            font-family: 'icomoon';
-            src: url("../../fonts/ArbFONTS-The-Sans-Plain.otf");
-            src: url("../../fonts/ArbFONTS-The-Sans-Plain.otf");
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        * {
-            font-family: 'icomoon';
-        }
-    </style>
-</head>
 
 <body>
 
-<div class="preloader">
-    <div class="lds-ripple">
-        <div class="lds-pos"></div>
-        <div class="lds-pos"></div>
-    </div>
-</div>
-<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-     data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-    @include('Layouts.cheader')
-    @include('Layouts.sidebar', ['slag' => 6])
 
-    <div class="page-wrapper" @if(Config::get('app.locale') == 'ar') style="margin-right: 250px; margin-left:0px;" @endif>
-        @include('Layouts.subheader', [
-            'pageTitle' => Config::get('app.locale') == 'ar' ? 'خامات الصنف': 'Item Materials',
-        ])
+<div
+    id="main-wrapper"
+    data-layout="vertical"
+    data-navbarbg="skin5"
+    data-sidebartype="full"
+    data-sidebar-position="absolute"
+    data-header-position="absolute"
+    data-boxed-layout="full"
+>
+
+    @include('layout.subHeader')
+    @include('layout.side' , ['slag' => 2 , 'subSlag' => 23])
+    <div class="page-wrapper   @if(Config::get('app.locale') == 'ar') right @else  left  @endif ">
+        @include('layout.cramp' , ['page_Title' => __('main.itemMaterials') , 'menue' => __('main.side_items') ])
+
         <div class="container-fluid">
             <div class="row">
-                <div class="col4 text-left" style="margin: 10px;">
-                    <button id="createButton" type="button" class="btn btn-labeled btn-primary "  >
-                        <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
-
-
-                </div>
-
-            </div>
-            <div class="row justify-content-center">
-                @include('flash-message')
-                <div class="col-12">
-                    <table id="table" class="table table-striped table-bordered" style="width:100%">
-                        <thead>
-                        <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">{{ __('main.item') }}</th>
-                            <th class="text-center">{{ __('main.material') }}</th>
-                            <th class="text-center">{{ __('main.quantity') }}</th>
-                            <th class="text-center">{{ __('main.size') }}</th>
-                            <th class="text-center">{{ __('main.operations') }}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($sizess as $size)
-                            <tr>
-                                <td class="text-center">{{ $loop->index + 1 }}</td>
-                                <td class="text-center">{{( Config::get('app.locale') == 'ar') ?
+                <div class="col-md-12 col-lg-12 col-xlg-12">
+                    <div class="card">
+                        @include('flash-message')
+                        <div class="card-header">
+                            <div class="row">
+                                <div
+                                    class="col-12 @if(Config::get('app.locale') == 'ar') text-right @else text-left @endif">
+                                    <button id="createButton" type="button" class="btn btn-labeled btn-warning ">
+                                        <span class="btn-label"><i
+                                                class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive" @if(Config::get('app.locale') == 'ar') style="direction: rtl"
+                                 @else style="direction: ltr" @endif">
+                            <table id="table" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">{{ __('main.item') }}</th>
+                                    <th class="text-center">{{ __('main.material') }}</th>
+                                    <th class="text-center">{{ __('main.quantity') }}</th>
+                                    <th class="text-center">{{ __('main.size') }}</th>
+                                    <th class="text-center">{{ __('main.operations') }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach ($sizess as $size)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->index + 1 }}</td>
+                                        <td class="text-center">{{( Config::get('app.locale') == 'ar') ?
                                          $size-> item -> name_ar : $size-> item -> name_en }}</td>
-                                <td class="text-center">{{$size -> qnt}}</td>
-                                <td class="text-center">{{( Config::get('app.locale') == 'ar') ?
+                                        <td class="text-center">{{$size -> qnt}}</td>
+                                        <td class="text-center">{{( Config::get('app.locale') == 'ar') ?
                                          $size-> material -> name_ar : $size-> material -> name_en }}</td>
-                                <td class="text-center">{{( Config::get('app.locale') == 'ar') ?
+                                        <td class="text-center">{{( Config::get('app.locale') == 'ar') ?
                                     $size-> size -> name_ar : $size-> size -> name_en }}</td>
 
-                                <td class="text-center">
-                                    <button
-                                        type="button" class="btn btn-success editBtn" value="{{$size -> id}}"><i
-                                            class="fas fa-edit"></i></button><button
-                                        type="button" class="btn btn-danger deleteBtn" value="{{$size -> id}}"><i
-                                            class="far fa-trash-alt"></i></button>
-                                </td>
-                            </tr>
-                        @endforeach
+                                        <td class="text-center">
+                                            <button
+                                                type="button" class="btn btn-success editBtn" value="{{$size -> id}}"><i
+                                                    class="fas fa-edit"></i></button><button
+                                                type="button" class="btn btn-danger deleteBtn" value="{{$size -> id}}"><i
+                                                    class="far fa-trash-alt"></i></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
-                        </tbody>
+                                </tbody>
 
 
-                    </table>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
             </div>
+
+
         </div>
+
     </div>
 
+    @include('layout.footer')
+
+
+    @include('cpanel.itemMaterials.create')
+    @include('deleteModal')
 </div>
-@include('cpanel.itemMaterials.create')
-@include('deleteModal')
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 
 
-<script src="../../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="../../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../cpanel/js/app-style-switcher.js"></script>
-<script src="../../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-<script src="../../cpanel/js/waves.js"></script>
-<script src="../../cpanel/js/sidebarmenu.js"></script>
-<script src="../../cpanel/js/custom.js"></script>
+
+
 <script type="text/javascript">
     var id = 0;
     $(document).ready(function () {
@@ -178,7 +147,7 @@
             let href = $(this).attr('data-attr');
             $.ajax({
                 type:'get',
-                url:'/getItemSize' + '/' + id,
+                url:'/getItemMaterial' + '/' + id,
                 dataType: 'json',
 
                 success:function(response){
@@ -194,15 +163,43 @@
                             success: function(result) {
                                 sessionStorage.clear();
                                 $('#createModal').modal("show");
+                                $(".modal-body #material_id").val(response.material_id);
 
-                                $('#createModal').modal("show");
-                                $(".modal-body #size_id").val(response.size_id);
+                                var local = 'ar' ;
+                                $.ajax({
+                                    type:'get',
+                                    url:'/getMaterialSizes' + '/' + response.material_id,
+                                    dataType: 'json',
+
+                                    success:function(responsee){
+
+                                        if(responsee){
+                                            $("#size_id option[value !='']").remove();
+                                            for(let i = 0 ; i < responsee.length ; i++){
+                                                $('.modal-body #size_id').append($('<option>', {
+                                                    value: responsee[i].id,
+                                                    text:  local == 'ar' ? responsee[i].name_ar : responsee[i].name_en
+                                                }));
+                                            }
+
+
+                                            $(".modal-body #size_id").val(response.size_id);
+
+                                        } else {
+
+                                        }
+                                    }
+                                });
+
+
+                                $(".modal-body #qnt").val(response.qnt);
                                 $(".modal-body #level").val(response.level);
+                                $(".modal-body #id").val(response.id);
                                 $(".modal-body #transformFactor").val(response.transformFactor);
                                 $(".modal-body #price").val(response.price);
                                 $(".modal-body #priceWithAddValue").val(response.priceWithAddValue);
-                                $(".modal-body #id").val(response.id);
-                                $(".modal-body #qnt").val(response.qnt);
+
+
                                 $(".modal-body .form-header").html($('<div>{{trans('main.edit_material')}}</div>').text());
                             },
                             complete: function() {
@@ -261,9 +258,17 @@
 
 
     function confirmDelete(){
-        let url = "{{ route('destroyItemSize', ':id') }}";
+        let url = "{{ route('destroyItemMaterial', ':id') }}";
         url = url.replace(':id', id);
         document.location.href=url;
     }
 </script>
+
+
+
 </body>
+</html>
+
+
+
+

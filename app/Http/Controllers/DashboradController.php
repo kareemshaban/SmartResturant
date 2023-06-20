@@ -82,18 +82,33 @@ class DashboradController extends Controller
     }
 
     public function storeReligion(Request $request){
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:religions',
-            'name_en' => 'required|unique:religions',
-        ]);
 
-        Religions::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en
-        ]);
-        return redirect()->route('religions')->with('success' , __('main.created'));
+        if ($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:religions',
+                'name_en' => 'required|unique:religions',
+            ]);
+
+            Religions::Create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en
+            ]);
+            return redirect()->route('religions')->with('success' , __('main.created'));
+        } else {
+            return  $this -> updateReligion($request , $request -> id);
+        }
+
 
     }
+    public function getReligion($id)
+    {
+        $religion = Religions::find($id);
+        echo json_encode($religion);
+        exit();
+
+    }
+
+
     public function editReligion($id){
         $religion = Religions::find($id);
         if($religion){
@@ -138,16 +153,21 @@ class DashboradController extends Controller
     }
 
     public function storeDepartment(Request $request){
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:religions',
-            'name_en' => 'required|unique:religions',
-        ]);
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:religions',
+                'name_en' => 'required|unique:religions',
+            ]);
 
-        Departments::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en
-        ]);
-        return redirect()->route('departments')->with('success' , __('main.created'));
+            Departments::Create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en
+            ]);
+            return redirect()->route('departments')->with('success' , __('main.created'));
+        } else {
+            return  $this -> updateDepartment($request , $request -> id);
+        }
+
 
     }
     public function editDepartment($id){
@@ -174,11 +194,19 @@ class DashboradController extends Controller
     }
     }
 
+
+    public function getDepartment($id)
+    {
+        $department = Departments::find($id);
+        echo json_encode($department);
+        exit();
+    }
+
     public function destroyDepartment($id){
         $department = Departments::find($id);
         if($department){
             $department -> delete();
-             redirect()->route('departments')->with('success' , __('main.deleted'));
+           return  redirect()->route('departments')->with('success' , __('main.deleted'));
         }
     }
 
@@ -193,16 +221,21 @@ class DashboradController extends Controller
     }
 
     public function storeGender(Request $request){
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:religions',
-            'name_en' => 'required|unique:religions',
-        ]);
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:religions',
+                'name_en' => 'required|unique:religions',
+            ]);
 
-        Gender::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en
-        ]);
-        return redirect()->route('genders')->with('success' , __('main.created'));
+            Gender::Create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en
+            ]);
+            return redirect()->route('genders')->with('success' , __('main.created'));
+        } else {
+            return $this -> updateGender($request , $request -> id);
+        }
+
 
     }
     public function editGender($id){
@@ -229,6 +262,11 @@ class DashboradController extends Controller
     }
     }
 
+    public function getGender($id){
+        $gender = Gender::find($id);
+        echo json_encode($gender);
+        exit();
+    }
     public function destroyGender($id){
           $gender = Gender::find($id);
         if($gender){
@@ -249,16 +287,21 @@ class DashboradController extends Controller
     }
 
     public function storeNationality(Request $request){
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:religions',
-            'name_en' => 'required|unique:religions',
-        ]);
+        if($request -> id ==0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:religions',
+                'name_en' => 'required|unique:religions',
+            ]);
 
-        Nationality::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en
-        ]);
-        return redirect()->route('nationalties')->with('success' , __('main.created'));
+            Nationality::Create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en
+            ]);
+            return redirect()->route('nationalties')->with('success' , __('main.created'));
+        } else {
+            return $this -> updateNationality($request , $request -> id);
+        }
+
 
     }
     public function editNationality($id){
@@ -285,11 +328,17 @@ class DashboradController extends Controller
     }
     }
 
+    public function getNationality($id){
+        $item = Nationality::find($id);
+        echo json_encode($item);
+        exit();
+    }
+
     public function destroyNationality($id){
           $nationaltie = Nationality::find($id);
         if($nationaltie){
             $nationaltie -> delete();
-             redirect()->route('genders')->with('success' , __('main.deleted'));
+            return redirect()->route('nationalties')->with('success' , __('main.deleted'));
         }
     }
 
@@ -305,16 +354,21 @@ class DashboradController extends Controller
     }
 
     public function storeMaritalStatus(Request $request){
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:religions',
-            'name_en' => 'required|unique:religions',
-        ]);
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:religions',
+                'name_en' => 'required|unique:religions',
+            ]);
 
-        MaritalStatus::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en
-        ]);
-        return redirect()->route('maritalStatus')->with('success' , __('main.created'));
+            MaritalStatus::Create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en
+            ]);
+            return redirect()->route('maritalStatus')->with('success' , __('main.created'));
+        } else {
+            return $this -> updateMaritalStatus($request , $request -> id );
+        }
+
 
     }
     public function editMaritalStatus($id){
@@ -341,11 +395,17 @@ class DashboradController extends Controller
     }
     }
 
+
+    public function getMartial($id){
+        $maritalStatus = MaritalStatus::find($id);
+        echo json_encode($maritalStatus);
+        exit();
+    }
     public function destroyMaritalStatus($id){
         $maritalStatus = MaritalStatus::find($id);
                 if($maritalStatus){
             $maritalStatus -> delete();
-             redirect()->route('maritalStatus')->with('success' , __('main.deleted'));
+                    return  redirect()->route('maritalStatus')->with('success' , __('main.deleted'));
         }
     }
 
@@ -361,16 +421,21 @@ class DashboradController extends Controller
     }
 
     public function storeJob(Request $request){
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:religions',
-            'name_en' => 'required|unique:religions',
-        ]);
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:religions',
+                'name_en' => 'required|unique:religions',
+            ]);
 
-        Jobs::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en
-        ]);
-        return redirect()->route('jobs')->with('success' , __('main.created'));
+            Jobs::Create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en
+            ]);
+            return redirect()->route('jobs')->with('success' , __('main.created'));
+        } else {
+            return $this -> updateJob($request , $request -> id);
+        }
+
 
     }
     public function editJob($id){
@@ -401,9 +466,15 @@ class DashboradController extends Controller
         $job = Jobs::find($id);
                 if($job){
             $job -> delete();
-             redirect()->route('jobs')->with('success' , __('main.deleted'));
+            return redirect()->route('jobs')->with('success' , __('main.deleted'));
         }
     }
+    public function getJob($id){
+        $job = Jobs::find($id);
+        echo json_encode($job);
+        exit();
+    }
+
 
 
     public function educations(){
@@ -417,16 +488,21 @@ class DashboradController extends Controller
     }
 
     public function storeEducation (Request $request){
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:religions',
-            'name_en' => 'required|unique:religions',
-        ]);
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:religions',
+                'name_en' => 'required|unique:religions',
+            ]);
 
-        Education::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en
-        ]);
-        return redirect()->route('educations')->with('success' , __('main.created'));
+            Education::Create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en
+            ]);
+            return redirect()->route('educations')->with('success' , __('main.created'));
+        } else {
+            return $this -> updateEducation($request , $request -> id);
+        }
+
 
     }
     public function editEducation($id){
@@ -457,9 +533,16 @@ class DashboradController extends Controller
         $education = Education::find($id);
                 if($education){
             $education -> delete();
-             redirect()->route('educations')->with('success' , __('main.deleted'));
+            return redirect()->route('educations')->with('success' , __('main.deleted'));
         }
     }
+    public function getEducation($id){
+        $education = Education::find($id);
+        echo json_encode($education);
+        exit();
+    }
+
+
     public function countries(){
         $countries = Country::all();
         return view('cpanel.Country.index' , [
@@ -471,16 +554,21 @@ class DashboradController extends Controller
     }
 
     public function storeCountry (Request $request){
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:religions',
-            'name_en' => 'required|unique:religions',
-        ]);
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:religions',
+                'name_en' => 'required|unique:religions',
+            ]);
 
-        Country::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en
-        ]);
-        return redirect()->route('countries')->with('success' , __('main.created'));
+            Country::Create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en
+            ]);
+            return redirect()->route('countries')->with('success' , __('main.created'));
+        } else {
+            return $this -> updateCountry($request , $request -> id);
+        }
+
 
     }
     public function editCountry($id){
@@ -511,15 +599,23 @@ class DashboradController extends Controller
         $country = Country::find($id);
                 if($country){
             $country -> delete();
-             redirect()->route('countries')->with('success' , __('main.deleted'));
+                    return  redirect()->route('countries')->with('success' , __('main.deleted'));
         }
     }
+    public function getCountry($id){
+        $country = Country::find($id);
+       echo json_encode($country);
+       exit();
+    }
+
+
 
     public function governorates(){
         $governorates = Governorate::with('country' , 'cities') -> get();
-
+        $countries = Country::all();
         return view('cpanel.Governorate.index' , [
-            'governorates' => $governorates
+            'governorates' => $governorates,
+            'countries' => $countries
         ] );
     }
     public function createGovernorate(){
@@ -528,19 +624,25 @@ class DashboradController extends Controller
     }
 
     public function storeGovernorate (Request $request){
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:religions',
-            'name_en' => 'required|unique:religions',
-             'country_id' =>'required'
-        ]);
 
-        Governorate::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en,
-            'country_id' => $request -> country_id
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:religions',
+                'name_en' => 'required|unique:religions',
+                'country_id' =>'required'
+            ]);
 
-        ]);
-        return redirect()->route('governorates')->with('success' , __('main.created'));
+            Governorate::Create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en,
+                'country_id' => $request -> country_id
+
+            ]);
+            return redirect()->route('governorates')->with('success' , __('main.created'));
+        } else {
+            return $this -> updateGovernorate($request , $request -> id);
+        }
+
 
     }
     public function editGovernorate($id){
@@ -575,8 +677,14 @@ class DashboradController extends Controller
         $governorate = Governorate::find($id);
                 if($governorate){
             $governorate -> delete();
-             redirect()->route('governorates')->with('success' , __('main.deleted'));
+            return redirect()->route('governorates')->with('success' , __('main.deleted'));
         }
+    }
+
+    public function getGovernorate($id){
+        $governorate = Governorate::find($id);
+        echo json_encode($governorate);
+        exit();
     }
 
 
@@ -585,6 +693,7 @@ class DashboradController extends Controller
         $governorate = Governorate::all();
         return view('cpanel.City.index' , [
             'cities' => $cities ,
+            'governorate' => $governorate
         ] );
     }
     public function createCity(){
@@ -593,19 +702,23 @@ class DashboradController extends Controller
     }
 
     public function storeCity (Request $request){
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:religions',
-            'name_en' => 'required|unique:religions',
-             'governorate_id' =>'required'
-        ]);
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:religions',
+                'name_en' => 'required|unique:religions',
+                'governorate_id' =>'required'
+            ]);
 
-        City::Create([
-            'name_ar' => $request ->name_ar,
-            'name_en' => $request ->name_en,
-            'governorate_id' => $request -> governorate_id
+            City::Create([
+                'name_ar' => $request ->name_ar,
+                'name_en' => $request ->name_en,
+                'governorate_id' => $request -> governorate_id
 
-        ]);
-        return redirect()->route('cities')->with('success' , __('main.created'));
+            ]);
+            return redirect()->route('cities')->with('success' , __('main.created'));
+        } else {
+            return $this -> updateCity($request , $request -> id);
+        }
 
     }
     public function editCity($id){
@@ -640,7 +753,13 @@ class DashboradController extends Controller
         $city = City::find($id);
                 if($city){
             $city -> delete();
-             redirect()->route('cities')->with('success' , __('main.deleted'));
+         return    redirect()->route('cities')->with('success' , __('main.deleted'));
         }
     }
+    public function getCity($id){
+        $city = City::find($id);
+        echo json_encode($city);
+    }
+
+
 }

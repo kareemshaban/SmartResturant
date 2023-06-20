@@ -1,78 +1,47 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords"
-        content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Ample admin lite dashboard bootstrap 5 dashboard template">
-    <meta name="description"
-        content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
-    <meta name="robots" content="noindex,nofollow">
-    <title>Smart Resturant</title>
-    <link rel="canonical" href="https://www.wrappixel.com/templates/ample-admin-lite/" />
-      <link rel="shortcut icon" href="../images/favicon.png" type="">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+@include('layout.header')
 
-
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
-    <br>
-    <script src="http://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="../cpanel/css/bootstrap.css" />
-
-    <link href="../cpanel/css/style.min.css" rel="stylesheet">
- <link href="../cpanel/css/style.css" rel="stylesheet">
-    <style>
-        @font-face {
-            font-family: 'icomoon';
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            src: url("../fonts/ArbFONTS-The-Sans-Plain.otf");
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        * {
-            font-family: 'icomoon';
-        }
-    </style>
-</head>
 
 <body>
 
-    <div class="preloader">
-        <div class="lds-ripple">
-            <div class="lds-pos"></div>
-            <div class="lds-pos"></div>
-        </div>
-    </div>
-    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
-        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
-        @include('Layouts.cheader')
-        @include('Layouts.sidebar', ['slag' => 6])
 
-        <div class="page-wrapper" @if(Config::get('app.locale') == 'ar') style="margin-right: 250px; margin-left:0px;" @endif>
-            @include('Layouts.subheader', [
-                'pageTitle' => Config::get('app.locale') == 'ar' ? 'الأصناف والإضافات': 'Items & Extras',
-            ])
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col4 text-left" style="margin: 10px;">
-                           <button id="createButton" type="button" class="btn btn-labeled btn-primary "  >
-                                <span class="btn-label"><i class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
+<div
+    id="main-wrapper"
+    data-layout="vertical"
+    data-navbarbg="skin5"
+    data-sidebartype="full"
+    data-sidebar-position="absolute"
+    data-header-position="absolute"
+    data-boxed-layout="full"
+>
 
-                    </div>
+    @include('layout.subHeader')
+    @include('layout.side' , ['slag' => 2 , 'subSlag' => 23])
+    <div class="page-wrapper   @if(Config::get('app.locale') == 'ar') right @else  left  @endif ">
+        @include('layout.cramp' , ['page_Title' => __('main.menue_items') , 'menue' => __('main.side_items') ])
 
-                </div>
-                <div class="row justify-content-center">
-                    @include('flash-message')
-                    <div class="col-12">
-                        <table id="table" class="table table-striped table-bordered" style="width:100%">
-                            <thead>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xlg-12">
+                    <div class="card">
+                        @include('flash-message')
+                        <div class="card-header">
+                            <div class="row">
+                                <div
+                                    class="col-12 @if(Config::get('app.locale') == 'ar') text-right @else text-left @endif">
+                                    <button id="createButton" type="button" class="btn btn-labeled btn-warning ">
+                                        <span class="btn-label"><i
+                                                class="fa fa-plus-circle"></i></span>{{__('main.add_new')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive" @if(Config::get('app.locale') == 'ar') style="direction: rtl"
+                                 @else style="direction: ltr" @endif">
+                            <table id="table" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
                                 <tr>
                                     <th class="text-center">#</th>
                                     <th class="text-center">{{ __('main.id') }}</th>
@@ -84,8 +53,8 @@
                                     <th class="text-center">{{ __('main.quantity') }}</th>
                                     <th class="text-center">{{ __('main.operations') }}</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                                </thead>
+                                <tbody>
                                 @foreach ($items as $item)
                                     <tr>
                                         <td class="text-center">{{ $loop->index + 1 }}</td>
@@ -103,213 +72,212 @@
 
                                         <td class="text-center"> {{$item -> type != 2 ? 0 : $item -> qnt}}    </td>
                                         <td class="text-center">
-                                         <button
-                                                    type="button" class="btn btn-success editBtn" value="{{$item -> id}}"><i
-                                                        class="fas fa-edit"></i></button>
-                                        <button
-                                                    type="button" class="btn btn-danger deleteBtn" value="{{$item -> id}}"><i
-                                                        class="far fa-trash-alt"></i></button>
-                                            <br>
-                                            <br>
-                                            <a href="{{route('itemSizes' , $item -> id)}}">
-                                                <button
-                                                    type="button" class="btn btn-info">
-                                                    {{ __('main.item_sizes') }}</button>
-                                            </a>
-                                            @if($item -> type != 2)
-                                            <a href="{{route('itemMaterials' , $item -> id)}}">
-                                                <button
-                                                    type="button" class="btn btn-warning">
-                                                    {{ __('main.itemMaterials') }}</button>
-                                            </a>
-                                                @endif
+                                            <div class="dropdown">
+                                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    {{ __('main.operations') }}
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#">
+                                                        <button type="button" class="btn btn-success editBtn" value="{{$item -> id}}" style="width: 100% ; color: white">
+                                                            <i class="fas fa-tr"></i>{{__('main.edit_btn')}}</button>
+                                                    </a>
+                                                    <a class="dropdown-item" href="#">
+                                                        <button type="button" class="btn btn-danger deleteBtn" value="{{$item -> id}}" style="width: 100% ; color: white">
+                                                            <i class="fas fa-trash"></i>{{__('main.delete')}}</button>
+                                                    </a>
+                                                    <a class="dropdown-item" href="{{route('itemSizes' , $item -> id)}}">
+                                                        <button type="button" class="btn btn-warning" style="width: 100% ; color: white">
+                                                            <i class="fas fa-adjust"></i>{{__('main.item_sizes')}}</button>
+                                                    </a>
+                                                    @if($item -> type != 2)
+                                                        <a class="dropdown-item"  href="{{route('itemMaterials' , $item -> id)}}">
+                                                            <button type="button" class="btn btn-secondary" style="width: 100% ; color: white">
+                                                                <i class="fas fa-cart-plus"></i>{{__('main.itemMaterials')}}</button>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </div>
+
 
                                         </td>
                                     </tr>
                                 @endforeach
 
-                            </tbody>
+                                </tbody>
 
 
-                        </table>
+                            </table>
+                        </div>
                     </div>
                 </div>
+
             </div>
+
+
         </div>
 
     </div>
+
+    @include('layout.footer')
+
     @include('cpanel.Items.create')
     @include('deleteModal')
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+</div>
 
-
-    <script src="../cpanel/plugins/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../cpanel/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../cpanel/js/app-style-switcher.js"></script>
-    <script src="../cpanel/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
-    <script src="../cpanel/js/waves.js"></script>
-    <script src="../cpanel/js/sidebarmenu.js"></script>
-    <script src="../cpanel/js/custom.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist/dist/chartist.min.js"></script>
-    <script src="../cpanel/plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-    <script src="../cpanel/js/pages/dashboards/dashboard1.js"></script>
-    <script type="text/javascript">
-        var id = 0;
-        $(document).ready(function () {
-
-            $('#table').DataTable();
-
-            $(document).on('click', '#createButton', function (event) {
-                id = 0;
-                event.preventDefault();
-                let href = $(this).attr('data-attr');
-                $.ajax({
-                    url: href,
-                    beforeSend: function () {
-                        $('#loader').show();
-                    },
-                    // return the result
-                    success: function (result) {
-                        $('#createModal').modal("show");
-                        $(".modal-body #code").val("");
-                        $(".modal-body #type").val("");
-                        $(".modal-body #name_ar").val("");
-                        $(".modal-body #name_en").val("");
-                        $(".modal-body #category_id").val('');
-                       // $(".modal-body #addValue").val(0);
-                        $(".modal-body #description_ar").val("");
-                        $(".modal-body #description_en").val("");
-                     //   $(".modal-body #isAddValue").prop('checked' , false);
-                        $(".modal-body #isAddValue").prop('canPurshased' , false);
+<script type="text/javascript">
+    $(document).on('click', '#createButton', function (event) {
+        id = 0;
+        event.preventDefault();
+        let href = $(this).attr('data-attr');
+        $.ajax({
+            url: href,
+            beforeSend: function () {
+                $('#loader').show();
+            },
+            // return the result
+            success: function (result) {
+                $('#createModal').modal("show");
+                $(".modal-body #code").val("");
+                $(".modal-body #type").val("");
+                $(".modal-body #name_ar").val("");
+                $(".modal-body #name_en").val("");
+                $(".modal-body #category_id").val('');
+                // $(".modal-body #addValue").val(0);
+                $(".modal-body #description_ar").val("");
+                $(".modal-body #description_en").val("");
+                //   $(".modal-body #isAddValue").prop('checked' , false);
+                $(".modal-body #isAddValue").prop('canPurshased' , false);
 
 
 
-                        $(".modal-body .form-header").html($('<div>{{trans('main.new_item')}}</div>').text());
+                $(".modal-body .form-header").html($('<div>{{trans('main.new_item')}}</div>').text());
 
 
 
-                        $(".modal-body #profile-img-tag").attr('src', '../images/photo.png');
+                $(".modal-body #profile-img-tag").attr('src', '../images/photo.png');
 
-                    },
-                    complete: function () {
-                        $('#loader').hide();
-                    },
-                    error: function (jqXHR, testStatus, error) {
-                        console.log(error);
-                        alert("Page " + href + " cannot open. Error:" + error);
-                        $('#loader').hide();
-                    },
-                    timeout: 8000
-                })
-            });
-            $(document).on('click', '.editBtn', function(event) {
-                id = event.currentTarget.value ;
-                console.log(id);
-                event.preventDefault();
-                let href = $(this).attr('data-attr');
-                $.ajax({
-                    type:'get',
-                    url:'getItem' + '/' + id,
-                    dataType: 'json',
+            },
+            complete: function () {
+                $('#loader').hide();
+            },
+            error: function (jqXHR, testStatus, error) {
+                console.log(error);
+                alert("Page " + href + " cannot open. Error:" + error);
+                $('#loader').hide();
+            },
+            timeout: 8000
+        })
+    });
+    $(document).on('click', '.editBtn', function(event) {
+        id = event.currentTarget.value ;
+        console.log(id);
+        event.preventDefault();
+        let href = $(this).attr('data-attr');
+        $.ajax({
+            type:'get',
+            url:'getItem' + '/' + id,
+            dataType: 'json',
 
-                    success:function(response){
-                        console.log(response);
-                        if(response){
-                            let href = $(this).attr('data-attr');
-                            $.ajax({
-                                url: href,
-                                beforeSend: function() {
-                                    $('#loader').show();
-                                },
-                                // return the result
-                                success: function(result) {
-                                    $('#createModal').modal("show");
+            success:function(response){
+                console.log(response);
+                if(response){
+                    let href = $(this).attr('data-attr');
+                    $.ajax({
+                        url: href,
+                        beforeSend: function() {
+                            $('#loader').show();
+                        },
+                        // return the result
+                        success: function(result) {
+                            $('#createModal').modal("show");
 
-                                    var img =  '../images/Item/' + response.img ;
-                                    $('#createModal').modal("show");
-                                    $(".modal-body #code").val(response.code);
-                                    $(".modal-body #type").val(response.type);
-                                    $(".modal-body #name_ar").val(response.name_ar);
-                                    $(".modal-body #name_en").val(response.name_en);
-                                    $(".modal-body #category_id").val(response.category_id);
-                                    $(".modal-body #addValue").val(response.addValue);
-                                    $(".modal-body #description_ar").val(response.description_ar);
-                                    $(".modal-body #description_en").val(response.description_en);
-                                    $(".modal-body #isAddValue").prop('checked' , response.isAddValue);
-                                    $(".modal-body #canPurshased").prop('checked' , response.canPurshased);
+                            var img =  '../images/Item/' + response.img ;
+                            $('#createModal').modal("show");
+                            $(".modal-body #code").val(response.code);
+                            $(".modal-body #type").val(response.type);
+                            $(".modal-body #name_ar").val(response.name_ar);
+                            $(".modal-body #name_en").val(response.name_en);
+                            $(".modal-body #category_id").val(response.category_id);
+                            $(".modal-body #addValue").val(response.addValue);
+                            $(".modal-body #description_ar").val(response.description_ar);
+                            $(".modal-body #description_en").val(response.description_en);
+                            $(".modal-body #isAddValue").prop('checked' , response.isAddValue);
+                            $(".modal-body #canPurshased").prop('checked' , response.canPurshased);
 
-                                    if(response.isAddValue){
-                                        $(".modal-body #addValue").attr('disabled', false);
-                                    } else {
-                                        $(".modal-body #addValue").attr('disabled', true);
-                                    }
-                                    $(".modal-body #id").val( response.id);
+                            if(response.isAddValue){
+                                $(".modal-body #addValue").attr('disabled', false);
+                            } else {
+                                $(".modal-body #addValue").attr('disabled', true);
+                            }
+                            $(".modal-body #id").val( response.id);
 
-                                    $(".modal-body .form-header").html($('<div>{{trans('main.edit_new')}}</div>').text());
+                            $(".modal-body .form-header").html($('<div>{{trans('main.edit_new')}}</div>').text());
 
-                                    $(".modal-body #profile-img-tag").attr('src', img);
-                                },
-                                complete: function() {
-                                    $('#loader').hide();
-                                },
-                                error: function(jqXHR, testStatus, error) {
-                                    console.log(error);
-                                    alert("Page " + href + " cannot open. Error:" + error);
-                                    $('#loader').hide();
-                                },
-                                timeout: 8000
-                            })
-                        } else {
+                            $(".modal-body #profile-img-tag").attr('src', img);
+                        },
+                        complete: function() {
+                            $('#loader').hide();
+                        },
+                        error: function(jqXHR, testStatus, error) {
+                            console.log(error);
+                            alert("Page " + href + " cannot open. Error:" + error);
+                            $('#loader').hide();
+                        },
+                        timeout: 8000
+                    })
+                } else {
 
-                        }
-                    }
-                });
-            });
-            $(document).on('click', '.deleteBtn', function(event) {
-                id = event.currentTarget.value ;
-                console.log(id);
-                event.preventDefault();
-                let href = $(this).attr('data-attr');
-                $.ajax({
-                    url: href,
-                    beforeSend: function() {
-                        $('#loader').show();
-                    },
-                    // return the result
-                    success: function(result) {
-                        $('#deleteModal').modal("show");
-                    },
-                    complete: function() {
-                        $('#loader').hide();
-                    },
-                    error: function(jqXHR, testStatus, error) {
-                        console.log(error);
-                        alert("Page " + href + " cannot open. Error:" + error);
-                        $('#loader').hide();
-                    },
-                    timeout: 8000
-                })
-            });
-            $(document).on('click', '.btnConfirmDelete', function(event) {
-                console.log(id);
-                confirmDelete();
-            });
-            $(document).on('click', '.cancel-modal', function(event) {
-                $('#deleteModal').modal("hide");
-                console.log()
-                id = 0 ;
-            });
+                }
+            }
         });
+    });
+    $(document).on('click', '.deleteBtn', function(event) {
+        id = event.currentTarget.value ;
+        console.log(id);
+        event.preventDefault();
+        let href = $(this).attr('data-attr');
+        $.ajax({
+            url: href,
+            beforeSend: function() {
+                $('#loader').show();
+            },
+            // return the result
+            success: function(result) {
+                $('#deleteModal').modal("show");
+            },
+            complete: function() {
+                $('#loader').hide();
+            },
+            error: function(jqXHR, testStatus, error) {
+                console.log(error);
+                alert("Page " + href + " cannot open. Error:" + error);
+                $('#loader').hide();
+            },
+            timeout: 8000
+        })
+    });
+    $(document).on('click', '.btnConfirmDelete', function(event) {
+        console.log(id);
+        confirmDelete();
+    });
+    $(document).on('click', '.cancel-modal', function(event) {
+        $('#deleteModal').modal("hide");
+        console.log()
+        id = 0 ;
+    });
+
+    function confirmDelete(){
+        let url = "{{ route('destroyItem', ':id') }}";
+        url = url.replace(':id', id);
+        document.location.href=url;
+    }
+
+</script>
 
 
-
-
-        function confirmDelete(){
-            let url = "{{ route('destroyItem', ':id') }}";
-            url = url.replace(':id', id);
-            document.location.href=url;
-        }
-    </script>
 </body>
+</html>
+
+
+
+

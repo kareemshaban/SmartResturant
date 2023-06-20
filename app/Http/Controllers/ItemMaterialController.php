@@ -93,9 +93,12 @@ class ItemMaterialController extends Controller
      * @param  \App\Models\ItemMaterial  $itemMaterial
      * @return \Illuminate\Http\Response
      */
-    public function show(ItemMaterial $itemMaterial)
+    public function show($id)
     {
-        //
+        $itemMartial = ItemMaterial::find($id);
+        echo json_encode($itemMartial);
+        exit();
+
     }
 
     /**
@@ -153,9 +156,13 @@ class ItemMaterialController extends Controller
      * @param  \App\Models\ItemMaterial  $itemMaterial
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ItemMaterial $itemMaterial)
+    public function destroy($id)
     {
-        //
+        $material = ItemMaterial::find($id);
+        if($material){
+            $material -> delete();
+            return redirect()->route('itemMaterials' , $material ->  item_id)->with('success' , __('main.deleted'));
+        }
     }
 
     public function getMaterialSizes($material_id){

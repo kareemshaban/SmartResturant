@@ -1,4 +1,8 @@
-<footer class="footer text-center">
+<footer class="footer text-center" style="position: absolute;
+left: 0;
+right: 0;
+bottom: 20px;
+">
     All Rights Reserved by FUTECH-EG. Designed and Developed by
     <a href="#">FUTECH-EG</a>.
 </footer>
@@ -55,7 +59,7 @@
                 </button>
             </div>
             <div class="modal-body" id="smallBody">
-                <img src="../assets/img/warning.png" class="alertImage">
+                <img src="{{asset('assets/img/warning.png')}}" class="alertImage">
                 <label class="alertTitle" id="open_shift">{{__('main.no_attached_machine')}}</label>
                 <br> <label class="alertSubTitle" id="modal_table_bill"></label>
                 <div class="row">
@@ -168,14 +172,59 @@
         });
     }
 </script>
+<script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.bootstrap4.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+
+
+
+<script src="{{asset('assets/vendor/purecounter/purecounter_vanilla.js')}}"></script>
+<script src="{{asset('assets/vendor/aos/aos.js')}}"></script>
+<script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('assets/vendor/glightbox/js/glightbox.min.js')}}"></script>
+<script src="{{asset('assets/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
+<script src="{{asset('assets/vendor/swiper/swiper-bundle.min.js')}}"></script>
+<script src="{{asset('assets/vendor/php-email-form/validate.js')}}"></script>
+
+<!-- Template Main JS File -->
+<script src="{{asset('assets/js/menue.js')}}"></script>
+
+
 <script>
 
-    $(document).ready(function () {
+
+
+
+
+    $(document).ready(function() {
+            var table = $('#table').DataTable({
+                //"dom": 'Blfrtip',
+                "lengthMenu": [
+                    [50, 100, 1000, -1],
+                    [50, 100, 1000, "All"]
+                ],
+                "initComplete": function() {
+                    $("#table").show();
+                },
+                "buttons": ['copy', 'csv', 'excel', 'print', 'colvis']
+            });
+            table.buttons().container().appendTo('#table_wrapper .col-md-6:eq(0)');
+
 
         var url = document.referrer;
+        console.log(url.indexOf('login'));
         $.ajax({
             type: 'get',
-            url: 'checkShift',
+            url: '/checkShift',
             dataType: 'json',
 
             success: function (response) {
@@ -183,16 +232,19 @@
                 if (response) {
                     if (response.length > 0) {
                         if (url.indexOf('login') > -1) {
+                            console.log(url);
                             openDialog(1);
                         }
 
                     } else {
                         if (url.indexOf('login') > -1) {
+                            console.log(url);
                             openDialog(0);
                         }
                     }
                 } else {
                     if (url.indexOf('login') > -1) {
+                        console.log(url);
                         openDialog(0);
                     }
                 }
@@ -200,11 +252,11 @@
         });
         $.ajax({
             type: 'get',
-            url: 'getUser',
+            url: '/getUser',
             datatype: 'json',
             success: function (machine_id) {
                 console.log(machine_id);
-                if (machine_id == 0) {
+                if (machine_id == 0 && url.indexOf('login') > -1) {
                     openDialog2();
                 }
 
@@ -212,8 +264,6 @@
         });
 
     });
-
-
     $(document).on('click', '#showBtn', function (event) {
         event.preventDefault();
         let href = $(this).attr('data-attr');
@@ -275,16 +325,13 @@
 
 
     });
-
-
     $(document).on('click', '.cancel-modal', function (event) {
-        $('#deleteModal').modal("hide");
+        $('#shiftAlertModal').modal("hide");
         id = 0;
     });
     $(document).on('click', '.cancel-modal2', function (event) {
         $('#machineModal').modal("hide");
     });
-
     $(document).on('click', '.selectMachine', function (event) {
 
         var machine_id = event.currentTarget.value;
@@ -300,8 +347,6 @@
 
         });
     });
-
-
     function openDialog(i) {
         let href = $(this).attr('data-attr');
         $.ajax({
@@ -332,7 +377,6 @@
             timeout: 8000
         })
     }
-
     function openDialog2() {
         console.log('od');
         let href = $(this).attr('data-attr');

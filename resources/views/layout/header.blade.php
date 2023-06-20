@@ -17,22 +17,58 @@
         href="{{asset('assets/images/favicon.png')}}"
     />
     <link href="{{asset('assets/libs/flot/css/float-chart.css')}}" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css" rel="stylesheet">
+
     <link href="{{asset('assets/dist/css/style.min.css')}}" rel="stylesheet" />
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <style>
         body{
             background: #eeeeee !important;
         }
         .left {
-            margin-left: 250px !important;
+            margin-left: 0px !important;
             margin-right: 0 !important;
         }
         .right {
-            margin-right: 250px !important;
+            margin-right: 0 !important;
             margin-left: 0 !important;
         }
+
+        @media (min-width: 768px){
+            .left {
+                margin-left: 250px !important;
+                margin-right: 0 !important;
+            }
+            .right {
+                margin-right: 250px !important;
+                margin-left: 0 !important;
+            }
+        }
+
+
+
         .no-page-margin{
             margin-right: 60px !important;
             margin-left: 60px !important;
@@ -53,10 +89,19 @@
         *{
             font-family: 'icomoon' !important;
         }
-        .fa {
+        .fa , .far , .fas {
             font-family: 'Font Awesome 5 Free' !important;
         }
+        .ti-close ,  .ti-menu {
+            font-family: 'themify' !important;
+        }
 
+
+         .btn-secondary {
+             background-color: #8c0404;
+             border-color: #8c0404;
+             color: #fff;
+         }
         @if(Config::get('app.locale') == 'ar')
 
         .sidebar-nav .has-arrow::after {
@@ -76,6 +121,46 @@
             transition: all 0.3s ease-out;
             rotate: 180deg !important;
         }
+        .btn-group {
+            float: right;
+            text-align: right !important;
+            position: relative;
+            display: -ms-inline-flexbox;
+            display: inline-flex;
+            vertical-align: middle;
+        }
+        #table_length{
+            float: right;
+            width: 100% !important;
+            text-align: right !important;
+        }
+        #table_filter {
+            float: left;
+            width: 100% !important;
+            text-align: left !important;
+        }
+        @else
+
+             .btn-group {
+                      float: left;
+                      text-align: left !important;
+                      position: relative;
+                      display: -ms-inline-flexbox;
+                      display: inline-flex;
+                      vertical-align: middle;
+                  }
+        #table_length{
+            float: left;
+            width: 100% !important;
+            text-align: left !important;
+        }
+        #table_filter {
+            float: right;
+            width: 100% !important;
+            text-align: right !important;
+        }
+
+
         @endif
         .modal-close-btn {
             color: white;
@@ -123,6 +208,9 @@
         .checkRow input{
             margin-left: 20px;
             width: 20px;
+        }
+        .btn-label {
+            margin-right: 10px;
         }
 
     </style>

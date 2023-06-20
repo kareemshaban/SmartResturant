@@ -346,6 +346,8 @@ return [
     'new_material' => 'Add New Material',
     'edit_material' => 'edit Material',
     'purchases' => 'Purchases Invoice',
+    'purchases_list' => 'Purchases Invoice List',
+    'purchases_create' => 'create Purchase Invoice',
     'bill_number' => 'Invoice Number',
     'customer' => 'supplier',
     'paid' => 'Paid',
@@ -390,7 +392,8 @@ return [
     'no' => 'No',
     'bill_payed_partial' => 'Part of the bill has been paid successfully',
     'sales_count' => 'Sales Count',
-    'expenses_count' => 'Recipt Bill Count'
+    'expenses_count' => 'Recipt Bill Count',
+    'show_items' => 'Show Items'
 
 
 

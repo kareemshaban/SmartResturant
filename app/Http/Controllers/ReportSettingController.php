@@ -20,8 +20,8 @@ class ReportSettingController extends Controller
         $settings = ReportSetting::all();
         if(count($settings) > 0)
             $html = view('cpanel.ReportSettings.edit' , ['setting' => $settings[0]]) -> render();
-        else
-            $html = view('cpanel.ReportSettings.create') -> render();
+//        else
+//            $html = view('cpanel.ReportSettings.create') -> render();
 
         return  $html  ;
     }

@@ -5,7 +5,6 @@
 <body>
 
 
-
 <div
     id="main-wrapper"
     data-layout="vertical"
@@ -17,55 +16,37 @@
 >
 
     @include('layout.subHeader')
-    @include('layout.side' , ['slag' => 1])
+    @include('layout.side' , ['slag' => 1 , 'subSlag' => 0])
     <div class="page-wrapper   @if(Config::get('app.locale') == 'ar') right @else  left  @endif ">
-        <div class="page-breadcrumb">
-            <div class="row">
-                <div class="col-12 d-flex no-block align-items-center">
-                    <h4 class="page-title">Dashboard</h4>
-                    <div class="ms-auto text-end">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    Library
-                                </li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @include('layout.cramp' , ['page_Title' => __('main.dashboard_btn') , 'menue' => __('main.nav_home') ])
 
         <div class="container-fluid">
-            <!-- ============================================================== -->
-            <!-- Sales Cards  -->
-            <!-- ============================================================== -->
+            @include('flash-message')
             <div class="row">
                 <!-- Column -->
                 <div class="col-md-6 col-lg-2 col-xlg-3">
                     <a href="{{route('items')}}">
-                    <div class="card card-hover">
-                        <div class="box bg-cyan text-center">
-                            <h1 class="font-light text-white">
-                                <i class="mdi mdi-food-fork-drink"></i>
-                            </h1>
-                            <h6 class="text-white">{{__('main.side_items')}}</h6>
+                        <div class="card card-hover">
+                            <div class="box bg-cyan text-center">
+                                <h1 class="font-light text-white">
+                                    <i class="mdi mdi-food-fork-drink"></i>
+                                </h1>
+                                <h6 class="text-white">{{__('main.side_items')}}</h6>
+                            </div>
                         </div>
-                    </div>
                     </a>
                 </div>
                 <!-- Column -->
                 <div class="col-md-6 col-lg-4 col-xlg-3">
                     <a href="{{route('pos')}}">
-                    <div class="card card-hover">
-                        <div class="box bg-success text-center">
-                            <h1 class="font-light text-white">
-                                <i class="mdi mdi-calculator"></i>
-                            </h1>
-                            <h6 class="text-white">{{__('main.side_bill')}}</h6>
+                        <div class="card card-hover">
+                            <div class="box bg-success text-center">
+                                <h1 class="font-light text-white">
+                                    <i class="mdi mdi-calculator"></i>
+                                </h1>
+                                <h6 class="text-white">{{__('main.side_bill')}}</h6>
+                            </div>
                         </div>
-                    </div>
                     </a>
                 </div>
                 <!-- Column -->
@@ -95,7 +76,7 @@
                 </div>
                 <!-- Column -->
                 <div class="col-md-6 col-lg-2 col-xlg-3">
-                    <a   href="{{ route('employees') }}" >
+                    <a href="{{ route('employees') }}">
                         <div class="card card-hover">
                             <div class="box bg-info text-center">
                                 <h1 class="font-light text-white">
@@ -139,19 +120,19 @@
                 <!-- Column -->
                 <div class="col-md-6 col-lg-2 col-xlg-3">
                     <a href="{{ route('clients' , 1) }}">
-                    <div class="card card-hover">
-                        <div class="box bg-cyan text-center">
-                            <h1 class="font-light text-white">
-                                <i class="mdi mdi-pencil"></i>
-                            </h1>
-                            <h6 class="text-white">{{ __('main.supplier') }}</h6>
+                        <div class="card card-hover">
+                            <div class="box bg-cyan text-center">
+                                <h1 class="font-light text-white">
+                                    <i class="mdi mdi-pencil"></i>
+                                </h1>
+                                <h6 class="text-white">{{ __('main.supplier') }}</h6>
+                            </div>
                         </div>
-                    </div>
                     </a>
                 </div>
                 <!-- Column -->
                 <div class="col-md-6 col-lg-2 col-xlg-3">
-                    <a  href="{{ route('tables') }}" >
+                    <a href="{{ route('tables') }}">
                         <div class="card card-hover">
                             <div class="box bg-success text-center">
                                 <h1 class="font-light text-white">
@@ -165,7 +146,7 @@
                 </div>
                 <!-- Column -->
                 <div class="col-md-6 col-lg-2 col-xlg-3">
-                    <a      href="{{route('report_box_transactions')}}">
+                    <a href="{{route('report_box_transactions')}}">
                         <div class="card card-hover">
                             <div class="box bg-warning text-center">
                                 <h1 class="font-light text-white">

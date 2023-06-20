@@ -240,6 +240,7 @@ return [
 
     'control_shift' => 'التحكم  ',
 
+
     'company_info' => 'معلومات الشركة',
     'header_ar' => 'الترويسة العلوية عربي',
     'header_en' => 'الترويسة العلوية إنجليزي',
@@ -344,6 +345,8 @@ return [
     'new_material' => 'إضافة خام جديد',
     'edit_material' => 'تعديل بيانات خام',
     'purchases' => 'فاتورة المشتريات',
+    'purchases_list' => 'قائمة فواتير المشتريات',
+    'purchases_create' => 'إنشاء فاتورة مشتريات',
     'bill_date' => 'تاريخ الفاتورة',
     'bill_number' => 'رقم الفاتورة',
     'customer' => 'المورد',
@@ -391,7 +394,8 @@ return [
     'no' => 'لا',
     'bill_payed_partial' => 'تم دفع جزء من الفاتورة بنجاح',
     'sales_count' => 'عدد عمليات البيع',
-    'expenses_count' => 'عدد سندات صرف الصندوق'
+    'expenses_count' => 'عدد سندات صرف الصندوق',
+    'show_items' => 'عرض الأصناف'
 
 
 

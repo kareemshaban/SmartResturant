@@ -39,21 +39,27 @@ class PrinterController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|unique:printers',
-            'type' => 'required',
-            'nickName' => 'required'
-        ]);
-        try {
-            Printer::create([
-                'name' => $request -> name,
-                'type' => $request -> type,
-                'nickName' => $request -> nickName,
+
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name' => 'required|unique:printers',
+                'type' => 'required',
+                'nickName' => 'required'
             ]);
-            return redirect()->route('printers')->with('success' , __('main.created'));
-        }catch(QueryException $ex){
-            return redirect()->route('printers')->with('error' ,  $ex->getMessage());
+            try {
+                Printer::create([
+                    'name' => $request -> name,
+                    'type' => $request -> type,
+                    'nickName' => $request -> nickName,
+                ]);
+                return redirect()->route('printers')->with('success' , __('main.created'));
+            }catch(QueryException $ex){
+                return redirect()->route('printers')->with('error' ,  $ex->getMessage());
+            }
+        } else {
+            return $this -> update($request , $request -> id);
         }
+
     }
 
     /**
@@ -131,5 +137,11 @@ class PrinterController extends Controller
             return redirect()->route('printers')->with('success' , __('main.can_not_delete'));
         }
 
+    }
+
+    public function getPrinter($id){
+        $printer = Printer::find($id);
+        echo json_encode($printer);
+        exit();
     }
 }

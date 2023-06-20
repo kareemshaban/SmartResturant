@@ -198,8 +198,8 @@
                             <h3 class="bbb_viewed_title">{{__('main.menue_items')}}</h3>
 
                         </div>
-                        <div class="row" style="min-height: 300px;">
-                            <div class="col-8" style="padding: 0;">
+                        <div class="row" >
+                            <div class="col-8" >
                                 <div class="row portfolio-container"
                                      style="margin: 10px; display: flex;align-items: center;" data-aos="fade-up"
                                      data-aos-delay="100">
@@ -1631,8 +1631,6 @@
             success: function (result) {
                 $('#mediumModal').modal( {backdrop: 'static', keyboard: false});
                 $('#mediumModal').modal( 'show');
-             //   $(".modal-body #modal-flters li:first-child");
-
 
                 const hall0 = document.getElementById('hall0').value ;
                 selectHall($(".modal-body #modal-flters li:first-child").get(0) , hall0);

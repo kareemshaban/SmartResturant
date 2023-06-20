@@ -18,7 +18,8 @@ class TableController extends Controller
     public function index()
     {
         $tables = Table::with('hall') -> get();
-        return view ('cpanel.Table.index' , ['tables' => $tables]);
+        $halls = Hall::all();
+        return view ('cpanel.Table.index' , ['tables' => $tables , 'halls' => $halls]);
     }
 
     /**
@@ -40,21 +41,26 @@ class TableController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name_ar' => 'required|unique:tables',
-            'name_en' => 'required|unique:tables',
-            'hall_id' => 'required',
+        if($request -> id == 0){
+            $validated = $request->validate([
+                'name_ar' => 'required|unique:tables',
+                'name_en' => 'required|unique:tables',
+                'hall_id' => 'required',
 
-        ]);
+            ]);
 
-        Table::create([
-            'name_ar' => $request -> name_ar,
-            'name_en' => $request -> name_en,
-            'hall_id' => $request -> hall_id,
-            'available' => 1,
-        ]);
+            Table::create([
+                'name_ar' => $request -> name_ar,
+                'name_en' => $request -> name_en,
+                'hall_id' => $request -> hall_id,
+                'available' => 1,
+            ]);
 
-        return redirect()->route('tables')->with('success' , __('main.created'));
+            return redirect()->route('tables')->with('success' , __('main.created'));
+        } else {
+            return $this -> update($request , $request -> id);
+        }
+
     }
 
     /**
@@ -104,7 +110,7 @@ class TableController extends Controller
                 'name_ar' => $request -> name_ar,
                 'name_en' => $request -> name_en,
                 'hall_id' => $request -> hall_id,
-                'available' => $request -> available
+                'available' => $table -> available
             ]);
             return redirect()->route('tables')->with('success' , __('main.updated'));
         }
@@ -129,5 +135,11 @@ class TableController extends Controller
             return redirect()->route('tables')->with('success' , __('main.can_not_delete'));
         }
 
+    }
+
+    public function getTable($id){
+        $table = Table::find($id);
+        echo json_encode($table);
+        exit();
     }
 }
