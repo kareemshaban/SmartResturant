@@ -1014,7 +1014,7 @@ div.scrollmenu li:hover {
     left: 0;
     right: 0;
     box-shadow: 0 27px 25px 0px darkgrey;
-    height: 40px;
+    min-height: 40px;
     margin: 0 !important;
     z-index: 2;
 }

@@ -84,6 +84,10 @@
         </div>
     </div>
 
+        @include('layout.footer')
+
+    @include('cpanel.newPos.mediumModal')
+
     <input type="hidden" id="local" name="local"  value="{{Config::get('app.locale') }}">
 
     <div class="show_modal">
