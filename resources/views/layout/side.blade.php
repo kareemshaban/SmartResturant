@@ -110,7 +110,7 @@
                     </ul>
                 </li>
 
-                <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
+                <li class="sidebar-item @if ($slag == 30 ) active @endif" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
                     <a
                         class="sidebar-link has-arrow waves-effect waves-dark"
                         href="javascript:void(0)"
@@ -120,82 +120,82 @@
                     >
                     <ul aria-expanded="false" class="collapse first-level">
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{ route('report_total') }}" class="sidebar-link"
+                            <a href="{{ route('report_total') }}" class="sidebar-link @if ($subSlag == 301) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_total') }}</span></a
                             >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{ route('report_details') }}" class="sidebar-link"
+                            <a href="{{ route('report_details') }}" class="sidebar-link @if ($subSlag == 302) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_details') }} </span></a
                             >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('report_sales_type')}}" class="sidebar-link"
+                            <a href="{{route('report_sales_type')}}" class="sidebar-link @if ($subSlag == 303) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_billType') }} </span></a
                             >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('report_daily_sales')}}" class="sidebar-link"
+                            <a href="{{route('report_daily_sales')}}" class="sidebar-link @if ($subSlag == 304) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_daily_sales') }} </span></a
                             >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('report_period_sales')}}" class="sidebar-link"
+                            <a href="{{route('report_period_sales')}}" class="sidebar-link @if ($subSlag == 305) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_period_sales') }} </span></a
                             >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('report_expenses')}}" class="sidebar-link"
+                            <a href="{{route('report_expenses')}}" class="sidebar-link @if ($subSlag == 306) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_expense_recipt') }} </span></a
                             >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('report_client_account')}}" class="sidebar-link"
+                            <a href="{{route('report_client_account')}}" class="sidebar-link @if ($subSlag == 307) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_client_movements') }} </span></a
                             >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('report_supplier_account')}}" class="sidebar-link"
+                            <a href="{{route('report_supplier_account')}}" class="sidebar-link @if ($subSlag == 308) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_supplier_movements') }} </span></a
                             >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('report_total_transactions')}}" class="sidebar-link"
+                            <a href="{{route('report_total_transactions')}}" class="sidebar-link @if ($subSlag == 309) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_movements_total') }} </span></a
                             >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('report_box_transactions')}}" class="sidebar-link"
+                            <a href="{{route('report_box_transactions')}}" class="sidebar-link @if ($subSlag == 310) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_box_movement') }} </span></a
                             >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('report_tax_declaration')}}" class="sidebar-link"
+                            <a href="{{route('report_tax_declaration')}}" class="sidebar-link @if ($subSlag == 311) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_tax_declaration') }} </span></a  >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('report_tax')}}" class="sidebar-link"
+                            <a href="{{route('report_tax')}}" class="sidebar-link @if ($subSlag == 312) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.report_tax') }} </span></a  >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('purchase_report')}}" class="sidebar-link"
+                            <a href="{{route('purchase_report')}}" class="sidebar-link @if ($subSlag == 313) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.purchase_report') }} </span></a  >
                         </li>
                         <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
-                            <a href="{{route('stock_report')}}" class="sidebar-link"
+                            <a href="{{route('stock_report')}}" class="sidebar-link @if ($subSlag == 314) active @endif"
                             ><i class="mdi mdi-message-outline"></i
                                 ><span class="hide-menu"> {{ __('main.stock_report') }} </span></a  >
                         </li>
