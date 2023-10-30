@@ -9,6 +9,7 @@ class PurchaseDetails extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'purchase_id',
         'product_code',
         'product_id',

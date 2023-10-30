@@ -7,23 +7,20 @@
 </div>
 <header class="topbar" data-navbarbg="skin5">
     <nav class="navbar top-navbar navbar-expand-md navbar-dark"  @if(Config::get('app.locale') == 'ar') style="direction: rtl" @endif >
-        <div class="navbar-header" data-logobg="skin5">
+        <div class="navbar-header" data-logobg="skin5" style="justify-content: center ; align-items:center">
             <a class="navbar-brand" href="{{route('home')}}">
                 <b class="logo-icon ps-2">
                     <img
                         src="{{asset('assets/images/logo-icon.png')}}"
                         alt="homepage"
                         class="light-logo"
-                        width="25"
+                        width="35"
                     />
                 </b>
-                <span class="logo-text ms-2">
+                <span class="logo-text ms-2" style="    font-size: 30px;
+                color: orange; font-weight:bold;">
                 <!-- dark Logo text -->
-                <img
-                    src="{{asset('assets/images/logo-text.png')}}"
-                    alt="homepage"
-                    class="light-logo"
-                />
+                 SMART POS
               </span>
             </a>
 
@@ -50,52 +47,51 @@
                 </li>
 
 
-                <li class="nav-item dropdown" style="margin-left: 50px;  margin-right:50px;">
-                    <a
-                        class="
-                    nav-link
-                    dropdown-toggle
-                    text-muted
-                    waves-effect waves-dark
-                    pro-pic
-                  "
-                        href="#"
-                        id="navbarDropdown"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        <img
-                            src="{{asset('assets/images/users/1.jpg')}}"
-                            alt="user"
-                            class="rounded-circle"
-                            width="31"
-                        />
-                    </a>
-                    <ul
-                        class="dropdown-menu dropdown-menu-end user-dd animated"
-                        aria-labelledby="navbarDropdown"
-                    >
-                        <a class="dropdown-item" href="javascript:void(0)"
-                        ><i class="mdi mdi-account me-1 ms-1"></i> My Profile</a
-                        >
-                        <div class="dropdown-divider"></div>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item"  href="{{route('logout')}}"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"  data-toggle="tooltip" title="" data-original-title="Logout"
-                        ><i class="fa fa-power-off me-1 ms-1"></i> Logout</a
-                        >
-                        <div class="dropdown-divider"></div>
 
-                    </ul>
-                </li>
 
 
             </ul>
 
-            <ul class="navbar-nav @if(Config::get('app.locale') == 'en')  float-end ml-auto @else float-start me-auto @endif" style="margin-left: 100px ; margin-right: 100px  ;">
 
-                <li class="nav-item dropdown">
+            <div class="btn-group   @if(Config::get('app.locale') == 'en')
+            dropleft float-end ml-auto @else dropright float-start me-auto @endif" style="margin-left: 20px ; margin-right: 20px  ;">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ __('main.lang') }}
+                </button>
+                <div class="dropdown-menu ">
+                    <a class="dropdown-item border-radius-md" el="alternate" hreflang="ar" href="{{ LaravelLocalization::getLocalizedURL('ar', null, [], true) }}">
+                        <div class="d-flex py-1">
+                            <div class="my-auto">
+                                <img src= "{{asset('assets/img/arabic.png')}}"  class="avatar avatar-sm  me-3 ">
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                                <h6 class="text-sm font-weight-normal mb-1">
+                                    <span class="font-weight-bold" style="margin: 5px">Arabic | اللغة العربية</span>
+                                </h6>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="dropdown-item border-radius-md" el="alternate" hreflang="ثلا" href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}">
+                        <div class="d-flex py-1">
+                            <div class="my-auto">
+                                <img src="{{asset('assets/img/english.png')}}"  class="avatar avatar-sm  me-3 ">
+                            </div>
+                            <div class="d-flex flex-column justify-content-center">
+                                <h6 class="text-sm font-weight-normal mb-1">
+                                    <span class="font-weight-bold" style="margin: 5px">English | اللغة الإنجليزية</span>
+                                </h6>
+                            </div>
+                        </div>
+                    </a>
+
+                </div>
+              </div>
+
+            {{-- <ul class="navbar-nav  @if(Config::get('app.locale') == 'en')
+             float-end ml-auto @else float-start me-auto @endif" style="margin-left: 100px ; margin-right: 100px  ;"
+            >
+
+                <li class="nav-item dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <a
                         class="nav-link dropdown-toggle"
                         href="#"
@@ -143,26 +139,6 @@
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        id="navbarDropdown"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                    >
-                        <i class="mdi mdi-bell font-24"></i>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </li>
-                    </ul>
-                </li>
 
 
 
@@ -170,7 +146,8 @@
 
 
 
-            </ul>
+
+            </ul> --}}
         </div>
     </nav>
 </header>

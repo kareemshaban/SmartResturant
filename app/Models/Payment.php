@@ -9,7 +9,7 @@ use App\Models\User;
 class Payment extends Model
 {
     use HasFactory;
-    protected $fillable = ['date','purchase_id','sale_id','company_id','amount','paid_by','remain',
+    protected $fillable = ['id','date','purchase_id','sale_id','company_id','amount','paid_by','remain',
         'user_id' , 'shift_number'];
 
     public function user(){

@@ -393,7 +393,17 @@ return [
     'bill_payed_partial' => 'Part of the bill has been paid successfully',
     'sales_count' => 'Sales Count',
     'expenses_count' => 'Recipt Bill Count',
-    'show_items' => 'Show Items'
+    'show_items' => 'Show Items',
+    "sync_label" => ' SYNC Data',
+    'sync_items' => 'SYNC Itmes ',
+    'sync_sales' => 'SYNC Sales',
+    'sync_purchase' => 'SYNC Purchases',
+    'sync_docs' => 'SYNC Docs',
+    'import' => 'Import',
+    'export' => 'Export',
+    'sales_sync_alert' => 'You Must Sync Items Before Sync Bills !'
+
+
 
 
 

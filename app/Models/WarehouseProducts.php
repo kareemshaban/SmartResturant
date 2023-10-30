@@ -10,6 +10,7 @@ class WarehouseProducts extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'warehouse_id',
         'product_id',
         'quantity',

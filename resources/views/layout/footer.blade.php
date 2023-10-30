@@ -1,8 +1,4 @@
-<footer class="footer text-center" style="position: absolute;
-left: 0;
-right: 0;
-bottom: 20px;
-">
+<footer class="footer text-center" >
     All Rights Reserved by FUTECH-EG. Designed and Developed by
     <a href="#">FUTECH-EG</a>.
 </footer>
@@ -163,6 +159,8 @@ bottom: 20px;
         });
     }
 
+
+
     function showComapnySettings() {
         var route = '{{route('company')}}';
 
@@ -171,6 +169,44 @@ bottom: 20px;
             $('#paymentsModal').modal('show');
         });
     }
+
+    function showSyncItems() {
+        var route = '{{route('sync_items')}}';
+
+        $.get(route, function (data) {
+            $(".show_modal").html(data);
+            $('#paymentsModal').modal('show');
+        });
+    }
+    function sync_sales() {
+        var route = '{{route('sync_sales')}}';
+
+        $.get(route, function (data) {
+            $(".show_modal").html(data);
+            $('#paymentsModal').modal('show');
+        });
+    }
+
+    function sync_purchase() {
+        var route = '{{route('sync_purchase')}}';
+
+        $.get(route, function (data) {
+            $(".show_modal").html(data);
+            $('#paymentsModal').modal('show');
+        });
+    }
+
+    function sync_docs() {
+        var route = '{{route('sync_docs')}}';
+
+        $.get(route, function (data) {
+            $(".show_modal").html(data);
+            $('#paymentsModal').modal('show');
+        });
+    }
+
+
+
 </script>
 <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
 <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>

@@ -9,6 +9,6 @@ class VendorMovement extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['vendor_id','paid','credit','debit','date','invoice_type','invoice_id',
+    protected $fillable = ['id','vendor_id','paid','credit','debit','date','invoice_type','invoice_id',
         'invoice_no','paid_by'];
 }

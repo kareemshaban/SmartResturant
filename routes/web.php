@@ -268,6 +268,23 @@ function()
     Route::post('/updateCompany/{id}', [App\Http\Controllers\CompanyInfoController::class, 'update'])->name('updateCompany');
 
 
+    Route::get('/sync_items', [App\Http\Controllers\SyncController::class, 'sync_items'])->name('sync_items');
+    Route::get('/importItems', [App\Http\Controllers\SyncController::class, 'importItems'])->name('importItems');
+    Route::get('/exportItems', [App\Http\Controllers\SyncController::class, 'exportItems'])->name('exportItems');
+
+
+    Route::get('/sync_sales', [App\Http\Controllers\SyncController::class, 'sync_sales'])->name('sync_sales');
+    Route::get('/importSales', [App\Http\Controllers\SyncController::class, 'importSales'])->name('importSales');
+    Route::get('/exportSales', [App\Http\Controllers\SyncController::class, 'exportSales'])->name('exportSales');
+
+    Route::get('/sync_purchase', [App\Http\Controllers\SyncController::class, 'sync_purchase'])->name('sync_purchase');
+    Route::get('/importPurchase', [App\Http\Controllers\SyncController::class, 'importPurchase'])->name('importPurchase');
+    Route::get('/exportPurchase', [App\Http\Controllers\SyncController::class, 'exportPurchase'])->name('exportPurchase');
+
+    Route::get('/sync_docs', [App\Http\Controllers\SyncController::class, 'sync_docs'])->name('sync_docs');
+    Route::get('/importDocs', [App\Http\Controllers\SyncController::class, 'importDocs'])->name('importDocs');
+    Route::get('/exportDocs', [App\Http\Controllers\SyncController::class, 'exportDocs'])->name('exportDocs');
+
     Route::get('/expenses_type', [App\Http\Controllers\ExpensesTypeController::class, 'index'])->name('expenses_type');
     Route::get('/createExpenses_type', [App\Http\Controllers\ExpensesTypeController::class, 'create'])->name('createExpenses_type');
     Route::post('/storeExpenses_type', [App\Http\Controllers\ExpensesTypeController::class, 'store'])->name('storeExpenses_type');

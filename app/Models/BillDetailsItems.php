@@ -9,6 +9,7 @@ class BillDetailsItems extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'id',
         'bill_details_id',
         'item_sizes_id'
         ];

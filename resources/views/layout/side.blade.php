@@ -356,6 +356,47 @@
                 </li>
 
 
+
+
+                <li class="sidebar-item @if ($slag == 12)  active @endif" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
+                    <a
+                        class="sidebar-link has-arrow waves-effect waves-dark"
+                        href="javascript:void(0)"
+                        aria-expanded="false"
+                    ><i class="mdi mdi-sync"></i
+                        ><span class="hide-menu">{{ __('main.sync_label') }} </span></a
+                    >
+                    <ul aria-expanded="false" class="collapse first-level">
+                        <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif onclick="showSyncItems()">
+                            <a href="javascript:void(0)" class="sidebar-link"
+                            ><i class="mdi mdi-food-fork-drink"></i
+                                ><span class="hide-menu"> {{ __('main.sync_items') }}</span></a
+                            >
+                        </li>
+                        <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif onclick="sync_sales()">
+                            <a href="javascript:void(0)" class="sidebar-link"
+                            ><i class="mdi mdi-calculator"></i
+                                ><span class="hide-menu"> {{ __('main.sync_sales') }} </span></a
+                            >
+                        </li>
+                        <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif onclick="sync_purchase()">
+                            <a href="javascript:void(0)" class="sidebar-link"
+                            ><i class="mdi mdi-shopping"></i
+                                ><span class="hide-menu"> {{ __('main.sync_purchase') }} </span></a
+                            >
+                        </li>
+                        <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif onclick="sync_docs()">
+                            <a href="javascript:void(0)" class="sidebar-link"
+                            ><i class="mdi mdi-currency-usd"></i
+                                ><span class="hide-menu"> {{ __('main.sync_docs') }} </span></a
+                            >
+                        </li>
+
+                    </ul>
+                </li>
+
+
+
                 <li class="sidebar-item" @if(Config::get('app.locale') == 'ar')  style="direction: rtl" @endif>
                     <a  onclick="event.preventDefault(); document.getElementById('logout-form').submit();"  data-toggle="tooltip" title="" data-original-title="Logout"
                         class="sidebar-link waves-effect waves-dark sidebar-link"
